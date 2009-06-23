@@ -47,15 +47,15 @@ var remoteDirTree = {
 		      this.data[row].open = false;
 		      this.treebox.invalidateRow(row);                                                             // update row
 
-		      var localPathSlash = gRemotePath.value    + (gRemotePath.value.charAt(gRemotePath.value.length - 1)       != gSlash ? gSlash : '');
+		      var remotePathSlash = gRemotePath.value    + (gRemotePath.value.charAt(gRemotePath.value.length - 1)       != gSlash ? gSlash : '');
 		      var dataPathSlash  = this.data[row].path + (this.data[row].path.charAt(this.data[row].path.length - 1) != gSlash ? gSlash : '');
 
-		      if (localPathSlash.indexOf(dataPathSlash) == 0 && gRemotePath.value != this.data[row].path
+		      if (remotePathSlash.indexOf(dataPathSlash) == 0 && gRemotePath.value != this.data[row].path
 		       && gRemotePath.value.match(gSlash == "/" ? /\x2f/g : /\x5c/g ).length > this.data[row].level && !suppressChange) {
 		        gRemotePath.value = this.data[row].path;                                                    // we were in a subdirectory and we collapsed
 		        this.selection.select(row);
 		        this.treebox.ensureRowIsVisible(row);
-		        localTree.updateView();
+		        remoteTree.updateView();
 		      } else if (gRemotePath.value == this.data[row].path) {
 		        this.selection.select(row);
 		        this.treebox.ensureRowIsVisible(row);
@@ -189,12 +189,12 @@ var remoteDirTree = {
 		      }
 		    }
 
-		    $('localdirname').removeAttribute('flex');                                                     // horizontal scrollbars, baby!
+		    $('remotedirname').removeAttribute('flex');                                                     // horizontal scrollbars, baby!
 
 		    var max = 125;
 		    for (var z = 0; z < this.rowCount; ++z) {                                                     // this is what we CS folk like to call a TOTAL HACK
 		      var x = { };    var y = { };    var width = { };    var height = { };                       // but, hey, it works so bite me
-		      this.treebox.getCoordsForCellItem(z, this.treebox.columns["localdirname"], "text", x, y, width, height);
+		      this.treebox.getCoordsForCellItem(z, this.treebox.columns["remotedirname"], "text", x, y, width, height);
 
 		      if (x.value + width.value + 125 > max) {
 		        max = x.value + width.value + 125;
@@ -205,7 +205,7 @@ var remoteDirTree = {
 		      this.readjustHorizontalPosition(row);
 		    //}
 
-		    $('localdirname').setAttribute('width', max);
+		    $('remotedirname').setAttribute('width', max);
 		  },
 
 		  readjustHorizontalPosition : function(row) {
@@ -213,7 +213,7 @@ var remoteDirTree = {
 		    var first = this.treebox.getFirstVisibleRow()    >  0 ? this.treebox.getFirstVisibleRow()    : 0;
 		    var last  = this.treebox.getLastVisibleRow() - 1 >= 0 ? this.treebox.getLastVisibleRow() - 1 : 0;
 
-		    this.treebox.getCoordsForCellItem(row != -1 ? row : 0, this.treebox.columns["localdirname"], "text", x, y, width, height);
+		    this.treebox.getCoordsForCellItem(row != -1 ? row : 0, this.treebox.columns["remotedirname"], "text", x, y, width, height);
 		    this.treebox.scrollToHorizontalPosition(this.treebox.horizontalPosition + x.value - 60 >= 0 ? this.treebox.horizontalPosition + x.value - 60 : 0);
 
 		    var self = this;
@@ -242,7 +242,7 @@ var remoteDirTree = {
 		    }
 		  },
 
-		  indexOfPath : function(path) {                                                                   // binary search to find a path in the localDirTree
+		  indexOfPath : function(path) {                                                                   // binary search to find a path in the remoteDirTree
 		    if (!path) {
 		      return -1;
 		    }
@@ -372,13 +372,13 @@ var remoteDirTree = {
 
 		    var bestMatch;
 		    var bestPath;
-		    var localPathLevel = gRemotePath.value.match(gSlash == "/" ? /\x2f/g : /\x5c/g ).length;
+		    var remotePathLevel = gRemotePath.value.match(gSlash == "/" ? /\x2f/g : /\x5c/g ).length;
 
 		    for (var x = 0; x < this.data.length; ++x) {                                                   // open parent directories til we find the directory
 		      for (var y = this.data.length - 1; y >= x; --y) {
 		        if ((gRemotePath.value.indexOf(this.data[y].path) == 0
 		              || (gSlash == "\\" && gRemotePath.value.toLowerCase().indexOf(this.data[y].path.toLowerCase()) == 0))
-		            && (this.getLevel(y) < localPathLevel || gRemotePath.value == this.data[y].path)) {
+		            && (this.getLevel(y) < remotePathLevel || gRemotePath.value == this.data[y].path)) {
 		          x         = y;
 		          bestMatch = y;
 		          bestPath  = this.data[y].path;
@@ -421,7 +421,7 @@ var remoteDirTree = {
 		          sString.data = gRemotePath.value;
 		          gPrefs.setComplexValue("folder", Components.interfaces.nsISupportsString, sString);      // remember last directory
 
-		          localTree.updateView();
+		          remoteTree.updateView();
 
 		          this.readjustHorizontalPosition(this.selection.currentIndex);
 
@@ -442,7 +442,7 @@ var remoteDirTree = {
 		      if (bestMatch) {
 		        gRemotePath.value = bestPath;
 		        gRemotePathFocus  = bestPath;
-		        localTree.updateView();
+		        remoteTree.updateView();
 		      }
 
 		      return;
@@ -454,7 +454,7 @@ var remoteDirTree = {
 		      this.findDirectory = findDirectory;
 		      var tempPath = gRemotePath.value;
 		      this.selection.select(bestMatch);                                                            // it's possible the directory was added externally
-		      localTree.refresh(true);                                                                     // and we don't have it on our dir list
+		      remoteTree.refresh(true);                                                                     // and we don't have it on our dir list
 		      this.findDirectory = null;
 		      this.changeDir(tempPath, true);
 		    }
@@ -475,7 +475,7 @@ var remoteDirTree = {
 		  click : function(event) {                                                                        // this is a special case: if we want the search to go away
 		    var index = this.selection.currentIndex;
 
-		    if (index >= 0 && index < this.data.length && (this.data[index].path == gRemotePath.value && localTree.searchMode)) {
+		    if (index >= 0 && index < this.data.length && (this.data[index].path == gRemotePath.value && remoteTree.searchMode)) {
 		      this.changeDir(this.data[index].path);
 		    }
 		  },
@@ -485,7 +485,7 @@ var remoteDirTree = {
 		      this.cdup();
 		    } else if (event.keyCode == 116) {                                                             // F5
 		      event.preventDefault();
-		      localTree.refresh(false, true);
+		      remoteTree.refresh(false, true);
 		    }
 		  },
 
@@ -499,13 +499,13 @@ var remoteDirTree = {
 		    }
 
 		    if (dragObserver.origin == 'localtreechildren') {                                              // can't move into a subdirectory of itself
-		      for (var x = 0; x < localTree.rowCount; ++x) {
+		      for (var x = 0; x < remoteTree.rowCount; ++x) {
 		        var dataPathSlash  = this.data[index].path  + (this.data[index].path.charAt(this.data[index].path.length - 1)   != gSlash ? gSlash : '');
-		        var localTreeSlash = localTree.data[x].path + (localTree.data[x].path.charAt(localTree.data[x].path.length - 1) != gSlash ? gSlash : '');
+		        var remoteTreeSlash = remoteTree.data[x].path + (remoteTree.data[x].path.charAt(remoteTree.data[x].path.length - 1) != gSlash ? gSlash : '');
 
-		        if (localTree.selection.isSelected(x) && ((dataPathSlash.indexOf(localTreeSlash) == 0 && localTree.data[x].isDirectory())
-		                                                || this.data[index].path == localTree.data[x].parent.path
-		                                                || this.data[index].path == localTree.data[x].parent.path + gSlash)) {
+		        if (remoteTree.selection.isSelected(x) && ((dataPathSlash.indexOf(remoteTreeSlash) == 0 && remoteTree.data[x].isDirectory())
+		                                                || this.data[index].path == remoteTree.data[x].parent.path
+		                                                || this.data[index].path == remoteTree.data[x].parent.path + gSlash)) {
 		          return false;
 		        }
 		      }
@@ -516,8 +516,8 @@ var remoteDirTree = {
 
 		  drop : function(index, orient) {
 		    if (dragObserver.origin == 'localtreechildren') {
-		      localTree.cut();
-		      localTree.paste(this.data[index].path);
+		      remoteTree.cut();
+		      remoteTree.paste(this.data[index].path);
 		    } else if (dragObserver.origin == 'remotetreechildren') {
 		      var anyFolders = false;
 
@@ -531,8 +531,8 @@ var remoteDirTree = {
 		      if (anyFolders && this.data[index].path != gRemotePath.value) {
 		        var self      = this;
 		        var path      = this.data[index].path;
-		        var localPath = gRemotePath.value;
-		        var func = function() { self.dropCallback(path, localPath); };
+		        var remotePath = gRemotePath.value;
+		        var func = function() { self.dropCallback(path, remotePath); };
 		        ftpObserver.extraCallback = func;
 		      }
 
@@ -542,7 +542,7 @@ var remoteDirTree = {
 		    }
 		  },
 
-		  dropCallback : function(newParent, localPath) {
+		  dropCallback : function(newParent, remotePath) {
 		    var refreshIndex = this.indexOfPath(newParent);
 
 		    if (refreshIndex != -1) {
@@ -556,10 +556,10 @@ var remoteDirTree = {
 		        this.treebox.invalidateRow(refreshIndex);
 		      }
 
-		      var refreshIndex2 = this.indexOfPath(localPath);
+		      var refreshIndex2 = this.indexOfPath(remotePath);
 
 		      if (refreshIndex2 == -1) {
-		        this.changeDir(localPath);
+		        this.changeDir(remotePath);
 		      } else {
 		        this.selection.select(refreshIndex2);
 		      }

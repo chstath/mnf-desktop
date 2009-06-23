@@ -2,8 +2,8 @@ var remoteTree = {
   data                    : new Array(),
   displayData             : new Array(),
   rowCount                : 0,
-  localSize               : 0,
-  localAvailableDiskSpace : 0,
+  remoteSize               : 0,
+  remoteAvailableDiskSpace : 0,
   searchMode              : 0,
   isEditing               : false,
   editType                : "",
@@ -22,15 +22,15 @@ var remoteTree = {
   getCellText         : function(row, column)       {                                           // text for the files
     if (row >= 0 && row < this.data.length) {
       switch(column.id) {
-        case "localname":
+        case "remotename":
           return this.searchMode == 2 ? this.displayData[row].path : this.displayData[row].leafName;
-        case "localsize":
+        case "remotesize":
           return this.displayData[row].fileSize;
-        case "localdate":
+        case "remotedate":
           return this.displayData[row].date;
-        case "localtype":
+        case "remotetype":
           return this.displayData[row].extension;
-        case "localattr":
+        case "remoteattr":
           return this.displayData[row].attr;
         default:
           return " ";
@@ -41,24 +41,24 @@ var remoteTree = {
   },
 
   getImageSrc  : function(row, col)  {
-    return row >= 0 && row < this.data.length && col.id == "localname" && this.displayData[row].icon ? this.displayData[row].icon : "";
+    return row >= 0 && row < this.data.length && col.id == "remotename" && this.displayData[row].icon ? this.displayData[row].icon : "";
   },
 
   cycleHeader : function(col) {
     var sortDirection = col.element.getAttribute("sortDirection") == "ascending"
                      || col.element.getAttribute("sortDirection") == "natural"  ? "descending" : "ascending";
-    $('localname').setAttribute("sortDirection", "natural");
-    $('localsize').setAttribute("sortDirection", "natural");
-    $('localdate').setAttribute("sortDirection", "natural");
-    $('localtype').setAttribute("sortDirection", "natural");
-    $('localattr').setAttribute("sortDirection", "natural");
+    $('remotename').setAttribute("sortDirection", "natural");
+    $('remotesize').setAttribute("sortDirection", "natural");
+    $('remotedate').setAttribute("sortDirection", "natural");
+    $('remotetype').setAttribute("sortDirection", "natural");
+    $('remoteattr').setAttribute("sortDirection", "natural");
     col.element.setAttribute(   "sortDirection", sortDirection);
     this.sort();
   },
 
   getCellProperties : function(row, col, props)   {
     if (row >= 0 && row < this.data.length && this.data[row]) {
-      if (col.id == "localname") {
+      if (col.id == "remotename") {
         if (this.displayData[row].isDirectory) {
           props.AppendElement(gAtomService.getAtom("isFolder"));
         } else if (this.displayData[row].isSymlink) {
@@ -85,27 +85,27 @@ var remoteTree = {
   // ****************************************************** updateView ***************************************************
 
   updateView : function(files) {
-    var localTreeItems = new Array();
+    var remoteTreeItems = new Array();
 
     if (!files) {
       this.searchMode = 0;
       gLocalTreeChildren.removeAttribute('search');
 
       try {
-        this.localSize               = 0;
+        this.remoteSize               = 0;
         var dir                      = localFile.init(gRemotePath.value);
-        this.localAvailableDiskSpace = parseSize(dir.diskSpaceAvailable);                       // get local disk size
+        this.remoteAvailableDiskSpace = parseSize(dir.diskSpaceAvailable);                       // get remote disk size
         var entries                  = dir.directoryEntries;
 
         while (entries.hasMoreElements()) {
           var file        = entries.getNext().QueryInterface(Components.interfaces.nsILocalFile);
           var isException = false;
 
-          for (var x = 0; x < localDirTree.exceptions.length; ++x) {
+          for (var x = 0; x < remoteDirTree.exceptions.length; ++x) {
             if (gSlash == "/") {
-              isException  = localDirTree.exceptions[x].path               == file.path;
+              isException  = remoteDirTree.exceptions[x].path               == file.path;
             } else {
-              isException  = localDirTree.exceptions[x].path.toLowerCase() == file.path.toLowerCase();
+              isException  = remoteDirTree.exceptions[x].path.toLowerCase() == file.path.toLowerCase();
             }
 
             if (isException) {
@@ -114,13 +114,13 @@ var remoteTree = {
           }
 
           if (file.exists() && localFile.testSize(file) && (!file.isHidden() || gFtp.hiddenMode || isException)) {
-            this.localSize += file.fileSize;
-            localTreeItems.push(file);
+            this.remoteSize += file.fileSize;
+            remoteTreeItems.push(file);
           }
         }
 
-        this.localSize = parseSize(this.localSize);                                             // get directory size
-        this.data      = localTreeItems;                                                        // update localTree
+        this.remoteSize = parseSize(this.remoteSize);                                             // get directory size
+        this.data      = remoteTreeItems;                                                        // update remoteTree
       } catch (ex) {
         debug(ex);
         this.data        = new Array();
@@ -133,17 +133,17 @@ var remoteTree = {
         return;
       }
     } else {
-      if (this.localSize != -1) {
+      if (this.remoteSize != -1) {
         this.data        = new Array();
         this.displayData = new Array();
         this.treebox.rowCountChanged(0, -this.rowCount);
 
-        this.rememberSort = { cols : ["localname", "localsize", "localdate", "localtype", "localattr"],
-                              vals : [$('localname').getAttribute("sortDirection"),
-                                      $('localsize').getAttribute("sortDirection"),
-                                      $('localdate').getAttribute("sortDirection"),
-                                      $('localtype').getAttribute("sortDirection"),
-                                      $('localattr').getAttribute("sortDirection")] };
+        this.rememberSort = { cols : ["remotename", "remotesize", "remotedate", "remotetype", "remoteattr"],
+                              vals : [$('remotename').getAttribute("sortDirection"),
+                                      $('remotesize').getAttribute("sortDirection"),
+                                      $('remotedate').getAttribute("sortDirection"),
+                                      $('remotetype').getAttribute("sortDirection"),
+                                      $('remoteattr').getAttribute("sortDirection")] };
       }
 
       files.sort(compareName);
@@ -152,19 +152,19 @@ var remoteTree = {
         this.data.push(files[x]);
       }
 
-      this.localSize  = -1;
+      this.remoteSize  = -1;
       this.searchMode = this.searchMode ? this.searchMode : (gSearchRecursive ? 2 : 1);
       gLocalTreeChildren.setAttribute('search', true);
     }
 
     this.sort(files);
 
-    var index = localDirTree.indexOfPath(gRemotePath.value);                                     // select directory in localDirTree
-    localDirTree.selection.select(index);
-    localDirTree.treebox.ensureRowIsVisible(index);
+    var index = remoteDirTree.indexOfPath(gRemotePath.value);                                     // select directory in remoteDirTree
+    remoteDirTree.selection.select(index);
+    remoteDirTree.treebox.ensureRowIsVisible(index);
 
     if (this.data.length && !files) {
-      this.selection.select(0);                                                                 // select first element in localTree
+      this.selection.select(0);                                                                 // select first element in remoteTree
     }
 
     this.mouseOver(null);
@@ -182,25 +182,25 @@ var remoteTree = {
     }
 
     if (!anyFolders) {                                                                          // and if there are no subfolders then update our tree
-      if (localDirTree.data[index].open) {                                                      // if localDirTree is open
-        localDirTree.toggleOpenState(index);
+      if (remoteDirTree.data[index].open) {                                                      // if remoteDirTree is open
+        remoteDirTree.toggleOpenState(index);
       }
 
-      localDirTree.data[index].empty    = true;
-      localDirTree.data[index].open     = false;
-      localDirTree.data[index].children = null;
+      remoteDirTree.data[index].empty    = true;
+      remoteDirTree.data[index].open     = false;
+      remoteDirTree.data[index].children = null;
 
-      for (var x = 0; x < localDirTree.dirtyList.length; ++x) {
-        if (localDirTree.dirtyList[x] == gRemotePath.value) {
-          localDirTree.dirtyList.splice(x, 1);
+      for (var x = 0; x < remoteDirTree.dirtyList.length; ++x) {
+        if (remoteDirTree.dirtyList[x] == gRemotePath.value) {
+          remoteDirTree.dirtyList.splice(x, 1);
           break;
         }
       }
-    } else if (anyFolders && localDirTree.data[index].empty) {
-      localDirTree.data[index].empty    = false;
+    } else if (anyFolders && remoteDirTree.data[index].empty) {
+      remoteDirTree.data[index].empty    = false;
     }
 
-    localDirTree.treebox.invalidateRow(index);
+    remoteDirTree.treebox.invalidateRow(index);
   },
 
   sort : function(files) {
@@ -213,19 +213,19 @@ var remoteTree = {
         this.rememberSort = null;
       }
 
-      this.sortHelper($('localname'), this.searchMode == 2 ? directorySort2 : compareName);
-      this.sortHelper($('localsize'), compareSize);
-      this.sortHelper($('localdate'), compareDate);
-      this.sortHelper($('localtype'), compareType);
-      this.sortHelper($('localattr'), compareLocalAttr);
+      this.sortHelper($('remotename'), this.searchMode == 2 ? directorySort2 : compareName);
+      this.sortHelper($('remotesize'), compareSize);
+      this.sortHelper($('remotedate'), compareDate);
+      this.sortHelper($('remotetype'), compareType);
+      this.sortHelper($('remoteattr'), compareLocalAttr);
 
       this.displayData = new Array();
     } else {
-      $('localname').setAttribute("sortDirection", "natural");
-      $('localsize').setAttribute("sortDirection", "natural");
-      $('localdate').setAttribute("sortDirection", "natural");
-      $('localtype').setAttribute("sortDirection", "natural");
-      $('localattr').setAttribute("sortDirection", "natural");
+      $('remotename').setAttribute("sortDirection", "natural");
+      $('remotesize').setAttribute("sortDirection", "natural");
+      $('remotedate').setAttribute("sortDirection", "natural");
+      $('remotetype').setAttribute("sortDirection", "natural");
+      $('remoteattr').setAttribute("sortDirection", "natural");
     }
 
     var start = files ? this.data.length - files.length : 0;
@@ -349,21 +349,21 @@ var remoteTree = {
   // ************************************************** refresh *******************************************************
 
   refresh : function(skipLocalTree, skipDelay) {
-    if (localDirTree.data[localDirTree.selection.currentIndex].open) {                          // if localDirTree is open
-      localDirTree.toggleOpenState(localDirTree.selection.currentIndex);                        // close it up
-      localDirTree.data[localDirTree.selection.currentIndex].children = null;                   // reset its children
-      localDirTree.toggleOpenState(localDirTree.selection.currentIndex);                        // and open it up again
+    if (remoteDirTree.data[remoteDirTree.selection.currentIndex].open) {                          // if remoteDirTree is open
+      remoteDirTree.toggleOpenState(remoteDirTree.selection.currentIndex);                        // close it up
+      remoteDirTree.data[remoteDirTree.selection.currentIndex].children = null;                   // reset its children
+      remoteDirTree.toggleOpenState(remoteDirTree.selection.currentIndex);                        // and open it up again
     } else {
-      localDirTree.data[localDirTree.selection.currentIndex].empty    = false;                  // not empty anymore
-      localDirTree.data[localDirTree.selection.currentIndex].children = null;                   // reset its children
-      localDirTree.treebox.invalidateRow(localDirTree.selection.currentIndex);
+      remoteDirTree.data[remoteDirTree.selection.currentIndex].empty    = false;                  // not empty anymore
+      remoteDirTree.data[remoteDirTree.selection.currentIndex].children = null;                   // reset its children
+      remoteDirTree.treebox.invalidateRow(remoteDirTree.selection.currentIndex);
     }
 
     if (!skipLocalTree) {
       if (skipDelay) {
         this.updateView();
       } else {
-        setTimeout("localTree.updateView()", 1000);                                             // update localTree, after a little bit
+        setTimeout("remoteTree.updateView()", 1000);                                             // update remoteTree, after a little bit
       }
     }
   },
@@ -395,7 +395,7 @@ var remoteTree = {
       return;
     }
 
-    localDirTree.changeDir(this.data[this.selection.currentIndex].parent.path);
+    remoteDirTree.changeDir(this.data[this.selection.currentIndex].parent.path);
   },
 
   extract : function(toFolder) {
@@ -434,8 +434,8 @@ var remoteTree = {
 
       var leafNameNoExt = file.leafName.lastIndexOf(".") != -1 ? file.leafName.substring(0, file.leafName.lastIndexOf("."))
                                                                : file.leafName;
-      var localParent   = toFolder ? this.constructPath(file.parent.path, leafNameNoExt) : file.parent.path;
-      var folder        = localFile.init(localParent);
+      var remoteParent   = toFolder ? this.constructPath(file.parent.path, leafNameNoExt) : file.parent.path;
+      var folder        = localFile.init(remoteParent);
 
       if (!folder.exists()) {
         folder.create(Components.interfaces.nsILocalFile.DIRECTORY_TYPE, 0755);
@@ -448,7 +448,7 @@ var remoteTree = {
 
       while (entries.hasMore()) {
         var entry      = entries.getNext();
-        var destFolder = localFile.init(localParent);
+        var destFolder = localFile.init(remoteParent);
         var entrySplit = entry.split('/');
 
         for (var x = 0; x < entrySplit.length; ++x) {
@@ -510,7 +510,7 @@ var remoteTree = {
       if (origParent == gRemotePath.value) {                                                     // since we're extracting on a separate thread make sure we're in the same directory on refresh
         this.refresh();
       } else {
-        localDirTree.addDirtyList(origParent);
+        remoteDirTree.addDirtyList(origParent);
       }
     } catch (ex) {
       error(gStrbundle.getString("errorExtract"));
@@ -551,7 +551,7 @@ var remoteTree = {
 
     this.editType   = "create";
     this.editParent = gRemotePath.value;
-    setTimeout("gLocalTree.startEditing(localTree.rowCount - 1, gLocalTree.columns['localname'])", 0);
+    setTimeout("gLocalTree.startEditing(remoteTree.rowCount - 1, gLocalTree.columns['remotename'])", 0);
   },
 
   remove : function() {
@@ -586,7 +586,7 @@ var remoteTree = {
     if (origParent == gRemotePath.value) {                                                       // since we're deleting on a separate thread make sure we're in the same directory on refresh
       this.refresh(false, true);
     } else {
-      localDirTree.addDirtyList(origParent);
+      remoteDirTree.addDirtyList(origParent);
     }
   },
 
@@ -610,12 +610,12 @@ var remoteTree = {
 
       this.editType   = "rename";
       this.editParent = gRemotePath.value;
-      gLocalTree.startEditing(this.selection.currentIndex, gLocalTree.columns["localname"]);
+      gLocalTree.startEditing(this.selection.currentIndex, gLocalTree.columns["remotename"]);
     }
   },
 
   isEditable : function(row, col) {
-    var canEdit = row >= 0 && row < this.data.length && col.id == "localname";
+    var canEdit = row >= 0 && row < this.data.length && col.id == "remotename";
     this.isEditing = canEdit;
     return canEdit;
   },
@@ -644,7 +644,7 @@ var remoteTree = {
       } else {
         this.displayData[row].leafName = val;
         this.treebox.invalidateRow(row);
-        setTimeout("gLocalTree.startEditing(" + row + ", gLocalTree.columns['localname'])", 0);
+        setTimeout("gLocalTree.startEditing(" + row + ", gLocalTree.columns['remotename'])", 0);
       }
     } else if (this.editType == "create") {
       if (val) {
@@ -662,7 +662,7 @@ var remoteTree = {
           this.data[row].leafName        = val;
           this.displayData[row].leafName = val;
           this.treebox.invalidateRow(row);
-          setTimeout("gLocalTree.startEditing(localTree.rowCount - 1, gLocalTree.columns['localname'])", 0);
+          setTimeout("gLocalTree.startEditing(remoteTree.rowCount - 1, gLocalTree.columns['remotename'])", 0);
         }
       } else {
         --this.rowCount;
@@ -772,7 +772,7 @@ var remoteTree = {
     }
 
     if (this.data[this.selection.currentIndex].isDirectory()) {                                 // if it's a directory
-      localDirTree.changeDir(this.data[this.selection.currentIndex].path);                      // navigate to it
+      remoteDirTree.changeDir(this.data[this.selection.currentIndex].path);                      // navigate to it
     } else {
       if (gOpenMode) {
         this.launch();
@@ -878,11 +878,11 @@ var remoteTree = {
     $('extractToContext').collapsed   = !isZippy;
   },
 
-  mouseOver : function(event) {                                                                 // display local folder info
+  mouseOver : function(event) {                                                                 // display remote folder info
     if (this.rowCount) {
       $('statustxt').label = gStrbundle.getString("localListing") + " " + gStrbundle.getFormattedString("objects", [this.rowCount])
-                           + (this.localSize < 0 ? "" : ", " + commas(this.localSize)) + ", "
-                           + gStrbundle.getString("diskSpace")    + " " + this.localAvailableDiskSpace;
+                           + (this.remoteSize < 0 ? "" : ", " + commas(this.remoteSize)) + ", "
+                           + gStrbundle.getString("diskSpace")    + " " + this.remoteAvailableDiskSpace;
     } else {
       $('statustxt').label = gStrbundle.getString("localListingNoObjects");
     }
@@ -915,7 +915,7 @@ var remoteTree = {
       }
 
       if (this.selection.count == 1 && this.data[this.selection.currentIndex].isDirectory()) {  // if it's a directory
-        localDirTree.changeDir(this.data[this.selection.currentIndex].path);                    // navigate to it
+        remoteDirTree.changeDir(this.data[this.selection.currentIndex].path);                    // navigate to it
       } else {
         if (gOpenMode) {
           this.launch();
@@ -930,7 +930,7 @@ var remoteTree = {
       this.selection.toggleSelect(this.selection.currentIndex);
     } else if (event.keyCode  == 8) {                                                           // backspace
       event.preventDefault();
-      localDirTree.cdup();
+      remoteDirTree.cdup();
     } else if (event.keyCode  == 116) {                                                         // F5
       event.preventDefault();
       this.refresh(false, true);
@@ -946,9 +946,9 @@ var remoteTree = {
       this.remove();
     } else if (event.keyCode  == 93) {                                                          // display context menu
       var x = {};    var y = {};    var width = {};    var height = {};
-      this.treebox.getCoordsForCellItem(this.selection.currentIndex, this.treebox.columns["localname"], "text", x, y, width, height);
+      this.treebox.getCoordsForCellItem(this.selection.currentIndex, this.treebox.columns["remotename"], "text", x, y, width, height);
       this.createContextMenu();
-      $('localmenu').showPopup(gLocalTreeChildren, gLocalTreeChildren.boxObject.x + 75, gLocalTreeChildren.boxObject.y + y.value + 5, "context");
+      $('remotemenu').showPopup(gLocalTreeChildren, gLocalTreeChildren.boxObject.x + 75, gLocalTreeChildren.boxObject.y + y.value + 5, "context");
     } else if (event.charCode == 112 && event.ctrlKey && this.selection.count != 0) {           // ctrl-p
       event.preventDefault();
       this.showProperties(false);
@@ -1103,30 +1103,30 @@ var remoteTree = {
     var currentDir = dest ? this.oldParent : newParent;
 
     if (this.isCut && anyFolders) {
-      var refreshIndex = dest ? localDirTree.indexOfPath(newParent) : localDirTree.indexOfPath(this.oldParent);
+      var refreshIndex = dest ? remoteDirTree.indexOfPath(newParent) : remoteDirTree.indexOfPath(this.oldParent);
 
       if (refreshIndex != -1) {
-        if (localDirTree.data[refreshIndex].open) {
-          localDirTree.toggleOpenState(refreshIndex, true);                                     // close it up
-          localDirTree.data[refreshIndex].children = null;                                      // reset its children
-          localDirTree.toggleOpenState(refreshIndex);                                           // and open it up again
+        if (remoteDirTree.data[refreshIndex].open) {
+          remoteDirTree.toggleOpenState(refreshIndex, true);                                     // close it up
+          remoteDirTree.data[refreshIndex].children = null;                                      // reset its children
+          remoteDirTree.toggleOpenState(refreshIndex);                                           // and open it up again
         } else {
-          localDirTree.data[refreshIndex].children = null;                                      // reset its children
-          localDirTree.data[refreshIndex].empty    = false;
-          localDirTree.treebox.invalidateRow(refreshIndex);
+          remoteDirTree.data[refreshIndex].children = null;                                      // reset its children
+          remoteDirTree.data[refreshIndex].empty    = false;
+          remoteDirTree.treebox.invalidateRow(refreshIndex);
         }
 
         if (currentDir == gRemotePath.value) {
-          var refreshIndex2 = localDirTree.indexOfPath(currentDir);
+          var refreshIndex2 = remoteDirTree.indexOfPath(currentDir);
 
           if (refreshIndex2 == -1) {
-            localDirTree.changeDir(currentDir);
+            remoteDirTree.changeDir(currentDir);
           } else {
-            localDirTree.selection.select(refreshIndex2);
+            remoteDirTree.selection.select(refreshIndex2);
           }
         }
       } else {
-        localDirTree.addDirtyList(dest ? newParent : this.oldParent);
+        remoteDirTree.addDirtyList(dest ? newParent : this.oldParent);
       }
     }
 
@@ -1140,28 +1140,28 @@ var remoteTree = {
       this.refresh();
     } else {
       var path = gRemotePath.value;
-      var refreshIndex = localDirTree.indexOfPath(currentDir);
+      var refreshIndex = remoteDirTree.indexOfPath(currentDir);
 
       if (refreshIndex != -1) {
-        if (localDirTree.data[refreshIndex].open) {
-          localDirTree.toggleOpenState(refreshIndex, true);                                     // close it up
-          localDirTree.data[refreshIndex].children = null;                                      // reset its children
-          localDirTree.toggleOpenState(refreshIndex);                                           // and open it up again
+        if (remoteDirTree.data[refreshIndex].open) {
+          remoteDirTree.toggleOpenState(refreshIndex, true);                                     // close it up
+          remoteDirTree.data[refreshIndex].children = null;                                      // reset its children
+          remoteDirTree.toggleOpenState(refreshIndex);                                           // and open it up again
         } else {
-          localDirTree.data[refreshIndex].children = null;                                      // reset its children
-          localDirTree.data[refreshIndex].empty    = false;
-          localDirTree.treebox.invalidateRow(refreshIndex);
+          remoteDirTree.data[refreshIndex].children = null;                                      // reset its children
+          remoteDirTree.data[refreshIndex].empty    = false;
+          remoteDirTree.treebox.invalidateRow(refreshIndex);
         }
 
-        var refreshIndex2 = localDirTree.indexOfPath(path);
+        var refreshIndex2 = remoteDirTree.indexOfPath(path);
 
         if (refreshIndex2 == -1) {
-          localDirTree.changeDir(path);
+          remoteDirTree.changeDir(path);
         } else {
-          localDirTree.selection.select(refreshIndex2);
+          remoteDirTree.selection.select(refreshIndex2);
         }
       } else {
-        localDirTree.addDirtyList(currentDir);
+        remoteDirTree.addDirtyList(currentDir);
       }
     }
   },

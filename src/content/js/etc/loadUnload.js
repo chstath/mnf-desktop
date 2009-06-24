@@ -89,7 +89,8 @@ function startup() {
   accountButtonsDisabler(true);
   connectedButtonsDisabler();
   localDirTree.changeDir(gLocalPath.value);
-  remoteDirTree.changeDir(gLocalPath.value);
+  gss.fetchFilesAsync();
+//  remoteDirTree.changeDir(gLocalPath.value);
   loadSiteManager(true);
   loadPrograms();
 

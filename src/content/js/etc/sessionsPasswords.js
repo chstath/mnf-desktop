@@ -400,9 +400,9 @@ function connectedButtonsDisabler() {
 //  $('abortbutton').disabled =                             !gFtp.isConnected;
   $('retrieveButton').disabled =                          !gFtp.isConnected;
   $('storeButton').disabled =                             !gFtp.isConnected;
-  $('remoteUpButton').disabled =                          !gFtp.isConnected;
+//  $('remoteUpButton').disabled =                          !gFtp.isConnected;
   $('remoteRefreshButton').disabled =                     !gFtp.isConnected;
-  $('remoteChangeButton').disabled =                      !gFtp.isConnected;
+//  $('remoteChangeButton').disabled =                      !gFtp.isConnected;
   $('searchRemote').disabled =                            !gFtp.isConnected;
   $('diffMenuItem').setAttribute(             "disabled", !gFtp.isConnected);
   $('recDiffMenuItem').setAttribute(          "disabled", !gFtp.isConnected);

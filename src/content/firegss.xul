@@ -58,6 +58,10 @@
   <script type="application/x-javascript" src="chrome://global/content/nsDragAndDrop.js"/>
   <script type="application/x-javascript" src="chrome://global/content/nsTransferable.js"/>
 
+  <script type="application/x-javascript" src="chrome://firegss/content/js/remote/gss.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/sha1.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/json2.js"/>
+
   <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>
 
   <commandset>
@@ -215,7 +219,7 @@
         <!-- :::::::::::::::::::::::::::::: local toolbar :::::::::::::::::::::::::::::: -->
 
         <toolbar id="localtoolbar">
-          <toolbarbutton class="upButton"      oncommand="localDirTree.cdup()"            tooltiptext="&parentdir.tip;"/>
+<!--          <toolbarbutton class="upButton"      oncommand="localDirTree.cdup()"            tooltiptext="&parentdir.tip;"/>-->
           <toolbarbutton class="refreshButton" oncommand="localTree.refresh(false, true)" tooltiptext="&refresh.tip;"/>
           <textbox id                      = "localpath"
                    flex                    = "1"
@@ -229,7 +233,8 @@
                    enablehistory           = "true"
                    autocompletepopup       = "PopupAutoComplete"
                    autocompletesearch      = "form-history"
-                   autocompletesearchparam = "localpath"/>
+                   autocompletesearchparam = "localpath"
+                   hidden="true"/>
           <toolbarbutton label="&browse.label;" oncommand="browseLocal()" accesskey="&browsebutton.access;"/>
         </toolbar>
 
@@ -287,7 +292,7 @@
         <!-- :::::::::::::::::::::::::::::: remote toolbar :::::::::::::::::::::::::::::: -->
 
         <toolbar>
-          <toolbarbutton id="remoteUpButton"      class="upButton"      oncommand="remoteDirTree.cdup()" tooltiptext="&parentdir.tip;"/>
+<!--          <toolbarbutton id="remoteUpButton"      class="upButton"      oncommand="remoteDirTree.cdup()" tooltiptext="&parentdir.tip;"/>-->
           <toolbarbutton id="remoteRefreshButton" class="refreshButton" oncommand="remoteTree.refresh()" tooltiptext="&refresh.tip;"/>
           <textbox id                      = "remotepath"
                    value                   = "/"
@@ -302,7 +307,8 @@
                    enablehistory           = "true"
                    autocompletepopup       = "PopupAutoComplete"
                    autocompletesearch      = "form-history"
-                   autocompletesearchparam = "remotepath">
+                   autocompletesearchparam = "remotepath"
+                   hidden="true">
             <box id="identity-box" align="center" popup="identity-popup">
               <deck id="page-proxy-deck">
                 <image id="page-proxy-button"/>
@@ -312,7 +318,7 @@
               </deck>
             </box>
           </textbox>
-          <toolbarbutton id="remoteChangeButton" label="&change.label;" oncommand="remoteDirTree.changeDir(gRemotePath.value)" accesskey="&changebutton.access;"/>
+<!--          <toolbarbutton id="remoteChangeButton" label="&change.label;" oncommand="remoteDirTree.changeDir(gRemotePath.value)" accesskey="&changebutton.access;"/>-->
         </toolbar>
 
         <!-- :::::::::::::::::::::::::::::: remote file view :::::::::::::::::::::::::::::: -->

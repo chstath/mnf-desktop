@@ -89,37 +89,18 @@ var remoteTree = {
 
     if (!files) {
       this.searchMode = 0;
-      gLocalTreeChildren.removeAttribute('search');
+      gRemoteTreeChildren.removeAttribute('search');
 
       try {
         this.remoteSize               = 0;
-        var dir                      = localFile.init(gRemotePath.value);
-        this.remoteAvailableDiskSpace = parseSize(dir.diskSpaceAvailable);                       // get remote disk size
-        var entries                  = dir.directoryEntries;
-
-        while (entries.hasMoreElements()) {
-          var file        = entries.getNext().QueryInterface(Components.interfaces.nsILocalFile);
-          var isException = false;
-
-          for (var x = 0; x < remoteDirTree.exceptions.length; ++x) {
-            if (gSlash == "/") {
-              isException  = remoteDirTree.exceptions[x].path               == file.path;
-            } else {
-              isException  = remoteDirTree.exceptions[x].path.toLowerCase() == file.path.toLowerCase();
-            }
-
-            if (isException) {
-              break;
-            }
-          }
-
-          if (file.exists() && localFile.testSize(file) && (!file.isHidden() || gFtp.hiddenMode || isException)) {
-            this.remoteSize += file.fileSize;
-            remoteTreeItems.push(file);
-          }
+        var dir                      = gss.subfolders;
+//        this.remoteAvailableDiskSpace = parseSize(dir.diskSpaceAvailable);                       // get remote disk size
+ //       var entries                  = dir.directoryEntries;
+        for (var i=0; i<dir.length; i++) {
+       	  remoteTreeItems.push(dir[i]);
         }
 
-        this.remoteSize = parseSize(this.remoteSize);                                             // get directory size
+//        this.remoteSize = parseSize(this.remoteSize);                                             // get directory size
         this.data      = remoteTreeItems;                                                        // update remoteTree
       } catch (ex) {
         debug(ex);
@@ -157,7 +138,7 @@ var remoteTree = {
       gLocalTreeChildren.setAttribute('search', true);
     }
 
-    this.sort(files);
+//    this.sort(files);
 
     var index = remoteDirTree.indexOfPath(gRemotePath.value);                                     // select directory in remoteDirTree
     remoteDirTree.selection.select(index);
@@ -175,7 +156,7 @@ var remoteTree = {
 
     var anyFolders = false;                                                                     // see if the folder has any subfolders
     for (var x = 0; x < this.data.length; ++x) {
-      if (this.data[x].isDirectory()) {
+      if (this.data[x].isFolder) {
         anyFolders = true;
         break;
       }
@@ -199,6 +180,7 @@ var remoteTree = {
     } else if (anyFolders && remoteDirTree.data[index].empty) {
       remoteDirTree.data[index].empty    = false;
     }
+	alert("here");
 
     remoteDirTree.treebox.invalidateRow(index);
   },

@@ -25,8 +25,10 @@ var gss = {
 	GSS_URL: 'http://pithos.grnet.gr/pithos/rest',
 	// The user root namespace.
 	root: {},
-	// The files and folders in the current directory.
-	items: [],
+	// The folders in the current directory.
+	subfolders: [],
+	// The files in the current directory.
+	files: [],
 
 	//Creates a HMAC-SHA1 signature of method+time+resource, using the token.
 	sign: function(method, time, resource, token) {
@@ -96,12 +98,12 @@ var gss = {
 	// Parses the 'user' namespace response.
 	parseUser : function(req, next) {
 	    gss.root = JSON.parse(req.responseText);
-	    gss.items = [];
-	    gss.items.push({name: 'Files', location: gss.root['fileroot']});
-	    gss.items.push({name: 'Trash', location: gss.root['trash']});
-	    gss.items.push({name: 'Shared', location: gss.root['shared']});
-	    gss.items.push({name: 'Others', location: gss.root['others']});
-	    gss.items.push({name: 'Groups', location: gss.root['groups']});
+	    gss.subfolders = [];
+	    gss.subfolders.push({name: 'Files', location: gss.root['fileroot']});
+	    gss.subfolders.push({name: 'Trash', location: gss.root['trash']});
+	    gss.subfolders.push({name: 'Shared', location: gss.root['shared']});
+	    gss.subfolders.push({name: 'Others', location: gss.root['others']});
+	    gss.subfolders.push({name: 'Groups', location: gss.root['groups']});
 	    appendLog(JSON.stringify(gss.root), 'blue', 'info');
 	    next();
 	},
@@ -118,44 +120,19 @@ var gss = {
 	// Parses the 'files' namespace response.
 	parseFiles : function(req) {
 	    var filesobj = JSON.parse(req.responseText);
-	    items = [];
+	    gss.subfolders = [];
 	    var folders = filesobj['folders'];
 	    while (folders.length > 0) {
 	        var folder = folders.pop();
-	        items.push({name: folder['name']+'/', location: folder['uri']});
+	        gss.subfolders.push({name: folder['name']+'/', location: folder['uri'], isFolder: true});
 		    appendLog(folder['name'], 'blue', 'info');
 	    }
 	    var files = filesobj['files'];
 	    while (files.length > 0) {
 	        var file = files.pop();
-	        items.push({name: file['name'], location: file['uri'], owner: file['owner'], data: file});
+	        gss.files.push({name: file['name'], location: file['uri'], owner: file['owner'], data: file, isFolder: false});
 		    appendLog(file['name'], 'red', 'info');
 	    }
-//	    var list = document.getElementById('list').object;
-	},
-	
-	// Fetches the 'trash' namespace.
-	fetchTrash : function(event) {
-	    sendRequest(parseTrash, 'GET', root['trash']);
-	},
-	
-	// Parses the 'trash' namespace response.
-	parseTrash : function(req) {
-	    var filesobj = JSON.parse(req.responseText);
-	    items = [];
-	    var folders = filesobj['folders'];
-	    while (folders.length > 0) {
-	        var folder = folders.pop();
-	        items.push({name: folder['name'], location: folder['uri']});
-	    }
-	    var files = filesobj['files'];
-	    while (files.length > 0) {
-	        var file = files.pop();
-	        items.push({name: file['name'], location: file['uri'], data: file});
-	    }
-	    var list = document.getElementById('list').object;
-	    list.reloadData();
-	    var browser = document.getElementById('browser').object;
-	    browser.goForward(document.getElementById('listLevel'), 'Trash');
+	    remoteDirTree.changeDir("/");
 	}
 };

@@ -107,47 +107,47 @@ var remoteDirTree = {
 		        var newDirectories = new Array();
 
 		        try {
-		          var dir     = gss.fetchFiles();
-		          var entries = dir.directoryEntries;
+//		          var dir     = localFile.init(this.data[row].path);
+		          var entries = gss.subfolders//dir.directoryEntries;
 
-		          while (entries.hasMoreElements()) {
-		            var file          = entries.getNext().QueryInterface(Components.interfaces.nsILocalFile);// get subdirectories
-		            var isParent      = false;
-		            var isException   = false;
-		            var filePathSlash = file.path + (file.path.charAt(file.path.length - 1) != gSlash ? gSlash : '');
+		          for (var i=0; i<entries.length; i++) {
+		            var file          = entries[i];// get subdirectories
+//		            var isParent      = false;
+//		            var isException   = false;
+//		            var filePathSlash = file.path + (file.path.charAt(file.path.length - 1) != gSlash ? gSlash : '');
 
-		            if (file.exists() && localFile.testSize(file) && file.isDirectory() && this.findDirectory) {                       // we're navigating to a directory that might be hidden
-		              var findDirectorySlash = this.findDirectory.path
-		                                    + (this.findDirectory.path.charAt(this.findDirectory.path.length - 1) != gSlash ? gSlash : '');
+//		            if (file.exists() && localFile.testSize(file) && file.isDirectory() && this.findDirectory) {                       // we're navigating to a directory that might be hidden
+//		              var findDirectorySlash = this.findDirectory.path
+//		                                    + (this.findDirectory.path.charAt(this.findDirectory.path.length - 1) != gSlash ? gSlash : '');
+//
+//		              if (gSlash == "/") {
+//		                isParent    = findDirectorySlash.indexOf(filePathSlash) == 0;
+//		              } else {
+//		                isParent    = findDirectorySlash.toLowerCase().indexOf(filePathSlash.toLowerCase()) == 0;
+//		              }
+//
+//		              if (isParent) {
+//		                this.exceptions.push(this.findDirectory);
+//		              }
+//		            }
 
-		              if (gSlash == "/") {
-		                isParent    = findDirectorySlash.indexOf(filePathSlash) == 0;
-		              } else {
-		                isParent    = findDirectorySlash.toLowerCase().indexOf(filePathSlash.toLowerCase()) == 0;
-		              }
+//		            for (var x = 0; x < this.exceptions.length; ++x) {
+//		              var exceptionsSlash = this.exceptions[x].path + (this.exceptions[x].path.charAt(this.exceptions[x].path.length - 1) != gSlash ? gSlash : '');
+//
+//		              if (gSlash == "/") {
+//		                isException  = exceptionsSlash.indexOf(filePathSlash) == 0;
+//		              } else {
+//		                isException  = exceptionsSlash.toLowerCase().indexOf(filePathSlash.toLowerCase()) == 0;
+//		              }
+//
+//		              if (isException) {
+//		                break;
+//		              }
+//		            }
 
-		              if (isParent) {
-		                this.exceptions.push(this.findDirectory);
-		              }
-		            }
-
-		            for (var x = 0; x < this.exceptions.length; ++x) {
-		              var exceptionsSlash = this.exceptions[x].path + (this.exceptions[x].path.charAt(this.exceptions[x].path.length - 1) != gSlash ? gSlash : '');
-
-		              if (gSlash == "/") {
-		                isException  = exceptionsSlash.indexOf(filePathSlash) == 0;
-		              } else {
-		                isException  = exceptionsSlash.toLowerCase().indexOf(filePathSlash.toLowerCase()) == 0;
-		              }
-
-		              if (isException) {
-		                break;
-		              }
-		            }
-
-		            if (file.exists() && localFile.testSize(file) && file.isDirectory() && (!file.isHidden() || gFtp.hiddenMode || isParent || isException)) {
+//		            if (file.exists() && localFile.testSize(file) && file.isDirectory() && (!file.isHidden() || gFtp.hiddenMode || isParent || isException)) {
 		              newDirectories.push(file);
-		            }
+//		            }
 		          }
 		        } catch (ex) {
 		          debug(ex);
@@ -164,12 +164,13 @@ var remoteDirTree = {
 		                                  hasNext     : true,
 		                                  parentIndex : -1,
 		                                  children    : null,
-		                                  path        : newDirectories[x].path,
-		                                  leafName    : newDirectories[x].leafName,
-		                                  parent      : newDirectories[x].parent ? newDirectories[x].parent.path : "",
-		                                  isHidden    : newDirectories[x].isHidden(),
-		                                  level       : newDirectories[x].path.match(  gSlash == "/" ? /\x2f/g : /\x5c/g).length,
-		                                  sortPath    : newDirectories[x].path.replace(gSlash == "/" ? /\x2f/g : /\x5c/g, "\x01").toLowerCase() };
+		                                  path        : newDirectories[x].location,
+		                                  leafName    : newDirectories[x].name,
+//		                                  parent      : newDirectories[x].parent ? newDirectories[x].parent.path : "",
+//		                                  isHidden    : newDirectories[x].isHidden(),
+		                                  level       : newDirectories[x].level,
+		                                  sortPath    : newDirectories[x].location//newDirectories[x].location.replace(/\x2f/g, "\x01").toLowerCase()
+		                                };
 		          }
 
 		          newDirectories.sort(directorySort);
@@ -300,6 +301,13 @@ var remoteDirTree = {
 
 	        thePath = "/";
 	        gSlash  = "/";
+		      try {                                                                                        // make sure we have a valid drive
+//		        var dir     = localFile.init(thePath);
+		        var entries = gss.subfolders;//dir.directoryEntries;
+		      } catch (ex) {
+		        error(gStrbundle.getString("noPermission"));
+		        return;
+		      }
 
 		      var oldRowCount = this.rowCount;
 		      this.data       = new Array();
@@ -321,11 +329,6 @@ var remoteDirTree = {
 
 		      this.rowCount = 1;
 		      this.treebox.rowCountChanged(0, 1);
-		    }
-
-
-		    if (gRemotePath.value != '/' && gRemotePath.value.charAt(gRemotePath.value.length - 1) == gSlash) {
-		      gRemotePath.value = gRemotePath.value.substring(0, gRemotePath.value.length - 1);               // trim slashes at the end - ruins levels in dir
 		    }
 
 		    var bestMatch;
@@ -390,26 +393,28 @@ var remoteDirTree = {
 		      }
 		    }
 
-//		    if (gTreeSyncManager) {
-//		      gTreeSyncManager = false;
-//
-//		      if (bestMatch) {
-//		        gRemotePath.value = bestPath;
-//		        gRemotePathFocus  = bestPath;
-//		        remoteTree.updateView();
-//		      }
-//
-//		      return;
-//		    }
+		    if (gTreeSyncManager) {
+		      gTreeSyncManager = false;
 
-//		    var findDirectory = localFile.init(gRemotePath.value);                                          // we didn't find the directory above
+		      if (bestMatch) {
+		        gRemotePath.value = bestPath;
+		        gRemotePathFocus  = bestPath;
+		        remoteTree.updateView();
+		      }
 
-//		      this.findDirectory = findDirectory;
-//		      var tempPath = gRemotePath.value;
-//		      this.selection.select(bestMatch);                                                            // it's possible the directory was added externally
-//		      remoteTree.refresh(true);                                                                     // and we don't have it on our dir list
-//		      this.findDirectory = null;
-//		      this.changeDir(tempPath, true);
+		      return;
+		    }
+
+		    var findDirectory = localFile.init(gRemotePath.value);                                          // we didn't find the directory above
+
+		    if (localFile.verifyExists(findDirectory) && findDirectory.isDirectory() && (!retry || gRemotePath.value != path)) {
+		      this.findDirectory = findDirectory;
+		      var tempPath = gRemotePath.value;
+		      this.selection.select(bestMatch);                                                            // it's possible the directory was added externally
+		      remoteTree.refresh(true);                                                                     // and we don't have it on our dir list
+		      this.findDirectory = null;
+		      this.changeDir(tempPath, true);
+		    }
 		  },
 
 		  select : function(event) {

@@ -25,6 +25,8 @@ var gss = {
 	GSS_URL: 'http://pithos.grnet.gr/pithos/rest',
 	// The user root namespace.
 	root: {},
+	// The URI of the files root
+	fileroot: "",
 	// The folders in the current directory.
 	subfolders: [],
 	// The files in the current directory.
@@ -98,6 +100,7 @@ var gss = {
 	// Parses the 'user' namespace response.
 	parseUser : function(req, next) {
 	    gss.root = JSON.parse(req.responseText);
+	    gss.fileroot = gss.root['fileroot'];
 	    gss.subfolders = [];
 	    gss.subfolders.push({name: 'Files', location: gss.root['fileroot']});
 	    gss.subfolders.push({name: 'Trash', location: gss.root['trash']});
@@ -120,11 +123,12 @@ var gss = {
 	// Parses the 'files' namespace response.
 	parseFiles : function(req) {
 	    var filesobj = JSON.parse(req.responseText);
+	    appendLog(req.responseText, 'blue', 'info');
 	    gss.subfolders = [];
 	    var folders = filesobj['folders'];
 	    while (folders.length > 0) {
 	        var folder = folders.pop();
-	        gss.subfolders.push({name: folder['name']+'/', location: folder['uri'], isFolder: true});
+	        gss.subfolders.push({name: folder['name'], location: folder['uri'], isFolder: true, level: folder['uri'].substr(gss.fileroot.length).match(/\x2f/g).length - 1});
 		    appendLog(folder['name'], 'blue', 'info');
 	    }
 	    var files = filesobj['files'];

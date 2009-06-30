@@ -93,15 +93,12 @@ var remoteTree = {
 
       try {
         this.remoteSize               = 0;
-        var dir                      = gss.subfolders;
+        var dir                      = gss.subfolders.concat(gss.files) ;
 //        this.remoteAvailableDiskSpace = parseSize(dir.diskSpaceAvailable);                       // get remote disk size
  //       var entries                  = dir.directoryEntries;
-        for (var i=0; i<dir.length; i++) {
-       	  remoteTreeItems.push(dir[i]);
-        }
 
 //        this.remoteSize = parseSize(this.remoteSize);                                             // get directory size
-        this.data      = remoteTreeItems;                                                        // update remoteTree
+        this.data      = dir;                                                        // update remoteTree
       } catch (ex) {
         debug(ex);
         this.data        = new Array();
@@ -138,7 +135,7 @@ var remoteTree = {
       gLocalTreeChildren.setAttribute('search', true);
     }
 
-//    this.sort(files);
+    this.sort(files);
 
     var index = remoteDirTree.indexOfPath(gRemotePath.value);                                     // select directory in remoteDirTree
     remoteDirTree.selection.select(index);
@@ -180,7 +177,6 @@ var remoteTree = {
     } else if (anyFolders && remoteDirTree.data[index].empty) {
       remoteDirTree.data[index].empty    = false;
     }
-	alert("here");
 
     remoteDirTree.treebox.invalidateRow(index);
   },
@@ -195,11 +191,11 @@ var remoteTree = {
         this.rememberSort = null;
       }
 
-      this.sortHelper($('remotename'), this.searchMode == 2 ? directorySort2 : compareName);
-      this.sortHelper($('remotesize'), compareSize);
-      this.sortHelper($('remotedate'), compareDate);
-      this.sortHelper($('remotetype'), compareType);
-      this.sortHelper($('remoteattr'), compareLocalAttr);
+//      this.sortHelper($('remotename'), this.searchMode == 2 ? directorySort2 : compareName);
+//      this.sortHelper($('remotesize'), compareSize);
+//      this.sortHelper($('remotedate'), compareDate);
+//      this.sortHelper($('remotetype'), compareType);
+//      this.sortHelper($('remoteattr'), compareLocalAttr);
 
       this.displayData = new Array();
     } else {
@@ -213,16 +209,16 @@ var remoteTree = {
     var start = files ? this.data.length - files.length : 0;
 
     for (var row = start; row < this.data.length; ++row) {
-      this.displayData.push({ leafName    : this.data[row].leafName,
-                              fileSize    : this.getFormattedFileSize(row),
-                              date        : this.getFormattedDate(row),
-                              extension   : this.data[row].isDirectory() ? "" : this.getExtension(this.data[row].leafName),
-                              attr        : this.data[row].permissions   ? this.convertPermissions(this.data[row].isHidden(), this.data[row].permissions) : "",
+      this.displayData.push({ leafName    : this.data[row].name,
+                              fileSize    : "0",
+                              date        : "1/1/2000",
+                              extension   : this.data[row].isFolder ? "" : "txt",//this.getExtension(this.data[row].leafName),
+                              attr        : "",
                               icon        : this.getFileIcon(row),
-                              path        : this.data[row].path,
-                              isDirectory : this.data[row].isDirectory(),
-                              isSymlink   : this.data[row].isSymlink(),
-                              isHidden    : this.data[row].isHidden() });
+                              path        : this.data[row].location,
+                              isDirectory : this.data[row].isFolder,
+                              isSymlink   : false,
+                              isHidden    : false });
     }
 
     if (files) {
@@ -320,7 +316,7 @@ var remoteTree = {
   },
 
   getFileIcon : function(row) {
-    if (this.data[row].isDirectory() || this.data[row].isSymlink()) {
+    if (this.data[row].isFolder) {
       return "";
     }
 

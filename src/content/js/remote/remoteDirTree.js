@@ -368,7 +368,7 @@ var remoteDirTree = {
 		        }
 
 		        if (!this.data[x].open && (gRemotePath.value != this.data[x].path || x == 0)) {
-//		          this.toggleOpenState(x);
+		          this.toggleOpenState(x);
 		        }
 		        this.ignoreSelect = false;
 

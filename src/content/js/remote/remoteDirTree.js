@@ -17,7 +17,9 @@ var remoteDirTree = {
 		  isContainerOpen     : function(row)               { return this.data[row].open; },
 		  isSeparator         : function(row)               { return false; },
 		  isSorted            : function(row)               { return false; },
-		  setTree             : function(treebox)           { this.treebox = treebox; },
+		  setTree             : function(treebox)           { 
+			  this.treebox = treebox;
+		  },
 
 		  getCellProperties : function(row, col, props)   {
 		    if (row >= 0 && row < this.data.length && this.data[row]) {
@@ -107,8 +109,7 @@ var remoteDirTree = {
 		        var newDirectories = new Array();
 
 		        try {
-//		          var dir     = localFile.init(this.data[row].path);
-		          var entries = gss.subfolders//dir.directoryEntries;
+		          var entries = remoteDirTree.data[row].gssObj.folders;
 
 		          for (var i=0; i<entries.length; i++) {
 		            var file          = entries[i];// get subdirectories
@@ -164,12 +165,10 @@ var remoteDirTree = {
 		                                  hasNext     : true,
 		                                  parentIndex : -1,
 		                                  children    : null,
-		                                  path        : newDirectories[x].location,
+		                                  path        : newDirectories[x].uri,
 		                                  leafName    : newDirectories[x].name,
-//		                                  parent      : newDirectories[x].parent ? newDirectories[x].parent.path : "",
-//		                                  isHidden    : newDirectories[x].isHidden(),
 		                                  level       : newDirectories[x].level,
-		                                  sortPath    : newDirectories[x].location//newDirectories[x].location.replace(/\x2f/g, "\x01").toLowerCase()
+		                                  sortPath    : newDirectories[x].uri
 		                                };
 		          }
 
@@ -523,5 +522,159 @@ var remoteDirTree = {
 		    } else {
 		      this.addDirtyList(newParent);
 		    }
-		  }
+		  },
+		  
+	doChangeDir : function(folder) {
+		if (this.data.length == 0) {// if dirTree is empty
+		var thePath;      			// we restart the tree
+		thePath = "/";
+		gSlash  = "/";
+        var entries = gss.subfolders;
+
+			      var oldRowCount = this.rowCount;
+			      this.data       = new Array();
+			      this.rowCount   = 0;
+			      this.treebox.rowCountChanged(0, -oldRowCount);
+
+			      this.data.push({ open        : false,
+			                       empty       : false,
+			                       hasNext     : false,
+			                       parentIndex : -1,
+			                       children    : null,
+			                       path        : thePath,
+			                       leafName    : thePath,
+			                       parent      : "",
+			                       isHidden    : false,
+			                       level       : 0,
+			                       sortPath    : thePath//.replace(/\x2f/g, "\x01").toLowerCase()
+			                    });
+
+			      this.rowCount = 1;
+			      this.treebox.rowCountChanged(0, 1);
+			    }
+
+			    var bestMatch;
+			    var bestPath;
+			    var remotePathLevel = gRemotePath.value.match(/\x2f/g).length;
+
+			    for (var x = 0; x < this.data.length; ++x) {                                                   // open parent directories til we find the directory
+			      for (var y = this.data.length - 1; y >= x; --y) {
+			        if ((gRemotePath.value.indexOf(this.data[y].path) == 0)
+			            && (this.getLevel(y) < remotePathLevel || gRemotePath.value == this.data[y].path)) {
+			          x         = y;
+			          bestMatch = y;
+			          bestPath  = this.data[y].path;
+			          break;
+			        }
+			      }
+
+			      if (gRemotePath.value.indexOf(this.data[x].path) == 0) {
+			        var dirty = false;
+
+			        for (var z = 0; z < this.dirtyList.length; ++z) {
+			          if (this.dirtyList[z] == this.data[x].path) {
+			            dirty = true;
+			            break;
+			          }
+			        }
+
+			        this.ignoreSelect = true;
+			        if (this.data[x].open && dirty) {
+			          this.toggleOpenState(x);
+			          this.toggleOpenState(x);
+			        }
+
+			        if (this.data[x].empty && dirty) {
+			          this.data[x].empty = false;
+			          this.treebox.invalidateRow(x);
+			        }
+
+			        if (!this.data[x].open && (gRemotePath.value != this.data[x].path || x == 0)) {
+			          this.toggleOpenState(x);
+			        }
+			        this.ignoreSelect = false;
+
+			        if (gRemotePath.value == this.data[x].path) {
+			          gRemotePathFocus = gRemotePath.value;                                                      // directory approved
+			          var sString  = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
+			          sString.data = gRemotePath.value;
+			          gPrefs.setComplexValue("folder", Components.interfaces.nsISupportsString, sString);      // remember last directory
+
+			          remoteTree.updateView();
+
+			          this.readjustHorizontalPosition(this.selection.currentIndex);
+
+			          if (gTreeSync && !gTreeSyncManager) {
+			            treeSyncManager(true);
+			          } else {
+			            gTreeSyncManager = false;
+			          }
+
+			          return;
+			        }
+			      }
+			    }
+
+			    if (gTreeSyncManager) {
+			      gTreeSyncManager = false;
+
+			      if (bestMatch) {
+			        gRemotePath.value = bestPath;
+			        gRemotePathFocus  = bestPath;
+			        remoteTree.updateView();
+			      }
+
+			      return;
+			    }
+
+			    var findDirectory = localFile.init(gRemotePath.value);                                          // we didn't find the directory above
+
+			    if (localFile.verifyExists(findDirectory) && findDirectory.isDirectory() && (!retry || gRemotePath.value != path)) {
+			      this.findDirectory = findDirectory;
+			      var tempPath = gRemotePath.value;
+			      this.selection.select(bestMatch);                                                            // it's possible the directory was added externally
+			      remoteTree.refresh(true);                                                                     // and we don't have it on our dir list
+			      this.findDirectory = null;
+			      this.changeDir(tempPath, true);
+			    }
+			  },
+			  
+	initialize: function(folder) {
+				  remoteDirTree.data = new Array();
+				  remoteDirTree.rowCount = 0;
+				  remoteDirTree.treebox.rowCountChanged(0, 0);
+
+				  remoteDirTree.data.push({
+					  			   open        : false,
+			                       empty       : false,
+			                       hasNext     : false,
+			                       parentIndex : -1,
+			                       children    : null,
+			                       path        : "/",
+			                       leafName    : folder.name,
+			                       parent      : "",
+			                       isHidden    : false,
+			                       level       : 0,
+			                       sortPath    : "/",
+			                       gssObj	   : folder
+			                    });
+
+				  remoteDirTree.rowCount = 1;
+				  remoteDirTree.treebox.rowCountChanged(0, 1);
+				  remoteDirTree.selection.select(0);
+				  remoteTree.showFolderContents(folder);
+			    remoteDirTree.treebox.invalidateRow(0);
+	},
+	
+	changeFolder: function(index) {
+		var folder = remoteDirTree.data[index].gssObj;
+		remoteDirTree.showFolder(folder);
+		gss.fettchFolder.nextAction = remoteDirTree.showFolder;
+		gss.fetchFolder(folder);
+	},
+	
+	showFolder: function(folder) {
+		remoteTree.showFolderContents(folder);
+	    remoteDirTree.treebox.invalidateRow(0);
+	}
 };

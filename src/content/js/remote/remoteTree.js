@@ -1177,5 +1177,27 @@ var remoteTree = {
         transferObj.start(true,  '', this.data[index].path, '');
       }
     }
+  },
+  
+  showFolderContents: function(folder) {
+	  remoteTree.data = folder.folders.concat(folder.files) ;
+
+	  for (var row = 0; row < this.data.length; row++) {
+		  remoteTree.displayData.push({ leafName    : remoteTree.data[row].name,
+		                            fileSize    : "0",
+		                            date        : "1/1/2000",
+		                            extension   : remoteTree.data[row].isFolder ? "" : "txt",
+		                            attr        : "",
+		                            icon        : remoteTree.getFileIcon(row),
+		                            path        : remoteTree.data[row].uri,
+		                            isDirectory : remoteTree.data[row].isFolder,
+		                            isSymlink   : false,
+		                            isHidden    : false });
+	  }
+		
+	  remoteTree.treebox.rowCountChanged(0, -remoteTree.rowCount);
+    remoteTree.rowCount = remoteTree.data.length;
+    remoteTree.treebox.rowCountChanged(0, remoteTree.rowCount);
+    remoteTree.selection.select(0);
   }
 };

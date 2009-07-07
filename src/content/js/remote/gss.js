@@ -20,7 +20,7 @@ var gss = {
 	// The current user's username.
 	username: 'aaitest@grnet-hq.admin.grnet.gr',
 	// The current user's authentication token.
-	authToken: 'vqzCgDS7uX1vdypt1O+LfoMuUNfl3RVEmxJD+1U+dsxdPqGG5YvLjg==',
+	authToken: 'yj5ZDPfbxU2cKAtkJe8tj0SheYjSx8e7ZL1TQaWTyiIRpDgLLxOs9w==',
 	// The root URL of the REST API.
 	GSS_URL: 'http://pithos.grnet.gr/pithos/rest',
 	// The user root namespace.
@@ -118,8 +118,10 @@ var gss = {
 	    filesobj.uri = folder.uri;
 	    if (folder != gss.rootFolder)
 	    	folder.parentRef.folders[folder.position] = filesobj;
-	    else
+	    else {
 	    	gss.rootFolder = filesobj;
+	    	folder = gss.rootFolder;
+	    }
 	    var folders = filesobj['folders'];
 	    for (var i=0; i<folders.length; i++) {
 	        var f = folders[i];
@@ -129,7 +131,7 @@ var gss = {
 	        f.isFolder = true;
 	    }
 	    if (gss.parseFiles.nextAction)
-	    	gss.parseFiles.nextAction(filesobj);
+	    	gss.parseFiles.nextAction(folder);
 	},
 	
 	//Fetches the contents of the folder with the specified uti
@@ -137,7 +139,7 @@ var gss = {
 	fetchFolder: function(folder) {
 		gss.parseFiles.nextAction = gss.fetchFolder.nextAction;
 		gss.parseFiles.folder = folder;
-		gss.sendRequest(parseFiles, 'GET', folder.uri)
+		gss.sendRequest(gss.parseFiles, 'GET', folder.uri)
 	},
 	
 	fetchRootFolder: function() {

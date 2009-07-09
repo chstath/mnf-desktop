@@ -50,7 +50,7 @@ var gss = {
 			params = form;
 		else if (update)
 			params = update;
-	
+
 		var req = new XMLHttpRequest();
 		req.open(method, gss.GSS_URL + resource, true);
 		req.onreadystatechange = function (event) {
@@ -66,7 +66,7 @@ var gss = {
 		req.setRequestHeader("X-GSS-Date", now);
 		if (modified)
 			req.setRequestHeader("If-Modified-Since", modified);
-	
+
 		if (file) {
 			req.setRequestHeader("Content-Type", "text/plain");
 			req.setRequestHeader("Content-Length", file.length);
@@ -77,7 +77,7 @@ var gss = {
 			req.setRequestHeader("Content-Length", params.length);
 		    req.setRequestHeader("Content-Type", "application/json;");
 		}
-	
+
 		if (!file)
 			req.send(params);
 		else
@@ -87,7 +87,7 @@ var gss = {
 	fetchUserAsync : function(next) {
 		gss.fetchUser(next);
 	},
-	
+
 	//Fetches the 'user' namespace.
 	fetchUser : function() {
 		gss.parseUser.nextAction = gss.fetchUser.nextAction;
@@ -101,51 +101,58 @@ var gss = {
 	    if (gss.parseUser.nextAction)
 	    	gss.parseUser.nextAction();
 	},
-	
+
 	// Fetches the 'files' namespace.
 	fetchFiles : function() {
 	    gss.sendRequest(gss.parseFiles, null, 'GET', gss.root['fileroot']);
 	},
-	
+
 	fetchFilesAsync : function() {
 		gss.fetchUserAsync(gss.fetchFiles);
 	},
-	
+
 	// Parses the 'files' namespace response.
 	parseFiles : function(req) {
 	    var filesobj = JSON.parse(req.responseText);
 	    var folder = gss.parseFiles.folder;
-	    filesobj.uri = folder.uri;
-	    if (folder != gss.rootFolder)
-	    	folder.parentRef.folders[folder.position] = filesobj;
-	    else {
-	    	gss.rootFolder = filesobj;
-	    	folder = gss.rootFolder;
-	    }
-	    var folders = filesobj['folders'];
+		for (var attr in filesobj)
+			folder[attr] = filesobj[attr];
+//	    filesobj.uri = folder.uri;
+//	    if (folder != gss.rootFolder)
+//	    	folder.parentRef.folders[folder.position] = filesobj;
+//	    else {
+//	    	gss.rootFolder = filesobj;
+//	    	folder = gss.rootFolder;
+//	    }
+	    var folders = folder.folders;
 	    for (var i=0; i<folders.length; i++) {
 	        var f = folders[i];
 	        f.level = f.uri.substr(gss.rootFolder.uri.length).match(/\x2f/g).length - 1;
 	        f.position = i;
-	        f.parentRef = filesobj;
+//	        f.parentRef = folder;
 	        f.isFolder = true;
 	    }
 	    if (gss.parseFiles.nextAction)
-	    	gss.parseFiles.nextAction(folder);
+//			if (gss.parseFiles.nextActionArg != null)
+				gss.parseFiles.nextAction(gss.parseFiles.nextActionArg);
+//			else
+//				gss.parseFiles.nextAction(folder);
 	},
-	
+
 	//Fetches the contents of the folder with the specified uti
 	//uri
 	fetchFolder: function(folder) {
 		gss.parseFiles.nextAction = gss.fetchFolder.nextAction;
+		gss.parseFiles.nextActionArg = gss.fetchFolder.nextActionArg;
 		gss.parseFiles.folder = folder;
 		gss.sendRequest(gss.parseFiles, 'GET', folder.uri)
 	},
-	
+
 	fetchRootFolder: function() {
 		if (gss.root.fileroot) {
 			gss.parseFiles.folder = gss.rootFolder;
 			gss.parseFiles.nextAction = gss.fetchRootFolder.nextAction;
+			gss.parseFiles.nextActionArg = gss.rootFolder;
 			gss.sendRequest(gss.parseFiles, 'GET', gss.root.fileroot);
 		}
 		else {

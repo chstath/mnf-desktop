@@ -734,31 +734,34 @@ var remoteTree = {
     --gProcessing;
   },
 
-  // ************************************************* mouseEvent *****************************************************
+	// ************************************************* mouseEvent *****************************************************
 
-  dblClick : function(event) {
-    if (event.button != 0 || event.originalTarget.localName != "treechildren" || this.selection.count == 0) {
-      return;
-    }
+	dblClick : function(event) {
+		if (event.button != 0 || event.originalTarget.localName != "treechildren" || this.selection.count == 0) {
+			return;
+		}
 
-    if (this.selection.currentIndex < 0 || this.selection.currentIndex >= this.rowCount) {
-      this.selection.currentIndex = this.rowCount - 1;
-    }
+		if (this.selection.currentIndex < 0 || this.selection.currentIndex >= this.rowCount) {
+			this.selection.currentIndex = this.rowCount - 1;
+		}
 
-    if (!localFile.verifyExists(this.data[this.selection.currentIndex])) {
-      return;
-    }
+		var index = this.selection.currentIndex;
+		if (this.data[index].isFolder) {                                 // if it's a directory
+			var folder = this.data[index]; //cache the folder 'cause this.data may be cleared after showFolderContents
+			remoteTree.showFolderContents(folder);
+			gss.fetchFolder.nextAction = remoteDirTree.expandSubfolders;
+			gss.fetchFolder.nextActionArg = remoteDirTree.selection.currentIndex;
+			gss.fetchFolder(folder);
 
-    if (this.data[this.selection.currentIndex].isDirectory()) {                                 // if it's a directory
-      remoteDirTree.changeDir(this.data[this.selection.currentIndex].path);                      // navigate to it
-    } else {
-      if (gOpenMode) {
-        this.launch();
-      } else {
-        new transfer().start(false);                                                            // else upload the file
-      }
-    }
-  },
+//			remoteDirTree.changeDir(this.data[this.selection.currentIndex].path);                      // navigate to it
+		} else {
+			if (gOpenMode) {
+				this.launch();
+			} else {
+				new transfer().start(false);                                                            // else upload the file
+			}
+		}
+	},
 
   click : function(event) {
     if (event.button == 1 && !$('localPasteContext').disabled) {                                // middle-click paste
@@ -1178,26 +1181,32 @@ var remoteTree = {
       }
     }
   },
-  
-  showFolderContents: function(folder) {
-	  remoteTree.data = folder.folders.concat(folder.files) ;
 
-	  for (var row = 0; row < this.data.length; row++) {
-		  remoteTree.displayData.push({ leafName    : remoteTree.data[row].name,
-		                            fileSize    : "0",
-		                            date        : "1/1/2000",
-		                            extension   : remoteTree.data[row].isFolder ? "" : "txt",
-		                            attr        : "",
-		                            icon        : remoteTree.getFileIcon(row),
-		                            path        : remoteTree.data[row].uri,
-		                            isDirectory : remoteTree.data[row].isFolder,
-		                            isSymlink   : false,
-		                            isHidden    : false });
-	  }
-		
-	  remoteTree.treebox.rowCountChanged(0, -remoteTree.rowCount);
-    remoteTree.rowCount = remoteTree.data.length;
-    remoteTree.treebox.rowCountChanged(0, remoteTree.rowCount);
-    remoteTree.selection.select(0);
+	showFolderContents: function(folder) {
+		remoteTree.treebox.rowCountChanged(0, -remoteTree.rowCount);
+		if (folder.folders) {
+			remoteTree.data = folder.folders.concat(folder.files) ;
+			remoteTree.displayData = [];
+			for (var row = 0; row < remoteTree.data.length; row++) {
+				remoteTree.displayData.push({ leafName    : remoteTree.data[row].name,
+												fileSize    : "0",
+												date        : "1/1/2000",
+												extension   : remoteTree.data[row].isFolder ? "" : "txt",
+												attr        : "",
+												icon        : remoteTree.getFileIcon(row),
+												path        : remoteTree.data[row].uri,
+												isDirectory : remoteTree.data[row].isFolder,
+												isSymlink   : false,
+												isHidden    : false
+											});
+			}
+		}
+		else {
+			remoteTree.data = [];
+			remoteTree.displayData = [];
+		}
+		remoteTree.rowCount = remoteTree.data.length;
+		remoteTree.treebox.rowCountChanged(0, remoteTree.rowCount);
+		remoteTree.selection.select(0);
   }
 };

@@ -38,10 +38,10 @@ var remoteDirTree = {
 			var lastChild = row;
 
 			while (lastChild + 1 < this.rowCount && this.data[lastChild + 1].level > level) {            // find last index in same level as collapsed dir
-			  ++lastChild;
+				++lastChild;
 			}
 
-			this.data[row].children = this.data.splice(row + 1, lastChild - row);                        // get rid of subdirectories from view
+			this.data.splice(row + 1, lastChild - row);                        // get rid of subdirectories from view
 			this.updateParentIndices();
 			this.rowCount = this.data.length;
 			this.treebox.rowCountChanged(row, -(lastChild - row));
@@ -53,7 +53,7 @@ var remoteDirTree = {
 			var dataPathSlash  = this.data[row].path + (this.data[row].path.charAt(this.data[row].path.length - 1) != gSlash ? gSlash : '');
 
 			if (remotePathSlash.indexOf(dataPathSlash) == 0 && gRemotePath.value != this.data[row].path
-			 && gRemotePath.value.match(gSlash == "/" ? /\x2f/g : /\x5c/g ).length > this.data[row].level && !suppressChange) {
+			&& gRemotePath.value.match(gSlash == "/" ? /\x2f/g : /\x5c/g ).length > this.data[row].level && !suppressChange) {
 				gRemotePath.value = this.data[row].path;                                                    // we were in a subdirectory and we collapsed
 				this.selection.select(row);
 				this.treebox.ensureRowIsVisible(row);
@@ -65,149 +65,58 @@ var remoteDirTree = {
 		} else {
 			for (var x = 0; x < this.dirtyList.length; ++x) {                                            // see if the row is dirty
 				if (this.dirtyList[x] == this.data[row].path) {
-				this.dirtyList.splice(x, 1);
-				this.data[row].children = null;
-				break;
-			}
-		}
-
-		if (this.data[row].children) {                                                               // see if any of the rows children are dirty
-			for (var x = 0; x < this.dirtyList.length; ++x) {
-			var found = false;
-
-			for (var y = this.data[row].children.length - 1; y >= 0; --y) {
-			  if (this.data[row].children[y].path == this.dirtyList[x]) {
-				found = true;
-				this.data[row].children[y].children = null;
-				this.data[row].children[y].open     = false;
-				this.data[row].children[y].empty    = false;
-			  } else if (this.data[row].children[y].path.indexOf(this.dirtyList[x]
-															  + (this.dirtyList[x].charAt(this.dirtyList[x].length - 1) != gSlash ? gSlash : '')) == 0) {
-				found = true;
-				this.data[row].children.splice(y, 1);
-			  }
-			}
-
-			if (found) {
-			  this.dirtyList.splice(x, 1);
-			}
-		  }
-		}
-
-		if (this.data[row].children) {                                                               // stored from before
-			for (var x = this.data[row].children.length - 1; x >= 0; --x) {
-				this.data.splice(row + 1, 0, this.data[row].children[x]);
-			}
-
-			this.updateParentIndices();
-			this.rowCount           = this.data.length;
-			this.treebox.rowCountChanged(row + 1, this.data[row].children.length);
-			this.data[row].children = null;
-			this.data[row].open     = true;
-			this.treebox.invalidateRow(row);
-		} else {                                                                                     // get data for this directory
-			var newDirectories = new Array();
-
-			try {
-				var entries = remoteDirTree.data[row].gssObj.folders;
-				gss.fetchFolder.nextAction = //Break this method in two.
-				gss.fetchFolder(remoteDirTree.data[row].gssObj);
-				for (var i=0; i<entries.length; i++) {
-					var file          = entries[i];// get subdirectories
-//		            var isParent      = false;
-//		            var isException   = false;
-//		            var filePathSlash = file.path + (file.path.charAt(file.path.length - 1) != gSlash ? gSlash : '');
-
-//		            if (file.exists() && localFile.testSize(file) && file.isDirectory() && this.findDirectory) {                       // we're navigating to a directory that might be hidden
-//		              var findDirectorySlash = this.findDirectory.path
-//		                                    + (this.findDirectory.path.charAt(this.findDirectory.path.length - 1) != gSlash ? gSlash : '');
-//
-//		              if (gSlash == "/") {
-//		                isParent    = findDirectorySlash.indexOf(filePathSlash) == 0;
-//		              } else {
-//		                isParent    = findDirectorySlash.toLowerCase().indexOf(filePathSlash.toLowerCase()) == 0;
-//		              }
-//
-//		              if (isParent) {
-//		                this.exceptions.push(this.findDirectory);
-//		              }
-//		            }
-
-//		            for (var x = 0; x < this.exceptions.length; ++x) {
-//		              var exceptionsSlash = this.exceptions[x].path + (this.exceptions[x].path.charAt(this.exceptions[x].path.length - 1) != gSlash ? gSlash : '');
-//
-//		              if (gSlash == "/") {
-//		                isException  = exceptionsSlash.indexOf(filePathSlash) == 0;
-//		              } else {
-//		                isException  = exceptionsSlash.toLowerCase().indexOf(filePathSlash.toLowerCase()) == 0;
-//		              }
-//
-//		              if (isException) {
-//		                break;
-//		              }
-//		            }
-
-//		            if (file.exists() && localFile.testSize(file) && file.isDirectory() && (!file.isHidden() || gFtp.hiddenMode || isParent || isException)) {
-					newDirectories.push(file);
-//		            }
+					this.dirtyList.splice(x, 1);
+					this.data[row].children = null;
+					break;
 				}
-			} catch (ex) {
-				debug(ex);
-				error(gStrbundle.getString("noPermission"));
 			}
 
-			if (newDirectories.length == 0)  {                                                         // no subdirectories
-				this.data[row].empty = true;
-				this.data[row].open  = false;
-			} else {                                                                                   // has subdirectories
-				for (var x = 0; x < newDirectories.length; ++x) {
-					newDirectories[x] = { open        : false,
-											empty       : false,
-											hasNext     : true,
-											parentIndex : -1,
-											children    : null,
-											path        : newDirectories[x].uri,
-											leafName    : newDirectories[x].name,
-											level       : newDirectories[x].level,
-											sortPath    : newDirectories[x].uri,
-											gssObj      : newDirectories[x]
-										};
+			if (this.data[row].children) {                                                               // see if any of the rows children are dirty
+				for (var x = 0; x < this.dirtyList.length; ++x) {
+					var found = false;
+
+					for (var y = this.data[row].children.length - 1; y >= 0; --y) {
+						if (this.data[row].children[y].path == this.dirtyList[x]) {
+							found = true;
+							this.data[row].children[y].children = null;
+							this.data[row].children[y].open     = false;
+							this.data[row].children[y].empty    = false;
+						} else if (this.data[row].children[y].path.indexOf(this.dirtyList[x]
+																  + (this.dirtyList[x].charAt(this.dirtyList[x].length - 1) != gSlash ? gSlash : '')) == 0) {
+							found = true;
+							this.data[row].children.splice(y, 1);
+						}
+					}
+
+					if (found) {
+						this.dirtyList.splice(x, 1);
+					}
 				}
-
-				newDirectories.sort(directorySort);
-				newDirectories[newDirectories.length - 1].hasNext = false;                               // last one doesn't have a next
-
-				for (var x = newDirectories.length - 1; x >= 0; --x) {
-					this.data.splice(row + 1, 0, newDirectories[x]);
-				}
-
-				this.updateParentIndices();
-				this.rowCount       = this.data.length;
-				this.treebox.rowCountChanged(row + 1, newDirectories.length);
-				this.data[row].open = true;
 			}
 
-			this.treebox.invalidateRow(row);
+			remoteDirTree.expandSubfolders(row);
+			gss.fetchFolder.nextAction = remoteDirTree.expandSubfolders;
+			gss.fetchFolder.nextActionArg = row
+			gss.fetchFolder(remoteDirTree.data[row].gssObj);
 		}
-	}
 
-	$('remotedirname').removeAttribute('flex');                                                     // horizontal scrollbars, baby!
+		$('remotedirname').removeAttribute('flex');                                                     // horizontal scrollbars, baby!
 
-	var max = 125;
-	for (var z = 0; z < this.rowCount; ++z) {                                                     // this is what we CS folk like to call a TOTAL HACK
-		var x = { };    var y = { };    var width = { };    var height = { };                       // but, hey, it works so bite me
-		this.treebox.getCoordsForCellItem(z, this.treebox.columns["remotedirname"], "text", x, y, width, height);
+		var max = 125;
+		for (var z = 0; z < this.rowCount; ++z) {                                                     // this is what we CS folk like to call a TOTAL HACK
+			var x = { };    var y = { };    var width = { };    var height = { };                       // but, hey, it works so bite me
+			this.treebox.getCoordsForCellItem(z, this.treebox.columns["remotedirname"], "text", x, y, width, height);
 
-		if (x.value + width.value + 125 > max) {
-			max = x.value + width.value + 125;
+			if (x.value + width.value + 125 > max) {
+				max = x.value + width.value + 125;
+			}
 		}
-	}
 
-	  //if (doOpen) {
-	this.readjustHorizontalPosition(row);
-	  //}
+		//if (doOpen) {
+		this.readjustHorizontalPosition(row);
+		//}
 
-	$('remotedirname').setAttribute('width', max);
+		$('remotedirname').setAttribute('width', max);
 	},
 
 		  readjustHorizontalPosition : function(row) {
@@ -418,17 +327,21 @@ var remoteDirTree = {
 			}
 		  },
 
-		  select : function(event) {
-			if (this.ignoreSelect) {
-			  return;
-			}
+	select: function(event) {
+		if (this.ignoreSelect) {
+			return;
+		}
 
-			var index = this.selection.currentIndex;
+		var index = this.selection.currentIndex;
 
-			if (index >= 0 && index < this.data.length && this.data[index].path != gRemotePath.value) {
-			  this.changeDir(this.data[index].path);
-			}
-		  },
+		if (index >= 0 && index < this.data.length) {
+			remoteTree.showFolderContents(this.data[index].gssObj);
+			gss.fetchFolder.nextAction = remoteTree.showFolderContents;
+			gss.fetchFolder.nextActionArg = this.data[index].gssObj;
+			gss.fetchFolder(this.data[index].gssObj);
+//			this.changeDir(this.data[index].path);
+		}
+	},
 
 		  click : function(event) {                                                                        // this is a special case: if we want the search to go away
 			var index = this.selection.currentIndex;
@@ -678,5 +591,78 @@ var remoteDirTree = {
 	showFolder: function(folder) {
 		remoteTree.showFolderContents(folder);
 		remoteDirTree.treebox.invalidateRow(0);
+	},
+
+	expandSubfolders: function(row) {
+		var level     = remoteDirTree.data[row].level;
+		var lastChild = row;
+
+		while (lastChild + 1 < remoteDirTree.rowCount && remoteDirTree.data[lastChild + 1].level > level) {            // find last index in same level as collapsed dir
+		  ++lastChild;
+		}
+
+		remoteDirTree.data.splice(row + 1, lastChild - row);                        // get rid of subdirectories from view
+		//remoteDirTree.updateParentIndices();
+		remoteDirTree.rowCount = remoteDirTree.data.length;
+		remoteDirTree.treebox.rowCountChanged(row, -(lastChild - row));
+		if (remoteDirTree.data[row].children) {                                                               // stored from before
+			for (var x = remoteDirTree.data[row].children.length - 1; x >= 0; --x) {
+				remoteDirTree.data.splice(row + 1, 0, remoteDirTree.data[row].children[x]);
+			}
+
+			remoteDirTree.updateParentIndices();
+			remoteDirTree.rowCount           = remoteDirTree.data.length;
+			remoteDirTree.treebox.rowCountChanged(row + 1, remoteDirTree.data[row].children.length);
+			remoteDirTree.data[row].children = null;
+			remoteDirTree.data[row].open     = true;
+			remoteDirTree.treebox.invalidateRow(row);
+		} else {                                                                                     // get data for this directory
+			var newDirectories = new Array();
+
+			var entries = remoteDirTree.data[row].gssObj.folders;
+			if (entries) {
+				for (var i=0; i<entries.length; i++) {
+					var file = entries[i];// get subdirectories
+					newDirectories.push(file);
+				}
+
+				if (newDirectories.length == 0)  {                                                         // no subdirectories
+					remoteDirTree.data[row].empty = true;
+					remoteDirTree.data[row].open  = false;
+				} else {                                                                                   // has subdirectories
+					remoteDirTree.data[row].empty = false;
+					remoteDirTree.data[row].open = true;
+					for (var x = 0; x < newDirectories.length; ++x) {
+						newDirectories[x] = { open        : false,
+												empty       : false,
+												hasNext     : true,
+												parentIndex : -1,
+												children    : null,
+												path        : newDirectories[x].uri,
+												leafName    : newDirectories[x].name,
+												level       : newDirectories[x].level,
+												sortPath    : newDirectories[x].uri,
+												gssObj      : newDirectories[x]
+											};
+					}
+					newDirectories.sort(directorySort);
+					newDirectories[newDirectories.length - 1].hasNext = false;                               // last one doesn't have a next
+
+					for (var x = newDirectories.length - 1; x >= 0; --x) {
+						remoteDirTree.data.splice(row + 1, 0, newDirectories[x]);
+					}
+
+					remoteDirTree.updateParentIndices();
+					remoteDirTree.rowCount       = remoteDirTree.data.length;
+					remoteDirTree.treebox.rowCountChanged(row + 1, newDirectories.length);
+				}
+
+				remoteDirTree.treebox.invalidateRow(row);
+			}
+			else {
+				remoteDirTree.data[row].empty = true;
+				remoteDirTree.data[row].open  = false;
+			}
+		}
 	}
 };

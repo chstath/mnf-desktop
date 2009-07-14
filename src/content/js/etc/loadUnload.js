@@ -40,7 +40,7 @@ function startup() {
   gIos                   = Components.classes["@mozilla.org/network/io-service;1"].getService      (Components.interfaces.nsIIOService);
   gPromptService         = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);
   gPrefsService          = Components.classes["@mozilla.org/preferences-service;1"].getService     (Components.interfaces.nsIPrefService);
-  gFireFTPUtils          = Components.classes['@nightlight.ws/fireftputils;1'].getService          (Components.interfaces.nsIFireFTPUtils);
+  //gFireFTPUtils          = Components.classes['@nightlight.ws/fireftputils;1'].getService          (Components.interfaces.nsIFireFTPUtils);
   gFormHistory           = Components.classes["@mozilla.org/satchel/form-history;1"].getService    (Components.interfaces.nsIFormHistory ?
                                                                                                     Components.interfaces.nsIFormHistory :
                                                                                                     Components.interfaces.nsIFormHistory2);
@@ -88,7 +88,7 @@ function startup() {
   setConnectButton(true);
   accountButtonsDisabler(true);
   connectedButtonsDisabler();
-  localDirTree.changeDir(gLocalPath.value);
+  localDirTree.changeDir('/');
   gss.fetchRootFolder(remoteDirTree.initialize);
   loadSiteManager(true);
   loadPrograms();

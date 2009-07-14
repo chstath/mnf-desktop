@@ -736,30 +736,6 @@ var remoteTree = {
 
 	// ************************************************* mouseEvent *****************************************************
 
-	dblClick : function(event) {
-		if (event.button != 0 || event.originalTarget.localName != "treechildren" || this.selection.count == 0) {
-			return;
-		}
-
-		if (this.selection.currentIndex < 0 || this.selection.currentIndex >= this.rowCount) {
-			this.selection.currentIndex = this.rowCount - 1;
-		}
-
-		var index = this.selection.currentIndex;
-		if (this.data[index].isFolder) {                                 // if it's a directory
-			var folder = this.data[index]; //cache the folder 'cause this.data may be cleared after showFolderContents
-			remoteTree.showFolderContents(folder);
-			gss.fetchFolder(folder, remoteDirTree.expandSubfolders, remoteDirTree.selection.currentIndex);
-
-//			remoteDirTree.changeDir(this.data[this.selection.currentIndex].path);                      // navigate to it
-		} else {
-			if (gOpenMode) {
-				this.launch();
-			} else {
-				new transfer().start(false);                                                            // else upload the file
-			}
-		}
-	},
 
   click : function(event) {
     if (event.button == 1 && !$('localPasteContext').disabled) {                                // middle-click paste
@@ -1182,6 +1158,7 @@ var remoteTree = {
 
 	showFolderContents: function(folder) {
 		remoteTree.treebox.rowCountChanged(0, -remoteTree.rowCount);
+        folder = remoteDirTree.data[remoteDirTree.selection.currentIndex].gssObj;
 		if (folder.folders) {
 			remoteTree.data = folder.folders.concat(folder.files) ;
 			remoteTree.displayData = [];
@@ -1206,5 +1183,27 @@ var remoteTree = {
 		remoteTree.rowCount = remoteTree.data.length;
 		remoteTree.treebox.rowCountChanged(0, remoteTree.rowCount);
 		remoteTree.selection.select(0);
-  }
+  },
+  
+      dblClick : function(event) {
+		if (event.button != 0 || event.originalTarget.localName != "treechildren" || this.selection.count == 0) {
+			return;
+		}
+
+		if (this.selection.currentIndex < 0 || this.selection.currentIndex >= this.rowCount) {
+			this.selection.currentIndex = this.rowCount - 1;
+		}
+
+		var index = this.selection.currentIndex;
+		if (this.data[index].isFolder) {                                 // if it's a directory
+			var folder = this.data[index]; //cache the folder 'cause this.data may be cleared after showFolderContents
+            
+            var parentIndex = remoteDirTree.selection.currentIndex;
+            if (!remoteDirTree.isContainerOpen(parentIndex))
+                remoteDirTree.toggleOpenState(parentIndex);
+            var thisIndex = remoteDirTree.indexOfFolder(folder)
+            appendLog(thisIndex + ' ');
+            remoteDirTree.selection.select(thisIndex);
+		}
+	}
 };

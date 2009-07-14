@@ -94,8 +94,8 @@ var remoteDirTree = {
 				}
 			}
 //			remoteDirTree.ignoreSelect = true;
-			remoteDirTree.expandSubfolders(row);
-			gss.fetchFolder(remoteDirTree.data[row].gssObj, remoteDirTree.expandSubfolders, row);
+			remoteDirTree.expandSubfolders(remoteDirTree.data[row].gssObj);
+			gss.fetchFolder(remoteDirTree.data[row].gssObj, remoteDirTree.expandSubfolders, remoteDirTree.data[row].gssObj);
 		}
 
 		$('remotedirname').removeAttribute('flex');                                                     // horizontal scrollbars, baby!
@@ -329,7 +329,7 @@ var remoteDirTree = {
 		if (remoteDirTree.ignoreSelect) {
 			return;
 		}
-
+    
 		var index = this.selection.currentIndex;
 
 		if (index >= 0 && index < this.data.length) {
@@ -589,14 +589,20 @@ var remoteDirTree = {
 		remoteDirTree.treebox.invalidateRow(0);
 	},
 
-	expandSubfolders: function(row) {
-		appendLog(row + ' ' + remoteDirTree.rowCount);
+	expandSubfolders: function(folder) {
+		var row = 0;
+		for (var i=0; i<remoteDirTree.data.length; i++)
+			if (remoteDirTree.data[i].gssObj === folder) {
+				row = i;
+				break;
+			}
 		var level     = remoteDirTree.data[row].level;
 		var lastChild = row;
 
 		while (lastChild + 1 < remoteDirTree.rowCount && remoteDirTree.data[lastChild + 1].level > level) {            // find last index in same level as collapsed dir
 		  ++lastChild;
 		}
+        var currentSelection = remoteDirTree.selection.currentIndex;
 
 		remoteDirTree.data.splice(row + 1, lastChild - row);                        // get rid of subdirectories from view
 		//remoteDirTree.updateParentIndices();
@@ -648,13 +654,13 @@ var remoteDirTree = {
 					for (var x = newDirectories.length - 1; x >= 0; --x) {
 						remoteDirTree.data.splice(row + 1, 0, newDirectories[x]);
 					}
-
 					remoteDirTree.updateParentIndices();
 					remoteDirTree.rowCount       = remoteDirTree.data.length;
 					remoteDirTree.treebox.rowCountChanged(row + 1, newDirectories.length);
+                    remoteDirTree.selection.select(currentSelection);
 				}
 
-				remoteDirTree.treebox.invalidateRow(row);
+//				remoteDirTree.treebox.invalidateRow(row);
 			}
 			else {
 				remoteDirTree.data[row].empty = true;
@@ -662,5 +668,12 @@ var remoteDirTree = {
 			}
 		}
 //		remoteDirTree.ignoreSelect = false;
-	}
+	},
+    
+    indexOfFolder: function(folder) {
+        for (var i=0; i<remoteDirTree.data.length; i++)
+            if (remoteDirTree.data[i].gssObj == folder)
+                return i;
+        return -1;
+    }
 };

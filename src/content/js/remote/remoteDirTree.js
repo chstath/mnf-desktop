@@ -93,11 +93,9 @@ var remoteDirTree = {
 					}
 				}
 			}
-
+//			remoteDirTree.ignoreSelect = true;
 			remoteDirTree.expandSubfolders(row);
-			gss.fetchFolder.nextAction = remoteDirTree.expandSubfolders;
-			gss.fetchFolder.nextActionArg = row
-			gss.fetchFolder(remoteDirTree.data[row].gssObj);
+			gss.fetchFolder(remoteDirTree.data[row].gssObj, remoteDirTree.expandSubfolders, row);
 		}
 
 		$('remotedirname').removeAttribute('flex');                                                     // horizontal scrollbars, baby!
@@ -328,7 +326,7 @@ var remoteDirTree = {
 		  },
 
 	select: function(event) {
-		if (this.ignoreSelect) {
+		if (remoteDirTree.ignoreSelect) {
 			return;
 		}
 
@@ -336,9 +334,7 @@ var remoteDirTree = {
 
 		if (index >= 0 && index < this.data.length) {
 			remoteTree.showFolderContents(this.data[index].gssObj);
-			gss.fetchFolder.nextAction = remoteTree.showFolderContents;
-			gss.fetchFolder.nextActionArg = this.data[index].gssObj;
-			gss.fetchFolder(this.data[index].gssObj);
+			gss.fetchFolder(this.data[index].gssObj, remoteTree.showFolderContents, this.data[index].gssObj);
 //			this.changeDir(this.data[index].path);
 		}
 	},
@@ -594,6 +590,7 @@ var remoteDirTree = {
 	},
 
 	expandSubfolders: function(row) {
+		appendLog(row + ' ' + remoteDirTree.rowCount);
 		var level     = remoteDirTree.data[row].level;
 		var lastChild = row;
 
@@ -664,5 +661,6 @@ var remoteDirTree = {
 				remoteDirTree.data[row].open  = false;
 			}
 		}
+//		remoteDirTree.ignoreSelect = false;
 	}
 };

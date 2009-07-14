@@ -749,9 +749,7 @@ var remoteTree = {
 		if (this.data[index].isFolder) {                                 // if it's a directory
 			var folder = this.data[index]; //cache the folder 'cause this.data may be cleared after showFolderContents
 			remoteTree.showFolderContents(folder);
-			gss.fetchFolder.nextAction = remoteDirTree.expandSubfolders;
-			gss.fetchFolder.nextActionArg = remoteDirTree.selection.currentIndex;
-			gss.fetchFolder(folder);
+			gss.fetchFolder(folder, remoteDirTree.expandSubfolders, remoteDirTree.selection.currentIndex);
 
 //			remoteDirTree.changeDir(this.data[this.selection.currentIndex].path);                      // navigate to it
 		} else {

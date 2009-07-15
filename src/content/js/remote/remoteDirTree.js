@@ -325,20 +325,6 @@ var remoteDirTree = {
 			}
 		  },
 
-	select: function(event) {
-		if (remoteDirTree.ignoreSelect) {
-			return;
-		}
-    
-		var index = this.selection.currentIndex;
-
-		if (index >= 0 && index < this.data.length) {
-			remoteTree.showFolderContents(this.data[index].gssObj);
-			gss.fetchFolder(this.data[index].gssObj, remoteTree.showFolderContents, this.data[index].gssObj);
-//			this.changeDir(this.data[index].path);
-		}
-	},
-
 		  click : function(event) {                                                                        // this is a special case: if we want the search to go away
 			var index = this.selection.currentIndex;
 
@@ -589,6 +575,20 @@ var remoteDirTree = {
 		remoteDirTree.treebox.invalidateRow(0);
 	},
 
+	select: function(event) {
+		if (remoteDirTree.ignoreSelect) {
+			return;
+		}
+
+		var index = this.selection.currentIndex;
+
+		if (index >= 0 && index < this.data.length) {
+			remoteTree.showFolderContents(this.data[index].gssObj);
+			gss.fetchFolder(this.data[index].gssObj, remoteTree.showFolderContents, this.data[index].gssObj);
+//			this.changeDir(this.data[index].path);
+		}
+	},
+
 	expandSubfolders: function(folder) {
 		var row = 0;
 		for (var i=0; i<remoteDirTree.data.length; i++)
@@ -669,7 +669,7 @@ var remoteDirTree = {
 		}
 //		remoteDirTree.ignoreSelect = false;
 	},
-    
+
     indexOfFolder: function(folder) {
         for (var i=0; i<remoteDirTree.data.length; i++)
             if (remoteDirTree.data[i].gssObj == folder)

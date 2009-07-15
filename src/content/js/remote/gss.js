@@ -104,8 +104,7 @@ var gss = {
 	// Parses the 'files' namespace response.
 	parseFiles : function(req, folder, nextAction, nextActionArg) {
 	    var filesobj = JSON.parse(req.responseText);
-		for (var attr in filesobj)
-			folder[attr] = filesobj[attr];
+		gss.updateFolderAttributes(folder, filesobj);
 	    var folders = folder.folders;
 	    for (var i=0; i<folders.length; i++) {
 	        var f = folders[i];
@@ -115,6 +114,20 @@ var gss = {
 	    }
 	    if (nextAction)
 				nextAction(nextActionArg);
+	},
+
+	updateFolderAttributes: function(folder, newFolder) {
+		for (var attr in newFolder) {
+			if (attr == 'folders' || attr == 'files') {
+				if (!folder[attr] || folder[attr].length == 0)
+					folder[attr] = newFolder[attr];
+				else
+					for (var i in newFolder[attr])
+						gss.updateFolderAttributes(folder[attr][i], newFolder[attr][i]);
+			}
+			else
+				folder[attr] = newFolder[attr];
+		}
 	},
 
 	//Fetches the contents of the folder with the specified uti

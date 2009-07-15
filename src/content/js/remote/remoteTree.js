@@ -1183,9 +1183,9 @@ var remoteTree = {
 		remoteTree.rowCount = remoteTree.data.length;
 		remoteTree.treebox.rowCountChanged(0, remoteTree.rowCount);
 		remoteTree.selection.select(0);
-  },
-  
-      dblClick : function(event) {
+	},
+
+	dblClick : function(event) {
 		if (event.button != 0 || event.originalTarget.localName != "treechildren" || this.selection.count == 0) {
 			return;
 		}
@@ -1197,7 +1197,7 @@ var remoteTree = {
 		var index = this.selection.currentIndex;
 		if (this.data[index].isFolder) {                                 // if it's a directory
 			var folder = this.data[index]; //cache the folder 'cause this.data may be cleared after showFolderContents
-            
+
             var parentIndex = remoteDirTree.selection.currentIndex;
             if (!remoteDirTree.isContainerOpen(parentIndex))
                 remoteDirTree.toggleOpenState(parentIndex);

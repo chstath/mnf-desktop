@@ -1163,10 +1163,16 @@ var remoteTree = {
 			remoteTree.data = folder.folders.concat(folder.files) ;
 			remoteTree.displayData = [];
 			for (var row = 0; row < remoteTree.data.length; row++) {
+				if (remoteTree.data[row].modificationDate) {
+					var fileDate = new Date();
+					fileDate.setTime(remoteTree.data[row].modificationDate);
+				}
+				else
+					fileDate = "";
 				remoteTree.displayData.push({ leafName    : remoteTree.data[row].name,
-												fileSize    : "0",
-												date        : "1/1/2000",
-												extension   : remoteTree.data[row].isFolder ? "" : "txt",
+												fileSize    : remoteTree.data[row].size,
+												date        : fileDate.toLocaleString(),
+												extension   : remoteTree.data[row].content,
 												attr        : "",
 												icon        : remoteTree.getFileIcon(row),
 												path        : remoteTree.data[row].uri,

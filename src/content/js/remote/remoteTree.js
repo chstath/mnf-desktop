@@ -1174,7 +1174,7 @@ var remoteTree = {
 												date        : fileDate.toLocaleString(),
 												extension   : remoteTree.data[row].content,
 												attr        : "",
-												icon        : remoteTree.getFileIcon(row),
+												icon        : "", //remoteTree.getFileIcon(row),
 												path        : remoteTree.data[row].uri,
 												isDirectory : remoteTree.data[row].isFolder,
 												isSymlink   : false,

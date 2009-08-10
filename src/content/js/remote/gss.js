@@ -20,7 +20,7 @@ var gss = {
 	// The current user's username.
 	username: 'aaitest@grnet-hq.admin.grnet.gr',
 	// The current user's authentication token.
-	authToken: 'yj5ZDPfbxU2cKAtkJe8tj0SheYjSx8e7ZL1TQaWTyiIRpDgLLxOs9w==',
+	authToken: '5OEsigjD9//1KxHRKWKx8sWHDGioR81KJOMsnBFjG0vNsRYkht4/Yw==',
 	// The root URL of the REST API.
 	GSS_URL: 'http://pithos.grnet.gr/pithos/rest',
 	// The user root namespace.
@@ -36,6 +36,15 @@ var gss = {
 		// Use strict RFC compliance
 		b64pad = "=";
 		return b64_hmac_sha1(atob(token), data);
+	},
+
+	getAuthString: function(method, resource) {
+	    // If the resource is an absolute URI, remove the GSS_URL.
+	    if (resource.indexOf(gss.GSS_URL) == 0)
+	        resource = resource.slice(gss.GSS_URL.length, resource.length);
+		var now = (new Date()).toUTCString();
+	    var sig = gss.sign(method, now, resource, gss.authToken);
+		return "Authorization=" + gss.username + " " + gss.sign(method, now, resource, gss.authToken) + "&Date=" + now;
 	},
 
 	// A helper function for making API requests.

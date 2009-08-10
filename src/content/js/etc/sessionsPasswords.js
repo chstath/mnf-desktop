@@ -398,10 +398,10 @@ function accountButtonsDisabler(enable) {
 
 function connectedButtonsDisabler() {
 //  $('abortbutton').disabled =                             !gFtp.isConnected;
-  $('retrieveButton').disabled =                          !gFtp.isConnected;
-  $('storeButton').disabled =                             !gFtp.isConnected;
+//  $('retrieveButton').disabled =                          !gFtp.isConnected;
+//  $('storeButton').disabled =                             !gFtp.isConnected;
 //  $('remoteUpButton').disabled =                          !gFtp.isConnected;
-  $('remoteRefreshButton').disabled =                     !gFtp.isConnected;
+//  $('remoteRefreshButton').disabled =                     !gFtp.isConnected;
 //  $('remoteChangeButton').disabled =                      !gFtp.isConnected;
   $('searchRemote').disabled =                            !gFtp.isConnected;
   $('diffMenuItem').setAttribute(             "disabled", !gFtp.isConnected);

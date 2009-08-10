@@ -1211,5 +1211,15 @@ var remoteTree = {
             appendLog(thisIndex + ' ');
             remoteDirTree.selection.select(thisIndex);
 		}
+		else {
+			var file = this.data[index];
+			var uri = file.uri;
+			var now = (new Date()).toUTCString();
+			var resource = uri;
+		    if (resource.indexOf(gss.GSS_URL) == 0)
+		        resource = resource.slice(gss.GSS_URL.length, resource.length);
+
+			window.open(uri + "?" + gss.getAuthString("GET", uri));
+		}
 	}
 };

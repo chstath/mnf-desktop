@@ -38,13 +38,15 @@ var gss = {
 		return b64_hmac_sha1(atob(token), data);
 	},
 
-	getAuthString: function(method, resource) {
+	getAuth: function(method, resource) {
 	    // If the resource is an absolute URI, remove the GSS_URL.
 	    if (resource.indexOf(gss.GSS_URL) == 0)
 	        resource = resource.slice(gss.GSS_URL.length, resource.length);
 		var now = (new Date()).toUTCString();
 	    var sig = gss.sign(method, now, resource, gss.authToken);
-		return "Authorization=" + gss.username + " " + gss.sign(method, now, resource, gss.authToken) + "&Date=" + now;
+		var authorization = gss.username + " " + gss.sign(method, now, resource, gss.authToken);
+		var date = now;
+		return {authorization: authorization, date: date, authString: "Authorization=" +  authorization + "&Date=" + date};
 	},
 
 	// A helper function for making API requests.
@@ -152,5 +154,15 @@ var gss = {
 		else {
 			gss.fetchUser(gss.fetchRootFolder, nextAction);
 		}
+	},
+
+	getFile: function(file) {
+		gss.sendRequest(gss.processFile, null, null, null, "GET", file.uri);
+	},
+
+	processFile: function(req, arg, nextAction, nextActionArg) {
+		var contents = req.response;
+		if (nextAction)
+				nextAction(nextActionArg);
 	}
 };

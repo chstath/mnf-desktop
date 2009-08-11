@@ -199,8 +199,21 @@ transfer.prototype = {
 
 					this.downloadHelper(localPath, remotePath);
 				} else {                                             // download the file
-					var connection = this.getConnection();
-					connection.download(remotePath, localPath, files[x].fileSize, false, -1, false);
+//					var connection = this.getConnection();
+//					connection.download(remotePath, localPath, files[x].fileSize, false, -1, false);
+					// create a persist
+					var persist = Components.classes["@mozilla.org/embedding/browser/nsWebBrowserPersist;1"].createInstance(Components.interfaces.nsIWebBrowserPersist);
+					// with persist flags if desired See nsIWebBrowserPersist page for more PERSIST_FLAGS.
+					const nsIWBP = Components.interfaces.nsIWebBrowserPersist;
+					const flags = nsIWBP.PERSIST_FLAGS_REPLACE_EXISTING_FILES;
+					persist.persistFlags = flags | nsIWBP.PERSIST_FLAGS_FROM_CACHE;
+
+					var nsIFile = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+					nsIFile.initWithPath(localPath);
+					var auth = gss.getAuth("GET", files[x].uri);
+					var nsIURI = gIos.newURI(files[x].uri + "?" + auth.authString, "utf-8", null);
+					// do the save
+					persist.saveURI(nsIURI, null, null, null, "", nsIFile);
 				}
 			} else {
 				if (files[x].isDirectory()) {                        // if the directory doesn't exist we create it

@@ -1218,8 +1218,8 @@ var remoteTree = {
 			var resource = uri;
 		    if (resource.indexOf(gss.GSS_URL) == 0)
 		        resource = resource.slice(gss.GSS_URL.length, resource.length);
-
-			window.open(uri + "?" + gss.getAuthString("GET", uri));
+			var auth = gss.getAuth("GET", uri);
+			window.open(uri + "?" + auth.authString);
 		}
 	}
 };

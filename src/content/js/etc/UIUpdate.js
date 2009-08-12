@@ -22,7 +22,7 @@ function UIUpdate() {
     }
   }
 
-  queueTree.updateView();                                                           // update queue
+//  queueTree.updateView();                                                           // update queue
 
   var bytesTotal;                                                                   // update status bar
   var bytesTransferred;

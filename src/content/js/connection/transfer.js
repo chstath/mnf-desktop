@@ -212,6 +212,46 @@ transfer.prototype = {
 					nsIFile.initWithPath(localPath);
 					var auth = gss.getAuth("GET", files[x].uri);
 					var nsIURI = gIos.newURI(files[x].uri + "?" + auth.authString, "utf-8", null);
+					var obj = {
+//					  id      : info.id,
+					  source  : download ? files[x].uri : localPath,
+					  dest    : download ? localPath  : files[x].uri,
+					  size    : files[x].size,
+					  type    : download ? gStrbundle.getString("download") : gStrbundle.getString("upload"),
+					  icon    : "moz-icon://" + files[x].name + "?size=16",
+					  ela     : '',
+					  remain  : '',
+					  rate    : '',
+					  percent : '',
+					  status  : '',
+					  mode    : '',
+					  failed  : false
+					};
+
+					var IListener = Components.interfaces["nsIWebProgressListener"];
+					persist.progressListener = {
+						onProgressChange: function(aWebProgress, aRequest, aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress, aMaxTotalProgress) {
+							var percentComplete = parseInt(aCurTotalProgress/aMaxTotalProgress * 100) + "%";
+							obj.mode = "determined";
+							obj.percent = percentComplete;
+							obj.size = percentComplete + " - " + commas(aCurTotalProgress) +"/" + commas(aMaxTotalProgress);
+							obj.status = "Transfering";
+							queueTree.treebox.invalidate();
+						},
+						onStateChange: function(aWebProgress, aRequest, aStateFlags, aStatus) {
+							if (aStateFlags & IListener.STATE_START) {
+								queueTree.data.push(obj);
+								var oldCount  = queueTree.rowCount;
+								queueTree.rowCount = queueTree.data.length;
+								queueTree.treebox.rowCountChanged(oldCount - 1, queueTree.rowCount - oldCount);
+								queueTree.treebox.invalidate();
+							}
+							else if (aStateFlags & IListener.STATE_STOP) {
+								obj.status = 'Finished';
+								queueTree.treebox.invalidate();
+							}
+						}
+					}
 					// do the save
 					persist.saveURI(nsIURI, null, null, null, "", nsIFile);
 				}

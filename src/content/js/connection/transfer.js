@@ -230,24 +230,27 @@ transfer.prototype = {
 
 					var IListener = Components.interfaces["nsIWebProgressListener"];
 					persist.progressListener = {
+						transferObject: obj,
 						onProgressChange: function(aWebProgress, aRequest, aCurSelfProgress, aMaxSelfProgress, aCurTotalProgress, aMaxTotalProgress) {
+							if (aMaxTotalProgress <= 0)
+								aMaxTotalProgress = 1;
 							var percentComplete = parseInt(aCurTotalProgress/aMaxTotalProgress * 100) + "%";
-							obj.mode = "determined";
-							obj.percent = percentComplete;
-							obj.size = percentComplete + " - " + commas(aCurTotalProgress) +"/" + commas(aMaxTotalProgress);
-							obj.status = "Transfering";
+							this.transferObject.mode = "determined";
+							this.transferObject.percent = percentComplete;
+							this.transferObject.size = percentComplete + " - " + commas(aCurTotalProgress) +"/" + commas(aMaxTotalProgress);
+							this.transferObject.status = "Transfering";
 							queueTree.treebox.invalidate();
 						},
 						onStateChange: function(aWebProgress, aRequest, aStateFlags, aStatus) {
 							if (aStateFlags & IListener.STATE_START) {
-								queueTree.data.push(obj);
+								queueTree.data.push(this.transferObject);
 								var oldCount  = queueTree.rowCount;
 								queueTree.rowCount = queueTree.data.length;
 								queueTree.treebox.rowCountChanged(oldCount - 1, queueTree.rowCount - oldCount);
 								queueTree.treebox.invalidate();
 							}
 							else if (aStateFlags & IListener.STATE_STOP) {
-								obj.status = 'Finished';
+								this.transferObject.status = 'Finished';
 								queueTree.treebox.invalidate();
 							}
 						}

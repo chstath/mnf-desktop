@@ -103,7 +103,7 @@ function startup() {
   onAccountChange(gDefaultAccount);
 //  setTimeout("gAccountField.focus()", 0);
 
-  tipJar();
+  //tipJar();
 
   setTimeout(doResizeHack, 0);
 

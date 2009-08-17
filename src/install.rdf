@@ -15,8 +15,9 @@
                    em:homepageURL="http://code.google.com/p/firegss/"
                    em:aboutURL="chrome://firegss/content/about.xul"
                    em:optionsURL="chrome://firegss/content/options.xul"
-                   em:iconURL="chrome://firegss/skin/fs-icon-32.png">
+                   em:iconURL="chrome://firegss/skin/icons/logo32.png">
     <em:contributor>Christos Stathis</em:contributor>
+    <em:contributor>Panagiotis Astithas</em:contributor>
     <em:targetApplication RDF:resource="rdf:#$uSYcA1"/>
   </RDF:Description>
 </RDF:RDF>

@@ -1216,8 +1216,8 @@ var remoteTree = {
 			var uri = file.uri;
 			var now = (new Date()).toUTCString();
 			var resource = uri;
-		    if (resource.indexOf(gss.GSS_URL) == 0)
-		        resource = resource.slice(gss.GSS_URL.length, resource.length);
+		    if (resource.indexOf(gss.API_URL) == 0)
+		        resource = resource.slice(gss.API_URL.length, resource.length);
 			var auth = gss.getAuth("GET", uri);
 			window.open(uri + "?" + auth.authString);
 		}

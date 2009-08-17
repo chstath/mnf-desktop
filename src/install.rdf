@@ -14,7 +14,7 @@
                    em:description="A client for the GSS online storage"
                    em:homepageURL="http://code.google.com/p/firegss/"
                    em:aboutURL="chrome://firegss/content/about.xul"
-                   em:optionsURL="chrome://firegss/content/options.xul"
+                   em:optionsURL="chrome://firegss/content/preferences.xul"
                    em:iconURL="chrome://firegss/skin/icons/logo32.png">
     <em:contributor>Christos Stathis</em:contributor>
     <em:contributor>Panagiotis Astithas</em:contributor>

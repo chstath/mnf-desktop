@@ -26,10 +26,10 @@ transfer.prototype = {
 		}
 
 		var localParent  = aLocalParent  ? aLocalParent  : gLocalPath.value;
-		var remoteParent = aRemoteParent ? aRemoteParent : gRemotePath.value;
+		var remoteParent = aRemoteParent ? aRemoteParent : "";//gRemotePath.value;
 		var files        = new Array();
 		var resume;
-		var listData     = aListData ? aListData : gFtp.listData;
+		var listData     = aListData ? aListData : [];//gFtp.listData;
 
 		if (gNoPromptMode) {                                     // overwrite dialog is disabled, do overwrites
 			this.prompt = false;
@@ -92,7 +92,7 @@ transfer.prototype = {
 				fileName = fileName.replace(/[/\\:*?|"<>]/g, '_');
 			}
 
-			var remotePath = !download ? gFtp.constructPath     (remoteParent, fileName) : files[x].path;
+//			var remotePath = !download ? gFtp.constructPath     (remoteParent, fileName) : files[x].path;
 			var localPath  =  download ? localTree.constructPath(localParent,  fileName) : files[x].path;
 			var file;
 
@@ -196,8 +196,9 @@ transfer.prototype = {
 							continue;
 						}
 					}
-
-					this.downloadHelper(localPath, remotePath);
+					files[x].parentPath = localPath;
+					gss.fetchFolder(files[x], this.recurseFolder, files[x]);
+//					this.downloadHelper(localPath, remotePath);
 				} else {                                             // download the file
 //					var connection = this.getConnection();
 //					connection.download(remotePath, localPath, files[x].fileSize, false, -1, false);
@@ -357,5 +358,13 @@ transfer.prototype = {
 		}
 
 		return 'windows';
+	},
+
+	recurseFolder: function(folder) {
+		var parent = folder.parentPath;
+		for (var i=0; i<folder.files.length; i++)
+			new transfer().start(true, folder.files[i], parent);
+		for (var i=0; i<folder.folders.length; i++)
+			new transfer().start(true, folder.folders[i], parent);
 	}
 };

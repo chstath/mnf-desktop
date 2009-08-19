@@ -29,7 +29,7 @@ gss.nonce = '';
 gss.SERVICE_URL = 'http://pithos.grnet.gr/pithos/';
 // The root URL of the REST API.
 gss.API_URL = gss.SERVICE_URL + 'rest';
-// The URL of the nonce request service.
+// The URL of the nonce request service. 
 gss.NONCE_URL = gss.SERVICE_URL + 'nonce';
 // The URL of the login service.
 gss.LOGIN_URL = 'https://pithos.grnet.gr/pithos/login';
@@ -177,4 +177,3 @@ gss.processFile = function(req, arg, nextAction, nextActionArg) {
 	if (nextAction)
 		nextAction(nextActionArg);
 };
-

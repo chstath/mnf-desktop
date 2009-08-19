@@ -26,24 +26,12 @@ function loadFireGSS() {
     newTabBrowser.addEventListener("load", function() {
       var index;
       if ((index = newTabBrowser.contentDocument.body.innerHTML.indexOf("You can now close")) !== -1) {
-        /*var openPage = function (data) {
-          cons.logStringMessage("Got token: "+data);
-          var newTabBrowser = gBrowser.getBrowserForTab(theTab);
-          alert(newTabBrowser.contentDocument.body.innerHTML);
-          var theTab = gBrowser.addTab('chrome://firegss/content/');
-          theTab.label = "FireGSS";
-          gBrowser.selectedTab = theTab;
-          var func = function () { gBrowser.setIcon(theTab, "chrome://firegss/skin/icons/logo.png"); };
-          setTimeout(func, 500);
-        };
-        cons.logStringMessage("jQuery:"+jQuery);
-        jQuery.get(gss.TOKEN_URL, {"user": gss.username, "nonce": gss.nonce}, openPage, "text");*/
    	    var req = new XMLHttpRequest();
 	    req.open('GET', gss.TOKEN_URL+'?user='+gss.username+'&nonce='+gss.nonce, true);
 	    req.onreadystatechange = function (aEvt) {
 	      if (req.readyState == 4) {
             if(req.status == 200) {
-              gss.authToken = data;
+              gss.authToken = req.responseText;
               var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
                    .getService(Components.interfaces.nsIWindowMediator);
               var mainWindow = wm.getMostRecentWindow("navigator:browser");
@@ -59,7 +47,6 @@ function loadFireGSS() {
 	      }
 	    };
 	    req.send(null);
-
       }
     }, true);
     //} else {

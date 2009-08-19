@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://firegss/skin/overlay.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://firegss/locale/firegss.dtd">
+<overlay id    = "firegssOverlay"
+         xmlns = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/firegssOverlay.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/remote/gss.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/jquery-1.3.2.min.js"/>
+
+  <menupopup       id="menu_ToolsPopup">
+    <menuitem      id="firegsstoolsmenu"   label="FireGSS"       oncommand="loadFireGSS()"
+                   accesskey="F"           position="8"          class="menuitem-iconic"/>
+  </menupopup>
+
+  <toolbarpalette  id="BrowserToolbarPalette">
+    <toolbarbutton id="firegss-button"     label="FireGSS"       oncommand="loadFireGSS()" onclick="if (event.button == 1) loadFireGSS()"
+                   class="toolbarbutton-1 chromeclass-toolbar-additional" tooltiptext="FireGSS"/>
+  </toolbarpalette>
+
+</overlay>

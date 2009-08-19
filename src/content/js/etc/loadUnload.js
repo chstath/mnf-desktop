@@ -3,6 +3,9 @@ function startup() {
     return;
   }
 
+  if (gss.username === '' || gss.authToken === '')
+    login();
+  
   window.onerror         = detailedError;
   gStrbundle             = $("strings");
   gConnectButton         = $('connectbutton');
@@ -89,7 +92,7 @@ function startup() {
   accountButtonsDisabler(true);
   connectedButtonsDisabler();
   localDirTree.changeDir('/');
-  gss.fetchRootFolder(remoteDirTree.initialize);
+  //gss.fetchRootFolder(remoteDirTree.initialize);
   loadSiteManager(true);
   loadPrograms();
 
@@ -110,6 +113,46 @@ function startup() {
   if (gLoadUrl) {
     setTimeout("externalLink()", 1000);
   }
+}
+
+function login() {
+  var cons = Components.classes["@mozilla.org/consoleservice;1"].
+      getService(Components.interfaces.nsIConsoleService);
+
+  var showLogin = function (data) {
+    gss.nonce = data;
+    var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+         .getService(Components.interfaces.nsIWindowMediator);
+    var mainWindow = wm.getMostRecentWindow("navigator:browser");
+    var gBrowser = mainWindow.getBrowser();
+    var theTab = gBrowser.addTab(gss.LOGIN_URL+'?nonce='+data);
+    theTab.label = "Login";
+    gBrowser.selectedTab = theTab;
+    var newTabBrowser = gBrowser.getBrowserForTab(theTab);
+    newTabBrowser.addEventListener("load", function() {
+      var index;
+      if ((index = newTabBrowser.contentDocument.body.innerHTML.indexOf("You can now close")) !== -1) {
+   	    var req = new XMLHttpRequest();
+	    req.open('GET', gss.TOKEN_URL+'?user='+gss.username+'&nonce='+gss.nonce, true);
+	    req.onreadystatechange = function (aEvt) {
+	      if (req.readyState == 4) {
+            if(req.status == 200) {
+              gss.authToken = req.responseText;
+              var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+                   .getService(Components.interfaces.nsIWindowMediator);
+              var mainWindow = wm.getMostRecentWindow("navigator:browser");
+              var gBrowser = mainWindow.getBrowser();
+              gBrowser.removeCurrentTab();
+              returnToFireGSSTab('firegss');
+            } else
+              cons.logStringMessage("Error getting token. req.status="+req.status);
+	      }
+	    };
+	    req.send(null);
+      }
+    }, true);
+  };
+  jQuery.get(gss.NONCE_URL, {"user": gss.username}, showLogin, "text");
 }
 
 function beforeUnload() {
@@ -134,4 +177,24 @@ function unload() {
   for (var x = 0; x < gTempEditFiles.length; ++x) {
     gfiregssUtils.removeFile(gTempEditFiles[x].file);
   }
+}
+
+function returnToFireGSSTab(attrName) {
+  var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+           .getService(Components.interfaces.nsIWindowMediator);
+  for (var found = false, index = 0, tabbrowser = wm.getEnumerator('navigator:browser').getNext().getBrowser();
+       index < tabbrowser.mTabs.length && !found; index++) {
+
+    // Get the next tab
+    var currentTab = tabbrowser.mTabs[index];
+    // Does this tab contain our custom attribute?
+    if (currentTab.hasAttribute(attrName)) {
+      // Yes--select and focus it.
+      tabbrowser.selectedTab = currentTab;
+      // Focus *this* browser in case another one is currently focused
+      tabbrowser.focus();
+      found = true;
+    }
+  }
+  gss.fetchRootFolder(remoteDirTree.initialize);
 }

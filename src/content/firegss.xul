@@ -61,6 +61,7 @@
   <script type="application/x-javascript" src="chrome://firegss/content/js/remote/gss.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/sha1.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/json2.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/jquery-1.3.2.min.js"/>
 
   <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>
 

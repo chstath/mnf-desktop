@@ -14,7 +14,7 @@ function connect(noAccountChange, showPassDialog) {
   }
 
   if (gFtp.host == "about:mozilla") {                                       // just for fun
-    window.openDialog("chrome://fireftp/content/welcome.xul", "welcome", "chrome,dialog,resizable,centerscreen", "", true);
+    window.openDialog("chrome://firegss/content/welcome.xul", "welcome", "chrome,dialog,resizable,centerscreen", "", true);
     gConnectButton.label = "Flame On!";
     gConnectButton.setAttribute('accesskey', "F");
     return;
@@ -36,7 +36,7 @@ function connect(noAccountChange, showPassDialog) {
     passwordObject.password  = gFtp.password;
     passwordObject.returnVal = false;
 
-    window.openDialog("chrome://fireftp/content/password.xul", "password", "chrome,modal,dialog,resizable,centerscreen", passwordObject);
+    window.openDialog("chrome://firegss/content/password.xul", "password", "chrome,modal,dialog,resizable,centerscreen", passwordObject);
 
     if (passwordObject.returnVal) {
       for (var x = 0; x < gMaxCon; ++x) {
@@ -125,7 +125,7 @@ function disconnect() {
   setConnectButton(true);
   gRemotePath.value = '/';
   gRemotePathFocus  = '/';
-  document.title    = "FireFTP";
+  document.title    = "firegss";
 
   for (var x = 0; x < gMaxCon; ++x) {
     if (gConnections[x].isConnected) {
@@ -270,7 +270,7 @@ var ftpObserver = {
         this.extraCallback          = null;
         gTreeSyncManager            = false;
         remoteTree.pasteFiles       = new Array();
-        document.title              = "FireFTP";
+        document.title              = "firegss";
         $('remotePasteContext').setAttribute("disabled", true);
         $('remotepath').removeAttribute("security");
         securityPopup();
@@ -284,7 +284,7 @@ var ftpObserver = {
 
         if (!attemptingReconnect) {
           for (var x = 0; x < gTempEditFiles.length; ++x) {
-            gFireFTPUtils.removeFile(gTempEditFiles[x].file);
+            gfiregssUtils.removeFile(gTempEditFiles[x].file);
             clearInterval(gTempEditFiles[x].id);
           }
 

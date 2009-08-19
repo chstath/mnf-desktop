@@ -126,7 +126,7 @@ function anonymousChange() {
   $('login').disabled    =  gAnonymous;
   $('password').disabled =  gAnonymous;
   $('login').value       =  gAnonymous ? "anonymous"           : "";
-  $('password').value    =  gAnonymous ? "fireftp@example.com" : "";
+  $('password').value    =  gAnonymous ? "firegss@example.com" : "";
 }
 
 function initialDirChange() {
@@ -201,7 +201,7 @@ function privateKeyConvert() {
     passwordObject.returnVal = false;
     var key;
 
-    window.openDialog("chrome://fireftp/content/password2.xul", "password", "chrome,modal,dialog,resizable,centerscreen", passwordObject);
+    window.openDialog("chrome://firegss/content/password2.xul", "password", "chrome,modal,dialog,resizable,centerscreen", passwordObject);
 
     if (passwordObject.returnVal) {
       key = passwordObject.password;

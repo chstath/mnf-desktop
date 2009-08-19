@@ -112,7 +112,7 @@ function displayWelcomeMessage(msg) {
       }
     } catch (ex) { }
 
-    gWelcomeWindow = window.openDialog("chrome://fireftp/content/welcome.xul", "welcome", "chrome,resizable,centerscreen", msg);
+    gWelcomeWindow = window.openDialog("chrome://firegss/content/welcome.xul", "welcome", "chrome,resizable,centerscreen", msg);
   }
 }
 
@@ -157,7 +157,7 @@ function runInFirefox(path) {
     return;
   }
 
-  try {    // this is used if FireFTP is running as a standalone and there are no browsers open; much more complicated, not very pretty
+  try {    // this is used if firegss is running as a standalone and there are no browsers open; much more complicated, not very pretty
     var firefoxInstallPath = Components.classes["@mozilla.org/file/directory_service;1"].createInstance(Components.interfaces.nsIProperties)
                                        .get("CurProcD", Components.interfaces.nsILocalFile);
     var firefox            = localFile.init(firefoxInstallPath.path + "\\" + "firefox.exe");
@@ -181,7 +181,7 @@ function runInFirefox(path) {
 function tipJar() {
   if (!gDonated) {
     gPrefs.setBoolPref("donated", true);
-    runInFirefox("http://fireftp.mozdev.org/donate.html");
+    runInFirefox("http://firegss.mozdev.org/donate.html");
   }
 }
 

@@ -18,7 +18,7 @@ function readPreferences(startup) {
     gWelcomeMode             = gPrefs.getBoolPref("welcomemode");
     gOpenMode                = gPrefs.getIntPref ("openmode");
 
-    gFireFTPUtils.hiddenMode = gPrefs.getBoolPref("hiddenmode");
+    gfiregssUtils.hiddenMode = gPrefs.getBoolPref("hiddenmode");
 
     for (var x = 0; x < gMaxCon; ++x) {
       gConnections[x].fileMode            = gPrefs.getIntPref ("filemode");    // NOTE: if you add a preference here, don't forget to update fxp.js if needed
@@ -85,7 +85,7 @@ function readPreferences(startup) {
 function showPreferences() {
   var branch       = gPrefsService.getBranch("browser.");
   var instantApply = branch.getBoolPref("preferences.instantApply");
-  window.openDialog("chrome://fireftp/content/preferences.xul", "preferences", "chrome,resizable,centerscreen"
+  window.openDialog("chrome://firegss/content/preferences.xul", "preferences", "chrome,resizable,centerscreen"
                                                                                + (instantApply ? ",dialog=no" : ",modal,dialog"));
 }
 
@@ -93,19 +93,19 @@ var prefsObserver = {
   observe : function(prefsbranch, topic, data) {
     readPreferences();
 
-    if (data == "fireftp.bytesmode") {
+    if (data == "firegss.bytesmode") {
       localTree.updateView();
 
       if (gFtp.isConnected) {
         remoteTree.updateView();
       }
-    } else if (data == "fireftp.logerrormode") {
+    } else if (data == "firegss.logerrormode") {
       if (gLogErrorMode) {
         showOnlyErrors();
       } else {
         showAll();
       }
-    } else if (data == "fireftp.hiddenmode") {
+    } else if (data == "firegss.hiddenmode") {
       if (!gFtp.hiddenMode) {
         var file        = localFile.init(gLocalPath.value);
         var hiddenFound = false;

@@ -19,7 +19,7 @@ function newSite() {
                                  webhost  : "", prefix   : "",   downloadcasemode : 0,     uploadcasemode : 0,     encoding : "UTF-8",
                                  notes    : "", timezone : 0,    folder           : "",    privatekey     : "" } };
 
-  window.openDialog("chrome://fireftp/content/accountManager.xul", "accountManager", "chrome,dialog,resizable,centerscreen", params);
+  window.openDialog("chrome://firegss/content/accountManager.xul", "accountManager", "chrome,dialog,resizable,centerscreen", params);
 }
 
 function editSite() {
@@ -53,7 +53,7 @@ function editSite() {
 
     try {                                                            // delete old password from list
       var recordedHost = (oldSite.host.indexOf("ftp.") == 0 ? '' : "ftp.") + oldSite.host;
-      var logins       = gLoginManager.findLogins({}, recordedHost, "FireFTP", null);
+      var logins       = gLoginManager.findLogins({}, recordedHost, "firegss", null);
       for (var x = 0; x < logins.length; ++x) {
         if (logins[x].username == oldSite.login) {
           gLoginManager.removeLogin(logins[x]);
@@ -70,7 +70,7 @@ function editSite() {
                           remotePath  : gRemotePath,
                           site        : editSite };
 
-  window.openDialog("chrome://fireftp/content/accountManager.xul", "accountManager", "chrome,dialog,resizable,centerscreen", params);
+  window.openDialog("chrome://firegss/content/accountManager.xul", "accountManager", "chrome,dialog,resizable,centerscreen", params);
 }
 
 function deleteSite(site) {
@@ -78,7 +78,7 @@ function deleteSite(site) {
     if (gSiteManager[x].account == site.account) {
       try {                                                          // delete password from list
         var recordedHost = (gSiteManager[x].host.indexOf("ftp.") == 0 ? '' : "ftp.") + gSiteManager[x].host;
-        var logins       = gLoginManager.findLogins({}, recordedHost, "FireFTP", null);
+        var logins       = gLoginManager.findLogins({}, recordedHost, "firegss", null);
         for (var y = 0; y < logins.length; ++y) {
           if (logins[y].username == gSiteManager[x].login) {
             gLoginManager.removeLogin(logins[y]);
@@ -121,11 +121,11 @@ function quickConnect() {                                            // make a q
                                     notes    : "", timezone : 0,    folder           : "",    privatekey     : "",
                                     temporary : true } };
 
-  window.openDialog("chrome://fireftp/content/accountManager.xul", "accountManager", "chrome,dialog,resizable,centerscreen", params);
+  window.openDialog("chrome://firegss/content/accountManager.xul", "accountManager", "chrome,dialog,resizable,centerscreen", params);
 }
 
-function externalLink() {                                            // opened up fireFTP using a link in Firefox
-  var site = { account  : "", host     : "",            port             : 21,    login          : "anonymous", password : "fireftp@example.com", anonymous : true,
+function externalLink() {                                            // opened up firegss using a link in Firefox
+  var site = { account  : "", host     : "",            port             : 21,    login          : "anonymous", password : "firegss@example.com", anonymous : true,
                security : "", pasvmode : gTempPasvMode, ipmode           : false, treesync       : false,       localdir : "",                    remotedir : "",
                webhost  : "", prefix   : "",            downloadcasemode : 0,     uploadcasemode : 0,           encoding : "UTF-8",
                notes    : "", timezone : 0,             folder           : "",    privatekey     : "",
@@ -147,7 +147,7 @@ function externalLink() {                                            // opened u
 
   if (uri.username && !uri.password) {
     try {
-      var logins = gLoginManager.findLogins({}, 'ftp://' + site.login + '@' + uri.host, "FireFTP", null);
+      var logins = gLoginManager.findLogins({}, 'ftp://' + site.login + '@' + uri.host, "firegss", null);
       for (var x = 0; x < logins.length; ++x) {
         if (logins[x].username == site.login) {
           site.password = logins[x].password;
@@ -159,7 +159,7 @@ function externalLink() {                                            // opened u
 
   if (!uri.username && !uri.password) {
     try {
-      var logins = gLoginManager.findLogins({}, 'ftp://' + uri.host, "FireFTP", null);
+      var logins = gLoginManager.findLogins({}, 'ftp://' + uri.host, "firegss", null);
       for (var x = 0; x < logins.length; ++x) {
         site.login    = logins[x].username;
         site.password = logins[x].password;
@@ -203,7 +203,7 @@ function accountHelper(site) {
   if (gPasswordMode && site.password) {
     try {                                                            // save username & password
       var recordedHost = (site.host.indexOf("ftp.") == 0 ? '' : "ftp.") + site.host;
-      var loginInfo    = new gLoginInfo(recordedHost, "FireFTP", null, site.login, site.password, "", "");
+      var loginInfo    = new gLoginInfo(recordedHost, "firegss", null, site.login, site.password, "", "");
       gLoginManager.addLogin(loginInfo);
     } catch (ex) { }
   }
@@ -468,7 +468,7 @@ function loadSiteManager(pruneTemp, importFile) {             // read gSiteManag
       file = importFile;
     } else {
       file = gProfileDir.clone();
-      file.append("fireFTPsites.dat");
+      file.append("firegsssites.dat");
     }
 
     var folders = new Array();
@@ -512,7 +512,7 @@ function loadSiteManager(pruneTemp, importFile) {             // read gSiteManag
             var passwordObject       = new Object();
             passwordObject.returnVal = false;
 
-            window.openDialog("chrome://fireftp/content/password2.xul", "password", "chrome,modal,dialog,resizable,centerscreen", passwordObject);
+            window.openDialog("chrome://firegss/content/password2.xul", "password", "chrome,modal,dialog,resizable,centerscreen", passwordObject);
 
             if (passwordObject.returnVal) {
               key = passwordObject.password;
@@ -594,7 +594,7 @@ function loadSiteManager(pruneTemp, importFile) {             // read gSiteManag
           if (gPasswordMode && tempSiteManager[x].password) {
             try {                                                    // save username & password
               var recordedHost = (tempSiteManager[x].host.indexOf("ftp.") == 0 ? '' : "ftp.") + tempSiteManager[x].host;
-              var loginInfo    = new gLoginInfo(recordedHost, "FireFTP", null, tempSiteManager[x].login, tempSiteManager[x].password, "", "");
+              var loginInfo    = new gLoginInfo(recordedHost, "firegss", null, tempSiteManager[x].login, tempSiteManager[x].password, "", "");
               gLoginManager.addLogin(loginInfo);
             } catch (ex) { }
           }
@@ -609,7 +609,7 @@ function loadSiteManager(pruneTemp, importFile) {             // read gSiteManag
       if (gPasswordMode) {
         for (var x = 0; x < gSiteManager.length; ++x) {              // retrieve passwords from passwordmanager
           try {
-            var logins = gLoginManager.findLogins({}, (gSiteManager[x].host.indexOf("ftp.") == 0 ? '' : "ftp.") + gSiteManager[x].host, "FireFTP", null);
+            var logins = gLoginManager.findLogins({}, (gSiteManager[x].host.indexOf("ftp.") == 0 ? '' : "ftp.") + gSiteManager[x].host, "firegss", null);
             var found  = false;
             for (var y = 0; y < logins.length; ++y) {
               if (logins[y].username == gSiteManager[x].login) {
@@ -619,7 +619,7 @@ function loadSiteManager(pruneTemp, importFile) {             // read gSiteManag
               }
             }
             if (!found) {                                            // firefox 2 -> 3 growing pains, yay...
-              var logins = gLoginManager.findLogins({}, 'http://' + (gSiteManager[x].host.indexOf("ftp.") == 0 ? '' : "ftp.") + gSiteManager[x].host, "FireFTP", null);
+              var logins = gLoginManager.findLogins({}, 'http://' + (gSiteManager[x].host.indexOf("ftp.") == 0 ? '' : "ftp.") + gSiteManager[x].host, "firegss", null);
               for (var y = 0; y < logins.length; ++y) {
                 if (logins[y].username == gSiteManager[x].login) {
                   gSiteManager[x].password = logins[y].password;
@@ -650,7 +650,7 @@ function loadSiteManager(pruneTemp, importFile) {             // read gSiteManag
           if (gSiteManager[x].temporary) {
             try {                                                    // delete password from list
               var recordedHost = (gSiteManager[x].host.indexOf("ftp.") == 0 ? '' : "ftp.") + gSiteManager[x].host;
-              var logins       = gLoginManager.findLogins({}, recordedHost, "FireFTP", null);
+              var logins       = gLoginManager.findLogins({}, recordedHost, "firegss", null);
               for (var y = 0; y < logins.length; ++y) {
                 if (logins[y].username == gSiteManager[x].login) {
                   gLoginManager.removeLogin(logins[y]);
@@ -718,7 +718,7 @@ function saveSiteManager(exportFile) {
       var passwordObject       = new Object();
       passwordObject.returnVal = false;
 
-      window.openDialog("chrome://fireftp/content/password2.xul", "password", "chrome,modal,dialog,resizable,centerscreen", passwordObject);
+      window.openDialog("chrome://firegss/content/password2.xul", "password", "chrome,modal,dialog,resizable,centerscreen", passwordObject);
 
       if (passwordObject.returnVal) {
         key = passwordObject.password;
@@ -751,7 +751,7 @@ function saveSiteManager(exportFile) {
       file = exportFile;
     } else {
       file = gProfileDir.clone();
-      file.append("fireFTPsites.dat");
+      file.append("firegsssites.dat");
     }
 
     var foutstream = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);
@@ -768,7 +768,7 @@ function importSites() {
   var nsIFilePicker   = Components.interfaces.nsIFilePicker;
   var fp              = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
   fp.defaultExtension = "dat";
-  fp.appendFilter("FireFTP (*.dat)", "*.dat");
+  fp.appendFilter("firegss (*.dat)", "*.dat");
   fp.appendFilter("FileZilla (*.xml)", "*.xml");
   fp.init(window, null, nsIFilePicker.modeOpen);
   var res = fp.show();
@@ -842,7 +842,7 @@ function fileZillaHelper(el, folder) {
         host              : el.getAttribute('Host'),
         port              : el.getAttribute('Port'),
         login             : el.getAttribute('Logontype') == "0" ? "anonymous"           : el.getAttribute('User'),
-        password          : el.getAttribute('Logontype') == "0" ? "fireftp@example.com" : password,
+        password          : el.getAttribute('Logontype') == "0" ? "firegss@example.com" : password,
         anonymous         : el.getAttribute('Logontype') == "0",
         security          : el.getAttribute('ServerType') == "1" ? "ssl" : (el.getAttribute('ServerType') == "2" ? "authssl" : (el.getAttribute('ServerType') == "3" ? "sftp" : (el.getAttribute('ServerType') == "4" ? "authtls" : ""))),
         pasvmode          : el.getAttribute('PasvMode') != "2",
@@ -916,7 +916,7 @@ function fileZillaHelper(el, folder) {
 
       if (obj.anonymous) {
         obj.login    = "anonymous";
-        obj.password = "fireftp@example.com";
+        obj.password = "firegss@example.com";
       }
 
       siteData.push(obj);
@@ -931,9 +931,9 @@ function fileZillaHelper(el, folder) {
 function exportSites() {
   var nsIFilePicker   = Components.interfaces.nsIFilePicker;
   var fp              = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
-  fp.defaultString    = "fireFTPsites.dat";
+  fp.defaultString    = "firegsssites.dat";
   fp.defaultExtension = "dat";
-  fp.appendFilter("FireFTP (*.dat)", "*.dat");
+  fp.appendFilter("firegss (*.dat)", "*.dat");
   fp.init(window, null, nsIFilePicker.modeSave);
   var res = fp.show();
 

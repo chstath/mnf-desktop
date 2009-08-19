@@ -54,7 +54,7 @@ var localFile = {
 
     try {
       ++gProcessing;
-      var innerEx = gFireFTPUtils.removeFile(file);
+      var innerEx = gfiregssUtils.removeFile(file);
       --gProcessing;
 
       if (innerEx) {
@@ -133,7 +133,7 @@ var localFile = {
                      isSymlink           : file.isSymlink(),
                      symlink             : file.isSymlink() ? file.target : "" };
 
-      window.openDialog("chrome://fireftp/content/properties.xul", "properties", "chrome,modal,dialog,resizable,centerscreen", params);
+      window.openDialog("chrome://firegss/content/properties.xul", "properties", "chrome,modal,dialog,resizable,centerscreen", params);
 
       if (!params.returnVal) {
         return false;

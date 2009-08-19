@@ -64,7 +64,7 @@ var gRefreshMode;               // from prefs: refresh on remote side if change 
 var gTempPasvMode;              // from prefs: use passive mode for temporary connections
 var gWelcomeMode;               // from prefs: show welcome msg on connect or not
 var gConcurrent;                // from prefs: how many simultaneous connections to try to have
-var gMaxCon;                    // from prefs: how many max simultaneous connections FireFTP handles
+var gMaxCon;                    // from prefs: how many max simultaneous connections firegss handles
 var gOpenMode;                  // from prefs: 0 = download file, 1 = open file
 
 var gStrbundle;                 // $() references
@@ -100,5 +100,5 @@ var gIos;
 var gPromptService;
 var gPrefsService;
 var gPrefs;
-var gFireFTPUtils;
+var gfiregssUtils;
 	

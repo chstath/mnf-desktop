@@ -29,7 +29,7 @@ function doAlert(msg, modal) {
     } catch (ex) { }
   }
 
-  gAlertWindow = window.openDialog("chrome://fireftp/content/alert.xul", "alert", "chrome,dialog,resizable,centerscreen" + (modal ? ",modal" : ""), msg);
+  gAlertWindow = window.openDialog("chrome://firegss/content/alert.xul", "alert", "chrome,dialog,resizable,centerscreen" + (modal ? ",modal" : ""), msg);
 }
 
 function onAlertClose() {

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 
 <?xml-stylesheet href="chrome://global/skin/global.css"   type="text/css"?>
-<?xml-stylesheet href="chrome://fireftp/skin/fireftp.css" type="text/css"?>
+<?xml-stylesheet href="chrome://firegss/skin/firegss.css" type="text/css"?>
 
-<!DOCTYPE dialog SYSTEM "chrome://fireftp/locale/preferences.dtd">
+<!DOCTYPE dialog SYSTEM "chrome://firegss/locale/preferences.dtd">
 <dialog id             = "asciiFiles2"
         title          = "&asciiTitle;"
         persist        = "screenX screenY"
@@ -12,10 +12,10 @@
         onload         = "readPreferences()"
         ondialogaccept = "return savePreferences();">
 
-  <stringbundle id="strings" src="chrome://fireftp/locale/strings.properties"/>
+  <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>
 
-  <script type="application/x-javascript" src="chrome://fireftp/content/js/etc/common.js"/>
-  <script type="application/x-javascript" src="chrome://fireftp/content/js/dialogs/asciiFiles.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/common.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/asciiFiles.js"/>
 
   <label value="&asciifiles.label;" control="asciifiles" tooltiptext="&asciifiles.tip;"/>
   <hbox>

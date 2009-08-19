@@ -133,7 +133,7 @@ function search(zeParent, last) {
     } else {
       try {
         var dir     = localFile.init(zeParent);
-        var innerEx = gFireFTPUtils.getFileList(dir, new wrapperClass(files));
+        var innerEx = gfiregssUtils.getFileList(dir, new wrapperClass(files));
 
         if (innerEx) {
           throw innerEx;

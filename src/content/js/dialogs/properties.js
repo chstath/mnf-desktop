@@ -1,7 +1,7 @@
 var gInitialPermissions;
 var gStrbundle;
 var gArgs;
-var gFireFTPUtils = Components.classes['@nightlight.ws/fireftputils;1'].getService(Components.interfaces.nsIFireFTPUtils);
+var gfiregssUtils = Components.classes['@nightlight.ws/firegssutils;1'].getService(Components.interfaces.nsIfiregssUtils);
 
 function init() {
   gStrbundle = $("strings");
@@ -274,7 +274,7 @@ function generateHashes(hash) {
   var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
   file.initWithPath(gArgs.path);
 
-  $(hash).value                  = gFireFTPUtils.generateHash(file, hash);
+  $(hash).value                  = gfiregssUtils.generateHash(file, hash);
   $(hash + 'deck').selectedIndex = 1;
   $(hash + 'meter').setAttribute("mode", "determined");
 }

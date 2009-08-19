@@ -51,7 +51,7 @@ transfer.prototype = {
 			if (aLocalParent) {                                    // if recursive
 				try {
 					var dir     = localFile.init(localParent);
-					var innerEx = gFireFTPUtils.getFileList(dir, new wrapperClass(files));
+					var innerEx = gfiregssUtils.getFileList(dir, new wrapperClass(files));
 
 					if (innerEx) {
 						throw innerEx;
@@ -141,7 +141,7 @@ transfer.prototype = {
 						gConnections[y].waitToRefresh = true;
 					}
 
-					window.openDialog("chrome://fireftp/content/confirmFile.xul", "confirmFile", "chrome,modal,dialog,resizable,centerscreen", params);
+					window.openDialog("chrome://firegss/content/confirmFile.xul", "confirmFile", "chrome,modal,dialog,resizable,centerscreen", params);
 
 					for (var y = 0; y < gMaxCon; ++y) {
 						gConnections[y].waitToRefresh = false;

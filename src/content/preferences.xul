@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
 <?xml-stylesheet href="chrome://global/skin/global.css"   type="text/css"?>
-<?xml-stylesheet href="chrome://fireftp/skin/fireftp.css" type="text/css"?>
+<?xml-stylesheet href="chrome://firegss/skin/firegss.css" type="text/css"?>
 
-<!DOCTYPE dialog SYSTEM "chrome://fireftp/locale/preferences.dtd">
-<prefwindow id             = "fireftpPreferences3"
+<!DOCTYPE dialog SYSTEM "chrome://firegss/locale/preferences.dtd">
+<prefwindow id             = "firegssPreferences3"
             title          = "&title;"
             type           = "prefwindow"
             persist        = "screenX screenY"
@@ -13,45 +13,45 @@
             onload         = "readPreferences()"
             ondialogaccept = "return true">
 
-  <script type="application/x-javascript" src="chrome://fireftp/content/js/etc/common.js"/>
-  <script type="application/x-javascript" src="chrome://fireftp/content/js/etc/misc.js"/>
-  <script type="application/x-javascript" src="chrome://fireftp/content/js/dialogs/preferences.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/common.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/misc.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/preferences.js"/>
 
   <prefpane id="myPane">
     <preferences>
-      <preference id="welcomemodepref"        name="fireftp.welcomemode"       type="bool"/>
-      <preference id="errormodepref"          name="fireftp.errormode"         type="bool"/>
-      <preference id="refreshmodepref"        name="fireftp.refreshmode"       type="bool"/>
-      <preference id="passwordmodepref"       name="fireftp.passwordmode"      type="bool"/>
-      <preference id="sessionsmodepref"       name="fireftp.sessionsmode"      type="bool"/>
-      <preference id="hiddenmodepref"         name="fireftp.hiddenmode"        type="bool"/>
-      <preference id="openmodepref"           name="fireftp.openmode"          type="int"/>
-      <preference id="networkpref"            name="fireftp.network"           type="int"/>
-      <preference id="timeoutmodepref"        name="fireftp.timeoutmode"       type="bool"/>
-      <preference id="retrypref"              name="fireftp.retry"             type="int"/>
-      <preference id="attemptspref"           name="fireftp.attempts"          type="int"/>
-      <preference id="destructmodepref"       name="fireftp.destructmode"      type="bool"/>
-      <preference id="filemodepref"           name="fireftp.filemode"          type="int"/>
-      <preference id="asciifilespref"         name="fireftp.asciifiles"        type="unichar"/>
-      <preference id="loadmodepref"           name="fireftp.loadmode"          type="int"/>
-      <preference id="logmodepref"            name="fireftp.logmode"           type="bool"/>
-      <preference id="debugmodepref"          name="fireftp.debugmode"         type="bool"/>
-      <preference id="bytespref"              name="fireftp.bytesmode"         type="bool"/>
-      <preference id="nopromptpref"           name="fireftp.nopromptmode"      type="bool"/>
-      <preference id="logerrormodepref"       name="fireftp.logerrormode"      type="bool"/>
-      <preference id="keepalivemodepref"      name="fireftp.keepalivemode"     type="bool"/>
-      <preference id="proxytypepref"          name="fireftp.proxytype"         type="string"/>
-      <preference id="proxyhostpref"          name="fireftp.proxyhost"         type="unichar"/>
-      <preference id="proxyportpref"          name="fireftp.proxyport"         type="int"/>
-      <preference id="integrateftplinkspref"  name="fireftp.integrateftplinks" type="bool"/>
-      <preference id="temppasvmodepref"       name="fireftp.temppasvmode"      type="bool"/>
-      <preference id="activeportmodepref"     name="fireftp.activeportmode"    type="bool"/>
-      <preference id="activelowportpref"      name="fireftp.activelow"         type="int"/>
-      <preference id="activehighportpref"     name="fireftp.activehigh"        type="int"/>
-      <preference id="timestampsmodepref"     name="fireftp.timestampsmode"    type="bool"/>
-      <preference id="compressmodepref"       name="fireftp.compressmode"      type="bool"/>
-      <preference id="integritymodepref"      name="fireftp.integritymode"     type="bool"/>
-      <preference id="concurrentpref"         name="fireftp.concurrent"        type="int"/>
+      <preference id="welcomemodepref"        name="firegss.welcomemode"       type="bool"/>
+      <preference id="errormodepref"          name="firegss.errormode"         type="bool"/>
+      <preference id="refreshmodepref"        name="firegss.refreshmode"       type="bool"/>
+      <preference id="passwordmodepref"       name="firegss.passwordmode"      type="bool"/>
+      <preference id="sessionsmodepref"       name="firegss.sessionsmode"      type="bool"/>
+      <preference id="hiddenmodepref"         name="firegss.hiddenmode"        type="bool"/>
+      <preference id="openmodepref"           name="firegss.openmode"          type="int"/>
+      <preference id="networkpref"            name="firegss.network"           type="int"/>
+      <preference id="timeoutmodepref"        name="firegss.timeoutmode"       type="bool"/>
+      <preference id="retrypref"              name="firegss.retry"             type="int"/>
+      <preference id="attemptspref"           name="firegss.attempts"          type="int"/>
+      <preference id="destructmodepref"       name="firegss.destructmode"      type="bool"/>
+      <preference id="filemodepref"           name="firegss.filemode"          type="int"/>
+      <preference id="asciifilespref"         name="firegss.asciifiles"        type="unichar"/>
+      <preference id="loadmodepref"           name="firegss.loadmode"          type="int"/>
+      <preference id="logmodepref"            name="firegss.logmode"           type="bool"/>
+      <preference id="debugmodepref"          name="firegss.debugmode"         type="bool"/>
+      <preference id="bytespref"              name="firegss.bytesmode"         type="bool"/>
+      <preference id="nopromptpref"           name="firegss.nopromptmode"      type="bool"/>
+      <preference id="logerrormodepref"       name="firegss.logerrormode"      type="bool"/>
+      <preference id="keepalivemodepref"      name="firegss.keepalivemode"     type="bool"/>
+      <preference id="proxytypepref"          name="firegss.proxytype"         type="string"/>
+      <preference id="proxyhostpref"          name="firegss.proxyhost"         type="unichar"/>
+      <preference id="proxyportpref"          name="firegss.proxyport"         type="int"/>
+      <preference id="integrateftplinkspref"  name="firegss.integrateftplinks" type="bool"/>
+      <preference id="temppasvmodepref"       name="firegss.temppasvmode"      type="bool"/>
+      <preference id="activeportmodepref"     name="firegss.activeportmode"    type="bool"/>
+      <preference id="activelowportpref"      name="firegss.activelow"         type="int"/>
+      <preference id="activehighportpref"     name="firegss.activehigh"        type="int"/>
+      <preference id="timestampsmodepref"     name="firegss.timestampsmode"    type="bool"/>
+      <preference id="compressmodepref"       name="firegss.compressmode"      type="bool"/>
+      <preference id="integritymodepref"      name="firegss.integritymode"     type="bool"/>
+      <preference id="concurrentpref"         name="firegss.concurrent"        type="int"/>
     </preferences>
 
     <tabbox flex="1">
@@ -268,11 +268,11 @@
 
         <tabpanel id="creditstab" orient="vertical">
           <hbox pack="center">
-            <label value="FireFTP 1.0.4   "/>
+            <label value="firegss 1.0.4   "/>
             <label value="Mime &#268;uvalo"          onclick="runInFirefox('http://www.nightlight.ws')"  class="textLink"/>
           </hbox>
           <box pack="center">
-            <label value="http://fireftp.mozdev.org" onclick="runInFirefox('http://fireftp.mozdev.org')" class="textLink"/>
+            <label value="http://firegss.mozdev.org" onclick="runInFirefox('http://firegss.mozdev.org')" class="textLink"/>
           </box>
           <label class="paddingTop boldText" value="&thanks.label;"/>
           <listbox rows="10">

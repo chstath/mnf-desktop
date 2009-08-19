@@ -10,7 +10,7 @@ function readPreferences() {
 
   gStrbundle = $("strings");
   var prefs  = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
-  gPrefs     = prefs.getBranch("fireftp.");
+  gPrefs     = prefs.getBranch("firegss.");
 
   try {
     var asciiFiles = gPrefs.getComplexValue("asciifiles", Components.interfaces.nsISupportsString).data.split(",");

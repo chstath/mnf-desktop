@@ -1056,7 +1056,7 @@ ftpMozilla.prototype = {
 
     if (this.sessionsMode) {
       try {                                                                      // put in cache
-        var cacheSession = this.cacheService.createSession("fireftp", 1, true);
+        var cacheSession = this.cacheService.createSession("firegss", 1, true);
         var cacheDesc    = cacheSession.openCacheEntry((this.security == "sftp" ? "s" : "") + "ftp://" + this.version + this.connectedHost + path,
                                                        Components.interfaces.nsICache.ACCESS_WRITE, false);
         var cacheOut     = cacheDesc.openOutputStream(0);
@@ -1076,7 +1076,7 @@ ftpMozilla.prototype = {
 
   cacheHit : function(path, callback) {
     try {                                                                      // check the cache first
-      var cacheSession   = this.cacheService.createSession("fireftp", 1, true);
+      var cacheSession   = this.cacheService.createSession("firegss", 1, true);
       var cacheDesc      = cacheSession.openCacheEntry((this.security == "sftp" ? "s" : "") + "ftp://" + this.version + this.connectedHost + path,
                                                        Components.interfaces.nsICache.ACCESS_READ, false);
 
@@ -1112,7 +1112,7 @@ ftpMozilla.prototype = {
 
   removeCacheEntry : function(path) {
     try {
-      var cacheSession = this.cacheService.createSession("fireftp", 1, true);
+      var cacheSession = this.cacheService.createSession("firegss", 1, true);
       var cacheDesc    = cacheSession.openCacheEntry((this.security == "sftp" ? "s" : "") + "ftp://" + this.version + this.connectedHost + path,
                                                      Components.interfaces.nsICache.ACCESS_WRITE, false);
       cacheDesc.doom();

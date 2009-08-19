@@ -103,7 +103,7 @@ function UIUpdate() {
     var progress           = parseInt(bytesTransferred / total * 100) + "%";
     gStatusMeter.setAttribute("mode", "determined");
     gStatusMeter.setAttribute("value", progress);
-    document.title         = progress + " @ " + averageRate + " - " + (gAccount ? gAccount : gFtp.host) + " - FireFTP";
+    document.title         = progress + " @ " + averageRate + " - " + (gAccount ? gAccount : gFtp.host) + " - firegss";
 
   } else {
     var filesleft = 0;                                                              // update status bar to list how many files are left
@@ -159,10 +159,10 @@ function UIUpdate() {
     gStatusBytes.label = status;
 
     if (!gFtp.isConnected) {
-      document.title = (gFtp.isReconnecting ? (status + " - ") : "") + "FireFTP";
+      document.title = (gFtp.isReconnecting ? (status + " - ") : "") + "firegss";
       gStatusBarClear = false;
     } else {
-      document.title = status + (status == "" ? "" : " - ") + (gAccount ? gAccount : gFtp.host) + " - FireFTP";
+      document.title = status + (status == "" ? "" : " - ") + (gAccount ? gAccount : gFtp.host) + " - firegss";
     }
 
     gStatusElapsed.label   = "";

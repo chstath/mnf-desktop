@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 
 <?xml-stylesheet href="chrome://global/skin/global.css"   type="text/css"?>
-<?xml-stylesheet href="chrome://fireftp/skin/fireftp.css" type="text/css"?>
+<?xml-stylesheet href="chrome://firegss/skin/firegss.css" type="text/css"?>
 
-<!DOCTYPE dialog SYSTEM "chrome://fireftp/locale/fireftp.dtd">
+<!DOCTYPE dialog SYSTEM "chrome://firegss/locale/firegss.dtd">
 <dialog id             = "welcome"
-        title          = "FireFTP"
+        title          = "firegss"
         width          = "400"
         height         = "200"
         xmlns          = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
@@ -15,7 +15,7 @@
         buttons        = "accept"
         ondialogaccept = "return true">
 
-  <script type="application/x-javascript" src="chrome://fireftp/content/js/etc/common.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/common.js"/>
   <script>
     <![CDATA[
       function init(aEvent) {

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 
 <?xml-stylesheet href="chrome://global/skin/global.css"   type="text/css"?>
-<?xml-stylesheet href="chrome://fireftp/skin/fireftp.css" type="text/css"?>
+<?xml-stylesheet href="chrome://firegss/skin/firegss.css" type="text/css"?>
 
-<!DOCTYPE dialog SYSTEM "chrome://fireftp/locale/confirmFile.dtd">
+<!DOCTYPE dialog SYSTEM "chrome://firegss/locale/confirmFile.dtd">
 <dialog id             = "confirmFile4"
         title          = "&title;"
         xmlns          = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
@@ -13,11 +13,11 @@
         ondialogcancel = "answer(3);"
         onload         = "init()">
 
-  <stringbundle id="strings" src="chrome://fireftp/locale/strings.properties"/>
+  <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>
 
-  <script type="application/x-javascript" src="chrome://fireftp/content/js/etc/common.js"/>
-  <script type="application/x-javascript" src="chrome://fireftp/content/js/dialogs/confirmFile.js"/>
-  <script type="application/x-javascript" src="chrome://fireftp/content/js/etc/misc.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/common.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/confirmFile.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/misc.js"/>
 
   <vbox flex="1" align="center">
     <description id="question"  value="" class="paddingTop" crop="start"/>

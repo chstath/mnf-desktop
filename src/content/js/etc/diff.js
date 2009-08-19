@@ -17,7 +17,7 @@ function diff(recursive, localParent, remoteParent, last) {
   if (localParent) {
     try {
       var dir     = localFile.init(localParent);
-      var innerEx = gFireFTPUtils.getFileList(dir, new wrapperClass(localFiles));
+      var innerEx = gfiregssUtils.getFileList(dir, new wrapperClass(localFiles));
 
       if (innerEx) {
         throw innerEx;
@@ -146,7 +146,7 @@ function finalDiffCallback(recursive) {
   }
 
   var result = { value : false };
-  window.openDialog("chrome://fireftp/content/diff.xul", "diff", "chrome,modal,dialog,resizable,centerscreen",
+  window.openDialog("chrome://firegss/content/diff.xul", "diff", "chrome,modal,dialog,resizable,centerscreen",
                     gMissingLocalFiles, gMissingRemoteFiles, gDifferentFiles, gNewerFiles, gOlderFiles, result, recursive);
 
   if (result.value) {

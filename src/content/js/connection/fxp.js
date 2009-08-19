@@ -74,7 +74,7 @@ function fxpConnect(showPassDialog) {
     passwordObject.password  = gFxp.password;
     passwordObject.returnVal = false;
 
-    window.openDialog("chrome://fireftp/content/password.xul", "password", "chrome,modal,dialog,resizable,centerscreen", passwordObject);
+    window.openDialog("chrome://firegss/content/password.xul", "password", "chrome,modal,dialog,resizable,centerscreen", passwordObject);
 
     if (passwordObject.returnVal) {
       gFxp.login    = passwordObject.login;
@@ -219,7 +219,7 @@ fxpTransfer.prototype = {
         this.busy = true;                                                   // ooo, the fun of doing semi-multi-threaded stuff in firefox
                                                                             // we're doing some 'locking' above
 
-        window.openDialog("chrome://fireftp/content/confirmFile.xul", "confirmFile", "chrome,modal,dialog,resizable,centerscreen", params);
+        window.openDialog("chrome://firegss/content/confirmFile.xul", "confirmFile", "chrome,modal,dialog,resizable,centerscreen", params);
 
         this.busy = false;
 

@@ -1,7 +1,7 @@
 function loadPrograms() {
   try {
     var file = gProfileDir.clone();
-    file.append("fireFTPprograms.dat");
+    file.append("firegssprograms.dat");
 
     if (file.exists()) {
       var fstream = Components.classes["@mozilla.org/network/file-input-stream;1"].createInstance(Components.interfaces.nsIFileInputStream);
@@ -35,7 +35,7 @@ function savePrograms() {
   try {
     cleanupPrograms();
     var file = gProfileDir.clone();
-    file.append("fireFTPprograms.dat");
+    file.append("firegssprograms.dat");
     var foutstream = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);
     foutstream.init(file, 0x04 | 0x08 | 0x20, 0644, 0);
     foutstream.write(gPrograms.toSource(), gPrograms.toSource().length);
@@ -68,7 +68,7 @@ function chooseProgram(remote) {
     tempPrograms.value.push(gPrograms[x]);
   }
 
-  window.openDialog("chrome://fireftp/content/programs.xul", "programs", "chrome,modal,dialog,resizable,centerscreen", tempPrograms, result);
+  window.openDialog("chrome://firegss/content/programs.xul", "programs", "chrome,modal,dialog,resizable,centerscreen", tempPrograms, result);
 
   if (result.value) {
     gPrograms = tempPrograms.value;
@@ -114,7 +114,7 @@ function launchProgram(extensionIndex, programIndex, file, remoteFile) {
             tmpFile.leafName = 'temp-' + count + '-' + file.leafName;
           }
 
-          var innerEx  = gFireFTPUtils.cutCopy(false, file, tmpFile, tmpDir, tmpFile.leafName);   // we copy the file over to avoid issues with locking
+          var innerEx  = gfiregssUtils.cutCopy(false, file, tmpFile, tmpDir, tmpFile.leafName);   // we copy the file over to avoid issues with locking
 
           if (innerEx) {
             clearInterval(intervalId);

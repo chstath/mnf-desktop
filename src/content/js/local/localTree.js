@@ -471,7 +471,7 @@ var localTree = {
                              newDate          : "",
                              timerEnable      : false };
 
-              window.openDialog("chrome://fireftp/content/confirmFile.xul", "confirmFile", "chrome,modal,dialog,resizable,centerscreen", params);
+              window.openDialog("chrome://firegss/content/confirmFile.xul", "confirmFile", "chrome,modal,dialog,resizable,centerscreen", params);
 
               if (params.response == 2) {
                 prompt = false;
@@ -486,7 +486,7 @@ var localTree = {
               }
             }
 
-            var innerEx = gFireFTPUtils.extract(zip, entry, destFolder);
+            var innerEx = gfiregssUtils.extract(zip, entry, destFolder);
 
             if (innerEx) {
               throw innerEx;
@@ -718,7 +718,7 @@ var localTree = {
       var params = { multipleFiles       : true,
                      recursiveFolderData : recursiveFolderData };
 
-      window.openDialog("chrome://fireftp/content/properties.xul", "properties", "chrome,modal,dialog,resizable,centerscreen", params);
+      window.openDialog("chrome://firegss/content/properties.xul", "properties", "chrome,modal,dialog,resizable,centerscreen", params);
 
       return;
     }
@@ -752,7 +752,7 @@ var localTree = {
 
   getRecursiveFolderData : function(dir, recursiveFolderData) {
     ++gProcessing;
-    gFireFTPUtils.getRecursiveFolderData(dir, new wrapperClass(recursiveFolderData));
+    gfiregssUtils.getRecursiveFolderData(dir, new wrapperClass(recursiveFolderData));
     --gProcessing;
   },
 
@@ -1072,7 +1072,7 @@ var localTree = {
                          newDate          : zeFiles[x].lastModifiedTime,
                          timerEnable      : false };
 
-          window.openDialog("chrome://fireftp/content/confirmFile.xul", "confirmFile", "chrome,modal,dialog,resizable,centerscreen", params);
+          window.openDialog("chrome://firegss/content/confirmFile.xul", "confirmFile", "chrome,modal,dialog,resizable,centerscreen", params);
 
           if (params.response == 2) {
             prompt = false;
@@ -1087,7 +1087,7 @@ var localTree = {
           }
         }
 
-        var innerEx = gFireFTPUtils.cutCopy(this.isCut, zeFiles[x], newFile, newDir, null);
+        var innerEx = gfiregssUtils.cutCopy(this.isCut, zeFiles[x], newFile, newDir, null);
 
         if (innerEx) {
           throw innerEx;

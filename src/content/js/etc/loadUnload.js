@@ -40,13 +40,13 @@ function startup() {
   gIos                   = Components.classes["@mozilla.org/network/io-service;1"].getService      (Components.interfaces.nsIIOService);
   gPromptService         = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);
   gPrefsService          = Components.classes["@mozilla.org/preferences-service;1"].getService     (Components.interfaces.nsIPrefService);
-  //gFireFTPUtils          = Components.classes['@nightlight.ws/fireftputils;1'].getService          (Components.interfaces.nsIFireFTPUtils);
+  //gfiregssUtils          = Components.classes['@nightlight.ws/firegssutils;1'].getService          (Components.interfaces.nsIfiregssUtils);
   gFormHistory           = Components.classes["@mozilla.org/satchel/form-history;1"].getService    (Components.interfaces.nsIFormHistory ?
                                                                                                     Components.interfaces.nsIFormHistory :
                                                                                                     Components.interfaces.nsIFormHistory2);
   gLoginInfo             = new Components.Constructor("@mozilla.org/login-manager/loginInfo;1",     Components.interfaces.nsILoginInfo, "init");
 
-  gPrefs                 = gPrefsService.getBranch("fireftp.");
+  gPrefs                 = gPrefsService.getBranch("firegss.");
   gPlatform              = getPlatform();
 
   if (gPrefsService instanceof Components.interfaces.nsIPrefBranchInternal) {
@@ -132,6 +132,6 @@ function unload() {
   }
 
   for (var x = 0; x < gTempEditFiles.length; ++x) {
-    gFireFTPUtils.removeFile(gTempEditFiles[x].file);
+    gfiregssUtils.removeFile(gTempEditFiles[x].file);
   }
 }

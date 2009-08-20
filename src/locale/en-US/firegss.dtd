@@ -30,7 +30,10 @@
 <!ENTITY parentdir.tip        "Change to parent directory">
 <!ENTITY refresh.tip          "Refresh Directory">
 <!ENTITY localpath.tip        "Local Path">
+<!ENTITY username.tip         "The service username">
 <!ENTITY remotepath.tip       "Remote Path">
+<!ENTITY login.label          "Login">
+<!ENTITY logout.label          "Logout">
 <!ENTITY browse.label         "Browse">
 <!ENTITY change.label         "Change">
 
@@ -96,6 +99,8 @@
 <!ENTITY advanced.access      "T">
 <!ENTITY helpbutton.access    "H">
 
+<!ENTITY loginbutton.access   "l">
+<!ENTITY logoutbutton.access  "t">
 <!ENTITY browsebutton.access  "B">
 <!ENTITY changebutton.access  "n">
 

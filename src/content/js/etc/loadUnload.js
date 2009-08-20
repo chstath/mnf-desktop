@@ -2,9 +2,6 @@ function startup() {
   if (gStrbundle) {                            // we get two onload events b/c of the embedded browser
     return;
   }
-
-  if (gss.username === '' || gss.authToken === '')
-    login();
   
   window.onerror         = detailedError;
   gStrbundle             = $("strings");
@@ -114,7 +111,7 @@ function startup() {
   }
 }
 
-function login() {
+function doDesktopLogin() {
   var cons = Components.classes["@mozilla.org/consoleservice;1"].
       getService(Components.interfaces.nsIConsoleService);
 
@@ -193,7 +190,30 @@ function returnToFireGSSTab(attrName) {
       // Focus *this* browser in case another one is currently focused
       tabbrowser.focus();
       found = true;
+      jQuery("#username").attr("readonly", "true");
     }
   }
   gss.fetchRootFolder(remoteDirTree.initialize);
+}
+
+function login(event) {
+  event = event.trim();
+  if (event !== '' && gss.username !== event) {
+    gss.username = event;
+    gss.authToken = '';
+    doDesktopLogin();
+  }
+}
+
+function logout() {
+  if (gss.username === '') return;
+  jQuery("#username").val("");
+  jQuery("#username").removeAttr("readonly");
+  var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+       .getService(Components.interfaces.nsIWindowMediator);
+  var mainWindow = wm.getMostRecentWindow("navigator:browser");
+  var gBrowser = mainWindow.getBrowser();
+  var theTab = gBrowser.addTab(gss.LOGOUT_URL);
+  theTab.label = "Login";
+  gBrowser.selectedTab = theTab;
 }

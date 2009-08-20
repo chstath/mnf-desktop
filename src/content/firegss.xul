@@ -201,9 +201,13 @@
       <toolbaritem   collapsed="true" id="folderItem">
         <menulist    id="folder"                                                                       oncommand="onFolderChange(false, true)" width="150"/>
       </toolbaritem>
-<!--      <toolbaritem>-->
-<!--        <menulist    id="account"       label="&accountlist.label;"    onclick="createAccount()"       oncommand="onAccountChange()" width="150"/>-->
-<!--      </toolbaritem>-->
+      <textbox id                      = "username"
+              flex                    = "1"
+              tooltiptext             = "&username.tip;"
+              onkeypress              = "if (event.keyCode == 13) login(this.value)"
+              ontextentered           = "login(this.value)"/>
+      <toolbarbutton label="&login.label;" oncommand="login($('username').value)" accesskey="&loginbutton.access;"/>
+      <toolbarbutton label="&logout.label;" oncommand="logout()" accesskey="&logoutbutton.access;"/>
 <!--      <toolbarbutton id="connectbutton"/>-->
 <!--      <toolbarbutton id="editMenuItem"  label="&edit.label;"           accesskey="&edit.access;"       oncommand="editSite()"/>-->
 <!--      <toolbarbutton id="abortbutton"   label="&abort.label;"          accesskey="&abort.access;"      oncommand="doAbort()"/>-->

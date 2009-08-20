@@ -20,7 +20,7 @@ var gss;
 if (!gss) gss = {};
 
 // The current user's username.
-gss.username = 'aaitest@grnet-hq.admin.grnet.gr';
+gss.username = '';
 // The current user's authentication token.
 gss.authToken = '';
 // The login nonce.
@@ -33,6 +33,8 @@ gss.API_URL = gss.SERVICE_URL + 'rest';
 gss.NONCE_URL = gss.SERVICE_URL + 'nonce';
 // The URL of the login service.
 gss.LOGIN_URL = 'https://pithos.grnet.gr/pithos/login';
+// The URL of the logout service.
+gss.LOGOUT_URL = 'https://pithos.grnet.gr/Shibboleth.sso/Logout';
 // The URL of the token issuer service.
 gss.TOKEN_URL = 'https://pithos.grnet.gr/pithos/token';
 // The user root namespace.

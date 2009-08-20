@@ -6,7 +6,6 @@
          xmlns = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/firegssOverlay.js"/>
-  <script type="application/x-javascript" src="chrome://firegss/content/js/remote/gss.js"/>
 
   <menupopup       id="menu_ToolsPopup">
     <menuitem      id="firegsstoolsmenu"   label="FireGSS"       oncommand="loadFireGSS()"

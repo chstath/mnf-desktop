@@ -62,6 +62,7 @@
   <script type="application/x-javascript" src="chrome://firegss/content/js/sha1.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/json2.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/jquery-1.3.2.min.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/jquery.formHints.js"/>
 
   <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>
 
@@ -202,6 +203,7 @@
         <menulist    id="folder"                                                                       oncommand="onFolderChange(false, true)" width="150"/>
       </toolbaritem>
       <textbox id                      = "username"
+              title                   = "Username?"
               flex                    = "1"
               tooltiptext             = "&username.tip;"
               onkeypress              = "if (event.keyCode == 13) login(this.value)"

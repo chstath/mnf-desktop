@@ -214,6 +214,20 @@ function logout() {
   var mainWindow = wm.getMostRecentWindow("navigator:browser");
   var gBrowser = mainWindow.getBrowser();
   var theTab = gBrowser.addTab(gss.LOGOUT_URL);
-  theTab.label = "Login";
+  theTab.label = "Logout";
   gBrowser.selectedTab = theTab;
+  // Clear Shibboleth cookies after logout is complete, so that restarting
+  // the browser is unnecessary.
+  var newTabBrowser = gBrowser.getBrowserForTab(theTab);
+    newTabBrowser.addEventListener("load", function() {
+      var cookieMgr = Components.classes["@mozilla.org/cookiemanager;1"]
+                 .getService(Components.interfaces.nsICookieManager);
+      for (var e = cookieMgr.enumerator; e.hasMoreElements();) {
+        var cookie = e.getNext().QueryInterface(Components.interfaces.nsICookie);
+        if (cookie.host === gss.SERVER && (cookie.name.indexOf("_shibstate") == 0
+                                      || cookie.name.indexOf("_shibsession") == 0)) {
+          cookieMgr.remove(cookie.host, cookie.name, cookie.path, false);
+        }
+      }
+    }, true);
 }

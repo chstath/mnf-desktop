@@ -25,18 +25,20 @@ gss.username = '';
 gss.authToken = '';
 // The login nonce.
 gss.nonce = '';
+// The GSS server hostname.
+gss.SERVER = 'pithos.grnet.gr';
 // The root URL of the GSS service.
-gss.SERVICE_URL = 'http://pithos.grnet.gr/pithos/';
+gss.SERVICE_URL = 'http://' + gss.SERVER + '/pithos/';
 // The root URL of the REST API.
 gss.API_URL = gss.SERVICE_URL + 'rest';
 // The URL of the nonce request service. 
 gss.NONCE_URL = gss.SERVICE_URL + 'nonce';
 // The URL of the login service.
-gss.LOGIN_URL = 'https://pithos.grnet.gr/pithos/login';
+gss.LOGIN_URL = 'https://' + gss.SERVER + '/pithos/login';
 // The URL of the logout service.
-gss.LOGOUT_URL = 'https://pithos.grnet.gr/Shibboleth.sso/Logout';
+gss.LOGOUT_URL = 'https://' + gss.SERVER + '/Shibboleth.sso/Logout';
 // The URL of the token issuer service.
-gss.TOKEN_URL = 'https://pithos.grnet.gr/pithos/token';
+gss.TOKEN_URL = 'https://' + gss.SERVER + '/pithos/token';
 // The user root namespace.
 gss.root = new Object();
 // The file cache

@@ -92,7 +92,6 @@ function startup() {
   accountButtonsDisabler(true);
   connectedButtonsDisabler();
   localDirTree.changeDir('/');
-  //gss.fetchRootFolder(remoteDirTree.initialize);
   loadSiteManager(true);
   loadPrograms();
 
@@ -120,12 +119,12 @@ function login() {
       getService(Components.interfaces.nsIConsoleService);
 
   var showLogin = function (data) {
-    gss.nonce = data;
+    gss.nonce = data.trim();
     var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
          .getService(Components.interfaces.nsIWindowMediator);
     var mainWindow = wm.getMostRecentWindow("navigator:browser");
     var gBrowser = mainWindow.getBrowser();
-    var theTab = gBrowser.addTab(gss.LOGIN_URL+'?nonce='+data);
+    var theTab = gBrowser.addTab(gss.LOGIN_URL+'?nonce='+gss.nonce);
     theTab.label = "Login";
     gBrowser.selectedTab = theTab;
     var newTabBrowser = gBrowser.getBrowserForTab(theTab);
@@ -137,7 +136,7 @@ function login() {
 	    req.onreadystatechange = function (aEvt) {
 	      if (req.readyState == 4) {
             if(req.status == 200) {
-              gss.authToken = req.responseText;
+              gss.authToken = req.responseText.trim();
               var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
                    .getService(Components.interfaces.nsIWindowMediator);
               var mainWindow = wm.getMostRecentWindow("navigator:browser");

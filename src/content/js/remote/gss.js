@@ -22,7 +22,7 @@ if (!gss) gss = {};
 // The current user's username.
 gss.username = 'aaitest@grnet-hq.admin.grnet.gr';
 // The current user's authentication token.
-gss.authToken = '';//'5OEsigjD9//1KxHRKWKx8sWHDGioR81KJOMsnBFjG0vNsRYkht4/Yw==';
+gss.authToken = '';
 // The login nonce.
 gss.nonce = '';
 // The root URL of the GSS service.

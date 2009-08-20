@@ -103,6 +103,7 @@ function startup() {
 //  setTimeout("gAccountField.focus()", 0);
 
   //tipJar();
+  jQuery('#username').formHints({'className':'hint'});
 
   setTimeout(doResizeHack, 0);
 
@@ -140,6 +141,8 @@ function doDesktopLogin() {
               var gBrowser = mainWindow.getBrowser();
               gBrowser.removeCurrentTab();
               returnToFireGSSTab('firegss');
+              jQuery("#username").attr("readonly", "true");
+              gss.fetchRootFolder(remoteDirTree.initialize);
             } else
               cons.logStringMessage("Error getting token. req.status="+req.status);
 	      }
@@ -190,19 +193,20 @@ function returnToFireGSSTab(attrName) {
       // Focus *this* browser in case another one is currently focused
       tabbrowser.focus();
       found = true;
-      jQuery("#username").attr("readonly", "true");
     }
   }
-  gss.fetchRootFolder(remoteDirTree.initialize);
+  return currentTab;
 }
 
 function login(event) {
   event = event.trim();
-  if (event !== '' && gss.username !== event) {
+  var hint = jQuery('#username').val();
+  if (event !== hint && gss.username !== event) {
     gss.username = event;
     gss.authToken = '';
     doDesktopLogin();
-  }
+  } else if (event === hint)
+    alert("Enter a username first");
 }
 
 function logout() {

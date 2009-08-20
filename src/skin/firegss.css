@@ -489,3 +489,7 @@ em {
   font-size           : 1.3em;
   line-height         : 0;
 }
+
+.hint {
+  color: #d3d3d3;
+}

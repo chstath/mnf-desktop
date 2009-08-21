@@ -133,25 +133,40 @@ function doDesktopLogin() {
 	    req.open('GET', gss.TOKEN_URL+'?user='+gss.username+'&nonce='+gss.nonce, true);
 	    req.onreadystatechange = function (aEvt) {
 	      if (req.readyState == 4) {
-            if(req.status == 200) {
-              gss.authToken = req.responseText.trim();
-              var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-                   .getService(Components.interfaces.nsIWindowMediator);
-              var mainWindow = wm.getMostRecentWindow("navigator:browser");
-              var gBrowser = mainWindow.getBrowser();
-              gBrowser.removeCurrentTab();
-              returnToFireGSSTab('firegss');
-              jQuery("#username").attr("readonly", "true");
-              gss.fetchRootFolder(remoteDirTree.initialize);
-            } else
-              cons.logStringMessage("Error getting token. req.status="+req.status);
+            switch (req.status) {
+              case 200:
+                gss.authToken = req.responseText.trim();
+                var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+                     .getService(Components.interfaces.nsIWindowMediator);
+                var mainWindow = wm.getMostRecentWindow("navigator:browser");
+                var gBrowser = mainWindow.getBrowser();
+                gBrowser.removeCurrentTab();
+                returnToFireGSSTab('firegss');
+                jQuery("#username").attr("readonly", "true");
+                gss.fetchRootFolder(remoteDirTree.initialize);
+                break;
+              case 403:
+                alert("No matching token was found");
+                break;
+              default:
+                alert("Error getting token. req.status="+req.status);
+            }
 	      }
 	    };
 	    req.send(null);
       }
     }, true);
   };
-  jQuery.get(gss.NONCE_URL, {"user": gss.username}, showLogin, "text");
+  jQuery.ajax({
+    url: gss.NONCE_URL,
+    data: {user: gss.username},
+    success: showLogin,
+    dataType: "text",
+    error: function(request, status, error){
+      if (request.status === 403)
+        alert("Username not found");
+    }
+  });
 }
 
 function beforeUnload() {

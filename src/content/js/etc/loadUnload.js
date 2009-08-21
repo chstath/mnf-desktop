@@ -227,6 +227,7 @@ function login(event) {
 
 function logout() {
   if (gss.username === '') return;
+  gss.username = gss.authToken = '';
   jQuery("#username").val("");
   jQuery("#username").removeAttr("readonly");
   var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]

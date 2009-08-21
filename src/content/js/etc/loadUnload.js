@@ -2,7 +2,7 @@ function startup() {
   if (gStrbundle) {                            // we get two onload events b/c of the embedded browser
     return;
   }
-  
+
   window.onerror         = detailedError;
   gStrbundle             = $("strings");
   gConnectButton         = $('connectbutton');
@@ -200,7 +200,7 @@ function returnToFireGSSTab(attrName) {
 
 function login(event) {
   event = event.trim();
-  var hint = jQuery('#username').val();
+  var hint = jQuery('#username').attr('title');
   if (event !== hint && gss.username !== event) {
     gss.username = event;
     gss.authToken = '';

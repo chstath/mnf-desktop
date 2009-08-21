@@ -80,7 +80,7 @@ transfer.prototype = {
 		}
 
 		for (var x = 0; x < files.length; ++x) {
-			var fileName = files[x].name
+			var fileName = download ? files[x].name : files[x].leafName;
 
 			if ((download && gDownloadCaseMode == 1) || (!download && gUploadCaseMode == 1)) {
 				fileName = fileName.toLowerCase();                   // special request to change filename case
@@ -93,6 +93,7 @@ transfer.prototype = {
 			}
 
 //			var remotePath = !download ? gFtp.constructPath     (remoteParent, fileName) : files[x].path;
+			var remoteFolder = !download ? remoteDirTree.data[remoteDirTree.selection.currentIndex].gssObj : null;
 			var localPath  =  download ? localTree.constructPath(localParent,  fileName) : files[x].path;
 			var file;
 
@@ -103,7 +104,7 @@ transfer.prototype = {
 				var remoteList = aRemoteParent ? listData : remoteTree.data;
 
 				for (var y = 0; y < remoteList.length; ++y) {
-					if (remoteList[y].leafName == fileName) {
+					if (remoteList[y].name == fileName) {
 						file       = { fileSize: remoteList[y].fileSize, lastModifiedTime: remoteList[y].lastModifiedTime, leafName: fileName, exists: function() { return true; },
 							isDir: remoteList[y].isDirectory(), isDirectory: function() { return this.isDir }};
 						break;
@@ -269,8 +270,9 @@ transfer.prototype = {
 						this.uploadHelper(localPath, remotePath);
 					}
 				} else {
-					var connection = this.getConnection();
-					connection.upload(localPath, remotePath, resume, files[x].fileSize, resume ? file.fileSize : -1);
+//					var connection = this.getConnection();
+//					connection.upload(localPath, remotePath, resume, files[x].fileSize, resume ? file.fileSize : -1);
+					gss.uploadFile(files[x], remoteFolder);
 				}
 			}
 		}

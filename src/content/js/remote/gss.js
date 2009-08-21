@@ -40,9 +40,9 @@ gss.LOGOUT_URL = 'https://' + gss.SERVER + '/Shibboleth.sso/Logout';
 // The URL of the token issuer service.
 gss.TOKEN_URL = 'https://' + gss.SERVER + '/pithos/token';
 // The user root namespace.
-gss.root = new Object();
+gss.root = {};
 // The file cache
-gss.rootFolder = new Object();
+gss.rootFolder = {};
 
 //Creates a HMAC-SHA1 signature of method+time+resource, using the token.
 gss.sign = function(method, time, resource, token) {
@@ -62,11 +62,11 @@ gss.getAuth = function(method, resource) {
 	var sig = gss.sign(method, now, resource, gss.authToken);
 	var authorization = gss.username + " " + gss.sign(method, now, resource, gss.authToken);
 	var date = now;
-	return {authorization: authorization, date: date, authString: "Authorization=" +  encodeURI(authorization) + "&Date=" + encodeURI(date)};
+	return {authorization: authorization, date: date, authString: "Authorization=" +  encodeURIComponent(authorization) + "&Date=" + encodeURIComponent(date)};
 };
 
 // A helper function for making API requests.
-gss.sendRequest = function(handler, handlerArg, nextAction, nextActionArg, method, resource, modified, file, form, update) {
+gss.sendRequest = function(handler, handlerArg, nextAction, nextActionArg, method, resource, modified, file, form, update, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventHandler, abortEventHandler) {
 	// If the resource is an absolute URI, remove the API_URL.
 	if (resource.indexOf(gss.API_URL) == 0)
 		resource = resource.slice(gss.API_URL.length, resource.length);
@@ -79,6 +79,29 @@ gss.sendRequest = function(handler, handlerArg, nextAction, nextActionArg, metho
 		params = update;
 
 	var req = new XMLHttpRequest();
+	if (!file) {
+		if (loadStartEventHandler)
+			req.addEventListener("loadstart", loadStartEventHandler, false);
+		if (progressEventHandler)
+			req.addEventListener("progress", progressEventHandler, false);
+		if (loadEventHandler)
+			req.addEventListener("load", loadEventHandler, false);
+		if (errorEventHandler)
+			req.addEventListener("error", errorEventHandler, false);
+		if (abortEventHandler)
+			req.addEventListener("abort", abortEventHandler, false);
+	} else {
+		if (loadStartEventHandler)
+			req.upload.addEventListener("loadstart", loadStartEventHandler, false);
+		if (progressEventHandler)
+			req.upload.addEventListener("progress", progressEventHandler, false);
+		if (loadEventHandler)
+			req.upload.addEventListener("load", loadEventHandler, false);
+		if (errorEventHandler)
+			req.upload.addEventListener("error", errorEventHandler, false);
+		if (abortEventHandler)
+			req.upload.addEventListener("abort", abortEventHandler, false);
+	}
 	req.open(method, gss.API_URL + resource, true);
 	req.onreadystatechange = function (event) {
 		if (req.readyState == 4) {
@@ -113,7 +136,6 @@ gss.sendRequest = function(handler, handlerArg, nextAction, nextActionArg, metho
 		}
 		catch(e) { /* eat it; just use text/plain */ }
 		req.setRequestHeader("Content-Type", mimeType);
-//		req.setRequestHeader("Content-Length", file.fileSize);
 	} else if (form) {
 		req.setRequestHeader("Content-Length", params.length);
 		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
@@ -177,7 +199,7 @@ gss.updateFolderAttributes = function(folder, newFolder) {
 //Fetches the contents of the folder with the specified uti
 //uri
 gss.fetchFolder = function(folder, nextAction, nextActionArg) {
-	gss.sendRequest(gss.parseFiles, folder, nextAction, nextActionArg, 'GET', folder.uri)
+	gss.sendRequest(gss.parseFiles, folder, nextAction, nextActionArg, 'GET', folder.uri);
 };
 
 gss.fetchRootFolder = function(nextAction) {
@@ -199,7 +221,7 @@ gss.processFile = function(req, arg, nextAction, nextActionArg) {
 		nextAction(nextActionArg);
 };
 
-gss.uploadFile = function(file, remoteFolder) {
-	var resource = remoteFolder.uri + '/' + file.leafName;
-	gss.sendRequest(null, null, null, null, 'PUT', resource, false, file);
+gss.uploadFile = function(file, remoteFolder, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventtHandler, abortEventHandler) {
+	var resource = remoteFolder.uri + '/' + encodeURI(file.leafName);
+	gss.sendRequest(null, null, null, null, 'PUT', resource, false, file, false, false, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventtHandler, abortEventHandler);
 };

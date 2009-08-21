@@ -2,7 +2,7 @@ function startup() {
   if (gStrbundle) {                            // we get two onload events b/c of the embedded browser
     return;
   }
-  
+
   window.onerror         = detailedError;
   gStrbundle             = $("strings");
   gConnectButton         = $('connectbutton');

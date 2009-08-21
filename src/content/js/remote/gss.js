@@ -31,7 +31,7 @@ gss.SERVER = 'pithos.grnet.gr';
 gss.SERVICE_URL = 'http://' + gss.SERVER + '/pithos/';
 // The root URL of the REST API.
 gss.API_URL = gss.SERVICE_URL + 'rest';
-// The URL of the nonce request service. 
+// The URL of the nonce request service.
 gss.NONCE_URL = gss.SERVICE_URL + 'nonce';
 // The URL of the login service.
 gss.LOGIN_URL = 'https://' + gss.SERVER + '/pithos/login';
@@ -66,7 +66,7 @@ gss.getAuth = function(method, resource) {
 };
 
 // A helper function for making API requests.
-gss.sendRequest = function(handler, handlerArg, nextAction, nextActionArg, method, resource, modified, file, form, update) {
+gss.sendRequest = function(handler, handlerArg, nextAction, nextActionArg, method, resource, modified, file, form, update, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventHandler, abortEventHandler) {
 	// If the resource is an absolute URI, remove the API_URL.
 	if (resource.indexOf(gss.API_URL) == 0)
 		resource = resource.slice(gss.API_URL.length, resource.length);
@@ -79,12 +79,39 @@ gss.sendRequest = function(handler, handlerArg, nextAction, nextActionArg, metho
 		params = update;
 
 	var req = new XMLHttpRequest();
+	if (!file) {
+		if (loadStartEventHandler)
+			req.addEventListener("loadstart", loadStartEventHandler, false);
+		if (progressEventHandler)
+			req.addEventListener("progress", progressEventHandler, false);
+		if (loadEventHandler)
+			req.addEventListener("load", loadEventHandler, false);
+		if (errorEventHandler)
+			req.addEventListener("error", errorEventHandler, false);
+		if (abortEventHandler)
+			req.addEventListener("abort", abortEventHandler, false);
+	} else {
+		if (loadStartEventHandler)
+			req.upload.addEventListener("loadstart", loadStartEventHandler, false);
+		if (progressEventHandler)
+			req.upload.addEventListener("progress", progressEventHandler, false);
+		if (loadEventHandler)
+			req.upload.addEventListener("load", loadEventHandler, false);
+		if (errorEventHandler)
+			req.upload.addEventListener("error", errorEventHandler, false);
+		if (abortEventHandler)
+			req.upload.addEventListener("abort", abortEventHandler, false);
+	}
 	req.open(method, gss.API_URL + resource, true);
 	req.onreadystatechange = function (event) {
 		if (req.readyState == 4) {
 			if(req.status == 200) {
 				handler(req, handlerArg, nextAction, nextActionArg);
-			} else {
+			} else if (req.status == 201) {
+				if (handler)
+					handler(req, handlerArg, nextAction, nextActionArg);
+			}
+			else {
 				alert("Error fetching data: HTTP status " + req.status+" ("+req.statusText+")");
 			}
 		}
@@ -95,8 +122,20 @@ gss.sendRequest = function(handler, handlerArg, nextAction, nextActionArg, metho
 		req.setRequestHeader("If-Modified-Since", modified);
 
 	if (file) {
-		req.setRequestHeader("Content-Type", "text/plain");
-		req.setRequestHeader("Content-Length", file.length);
+		// Make a stream from a file.
+		var stream = Components.classes["@mozilla.org/network/file-input-stream;1"]
+                       .createInstance(Components.interfaces.nsIFileInputStream);
+		stream.init(file, 0x04 | 0x08, 0644, 0x04); // file is an nsIFile instance
+
+		// Try to determine the MIME type of the file
+		var mimeType = "text/plain";
+		try {
+		  var mimeService = Components.classes["@mozilla.org/mime;1"]
+					          .getService(Components.interfaces.nsIMIMEService);
+		  mimeType = mimeService.getTypeFromFile(file); // file is an nsIFile instance
+		}
+		catch(e) { /* eat it; just use text/plain */ }
+		req.setRequestHeader("Content-Type", mimeType);
 	} else if (form) {
 		req.setRequestHeader("Content-Length", params.length);
 		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
@@ -108,7 +147,7 @@ gss.sendRequest = function(handler, handlerArg, nextAction, nextActionArg, metho
 	if (!file)
 		req.send(params);
 	else
-		req.send(file);
+		req.send(stream);
 };
 
 gss.fetchUserAsync = function(next) {
@@ -180,4 +219,9 @@ gss.processFile = function(req, arg, nextAction, nextActionArg) {
 	var contents = req.response;
 	if (nextAction)
 		nextAction(nextActionArg);
+};
+
+gss.uploadFile = function(file, remoteFolder, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventtHandler, abortEventHandler) {
+	var resource = remoteFolder.uri + '/' + encodeURI(file.leafName);
+	gss.sendRequest(null, null, null, null, 'PUT', resource, false, file, false, false, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventtHandler, abortEventHandler);
 };

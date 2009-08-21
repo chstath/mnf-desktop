@@ -40,9 +40,9 @@ gss.LOGOUT_URL = 'https://' + gss.SERVER + '/Shibboleth.sso/Logout';
 // The URL of the token issuer service.
 gss.TOKEN_URL = 'https://' + gss.SERVER + '/pithos/token';
 // The user root namespace.
-gss.root = new Object();
+gss.root = {};
 // The file cache
-gss.rootFolder = new Object();
+gss.rootFolder = {};
 
 //Creates a HMAC-SHA1 signature of method+time+resource, using the token.
 gss.sign = function(method, time, resource, token) {
@@ -88,7 +88,7 @@ gss.sendRequest = function(handler, handlerArg, nextAction, nextActionArg, metho
 				alert("Error fetching data: HTTP status " + req.status+" ("+req.statusText+")");
 			}
 		}
-	}
+	};
 	req.setRequestHeader("Authorization", gss.username + " " + sig);
 	req.setRequestHeader("X-GSS-Date", now);
 	if (modified)
@@ -160,7 +160,7 @@ gss.updateFolderAttributes = function(folder, newFolder) {
 //Fetches the contents of the folder with the specified uti
 //uri
 gss.fetchFolder = function(folder, nextAction, nextActionArg) {
-	gss.sendRequest(gss.parseFiles, folder, nextAction, nextActionArg, 'GET', folder.uri)
+	gss.sendRequest(gss.parseFiles, folder, nextAction, nextActionArg, 'GET', folder.uri);
 };
 
 gss.fetchRootFolder = function(nextAction) {

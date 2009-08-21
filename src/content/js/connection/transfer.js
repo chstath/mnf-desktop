@@ -300,7 +300,7 @@ transfer.prototype = {
 							queueTree.treebox.rowCountChanged(oldCount - 1, queueTree.rowCount - oldCount);
 							queueTree.treebox.invalidate();
 						};
-					};
+					}();
 					var progressHandler = function() {
 						var o = obj;
 						return function(evt) {
@@ -313,7 +313,7 @@ transfer.prototype = {
 								queueTree.treebox.invalidate();
 							}
 						};
-					};
+					}();
 					var loadHandler = function() {
 						var o = obj;
 						return function(evt) {
@@ -328,15 +328,18 @@ transfer.prototype = {
 							obj.status = "Finished";
 							queueTree.treebox.invalidate();
 						};
-					};
+					}();
 					var errorHandler = function(evt) {
-						obj.status = "Failed";
-						obj.failed = true;
-						queueTree.treebox.invalidate();
-					};
+						var o = obj;
+						return function(evt) {
+							o.status = "Failed";
+							o.failed = true;
+							queueTree.treebox.invalidate();
+						};
+					}();
 					var abortHandler = function(evt) {
 					};
-					gss.uploadFile(files[x], remoteFolder, loadStartHandler(), progressHandler(), loadHandler(), errorHandler, abortHandler);
+					gss.uploadFile(files[x], remoteFolder, loadStartHandler, progressHandler, loadHandler, errorHandler, abortHandler);
 				}
 			}
 		}

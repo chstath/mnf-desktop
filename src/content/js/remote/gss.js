@@ -62,7 +62,7 @@ gss.getAuth = function(method, resource) {
 	var sig = gss.sign(method, now, resource, gss.authToken);
 	var authorization = gss.username + " " + gss.sign(method, now, resource, gss.authToken);
 	var date = now;
-	return {authorization: authorization, date: date, authString: "Authorization=" +  encodeURI(authorization) + "&Date=" + encodeURI(date)};
+	return {authorization: authorization, date: date, authString: "Authorization=" +  encodeURIComponent(authorization) + "&Date=" + encodeURIComponent(date)};
 };
 
 // A helper function for making API requests.

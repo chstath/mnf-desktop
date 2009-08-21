@@ -16,5 +16,10 @@
     <toolbarbutton id="firegss-button"     label="FireGSS"       oncommand="loadFireGSS()" onclick="if (event.button == 1) loadFireGSS()"
                    class="toolbarbutton-1 chromeclass-toolbar-additional" tooltiptext="FireGSS"/>
   </toolbarpalette>
+  <statusbar id="status-bar">
+      <statusbarpanel id="firegss-panel" onclick="loadFireGSS();">
+          <image id="firegss-icon" tooltiptext="&iconTip;" src="chrome://firegss/skin/icons/logo.png"/>
+      </statusbarpanel>
+  </statusbar>
 
 </overlay>

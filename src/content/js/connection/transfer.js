@@ -80,7 +80,7 @@ transfer.prototype = {
 		}
 
 		for (var x = 0; x < files.length; ++x) {
-			var fileName = files[x].name
+			var fileName = download ? files[x].name : files[x].leafName;
 
 			if ((download && gDownloadCaseMode == 1) || (!download && gUploadCaseMode == 1)) {
 				fileName = fileName.toLowerCase();                   // special request to change filename case
@@ -93,6 +93,7 @@ transfer.prototype = {
 			}
 
 //			var remotePath = !download ? gFtp.constructPath     (remoteParent, fileName) : files[x].path;
+			var remoteFolder = !download ? remoteDirTree.data[remoteDirTree.selection.currentIndex].gssObj : null;
 			var localPath  =  download ? localTree.constructPath(localParent,  fileName) : files[x].path;
 			var file;
 
@@ -103,7 +104,7 @@ transfer.prototype = {
 				var remoteList = aRemoteParent ? listData : remoteTree.data;
 
 				for (var y = 0; y < remoteList.length; ++y) {
-					if (remoteList[y].leafName == fileName) {
+					if (remoteList[y].name == fileName) {
 						file       = { fileSize: remoteList[y].fileSize, lastModifiedTime: remoteList[y].lastModifiedTime, leafName: fileName, exists: function() { return true; },
 							isDir: remoteList[y].isDirectory(), isDirectory: function() { return this.isDir }};
 						break;
@@ -200,8 +201,6 @@ transfer.prototype = {
 					gss.fetchFolder(files[x], this.recurseFolder, files[x]);
 //					this.downloadHelper(localPath, remotePath);
 				} else {                                             // download the file
-//					var connection = this.getConnection();
-//					connection.download(remotePath, localPath, files[x].fileSize, false, -1, false);
 					// create a persist
 					var persist = Components.classes["@mozilla.org/embedding/browser/nsWebBrowserPersist;1"].createInstance(Components.interfaces.nsIWebBrowserPersist);
 					// with persist flags if desired See nsIWebBrowserPersist page for more PERSIST_FLAGS.
@@ -215,10 +214,10 @@ transfer.prototype = {
 					var nsIURI = gIos.newURI(files[x].uri + "?" + auth.authString, "utf-8", null);
 					var obj = {
 //					  id      : info.id,
-					  source  : download ? files[x].uri : localPath,
-					  dest    : download ? localPath  : files[x].uri,
+					  source  : files[x].uri,
+					  dest    : localPath,
 					  size    : files[x].size,
-					  type    : download ? gStrbundle.getString("download") : gStrbundle.getString("upload"),
+					  type    : gStrbundle.getString("download"),
 					  icon    : "moz-icon://" + files[x].name + "?size=16",
 					  ela     : '',
 					  remain  : '',
@@ -269,8 +268,75 @@ transfer.prototype = {
 						this.uploadHelper(localPath, remotePath);
 					}
 				} else {
-					var connection = this.getConnection();
-					connection.upload(localPath, remotePath, resume, files[x].fileSize, resume ? file.fileSize : -1);
+					var obj = {
+//					  id      : info.id,
+					  source  : localPath,
+					  dest    : remoteFolder.uri,
+					  size    : files[x].fileSize,
+					  type    : gStrbundle.getString("upload"),
+					  icon    : "moz-icon://" + files[x].name + "?size=16",
+					  ela     : '',
+					  remain  : '',
+					  rate    : '',
+					  percent : '',
+					  status  : '',
+					  mode    : '',
+					  failed  : false
+					};
+					var loadStartHandler = function() {
+						var o = obj;
+						return function(evt) {
+							queueTree.data.push(o);
+							if (evt.lengthComputable) {
+								var percentComplete = parseInt(evt.loaded/evt.total * 100) + "%";
+								o.mode = "determined";
+								o.percent = percentComplete;
+								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
+								o.status = "Transfering";
+								queueTree.treebox.invalidate();
+							}
+							var oldCount  = queueTree.rowCount;
+							queueTree.rowCount = queueTree.data.length;
+							queueTree.treebox.rowCountChanged(oldCount - 1, queueTree.rowCount - oldCount);
+							queueTree.treebox.invalidate();
+						};
+					};
+					var progressHandler = function() {
+						var o = obj;
+						return function(evt) {
+							if (evt.lengthComputable) {
+								var percentComplete = parseInt(evt.loaded/evt.total * 100) + "%";
+								o.mode = "determined";
+								o.percent = percentComplete;
+								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
+								o.status = "Transfering";
+								queueTree.treebox.invalidate();
+							}
+						};
+					};
+					var loadHandler = function() {
+						var o = obj;
+						return function(evt) {
+							if (evt.lengthComputable) {
+								var percentComplete = parseInt(evt.loaded/evt.total * 100) + "%";
+								o.mode = "determined";
+								o.percent = percentComplete;
+								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
+								o.status = "Transfering";
+								queueTree.treebox.invalidate();
+							}
+							obj.status = "Finished";
+							queueTree.treebox.invalidate();
+						};
+					};
+					var errorHandler = function(evt) {
+						obj.status = "Failed";
+						obj.failed = true;
+						queueTree.treebox.invalidate();
+					};
+					var abortHandler = function(evt) {
+					};
+					gss.uploadFile(files[x], remoteFolder, loadStartHandler(), progressHandler(), loadHandler(), errorHandler, abortHandler);
 				}
 			}
 		}

@@ -200,13 +200,14 @@ function returnToFireGSSTab(attrName) {
 
 function login(event) {
   event = event.trim();
-  var hint = jQuery('#username').val();
-  if (event !== hint && gss.username !== event) {
+  var hint = "Username?";
+  if (event === hint || event === '')
+    alert("Enter a username first");
+  else if (gss.username !== event) {
     gss.username = event;
     gss.authToken = '';
     doDesktopLogin();
-  } else if (event === hint)
-    alert("Enter a username first");
+  }
 }
 
 function logout() {

@@ -13,13 +13,6 @@ function connect(noAccountChange, showPassDialog) {
     }
   }
 
-  if (gFtp.host == "about:mozilla") {                                       // just for fun
-    window.openDialog("chrome://firegss/content/welcome.xul", "welcome", "chrome,dialog,resizable,centerscreen", "", true);
-    gConnectButton.label = "Flame On!";
-    gConnectButton.setAttribute('accesskey', "F");
-    return;
-  }
-
   if (!gFtp.host) {                                                         // need to fill in the host
     doAlert(gStrbundle.getString("alertFillHost"));
     return;
@@ -220,7 +213,7 @@ var ftpObserver = {
   securityCallbacks : securityCallbacks,
 
   onConnectionRefused : function() {
-    displayWelcomeMessage(gFtp.welcomeMessage);
+    //displayWelcomeMessage(gFtp.welcomeMessage);
     setConnectButton(true);
   },
 
@@ -241,7 +234,7 @@ var ftpObserver = {
   },
 
   onWelcomed : function() {
-    displayWelcomeMessage(gFtp.welcomeMessage);
+    //displayWelcomeMessage(gFtp.welcomeMessage);
   },
 
   onLoginAccepted : function(newHost) {

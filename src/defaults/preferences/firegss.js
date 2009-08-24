@@ -1,5 +1,4 @@
 pref("extensions.{a7c6cf7f-112c-4500-a7ea-39801a327e5f}.description", "chrome://firegss/locale/strings.properties");
-pref("firegss.welcomemode",       false);
 pref("firegss.errormode",         true);
 pref("firegss.refreshmode",       true);
 pref("firegss.passwordmode",      true);

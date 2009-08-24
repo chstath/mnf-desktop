@@ -43,8 +43,6 @@
       <preference id="proxytypepref"          name="firegss.proxytype"         type="string"/>
       <preference id="proxyhostpref"          name="firegss.proxyhost"         type="unichar"/>
       <preference id="proxyportpref"          name="firegss.proxyport"         type="int"/>
-      <preference id="integrateftplinkspref"  name="firegss.integrateftplinks" type="bool"/>
-      <preference id="temppasvmodepref"       name="firegss.temppasvmode"      type="bool"/>
       <preference id="activeportmodepref"     name="firegss.activeportmode"    type="bool"/>
       <preference id="activelowportpref"      name="firegss.activelow"         type="int"/>
       <preference id="activehighportpref"     name="firegss.activehigh"        type="int"/>
@@ -107,13 +105,6 @@
               <radio label="&windowopen.label;" value="0"/>
               <radio label="&tabopen.label;"    value="1"/>
             </radiogroup>
-            <spacer style="height:5px"/>
-            <hbox align="start">
-              <checkbox preference="integrateftplinkspref" id="integrateftplinks" label="&integrateftplnk.label;" oncommand="integrateChange()"/>
-            </hbox>
-            <hbox align="center" class="indent">
-              <checkbox preference="temppasvmodepref"      id="temppasvmode"      label="&temppasvmode.label;"/>
-            </hbox>
           </groupbox>
           <groupbox>
             <caption label="&open.label;"/>

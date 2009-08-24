@@ -3,8 +3,6 @@ function readPreferences() {
   portChange();
   timeoutChange();
   filemodeChange();
-  integrateChange();
-  activePortChange();
 }
 
 function portChange() {
@@ -23,15 +21,4 @@ function timeoutChange() {
 
 function filemodeChange() {
   $('asciibutton').disabled    =  $('filemode').value != 0;
-}
-
-function integrateChange() {
-  $('temppasvmode').disabled   = !$('integrateftplinks').checked;
-}
-
-function activePortChange() {
-  $('activelowportlabel').disabled  = !$('activeportmode').checked;
-  $('activelowport').disabled       = !$('activeportmode').checked;
-  $('activehighportlabel').disabled = !$('activeportmode').checked;
-  $('activehighport').disabled      = !$('activeportmode').checked;
 }

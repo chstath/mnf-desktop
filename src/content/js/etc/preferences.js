@@ -15,7 +15,6 @@ function readPreferences(startup) {
     gPasswordMode            = gPrefs.getBoolPref("passwordmode");
     gUsernameMode            = gPrefs.getBoolPref("usernamemode");
     gRefreshMode             = gPrefs.getBoolPref("refreshmode");
-    gTempPasvMode            = gPrefs.getBoolPref("temppasvmode");
     gOpenMode                = gPrefs.getIntPref ("openmode");
 
     for (var x = 0; x < gMaxCon; ++x) {

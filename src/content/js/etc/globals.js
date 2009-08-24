@@ -6,7 +6,6 @@ var gPlatform;                  // holds what platform we're on
 var gTransferTypes;             // holds 'Auto', 'Binary', 'ASCII'
 var gLogQueue = "";             // buffers log data
 var gAlertWindow;               // reference to the alertDialog
-var gWelcomeWindow;             // reference to the welcomeDialog
 var gPrograms = new Array();    // programs in our open with list
 var gLocalPathFocus;            // keep the correct value in the local  path
 var gRemotePathFocus;           // keep the correct value in the remote path
@@ -62,7 +61,6 @@ var gNoPromptMode;              // from prefs: true if we want to disable the ov
 var gPasswordMode;              // from prefs: save password or not
 var gRefreshMode;               // from prefs: refresh on remote side if change is made or not
 var gTempPasvMode;              // from prefs: use passive mode for temporary connections
-var gWelcomeMode;               // from prefs: show welcome msg on connect or not
 var gConcurrent;                // from prefs: how many simultaneous connections to try to have
 var gMaxCon;                    // from prefs: how many max simultaneous connections firegss handles
 var gOpenMode;                  // from prefs: 0 = download file, 1 = open file

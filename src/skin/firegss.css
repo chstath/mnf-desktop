@@ -462,34 +462,6 @@ image.isMultiple {
   margin-top          : 10px;
 }
 
-/*----------------[ welcome.xul ]-----------------*/
-
-#thegoodbook {
-  background          : maroon;
-  color               : white;
-  font-style          : italic;
-}
-
-.mozillaquote {
-  padding             : 25px;
-  font-size           : 1.1em;
-  font-family         : serif;
-  line-height         : 1.5;
-  text-align          : center;
-}
-
-.mozillafrom {
-  padding             : 25px;
-  font-size           : 1.95em;
-  font-family         : serif;
-  text-align          : right;
-}
-
-em {
-  font-size           : 1.3em;
-  line-height         : 0;
-}
-
 .hint {
   color: #d3d3d3;
 }

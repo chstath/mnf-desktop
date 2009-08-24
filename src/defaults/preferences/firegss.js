@@ -3,6 +3,7 @@ pref("firegss.welcomemode",       false);
 pref("firegss.errormode",         true);
 pref("firegss.refreshmode",       true);
 pref("firegss.passwordmode",      true);
+pref("firegss.usernamemode",      true);
 pref("firegss.sessionsmode",      true);
 pref("firegss.hiddenmode",        false);
 pref("firegss.interfacemode",     0);

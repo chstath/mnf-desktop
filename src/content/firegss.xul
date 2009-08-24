@@ -42,7 +42,6 @@
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/programs.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/queueTree.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/search.js"/>
-  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/sessionsPasswords.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/threads.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/treeHighlighter.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/treeSync.js"/>
@@ -162,9 +161,6 @@
       <menuitem oncommand="diff(true)"                          label="&recdiff.label;"             accesskey="&recdiff.access;"    id="recDiffMenuItem"/>
       <menuseparator/>
       <menuitem oncommand="custom()"                            label="&custom.label;"              accesskey="&custom.access;"     id="customMenuItem"/>
-      <menuseparator/>
-      <menuitem oncommand="importSites()"                       label="&import.label;"              accesskey="&import.access;"     id="importMenuItem"/>
-      <menuitem oncommand="exportSites()"                       label="&export.label;"              accesskey="&export.access;"     id="exportMenuItem"/>
       <menuseparator/>
       <menuitem oncommand="showPreferences()"                   label="&preferencestab.label;"      accesskey="&prefbutton.access;" id="prefbutton"/>
     </popup>

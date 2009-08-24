@@ -26,8 +26,6 @@ pref("firegss.proxyport",         0);
 pref("firegss.folder",            "");
 pref("firegss.donated",           false);
 pref("firegss.loadurl",           "");
-pref("firegss.integrateftplinks", false);
-pref("firegss.temppasvmode",      true);
 pref("firegss.defaultaccount",    "");
 pref("firegss.activeportmode",    false);
 pref("firegss.activelow",         1);

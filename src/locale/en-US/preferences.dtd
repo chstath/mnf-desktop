@@ -17,11 +17,9 @@
 <!ENTITY bytesmode.label       "Display number of bytes for file sizes">
 
 <!ENTITY interface.label       "Interface">
-<!ENTITY startup.label         "Start FireFTP:">
+<!ENTITY startup.label         "Start FireGSS:">
 <!ENTITY windowopen.label      "in a new window">
 <!ENTITY tabopen.label         "in a new tab">
-<!ENTITY integrateftplnk.label "Configure FTP links in Firefox to automatically use FireFTP">
-<!ENTITY temppasvmode.label    "Use Passive Mode for these connections">
 
 <!ENTITY open.label            "Double-clicking/pressing enter:">
 <!ENTITY download.label        "transfers a file">

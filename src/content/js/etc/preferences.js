@@ -13,12 +13,13 @@ function readPreferences(startup) {
     gLogQueueMode            = gPrefs.getIntPref ("logqueue");
     gNoPromptMode            = gPrefs.getBoolPref("nopromptmode");
     gPasswordMode            = gPrefs.getBoolPref("passwordmode");
+    gUsernameMode            = gPrefs.getBoolPref("usernamemode");
     gRefreshMode             = gPrefs.getBoolPref("refreshmode");
     gTempPasvMode            = gPrefs.getBoolPref("temppasvmode");
     gWelcomeMode             = gPrefs.getBoolPref("welcomemode");
     gOpenMode                = gPrefs.getIntPref ("openmode");
 
-    gfiregssUtils.hiddenMode = gPrefs.getBoolPref("hiddenmode");
+    //gfiregssUtils.hiddenMode = gPrefs.getBoolPref("hiddenmode");
 
     for (var x = 0; x < gMaxCon; ++x) {
       gConnections[x].fileMode            = gPrefs.getIntPref ("filemode");    // NOTE: if you add a preference here, don't forget to update fxp.js if needed

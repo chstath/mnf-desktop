@@ -24,6 +24,7 @@
       <preference id="refreshmodepref"        name="firegss.refreshmode"       type="bool"/>
       <preference id="passwordmodepref"       name="firegss.passwordmode"      type="bool"/>
       <preference id="sessionsmodepref"       name="firegss.sessionsmode"      type="bool"/>
+      <preference id="usernamemodepref"       name="firegss.usernamemode"      type="bool"/>
       <preference id="hiddenmodepref"         name="firegss.hiddenmode"        type="bool"/>
       <preference id="openmodepref"           name="firegss.openmode"          type="int"/>
       <preference id="networkpref"            name="firegss.network"           type="int"/>
@@ -83,6 +84,9 @@
             </hbox>
             <hbox align="start">
               <checkbox id="sessionsmode" preference="sessionsmodepref" label="&rememberd.label;"/>
+            </hbox>
+            <hbox align="start">
+              <checkbox id="usernamemode" preference="usernamemodepref" label="&rememberu.label;"/>
             </hbox>
           </groupbox>
           <groupbox>

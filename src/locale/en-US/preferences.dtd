@@ -9,6 +9,7 @@
 <!ENTITY sessions.label        "Sessions">
 <!ENTITY rememberp.label       "Remember passwords">
 <!ENTITY rememberd.label       "Cache directory listings">
+<!ENTITY rememberu.label       "Remember last used username">
 
 <!ENTITY fileview.label        "File View">
 <!ENTITY autorefresh.label     "Auto-refresh">

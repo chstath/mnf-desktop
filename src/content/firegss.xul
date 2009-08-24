@@ -25,7 +25,6 @@
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/globals.js"/>
 
   <script type="application/x-javascript" src="chrome://firegss/content/js/connection/controlSocket.js"/>
-  <script type="application/x-javascript" src="chrome://firegss/content/js/connection/sftp.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/connection/dataSocket.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/connection/ftpController.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/connection/fxp.js"/>
@@ -39,7 +38,6 @@
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/log.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/misc.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/preferences.js"/>
-  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/programs.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/queueTree.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/search.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/threads.js"/>

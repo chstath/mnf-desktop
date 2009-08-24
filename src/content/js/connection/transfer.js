@@ -293,7 +293,6 @@ transfer.prototype = {
 								o.percent = percentComplete;
 								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
 								o.status = "Transfering";
-								queueTree.treebox.invalidate();
 							}
 							var oldCount  = queueTree.rowCount;
 							queueTree.rowCount = queueTree.data.length;
@@ -323,7 +322,6 @@ transfer.prototype = {
 								o.percent = percentComplete;
 								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
 								o.status = "Transfering";
-								queueTree.treebox.invalidate();
 							}
 							obj.status = "Finished";
 							queueTree.treebox.invalidate();
@@ -332,13 +330,32 @@ transfer.prototype = {
 					var errorHandler = function(evt) {
 						var o = obj;
 						return function(evt) {
+							if (evt.lengthComputable) {
+								var percentComplete = parseInt(evt.loaded/evt.total * 100) + "%";
+								o.mode = "determined";
+								o.percent = percentComplete;
+								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
+								o.status = "Transfering";
+							}
 							o.status = "Failed";
 							o.failed = true;
 							queueTree.treebox.invalidate();
 						};
 					}();
 					var abortHandler = function(evt) {
-					};
+						var o = obj;
+						return function(evt) {
+							if (evt.lengthComputable) {
+								var percentComplete = parseInt(evt.loaded/evt.total * 100) + "%";
+								o.mode = "determined";
+								o.percent = percentComplete;
+								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
+								o.status = "Transfering";
+							}
+							o.status = "Canceled";
+							queueTree.treebox.invalidate();
+						}
+					}();
 					gss.uploadFile(files[x], remoteFolder, loadStartHandler, progressHandler, loadHandler, errorHandler, abortHandler);
 				}
 			}

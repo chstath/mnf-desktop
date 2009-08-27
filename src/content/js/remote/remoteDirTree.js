@@ -580,12 +580,13 @@ var remoteDirTree = {
 			return;
 		}
 
-		var index = this.selection.currentIndex;
+		var index = remoteDirTree.selection.currentIndex;
 
-		if (index >= 0 && index < this.data.length) {
-			remoteTree.showFolderContents(this.data[index].gssObj);
-			gss.fetchFolder(this.data[index].gssObj, remoteTree.showFolderContents, this.data[index].gssObj);
-//			this.changeDir(this.data[index].path);
+		if (index >= 0 && index < remoteDirTree.data.length) {
+			remoteTree.showFolderContents(remoteDirTree.data[index].gssObj);
+			gss.fetchFolder(remoteDirTree.data[index].gssObj, remoteTree.showFolderContents,
+							remoteDirTree.data[index].gssObj);
+//			this.changeDir(remoteDirTree.data[index].path);
 		}
 	},
 

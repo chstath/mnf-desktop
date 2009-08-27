@@ -56,8 +56,8 @@
       <tabs>
         <tab label="&general.label;"/>
         <tab label="&interface.label;"/>
-        <tab label="&connect.label;"/>
-        <tab label="&downup.label;"/>
+<!--        <tab label="&connect.label;"/>
+        <tab label="&downup.label;"/>-->
       </tabs>
       <tabpanels flex="1">
 
@@ -128,7 +128,7 @@
         </tabpanel>
 
         <!-- :::::::::::::::::::::::::::::: connect :::::::::::::::::::::::::::::: -->
-
+<!--
         <tabpanel id="connecttab" orient="vertical">
           <groupbox>
             <caption label="&proxy.label;"/>
@@ -205,9 +205,9 @@
             </vbox>
           </groupbox>
         </tabpanel>
-
+-->
         <!-- :::::::::::::::::::::::::::::: down/uploads :::::::::::::::::::::::::::::: -->
-
+<!--
         <tabpanel id="downuptab" orient="vertical">
           <groupbox>
             <caption label="&transfercaption.label;"/>
@@ -253,7 +253,7 @@
             </hbox>
           </groupbox>
         </tabpanel>
-
+-->
       </tabpanels>
     </tabbox>
 

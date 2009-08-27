@@ -1,11 +1,11 @@
 function readPreferences() {
   window.sizeToContent();
-  portChange();
+/*  portChange();
   timeoutChange();
-  filemodeChange();
+  filemodeChange();*/
 }
 
-function portChange() {
+/*function portChange() {
   $('proxyhost').disabled      =  $('proxytype').value == "";
   $('proxyport').disabled      =  $('proxytype').value == "";
   $('proxyhostlabel').disabled =  $('proxytype').value == "";
@@ -21,4 +21,4 @@ function timeoutChange() {
 
 function filemodeChange() {
   $('asciibutton').disabled    =  $('filemode').value != 0;
-}
+}*/

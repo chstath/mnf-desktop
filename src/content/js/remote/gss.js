@@ -44,8 +44,8 @@ gss.root = {};
 // The file cache
 gss.rootFolder = {};
 
-//Creates a HMAC-SHA1 signature of method+time+resource, using the token.
-gss.sign = function(method, time, resource, token) {
+// Creates a HMAC-SHA1 signature of method+time+resource, using the token.
+gss.sign = function (method, time, resource, token) {
 	var q = resource.indexOf('?');
 	var res = q == -1? resource: resource.substring(0, q);
 	var data = method + time + res;
@@ -56,7 +56,7 @@ gss.sign = function(method, time, resource, token) {
 
 gss.getAuth = function(method, resource) {
 	// If the resource is an absolute URI, remove the API_URL.
-	if (resource.indexOf(gss.API_URL) == 0)
+	if (resource.indexOf(gss.API_URL) === 0)
 		resource = resource.slice(gss.API_URL.length, resource.length);
 	var now = (new Date()).toUTCString();
 	var sig = gss.sign(method, now, resource, gss.authToken);
@@ -68,7 +68,7 @@ gss.getAuth = function(method, resource) {
 // A helper function for making API requests.
 gss.sendRequest = function(handler, handlerArg, nextAction, nextActionArg, method, resource, modified, file, form, update, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventHandler, abortEventHandler) {
 	// If the resource is an absolute URI, remove the API_URL.
-	if (resource.indexOf(gss.API_URL) == 0)
+	if (resource.indexOf(gss.API_URL) === 0)
 		resource = resource.slice(gss.API_URL.length, resource.length);
 	var now = (new Date()).toUTCString();
 	var sig = gss.sign(method, now, resource, gss.authToken);
@@ -128,13 +128,13 @@ gss.sendRequest = function(handler, handlerArg, nextAction, nextActionArg, metho
 		stream.init(file, 0x04 | 0x08, 0644, 0x04); // file is an nsIFile instance
 
 		// Try to determine the MIME type of the file
-		var mimeType = "text/plain";
+		var mimeType = "application/octet-stream";
 		try {
 		  var mimeService = Components.classes["@mozilla.org/mime;1"]
 					          .getService(Components.interfaces.nsIMIMEService);
 		  mimeType = mimeService.getTypeFromFile(file); // file is an nsIFile instance
 		}
-		catch(e) { /* eat it; just use text/plain */ }
+		catch(e) { /* eat it; just use application/octet-stream */ }
 		req.setRequestHeader("Content-Type", mimeType);
 	} else if (form) {
 		req.setRequestHeader("Content-Length", params.length);
@@ -154,7 +154,7 @@ gss.fetchUserAsync = function(next) {
 	gss.fetchUser(next);
 };
 
-//Fetches the 'user' namespace.
+// Fetches the 'user' namespace.
 gss.fetchUser = function(nextAction, nextActionArg) {
 	gss.sendRequest(gss.parseUser, null, nextAction, nextActionArg, 'GET', '/'+gss.username+'/');
 };
@@ -179,9 +179,11 @@ gss.parseFiles = function(req, folder, nextAction, nextActionArg) {
 		f.isFolder = true;
 	}
 	if (nextAction)
-			nextAction(nextActionArg);
+		nextAction(nextActionArg);
 };
 
+// Update the cached folder copy with the new one, in order to maintain cached
+// object identities.
 gss.updateFolderAttributes = function(folder, newFolder) {
 	for (var attr in newFolder) {
 		if (attr == 'folders' || attr == 'files') {
@@ -196,8 +198,7 @@ gss.updateFolderAttributes = function(folder, newFolder) {
 	}
 };
 
-//Fetches the contents of the folder with the specified uti
-//uri
+// Fetches the contents of the folder with the specified uri
 gss.fetchFolder = function(folder, nextAction, nextActionArg) {
 	gss.sendRequest(gss.parseFiles, folder, nextAction, nextActionArg, 'GET', folder.uri);
 };

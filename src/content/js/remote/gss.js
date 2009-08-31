@@ -185,10 +185,10 @@ gss.parseFiles = function(req, folder, nextAction, nextActionArg) {
 // Update the cached folder copy with the new one, in order to maintain cached
 // object identities.
 gss.updateFolderAttributes = function(folder, newFolder) {
-	var cons = Components.classes["@mozilla.org/consoleservice;1"].
+	var attr, cons = Components.classes["@mozilla.org/consoleservice;1"].
    			getService(Components.interfaces.nsIConsoleService);
 	cons.logStringMessage("updating "+newFolder.name);
-	for (var attr in newFolder)
+	for (attr in newFolder)
 		if (newFolder.hasOwnProperty(attr)) {
 			if (attr === 'folders' || attr === 'files') {
 				cons.logStringMessage(attr+": "+(folder[attr]? folder[attr].length: -1));
@@ -197,42 +197,46 @@ gss.updateFolderAttributes = function(folder, newFolder) {
 				else {
 					// Remove deleted children from cache.
 					jQuery.each(folder[attr], function (i, e) {
-						if (jQuery.inArray(e, newFolder[attr]) === -1) {
+						var found = false;
+						jQuery.each(newFolder[attr], function (it, el) {
+							if (el.uri === e.uri) {
+								found = true;
+								return false;
+							}
+						});
+						if (!found) {
 							cons.logStringMessage("Deleting "+e.name);
 							delete folder[attr][i];
 						}
 					});
-					// Add new children to the cache or recurse for existing ones.
+					// Recursively update existing children.
 					jQuery.each(newFolder[attr], function (i, e) {
-						var index = jQuery.inArray(e, folder[attr]);
-						if (index === -1) {
-							cons.logStringMessage("Adding "+e.name);
-							folder[attr].push(e);
-						} else {
+						var found;
+						jQuery.each(folder[attr], function (it, el) {
+							if (el.uri === e.uri) {
+								found = el;
+								return false;
+							}
+						});
+						if (found) {
 							cons.logStringMessage("Recursing in "+e.name);
-							gss.updateFolderAttributes(folder[attr][index], e);
+							gss.updateFolderAttributes(found, e);
 						}
 					});
-/*					for (var i in newFolder[attr]) // Iterates on array indexes!
-						if (newFolder[attr].hasOwnProperty(i)) {
-							// Add new children to the cache or recurse for existing ones.
-							if (!folder[attr][i]) {
-								cons.logStringMessage("Adding "+newFolder[attr][i].name);
-								folder[attr][i] = newFolder[attr][i];
+					// Add new children to the cache.
+					jQuery.each(newFolder[attr], function (i, e) {
+						var found = false;
+						jQuery.each(folder[attr], function (it, el) {
+							if (el.uri === e.uri) {
+								found = true;
+								return false;
 							}
-							else {
-								cons.logStringMessage("Recursing in "+folder[attr][i].name);
-								gss.updateFolderAttributes(folder[attr][i], newFolder[attr][i]);
-							}
+						});
+						if (!found) {
+							cons.logStringMessage("Adding "+e.name);
+							folder[attr].push(e);
 						}
-					// Remove deleted children from cache.
-					for (i in folder[attr])
-						if (folder[attr].hasOwnProperty(i)) {
-							if (!newFolder[attr][i]) {
-								cons.logStringMessage("Deleting "+folder[attr][i].name);
-								delete folder[attr][i];
-							}
-						}*/
+					});
 				}
 			}
 			else

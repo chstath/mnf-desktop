@@ -57,11 +57,11 @@ var remoteTree = {
   },
 
   getCellProperties : function(row, col, props)   {
-    if (row >= 0 && row < this.data.length && this.data[row]) {
+    if (row >= 0 && row < remoteTree.data.length && remoteTree.data[row]) {
       if (col.id == "remotename") {
-        if (this.displayData[row].isDirectory) {
+        if (remoteTree.displayData[row].isDirectory) {
           props.AppendElement(gAtomService.getAtom("isFolder"));
-        } else if (this.displayData[row].isSymlink) {
+        } else if (remoteTree.displayData[row].isSymlink) {
           props.AppendElement(gAtomService.getAtom("isLink"));
         }
 
@@ -72,11 +72,11 @@ var remoteTree = {
         props.AppendElement(gAtomService.getAtom("overName"));
       }
 
-      if (this.displayData[row].isHidden) {
+      if (remoteTree.displayData[row].isHidden) {
         props.AppendElement(gAtomService.getAtom("hidden"));
       }
 
-      if (this.displayData[row].isCut) {
+      if (remoteTree.displayData[row].isCut) {
         props.AppendElement(gAtomService.getAtom("cut"));
       }
     }
@@ -85,15 +85,17 @@ var remoteTree = {
   // ****************************************************** updateView ***************************************************
 
   updateView : function(files) {
-    var remoteTreeItems = new Array();
+    remoteDirTree.select();
+/*    var remoteTreeItems = new Array();
 
     if (!files) {
       this.searchMode = 0;
       gRemoteTreeChildren.removeAttribute('search');
 
       try {
-        this.remoteSize               = 0;
-        var dir                      = gss.subfolders.concat(gss.files) ;
+        this.remoteSize = 0;
+        var gssObj = remoteDirTree.data[remoteDirTree.selection.currentIndex].gssObj;
+        var dir = gssObj.folders.concat(gssObj.files) ;
 //        this.remoteAvailableDiskSpace = parseSize(dir.diskSpaceAvailable);                       // get remote disk size
  //       var entries                  = dir.directoryEntries;
 
@@ -178,7 +180,7 @@ var remoteTree = {
       remoteDirTree.data[index].empty    = false;
     }
 
-    remoteDirTree.treebox.invalidateRow(index);
+    remoteDirTree.treebox.invalidateRow(index);*/
   },
 
   sort : function(files) {
@@ -214,7 +216,7 @@ var remoteTree = {
                               date        : "1/1/2000",
                               extension   : this.data[row].isFolder ? "" : "txt",//this.getExtension(this.data[row].leafName),
                               attr        : "",
-                              icon        : this.getFileIcon(row),
+                              icon        : "",//this.getFileIcon(row),
                               path        : this.data[row].location,
                               isDirectory : this.data[row].isFolder,
                               isSymlink   : false,
@@ -320,7 +322,7 @@ var remoteTree = {
       return "";
     }
 
-    var fileURI = gIos.newFileURI(this.data[row]);
+    var fileURI = gIos.newFileURI(remoteTree.data[row]);
     return "moz-icon://" + fileURI.spec + "?size=16";                                           // thanks to alex sirota!
   },
 
@@ -1156,70 +1158,70 @@ var remoteTree = {
     }
   },
 
-	showFolderContents: function(folder) {
-		remoteTree.treebox.rowCountChanged(0, -remoteTree.rowCount);
-        folder = remoteDirTree.data[remoteDirTree.selection.currentIndex].gssObj;
-		if (folder.folders) {
-			remoteTree.data = folder.folders.concat(folder.files) ;
-			remoteTree.displayData = [];
-			for (var row = 0; row < remoteTree.data.length; row++) {
-				if (remoteTree.data[row].modificationDate) {
-					var fileDate = new Date();
-					fileDate.setTime(remoteTree.data[row].modificationDate);
-				}
-				else
-					fileDate = "";
-				remoteTree.displayData.push({ leafName    : remoteTree.data[row].name,
-												fileSize    : remoteTree.data[row].size,
-												date        : fileDate.toLocaleString(),
-												extension   : remoteTree.data[row].content,
-												attr        : "",
-												icon        : "", //remoteTree.getFileIcon(row),
-												path        : remoteTree.data[row].uri,
-												isDirectory : remoteTree.data[row].isFolder,
-												isSymlink   : false,
-												isHidden    : false
-											});
-			}
-		}
-		else {
-			remoteTree.data = [];
-			remoteTree.displayData = [];
-		}
-		remoteTree.rowCount = remoteTree.data.length;
-		remoteTree.treebox.rowCountChanged(0, remoteTree.rowCount);
-		remoteTree.selection.select(0);
-	},
+  showFolderContents: function(folder) {
+      remoteTree.treebox.rowCountChanged(0, -remoteTree.rowCount);
+      //folder = remoteDirTree.data[remoteDirTree.selection.currentIndex].gssObj;
+      if (folder.folders) {
+          remoteTree.data = folder.folders.concat(folder.files);
+          remoteTree.displayData = [];
+          for (var row = 0; row < remoteTree.data.length; row++) {
+              if (remoteTree.data[row].modificationDate) {
+                  var fileDate = new Date();
+                  fileDate.setTime(remoteTree.data[row].modificationDate);
+              }
+              else
+                  fileDate = "";
+              remoteTree.displayData.push({ leafName    : remoteTree.data[row].name,
+                                              fileSize    : remoteTree.data[row].size,
+                                              date        : fileDate.toLocaleString(),
+                                              extension   : remoteTree.data[row].content,
+                                              attr        : "",
+                                              icon        : "", //remoteTree.getFileIcon(row),
+                                              path        : remoteTree.data[row].uri,
+                                              isDirectory : remoteTree.data[row].isFolder,
+                                              isSymlink   : false,
+                                              isHidden    : false
+                                          });
+          }
+      }
+      else {
+          remoteTree.data = [];
+          remoteTree.displayData = [];
+      }
+      remoteTree.rowCount = remoteTree.data.length;
+      remoteTree.treebox.rowCountChanged(0, remoteTree.rowCount);
+      remoteTree.selection.select(0);
+  },
 
-	dblClick : function(event) {
-		if (event.button != 0 || event.originalTarget.localName != "treechildren" || this.selection.count == 0) {
-			return;
-		}
+  dblClick : function(event) {
+      if (event.button != 0 || event.originalTarget.localName != "treechildren" || this.selection.count == 0) {
+          return;
+      }
 
-		if (this.selection.currentIndex < 0 || this.selection.currentIndex >= this.rowCount) {
-			this.selection.currentIndex = this.rowCount - 1;
-		}
+      if (this.selection.currentIndex < 0 || this.selection.currentIndex >= this.rowCount) {
+          this.selection.currentIndex = this.rowCount - 1;
+      }
 
-		var index = this.selection.currentIndex;
-		if (this.data[index].isFolder) {                                 // if it's a directory
-			var folder = this.data[index]; //cache the folder 'cause this.data may be cleared after showFolderContents
+      var index = this.selection.currentIndex;
+      if (this.data[index].isFolder) {                                 // if it's a directory
+          var folder = this.data[index]; //cache the folder 'cause this.data may be cleared after showFolderContents
 
-            var parentIndex = remoteDirTree.selection.currentIndex;
-            if (!remoteDirTree.isContainerOpen(parentIndex))
-                remoteDirTree.toggleOpenState(parentIndex);
-            var thisIndex = remoteDirTree.indexOfFolder(folder)
-            appendLog(thisIndex + ' ');
-            remoteDirTree.selection.select(thisIndex);
-		}
-		else {
-			var file = this.data[index];
-			var uri = file.uri;
-			var now = (new Date()).toUTCString();
-			var resource = uri;
-		    if (resource.indexOf(gss.API_URL) == 0)
-		        resource = resource.slice(gss.API_URL.length, resource.length);
-			var auth = gss.getAuth("GET", uri);
-			window.open(uri + "?" + auth.authString);
-		}
-	}
+          var parentIndex = remoteDirTree.selection.currentIndex;
+          if (!remoteDirTree.isContainerOpen(parentIndex))
+              remoteDirTree.toggleOpenState(parentIndex);
+          var thisIndex = remoteDirTree.indexOfFolder(folder)
+          appendLog(thisIndex + ' ');
+          remoteDirTree.selection.select(thisIndex);
+      }
+      else {
+          var file = this.data[index];
+          var uri = file.uri;
+          var now = (new Date()).toUTCString();
+          var resource = uri;
+          if (resource.indexOf(gss.API_URL) == 0)
+              resource = resource.slice(gss.API_URL.length, resource.length);
+          var auth = gss.getAuth("GET", uri);
+          window.open(uri + "?" + auth.authString);
+      }
+  }
 };

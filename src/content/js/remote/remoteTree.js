@@ -216,7 +216,7 @@ var remoteTree = {
                               date        : "1/1/2000",
                               extension   : this.data[row].isFolder ? "" : "txt",//this.getExtension(this.data[row].leafName),
                               attr        : "",
-                              icon        : "",//this.getFileIcon(row),
+                              icon        : this.getFileIcon(row),
                               path        : this.data[row].location,
                               isDirectory : this.data[row].isFolder,
                               isSymlink   : false,
@@ -322,8 +322,9 @@ var remoteTree = {
       return "";
     }
 
-    var fileURI = gIos.newFileURI(remoteTree.data[row]);
-    return "moz-icon://" + fileURI.spec + "?size=16";                                           // thanks to alex sirota!
+    var content = remoteTree.data[row].content;
+    var name = remoteTree.data[row].name;
+    return "moz-icon://"+name+"?size=16&contentType="+content;
   },
 
   // ************************************************** refresh *******************************************************
@@ -1176,7 +1177,7 @@ var remoteTree = {
                                               date        : fileDate.toLocaleString(),
                                               extension   : remoteTree.data[row].content,
                                               attr        : "",
-                                              icon        : "", //remoteTree.getFileIcon(row),
+                                              icon        : remoteTree.getFileIcon(row),
                                               path        : remoteTree.data[row].uri,
                                               isDirectory : remoteTree.data[row].isFolder,
                                               isSymlink   : false,

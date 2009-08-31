@@ -40,7 +40,6 @@ function startup() {
   gIos                   = Components.classes["@mozilla.org/network/io-service;1"].getService      (Components.interfaces.nsIIOService);
   gPromptService         = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);
   gPrefsService          = Components.classes["@mozilla.org/preferences-service;1"].getService     (Components.interfaces.nsIPrefService);
-  //gfiregssUtils          = Components.classes['@nightlight.ws/firegssutils;1'].getService          (Components.interfaces.nsIfiregssUtils);
   gFormHistory           = Components.classes["@mozilla.org/satchel/form-history;1"].getService    (Components.interfaces.nsIFormHistory ?
                                                                                                     Components.interfaces.nsIFormHistory :
                                                                                                     Components.interfaces.nsIFormHistory2);
@@ -85,12 +84,7 @@ function startup() {
   securityPopup();
 
   readPreferences(true);
-  setConnectButton(true);
-  accountButtonsDisabler(true);
-  connectedButtonsDisabler();
   localDirTree.changeDir('/');
-  loadSiteManager(true);
-  loadPrograms();
 
   var trht = 'http://code.google.com/p/gss';
   appendLog("<span id='opening' style='line-height:16px'><span style='cursor:pointer;text-decoration:underline;color:blue;' onclick=\"window.open('http://code.google.com/p/gss','FireGSS');\">"
@@ -99,10 +93,11 @@ function startup() {
       + "</span><br style='font-size:5pt'/><br style='font-size:5pt'/>", 'blue', "info");
   gCmdlogBody.scrollTop = 0;
 
-  onAccountChange(gDefaultAccount);
-//  setTimeout("gAccountField.focus()", 0);
-
-  //tipJar();
+  if (gUsernameMode) {
+    var username = gPrefs.getCharPref("username");
+    if (username)
+      jQuery('#username').val(username);
+  }
   jQuery('#username').formHints({'className':'hint'});
 
   setTimeout(doResizeHack, 0);
@@ -113,9 +108,6 @@ function startup() {
 }
 
 function doDesktopLogin() {
-  var cons = Components.classes["@mozilla.org/consoleservice;1"].
-      getService(Components.interfaces.nsIConsoleService);
-
   var showLogin = function (data) {
     gss.nonce = data.trim();
     var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
@@ -136,12 +128,14 @@ function doDesktopLogin() {
             switch (req.status) {
               case 200:
                 gss.authToken = req.responseText.trim();
+                // Close login tab and return to application tab.
                 var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
                      .getService(Components.interfaces.nsIWindowMediator);
                 var mainWindow = wm.getMostRecentWindow("navigator:browser");
                 var gBrowser = mainWindow.getBrowser();
                 gBrowser.removeCurrentTab();
-                returnToFireGSSTab('firegss');
+                returnToAppTab('firegss');
+                // Make the username textbox read-only and initialize the remote pane.
                 jQuery("#username").attr("readonly", "true");
                 gss.fetchRootFolder(remoteDirTree.initialize);
                 break;
@@ -162,7 +156,7 @@ function doDesktopLogin() {
     data: {user: gss.username},
     success: showLogin,
     dataType: "text",
-    error: function(request, status, error){
+    error: function(request, status, error) {
       if (request.status === 403)
         alert("Username not found");
     }
@@ -193,7 +187,7 @@ function unload() {
   }
 }
 
-function returnToFireGSSTab(attrName) {
+function returnToAppTab(attrName) {
   var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
            .getService(Components.interfaces.nsIWindowMediator);
   for (var found = false, index = 0, tabbrowser = wm.getEnumerator('navigator:browser').getNext().getBrowser();
@@ -222,6 +216,10 @@ function login(event) {
     gss.username = event;
     gss.authToken = '';
     doDesktopLogin();
+    prefs = Components.classes["@mozilla.org/preferences-service;1"]
+        .getService(Components.interfaces.nsIPrefService)
+        .getBranch("firegss.");
+    prefs.setCharPref("username", gss.username);
   }
 }
 

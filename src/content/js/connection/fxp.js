@@ -92,8 +92,8 @@ function fxpConnect(showPassDialog) {
 var fxpObserver = {
   securityCallbacks   : securityCallbacks,
 
-  onConnectionRefused : function()                   { displayWelcomeMessage(gFxp.welcomeMessage); },
-  onWelcomed          : function()                   { displayWelcomeMessage(gFxp.welcomeMessage); },
+  onConnectionRefused : function()                   { },
+  onWelcomed          : function()                   { },
   onConnected         : function()                   { },
   onLoginDenied       : function()                   { fxpConnect(true); },
   onDisconnected      : function()                   {

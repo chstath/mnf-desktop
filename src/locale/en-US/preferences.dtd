@@ -3,12 +3,12 @@
 
 <!ENTITY general.label         "General">
 <!ENTITY messages.label        "Messages">
-<!ENTITY welcome.label         "Show welcome message">
 <!ENTITY error.label           "Show error messages">
 
 <!ENTITY sessions.label        "Sessions">
 <!ENTITY rememberp.label       "Remember passwords">
 <!ENTITY rememberd.label       "Cache directory listings">
+<!ENTITY rememberu.label       "Remember last used username">
 
 <!ENTITY fileview.label        "File View">
 <!ENTITY autorefresh.label     "Auto-refresh">
@@ -17,11 +17,9 @@
 <!ENTITY bytesmode.label       "Display number of bytes for file sizes">
 
 <!ENTITY interface.label       "Interface">
-<!ENTITY startup.label         "Start FireFTP:">
+<!ENTITY startup.label         "Start FireGSS:">
 <!ENTITY windowopen.label      "in a new window">
 <!ENTITY tabopen.label         "in a new tab">
-<!ENTITY integrateftplnk.label "Configure FTP links in Firefox to automatically use FireFTP">
-<!ENTITY temppasvmode.label    "Use Passive Mode for these connections">
 
 <!ENTITY open.label            "Double-clicking/pressing enter:">
 <!ENTITY download.label        "transfers a file">
@@ -81,8 +79,3 @@
 <!ENTITY duplicates.label      "File Duplicates">
 <!ENTITY timer.label           "Disable timer in overwrite dialog">
 <!ENTITY nopromptmode.label    "Don't display overwrite dialog, simply overwrite">
-
-<!ENTITY credits.label         "Credits">
-<!ENTITY thanks.label          "Thank You:">
-<!ENTITY allothers.label       "All others who submitted bugs and helped">
-<!ENTITY special.label         "Special Thanks to all who donate!">

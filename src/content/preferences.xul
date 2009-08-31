@@ -19,11 +19,11 @@
 
   <prefpane id="myPane">
     <preferences>
-      <preference id="welcomemodepref"        name="firegss.welcomemode"       type="bool"/>
       <preference id="errormodepref"          name="firegss.errormode"         type="bool"/>
       <preference id="refreshmodepref"        name="firegss.refreshmode"       type="bool"/>
       <preference id="passwordmodepref"       name="firegss.passwordmode"      type="bool"/>
       <preference id="sessionsmodepref"       name="firegss.sessionsmode"      type="bool"/>
+      <preference id="usernamemodepref"       name="firegss.usernamemode"      type="bool"/>
       <preference id="hiddenmodepref"         name="firegss.hiddenmode"        type="bool"/>
       <preference id="openmodepref"           name="firegss.openmode"          type="int"/>
       <preference id="networkpref"            name="firegss.network"           type="int"/>
@@ -43,8 +43,6 @@
       <preference id="proxytypepref"          name="firegss.proxytype"         type="string"/>
       <preference id="proxyhostpref"          name="firegss.proxyhost"         type="unichar"/>
       <preference id="proxyportpref"          name="firegss.proxyport"         type="int"/>
-      <preference id="integrateftplinkspref"  name="firegss.integrateftplinks" type="bool"/>
-      <preference id="temppasvmodepref"       name="firegss.temppasvmode"      type="bool"/>
       <preference id="activeportmodepref"     name="firegss.activeportmode"    type="bool"/>
       <preference id="activelowportpref"      name="firegss.activelow"         type="int"/>
       <preference id="activehighportpref"     name="firegss.activehigh"        type="int"/>
@@ -58,9 +56,8 @@
       <tabs>
         <tab label="&general.label;"/>
         <tab label="&interface.label;"/>
-        <tab label="&connect.label;"/>
-        <tab label="&downup.label;"/>
-        <tab label="&credits.label;"/>
+<!--        <tab label="&connect.label;"/>
+        <tab label="&downup.label;"/>-->
       </tabs>
       <tabpanels flex="1">
 
@@ -69,9 +66,6 @@
         <tabpanel id="generaltab" orient="vertical">
           <groupbox>
             <caption label="&messages.label;"/>
-            <hbox align="start">
-              <checkbox id="welcomemode"  preference="welcomemodepref"  label="&welcome.label;"/>
-            </hbox>
             <hbox align="start">
               <checkbox id="errormode"    preference="errormodepref"    label="&error.label;"/>
             </hbox>
@@ -83,6 +77,9 @@
             </hbox>
             <hbox align="start">
               <checkbox id="sessionsmode" preference="sessionsmodepref" label="&rememberd.label;"/>
+            </hbox>
+            <hbox align="start">
+              <checkbox id="usernamemode" preference="usernamemodepref" label="&rememberu.label;"/>
             </hbox>
           </groupbox>
           <groupbox>
@@ -108,13 +105,6 @@
               <radio label="&windowopen.label;" value="0"/>
               <radio label="&tabopen.label;"    value="1"/>
             </radiogroup>
-            <spacer style="height:5px"/>
-            <hbox align="start">
-              <checkbox preference="integrateftplinkspref" id="integrateftplinks" label="&integrateftplnk.label;" oncommand="integrateChange()"/>
-            </hbox>
-            <hbox align="center" class="indent">
-              <checkbox preference="temppasvmodepref"      id="temppasvmode"      label="&temppasvmode.label;"/>
-            </hbox>
           </groupbox>
           <groupbox>
             <caption label="&open.label;"/>
@@ -138,7 +128,7 @@
         </tabpanel>
 
         <!-- :::::::::::::::::::::::::::::: connect :::::::::::::::::::::::::::::: -->
-
+<!--
         <tabpanel id="connecttab" orient="vertical">
           <groupbox>
             <caption label="&proxy.label;"/>
@@ -215,9 +205,9 @@
             </vbox>
           </groupbox>
         </tabpanel>
-
+-->
         <!-- :::::::::::::::::::::::::::::: down/uploads :::::::::::::::::::::::::::::: -->
-
+<!--
         <tabpanel id="downuptab" orient="vertical">
           <groupbox>
             <caption label="&transfercaption.label;"/>
@@ -263,88 +253,7 @@
             </hbox>
           </groupbox>
         </tabpanel>
-
-        <!-- :::::::::::::::::::::::::::::: credits :::::::::::::::::::::::::::::: -->
-
-        <tabpanel id="creditstab" orient="vertical">
-          <hbox pack="center">
-            <label value="firegss 1.0.4   "/>
-            <label value="Mime &#268;uvalo"          onclick="runInFirefox('http://www.nightlight.ws')"  class="textLink"/>
-          </hbox>
-          <box pack="center">
-            <label value="http://firegss.mozdev.org" onclick="runInFirefox('http://firegss.mozdev.org')" class="textLink"/>
-          </box>
-          <label class="paddingTop boldText" value="&thanks.label;"/>
-          <listbox rows="10">
-            <listitem label="3ARRANO (Eskerrik asko, Milesker!)"/>
-            <listitem label="Erik Anderson"/>
-            <listitem label="BatBat (Merci!)"/>
-            <listitem label="Scott Bentley (A god among men)"/>
-            <listitem label="Paolo Borla (Grazie!)"/>
-            <listitem label="Jed Brown"/>
-            <listitem label="Patrick Brunschwig (for help on IPC)"/>
-            <listitem label="ccpp0 (i18n rock*)"/>
-            <listitem label="Abel Chaouqi (Merci!)"/>
-            <listitem label="Jason Clark"/>
-            <listitem label="Darehanl (고맙습니다!)"/>
-            <listitem label="Declan (謝謝!)"/>
-            <listitem label="Devin Pohly (a million thanks!)"/>
-            <listitem label="Tomasz Dominikowski (Dziekuje!)"/>
-            <listitem label="Edgar (Gracias!)"/>
-            <listitem label="Elric Erekose"/>
-            <listitem label="Daniel Muñiz Fontoira (Grazas!)"/>
-            <listitem label="Ze Francisco (Obrigado!)"/>
-            <listitem label="Hendrik Gebhardt (Danke!)"/>
-            <listitem label="Alfons Van Hees (Dank u!)"/>
-            <listitem label="Angel Herr&#225;ez (Gracias!)"/>
-            <listitem label="Bob Henson"/>
-            <listitem label="Petr Hlávka"/>
-            <listitem label="Iacopo Benesperi (Grazie!)"/>
-            <listitem label="isn (Spasibo!)"/>
-            <listitem label="Mikkel Jensen (Tak!)"/>
-            <listitem label="Erkan Kaplan (Te&#351;ekk&#252;rler!)"/>
-            <listitem label="Tan Chew Keong (thanks for security advice!)"/>
-            <listitem label="Michael Kraft (all hail!)"/>
-            <listitem label="Jacinto Leal (Gracias!)"/>
-            <listitem label="Hrvoje Majer (krcko) (Hvala!)"/>
-            <listitem label="Pedro Marques (Obrigado!)"/>
-            <listitem label="Norah Marinkovic (ありがとう!)"/>
-            <listitem label="Mook (for help on IPC)"/>
-            <listitem label="Xavier Mor-Mur (Gràcies!)"/>
-            <listitem label="Sol Neckels (thanks!)"/>
-            <listitem label="Sumito_Oda (ありがとう!)"/>
-            <listitem label="OMNIpotus"/>
-            <listitem label="Sunjae Park (너를 감사하십시요!)"/>
-            <listitem label="Pedsann (Obrigado!)"/>
-            <listitem label="Petertc (謝謝!)"/>
-            <listitem label="Rickcart (謝謝!)"/>
-            <listitem label="Ritargatan (Jag tackar!)"/>
-            <listitem label="Javi Romero (Gracias!)"/>
-            <listitem label="Branislav Rozbora (D'akujem!)"/>
-            <listitem label="Jesadavut Saengsawang (Khop Khun Mak!)"/>
-            <listitem label="Will Schleter"/>
-            <listitem label="Sergeys (Spasibo!)"/>
-            <listitem label="Sampan Sittiwantana (Khop Khun Mak!)"/>
-            <listitem label="Marco Simonetti (Grazie!)"/>
-            <listitem label="Alex Sirota"/>
-            <listitem label="Benjamin Smedberg (for help on IPC)"/>
-            <listitem label="Martin Srebotnjak (Hvala!)"/>
-            <listitem label="Tyler Sticka (for the fantastic logo!)"/>
-            <listitem label="Phil Summers"/>
-            <listitem label="Kálmán Szalai (Köszönöm!)"/>
-            <listitem label="Simon Tatham (for a brilliant SFTP client!)"/>
-            <listitem label="Aigar Vals (Täname!)"/>
-            <listitem label="Momchil Valkov (Merci, Blagodaria!)"/>
-            <listitem label="Nick Vidal (Obrigado!)"/>
-            <listitem label="Ladislav Vykukal (D&#283;kuji!)"/>
-            <listitem label="Martijn Weisbeek (Dank u!)"/>
-            <listitem label="Shixin Zeng (谢谢!)"/>
-            <listitem label="Leszek(teo) &#379;yczkowski (Dziekuje!)"/>
-            <listitem label="MozDev Group, Inc. (you guys rock!)"/>
-            <listitem label="&allothers.label;"/>
-            <listitem label="&special.label;"/>
-          </listbox>
-        </tabpanel>
+-->
       </tabpanels>
     </tabbox>
 

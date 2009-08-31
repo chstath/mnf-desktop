@@ -104,18 +104,6 @@ function parseSize(size) {             // adds byte information for file sizes
   return size;
 }
 
-function displayWelcomeMessage(msg) {
-  if (gWelcomeMode) {
-    try {
-      if (gWelcomeWindow && gWelcomeWindow.close) {          // get rid of those extra pestering welcome windows if the program is reconnecting automatically
-        gWelcomeWindow.close();
-      }
-    } catch (ex) { }
-
-    gWelcomeWindow = window.openDialog("chrome://firegss/content/welcome.xul", "welcome", "chrome,resizable,centerscreen", msg);
-  }
-}
-
 function custom() {
   if (!gFtp.isConnected || !isReady()) {
     return;

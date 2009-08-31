@@ -1,8 +1,8 @@
 pref("extensions.{a7c6cf7f-112c-4500-a7ea-39801a327e5f}.description", "chrome://firegss/locale/strings.properties");
-pref("firegss.welcomemode",       false);
 pref("firegss.errormode",         true);
 pref("firegss.refreshmode",       true);
 pref("firegss.passwordmode",      true);
+pref("firegss.usernamemode",      true);
 pref("firegss.sessionsmode",      true);
 pref("firegss.hiddenmode",        false);
 pref("firegss.interfacemode",     0);
@@ -26,8 +26,6 @@ pref("firegss.proxyport",         0);
 pref("firegss.folder",            "");
 pref("firegss.donated",           false);
 pref("firegss.loadurl",           "");
-pref("firegss.integrateftplinks", false);
-pref("firegss.temppasvmode",      true);
 pref("firegss.defaultaccount",    "");
 pref("firegss.activeportmode",    false);
 pref("firegss.activelow",         1);

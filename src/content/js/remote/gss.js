@@ -206,7 +206,7 @@ gss.updateFolderAttributes = function(folder, newFolder) {
 						});
 						if (!found) {
 							cons.logStringMessage("Deleting "+e.name);
-							delete folder[attr][i];
+							folder[attr].splice(i,1);
 						}
 					});
 					// Recursively update existing children.
@@ -285,4 +285,8 @@ gss.parseNewFolder = function(req, parent, nextAction) {
 	};
 	parent.folders.push(newFolder);
 	gss.sendRequest(gss.parseFiles, newFolder, nextAction, newFolder, 'GET', newFolder.uri);
+};
+
+gss.deleteResource = function(uri) {
+	gss.sendRequest(null, null, null, null, 'DELETE', uri);
 };

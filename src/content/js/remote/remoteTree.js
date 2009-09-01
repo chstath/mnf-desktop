@@ -318,13 +318,19 @@ var remoteTree = {
   },
 
   getFileIcon : function(row) {
+    var icon, name, ext, file;
     if (this.data[row].isFolder) {
       return "";
     }
 
-    var content = remoteTree.data[row].content;
-    var name = remoteTree.data[row].name;
-    return "moz-icon://"+name+"?size=16&contentType="+content;
+    file = remoteTree.data[row];
+    name = file.name;
+    ext = name.substring(name.lastIndexOf('.') + 1);
+    if (ext !== '')
+        icon = "moz-icon://."+ext+"?size=16";
+    else
+        icon = "moz-icon://"+name+"?size=16&contentType="+file.content;
+    return icon;
   },
 
   // ************************************************** refresh *******************************************************

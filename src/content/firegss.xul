@@ -49,6 +49,7 @@
   <script type="application/x-javascript" src="chrome://firegss/content/js/local/localTree.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/local/localDirTree.js"/>
 
+  <script type="application/x-javascript" src="chrome://firegss/content/js/remote/remoteFile.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/remote/remoteTree.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/remote/remoteDirTree.js"/>
 
@@ -92,10 +93,6 @@
       <menuseparator                                                                                                                id="localOpenContSep"/>
       <menuitem oncommand="new transfer().start(false);"        label="&upload.label;"              key="key_transfer"              id="localUpload"/>
       <menuitem oncommand="localTree.launch()"                  label="&open.label;"                key="key_open"                  id="localOpen"/>
-      <menu label="&openwith.label;"                                                                                                id="localOpenWith">
-        <menupopup id="openWithMenu">
-        </menupopup>
-      </menu>
       <menuitem oncommand="localTree.extract(false)"            label="&extractHere.label;"                                         id="extractHereContext"/>
       <menuitem oncommand="localTree.extract(true)"             label="&extractTo.label;"                                           id="extractToContext"/>
       <menuseparator/>
@@ -112,27 +109,9 @@
       <menuitem oncommand="localTree.showProperties(true)"      label="&rproperties.label;"                                         id="localRecursiveProperties"/>
     </popup>
     <popup id="remotemenu" onpopupshowing="remoteTree.createContextMenu()">
-      <menuitem oncommand="remoteTree.openContainingFolder();"  label="&openContaining.label;"                                      id="remoteOpenCont"/>
-      <menuseparator                                                                                                                id="remoteOpenContSep"/>
       <menuitem oncommand="new transfer().start(true)"          label="&download.label;"            key="key_transfer"              id="remoteDownload"/>
       <menuitem oncommand="remoteTree.launch()"                 label="&open.label;"                key="key_open"                  id="remoteOpen"/>
-      <menu label="&openwith.label;"                                                                                                id="remoteOpenWith">
-        <menupopup id="remoteOpenWithMenu">
-        </menupopup>
-      </menu>
-      <menuseparator/>
-      <menuitem oncommand="remoteTree.viewOnTheWeb()"           label="&viewweb.label;"                                             id="remoteWeb"/>
-      <menu label="&copyUrl.label;"                                                                                                 id="remoteCopyUrl">
-        <menupopup>
-          <menuitem oncommand="remoteTree.copyUrl(true)"        label="HTTP"                        key="key_url"/>
-          <menuitem oncommand="remoteTree.copyUrl(false)"       label="FTP"/>
-          <menuitem oncommand="remoteTree.copyUrl(false, true)" label="&copyUrlLogin.label;"/>
-        </menupopup>
-      </menu>
-      <menu label="FXP"                                                                                                             id="remoteFXP">
-        <menupopup id="remoteFXPMenu">
-        </menupopup>
-      </menu>
+      <menuitem oncommand="remoteTree.copyUrl(true)"           label="&copyUrl.label;"                                             id="remoteWeb"/>
       <menuseparator/>
       <menuitem oncommand="remoteTree.cut()"                    label="&cut.label;"                 key="key_cut"                   id="remoteCutContext"/>
       <menuitem oncommand="remoteTree.paste()"                  label="&paste.label;"               key="key_paste" disabled="true" id="remotePasteContext"/>
@@ -143,7 +122,6 @@
       <menuitem oncommand="remoteTree.rename()"                 label="&rename.label;"              key="key_rename"                id="remoteRename"/>
       <menuseparator/>
       <menuitem oncommand="remoteTree.showProperties(false)"    label="&properties.label;"          key="key_properties"            id="remoteProperties"/>
-      <menuitem oncommand="remoteTree.showProperties(true)"     label="&rproperties.label;"                                         id="remoteRecursiveProperties"/>
     </popup>
     <popup id="queuemenu" onpopupshowing="queueTree.createContextMenu()">
       <menuitem oncommand="queueTree.retry();"                  label="&retry.label;"                                               id="queueRetry"/>

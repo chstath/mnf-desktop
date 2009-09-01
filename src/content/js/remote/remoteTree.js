@@ -86,101 +86,6 @@ var remoteTree = {
 
   updateView : function(files) {
     remoteDirTree.select();
-/*    var remoteTreeItems = new Array();
-
-    if (!files) {
-      this.searchMode = 0;
-      gRemoteTreeChildren.removeAttribute('search');
-
-      try {
-        this.remoteSize = 0;
-        var gssObj = remoteDirTree.data[remoteDirTree.selection.currentIndex].gssObj;
-        var dir = gssObj.folders.concat(gssObj.files) ;
-//        this.remoteAvailableDiskSpace = parseSize(dir.diskSpaceAvailable);                       // get remote disk size
- //       var entries                  = dir.directoryEntries;
-
-//        this.remoteSize = parseSize(this.remoteSize);                                             // get directory size
-        this.data      = dir;                                                        // update remoteTree
-      } catch (ex) {
-        debug(ex);
-        this.data        = new Array();
-        this.displayData = new Array();
-        this.treebox.rowCountChanged(0, -this.rowCount);
-        this.rowCount = this.data.length;
-        this.treebox.rowCountChanged(0, this.rowCount);
-        this.mouseOver(null);
-        error(gStrbundle.getString("noPermission"));
-        return;
-      }
-    } else {
-      if (this.remoteSize != -1) {
-        this.data        = new Array();
-        this.displayData = new Array();
-        this.treebox.rowCountChanged(0, -this.rowCount);
-
-        this.rememberSort = { cols : ["remotename", "remotesize", "remotedate", "remotetype", "remoteattr"],
-                              vals : [$('remotename').getAttribute("sortDirection"),
-                                      $('remotesize').getAttribute("sortDirection"),
-                                      $('remotedate').getAttribute("sortDirection"),
-                                      $('remotetype').getAttribute("sortDirection"),
-                                      $('remoteattr').getAttribute("sortDirection")] };
-      }
-
-      files.sort(compareName);
-
-      for (var x = 0; x < files.length; ++x) {
-        this.data.push(files[x]);
-      }
-
-      this.remoteSize  = -1;
-      this.searchMode = this.searchMode ? this.searchMode : (gSearchRecursive ? 2 : 1);
-      gLocalTreeChildren.setAttribute('search', true);
-    }
-
-    this.sort(files);
-
-    var index = remoteDirTree.indexOfPath(gRemotePath.value);                                     // select directory in remoteDirTree
-    remoteDirTree.selection.select(index);
-    remoteDirTree.treebox.ensureRowIsVisible(index);
-
-    if (this.data.length && !files) {
-      this.selection.select(0);                                                                 // select first element in remoteTree
-    }
-
-    this.mouseOver(null);
-
-    if (files) {
-      return;
-    }
-
-    var anyFolders = false;                                                                     // see if the folder has any subfolders
-    for (var x = 0; x < this.data.length; ++x) {
-      if (this.data[x].isFolder) {
-        anyFolders = true;
-        break;
-      }
-    }
-
-    if (!anyFolders) {                                                                          // and if there are no subfolders then update our tree
-      if (remoteDirTree.data[index].open) {                                                      // if remoteDirTree is open
-        remoteDirTree.toggleOpenState(index);
-      }
-
-      remoteDirTree.data[index].empty    = true;
-      remoteDirTree.data[index].open     = false;
-      remoteDirTree.data[index].children = null;
-
-      for (var x = 0; x < remoteDirTree.dirtyList.length; ++x) {
-        if (remoteDirTree.dirtyList[x] == gRemotePath.value) {
-          remoteDirTree.dirtyList.splice(x, 1);
-          break;
-        }
-      }
-    } else if (anyFolders && remoteDirTree.data[index].empty) {
-      remoteDirTree.data[index].empty    = false;
-    }
-
-    remoteDirTree.treebox.invalidateRow(index);*/
   },
 
   sort : function(files) {
@@ -542,6 +447,7 @@ var remoteTree = {
   },
 
   remove : function() {
+    var origParent;
     if (this.selection.count == 0) {
       return;
     }
@@ -551,30 +457,28 @@ var remoteTree = {
 
     for (var x = 0; x < this.rowCount; ++x) {
       if (this.selection.isSelected(x)) {
-        if (!localFile.verifyExists(this.data[x])) {
-          continue;
-        }
-
+        origParent = this.data[x].parent;
         files.push(this.data[x]);
       }
     }
 
-    var origParent = gRemotePath.value;                                                          // since were doing threading, the parent path could change during deleting
-    var prompt     = true;
+    var prompt = true;
 
     for (var x = 0; x < files.length; ++x) {
-      if (!localFile.remove(files[x], prompt, count)) {
+      if (!remoteFile.remove(files[x], prompt, count)) {
         break;
       }
 
       prompt = false;
     }
 
-    if (origParent == gRemotePath.value) {                                                       // since we're deleting on a separate thread make sure we're in the same directory on refresh
+    // Since we're deleting on a separate thread make sure we're in the same
+    // directory on refresh.
+    /*if (origParent == gRemotePath.value) {
       this.refresh(false, true);
     } else {
       remoteDirTree.addDirtyList(origParent);
-    }
+    }*/
   },
 
   rename : function() {
@@ -757,10 +661,6 @@ var remoteTree = {
       this.selection.currentIndex = this.rowCount - 1;
     }
 
-    for (var x = $('openWithMenu').childNodes.length - 1; x >= 0; --x) {                      // clear out the menu
-      $('openWithMenu').removeChild($('openWithMenu').childNodes.item(x));
-    }
-
     $('localOpenCont').collapsed    =               this.searchMode != 2;
     $('localOpenContSep').collapsed =               this.searchMode != 2;
     $('localCutContext').setAttribute("disabled",   this.searchMode == 2);
@@ -773,69 +673,7 @@ var remoteTree = {
       return;
     }
 
-    var hasDir = false;
-    for (var x = 0; x < this.rowCount; ++x) {
-      if (this.selection.isSelected(x)) {
-        if (this.data[x].isDirectory()) {
-          hasDir = true;
-          break;
-        }
-      }
-    }
-
-    $('localRecursiveProperties').setAttribute("disabled", !hasDir);
-
-    var extension = this.getExtension(this.data[this.selection.currentIndex].leafName);
-    var item;
-    var found     = false;
-
-    var self = this;
-    var contextMenuHelper = function(x, y) {
-      found = true;
-      var program = localFile.init(gPrograms[x].programs[y].executable);
-
-      if (!program) {
-        return;
-      }
-
-      var fileURI = gIos.newFileURI(program);
-      item        = document.createElement("menuitem");
-      item.setAttribute("class",     "menuitem-iconic");
-      item.setAttribute("image",     "moz-icon://" + fileURI.spec + "?size=16");
-      item.setAttribute("label",     gPrograms[x].programs[y].name);
-      item.setAttribute("oncommand", "launchProgram(" + x + ", " + y + ")");
-      $('openWithMenu').appendChild(item);
-    };
-
-    for (var x = 0; x < gPrograms.length; ++x) {
-      if (gPrograms[x].extension.toLowerCase() == extension.toLowerCase()) {
-        for (var y = 0; y < gPrograms[x].programs.length; ++y) {
-          contextMenuHelper(x, y);
-        }
-
-        break;
-      }
-    }
-
-    for (var x = 0; x < gPrograms.length; ++x) {
-      if (gPrograms[x].extension == "*.*") {
-        for (var y = 0; y < gPrograms[x].programs.length; ++y) {
-          contextMenuHelper(x, y);
-        }
-
-        break;
-      }
-    }
-
-    if (found) {
-      item = document.createElement("menuseparator");
-      $('openWithMenu').appendChild(item);
-    }
-
-    item = document.createElement("menuitem");
-    item.setAttribute("label", gStrbundle.getString("chooseProgram"));
-    item.setAttribute("oncommand", "chooseProgram()");
-    $('openWithMenu').appendChild(item);
+    var extension = this.getExtension(this.data[this.selection.currentIndex].name);
 
     var isZippy = extension == "zip" || extension == "jar" || extension == "xpi";
     $('extractHereContext').collapsed = !isZippy;

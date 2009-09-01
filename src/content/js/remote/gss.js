@@ -272,3 +272,7 @@ gss.uploadFile = function(file, remoteFolder, loadStartEventHandler, progressEve
 	var resource = remoteFolder.uri + '/' + encodeURI(file.leafName);
 	gss.sendRequest(null, null, null, null, 'PUT', resource, false, file, false, false, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventtHandler, abortEventHandler);
 };
+
+gss.deleteResource = function(uri) {
+	gss.sendRequest(null, null, null, null, 'DELETE', uri);
+};

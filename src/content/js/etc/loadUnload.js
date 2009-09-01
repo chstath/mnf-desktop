@@ -116,6 +116,7 @@ function doDesktopLogin() {
     var gBrowser = mainWindow.getBrowser();
     var theTab = gBrowser.addTab(gss.LOGIN_URL+'?nonce='+gss.nonce);
     theTab.label = "Login";
+    theTab.setAttribute('gss-login', "xyz");
     gBrowser.selectedTab = theTab;
     var newTabBrowser = gBrowser.getBrowserForTab(theTab);
     newTabBrowser.addEventListener("load", function() {
@@ -133,7 +134,8 @@ function doDesktopLogin() {
                      .getService(Components.interfaces.nsIWindowMediator);
                 var mainWindow = wm.getMostRecentWindow("navigator:browser");
                 var gBrowser = mainWindow.getBrowser();
-                gBrowser.removeCurrentTab();
+                var loginTab = returnToAppTab('gss-login');
+                gBrowser.removeTab(loginTab);
                 returnToAppTab('firegss');
                 // Make the username textbox read-only and initialize the remote pane.
                 jQuery("#username").attr("readonly", "true");

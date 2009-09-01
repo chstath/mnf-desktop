@@ -793,10 +793,6 @@ var localTree = {
       this.selection.currentIndex = this.rowCount - 1;
     }
 
-    for (var x = $('openWithMenu').childNodes.length - 1; x >= 0; --x) {                      // clear out the menu
-      $('openWithMenu').removeChild($('openWithMenu').childNodes.item(x));
-    }
-
     $('localOpenCont').collapsed    =               this.searchMode != 2;
     $('localOpenContSep').collapsed =               this.searchMode != 2;
     $('localCutContext').setAttribute("disabled",   this.searchMode == 2);
@@ -822,57 +818,6 @@ var localTree = {
     $('localRecursiveProperties').setAttribute("disabled", !hasDir);
 
     var extension = this.getExtension(this.data[this.selection.currentIndex].leafName);
-    var item;
-    var found     = false;
-
-    var self = this;
-    var contextMenuHelper = function(x, y) {
-      found = true;
-      var program = localFile.init(gPrograms[x].programs[y].executable);
-
-      if (!program) {
-        return;
-      }
-
-      var fileURI = gIos.newFileURI(program);
-      item        = document.createElement("menuitem");
-      item.setAttribute("class",     "menuitem-iconic");
-      item.setAttribute("image",     "moz-icon://" + fileURI.spec + "?size=16");
-      item.setAttribute("label",     gPrograms[x].programs[y].name);
-      item.setAttribute("oncommand", "launchProgram(" + x + ", " + y + ")");
-      $('openWithMenu').appendChild(item);
-    };
-
-    for (var x = 0; x < gPrograms.length; ++x) {
-      if (gPrograms[x].extension.toLowerCase() == extension.toLowerCase()) {
-        for (var y = 0; y < gPrograms[x].programs.length; ++y) {
-          contextMenuHelper(x, y);
-        }
-
-        break;
-      }
-    }
-
-    for (var x = 0; x < gPrograms.length; ++x) {
-      if (gPrograms[x].extension == "*.*") {
-        for (var y = 0; y < gPrograms[x].programs.length; ++y) {
-          contextMenuHelper(x, y);
-        }
-
-        break;
-      }
-    }
-
-    if (found) {
-      item = document.createElement("menuseparator");
-      $('openWithMenu').appendChild(item);
-    }
-
-    item = document.createElement("menuitem");
-    item.setAttribute("label", gStrbundle.getString("chooseProgram"));
-    item.setAttribute("oncommand", "chooseProgram()");
-    $('openWithMenu').appendChild(item);
-
     var isZippy = extension == "zip" || extension == "jar" || extension == "xpi";
     $('extractHereContext').collapsed = !isZippy;
     $('extractToContext').collapsed   = !isZippy;

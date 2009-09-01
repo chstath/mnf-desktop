@@ -212,13 +212,19 @@ transfer.prototype = {
 					nsIFile.initWithPath(localPath);
 					var auth = gss.getAuth("GET", files[x].uri);
 					var nsIURI = gIos.newURI(files[x].uri + "?" + auth.authString, "utf-8", null);
+					var ext = files[x].name.substring(files[x].name.lastIndexOf('.') + 1);
+					if (ext !== '')
+						icon = "moz-icon://."+ext+"?size=16";
+					else
+						icon = "moz-icon://"+name+"?size=16&contentType="+files[x].content;
+
 					var obj = {
 //					  id      : info.id,
 					  source  : files[x].uri,
 					  dest    : localPath,
 					  size    : files[x].size,
 					  type    : gStrbundle.getString("download"),
-					  icon    : "moz-icon://" + files[x].name + "?size=16",
+					  icon    : icon,
 					  ela     : '',
 					  remain  : '',
 					  rate    : '',
@@ -281,13 +287,14 @@ transfer.prototype = {
 //						this.start(false, '', localPath, remotePath);
 					}
 				} else {
+					var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
 					var obj = {
 //					  id      : info.id,
 					  source  : localPath,
 					  dest    : remoteFolder.uri,
 					  size    : files[x].fileSize,
 					  type    : gStrbundle.getString("upload"),
-					  icon    : "moz-icon://" + files[x].name + "?size=16",
+					  icon    : "moz-icon://."+ext+"?size=16",
 					  ela     : '',
 					  remain  : '',
 					  rate    : '',

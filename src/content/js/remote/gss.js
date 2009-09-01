@@ -185,17 +185,63 @@ gss.parseFiles = function(req, folder, nextAction, nextActionArg) {
 // Update the cached folder copy with the new one, in order to maintain cached
 // object identities.
 gss.updateFolderAttributes = function(folder, newFolder) {
-	for (var attr in newFolder) {
-		if (attr == 'folders' || attr == 'files') {
-			if (!folder[attr] || folder[attr].length == 0)
-				folder[attr] = newFolder[attr];
+	var attr, cons = Components.classes["@mozilla.org/consoleservice;1"].
+   			getService(Components.interfaces.nsIConsoleService);
+	cons.logStringMessage("updating "+newFolder.name);
+	for (attr in newFolder)
+		if (newFolder.hasOwnProperty(attr)) {
+			if (attr === 'folders' || attr === 'files') {
+				cons.logStringMessage(attr+": "+(folder[attr]? folder[attr].length: -1));
+				if (!folder[attr] || folder[attr].length === 0)
+					folder[attr] = newFolder[attr];
+				else {
+					// Remove deleted children from cache.
+					jQuery.each(folder[attr], function (i, e) {
+						var found = false;
+						jQuery.each(newFolder[attr], function (it, el) {
+							if (el.uri === e.uri) {
+								found = true;
+								return false;
+							}
+						});
+						if (!found) {
+							cons.logStringMessage("Deleting "+e.name);
+							delete folder[attr][i];
+						}
+					});
+					// Recursively update existing children.
+					jQuery.each(newFolder[attr], function (i, e) {
+						var found;
+						jQuery.each(folder[attr], function (it, el) {
+							if (el.uri === e.uri) {
+								found = el;
+								return false;
+							}
+						});
+						if (found) {
+							cons.logStringMessage("Recursing in "+e.name);
+							gss.updateFolderAttributes(found, e);
+						}
+					});
+					// Add new children to the cache.
+					jQuery.each(newFolder[attr], function (i, e) {
+						var found = false;
+						jQuery.each(folder[attr], function (it, el) {
+							if (el.uri === e.uri) {
+								found = true;
+								return false;
+							}
+						});
+						if (!found) {
+							cons.logStringMessage("Adding "+e.name);
+							folder[attr].push(e);
+						}
+					});
+				}
+			}
 			else
-				for (var i in newFolder[attr])
-					gss.updateFolderAttributes(folder[attr][i], newFolder[attr][i]);
+				folder[attr] = newFolder[attr];
 		}
-		else
-			folder[attr] = newFolder[attr];
-	}
 };
 
 // Fetches the contents of the folder with the specified uri

@@ -218,7 +218,7 @@ transfer.prototype = {
 					  dest    : localPath,
 					  size    : files[x].size,
 					  type    : gStrbundle.getString("download"),
-					  icon    : "moz-icon://" + files[x].name + "?size=16",
+					  icon    : "moz-icon://"+files[x].name+"?size=16&contentType="+files[x].content,
 					  ela     : '',
 					  remain  : '',
 					  rate    : '',
@@ -268,13 +268,14 @@ transfer.prototype = {
 						this.uploadHelper(localPath, remotePath);
 					}
 				} else {
+					var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
 					var obj = {
 //					  id      : info.id,
 					  source  : localPath,
 					  dest    : remoteFolder.uri,
 					  size    : files[x].fileSize,
 					  type    : gStrbundle.getString("upload"),
-					  icon    : "moz-icon://" + files[x].name + "?size=16",
+					  icon    : "moz-icon://."+ext+"?size=16",
 					  ela     : '',
 					  remain  : '',
 					  rate    : '',

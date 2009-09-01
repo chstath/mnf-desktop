@@ -226,3 +226,17 @@ gss.uploadFile = function(file, remoteFolder, loadStartEventHandler, progressEve
 	var resource = remoteFolder.uri + '/' + encodeURI(file.leafName);
 	gss.sendRequest(null, null, null, null, 'PUT', resource, false, file, false, false, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventtHandler, abortEventHandler);
 };
+
+gss.createFolder = function(parent, name, nextAction) {
+	var resource = parent.uri + "?new=" + encodeURIComponent(name);
+	gss.sendRequest(gss.parseNewFolder, parent, nextAction, null, 'POST', resource);
+};
+
+gss.parseNewFolder = function(req, parent, nextAction) {
+	var newFolder = {
+		uri: req.responseText.trim(),
+		level: parent.level ? parent.level + 1 : 1
+	};
+	parent.folders.push(newFolder);
+	gss.sendRequest(gss.parseFiles, newFolder, nextAction, newFolder, 'GET', newFolder.uri);
+};

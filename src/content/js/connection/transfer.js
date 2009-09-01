@@ -93,7 +93,7 @@ transfer.prototype = {
 			}
 
 //			var remotePath = !download ? gFtp.constructPath     (remoteParent, fileName) : files[x].path;
-			var remoteFolder = !download ? remoteDirTree.data[remoteDirTree.selection.currentIndex].gssObj : null;
+			var remoteFolder = !download ? (aRemoteParent ? aRemoteParent : remoteDirTree.data[remoteDirTree.selection.currentIndex].gssObj) : null;
 			var localPath  =  download ? localTree.constructPath(localParent,  fileName) : files[x].path;
 			var file;
 
@@ -261,11 +261,24 @@ transfer.prototype = {
 			} else {
 				if (files[x].isDirectory()) {                        // if the directory doesn't exist we create it
 					if (!file.exists()) {
-						gFtp.makeDirectory(remotePath);
-						gFtp.listData = new Array();                     // we know the new directory is empty
-						this.start(false, '', localPath, remotePath);
-					} else {
-						this.uploadHelper(localPath, remotePath);
+						var nextAction = function() {
+							var lf = files[x];
+							return function(folder) {
+								var contents = lf.directoryEntries;
+								while(contents.hasMoreElements()) {
+									var child = contents.getNext().QueryInterface(Components.interfaces.nsILocalFile);
+									if (child.isDirectory()) {
+										new transfer().start(false, child, lf, folder);
+									}
+									else {
+										new transfer().start(false, child, lf, folder);
+									}
+								}
+							};
+						}();
+						gss.createFolder(remoteFolder, files[x].leafName, nextAction);
+
+//						this.start(false, '', localPath, remotePath);
 					}
 				} else {
 					var obj = {
@@ -452,5 +465,17 @@ transfer.prototype = {
 			new transfer().start(true, folder.files[i], parent);
 		for (var i=0; i<folder.folders.length; i++)
 			new transfer().start(true, folder.folders[i], parent);
+	},
+
+	recurseLocalFolder: function(folder) {
+		while(folder.directoryEntries.hasNextElement()) {
+			var child = folder.directoryEntries.getNextElement();
+			if (child.isDirectory()) {
+
+			}
+			else {
+				new transfer().start(false, child, parent);
+			}
+		}
 	}
 };

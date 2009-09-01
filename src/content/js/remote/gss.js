@@ -206,7 +206,7 @@ gss.updateFolderAttributes = function(folder, newFolder) {
 						});
 						if (!found) {
 							cons.logStringMessage("Deleting "+e.name);
-							delete folder[attr][i];
+							folder[attr].splice(i,1);
 						}
 					});
 					// Recursively update existing children.

@@ -65,52 +65,56 @@ gss.getAuth = function(method, resource) {
 	return {authorization: authorization, date: date, authString: "Authorization=" +  encodeURIComponent(authorization) + "&Date=" + encodeURIComponent(date)};
 };
 
-// A helper function for making API requests.
-gss.sendRequest = function(handler, handlerArg, nextAction, nextActionArg, method, resource, modified, file, form, update, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventHandler, abortEventHandler) {
+// A helper function for making API requests. It expects a single argument object
+// containing the following attributes:
+// handler, handlerArg, nextAction, nextActionArg, method, resource, modified,
+// file, form, update, loadStartEventHandler, progressEventHandler,
+// loadEventHandler, errorEventHandler, abortEventHandler
+gss.sendRequest = function(arg) {
 	// If the resource is an absolute URI, remove the API_URL.
-	if (resource.indexOf(gss.API_URL) === 0)
-		resource = resource.slice(gss.API_URL.length, resource.length);
+	if (arg.resource.indexOf(gss.API_URL) === 0)
+		arg.resource = arg.resource.slice(gss.API_URL.length, arg.resource.length);
 	var now = (new Date()).toUTCString();
-	var sig = gss.sign(method, now, resource, gss.authToken);
+	var sig = gss.sign(arg.method, now, arg.resource, gss.authToken);
 	var params = null;
-	if (form)
-		params = form;
-	else if (update)
-		params = update;
+	if (arg.form)
+		params = arg.form;
+	else if (arg.update)
+		params = arg.update;
 
 	var req = new XMLHttpRequest();
-	if (!file) {
-		if (loadStartEventHandler)
-			req.addEventListener("loadstart", loadStartEventHandler, false);
-		if (progressEventHandler)
-			req.addEventListener("progress", progressEventHandler, false);
-		if (loadEventHandler)
-			req.addEventListener("load", loadEventHandler, false);
-		if (errorEventHandler)
-			req.addEventListener("error", errorEventHandler, false);
-		if (abortEventHandler)
-			req.addEventListener("abort", abortEventHandler, false);
+	if (!arg.file) {
+		if (arg.loadStartEventHandler)
+			req.addEventListener("loadstart", arg.loadStartEventHandler, false);
+		if (arg.progressEventHandler)
+			req.addEventListener("progress", arg.progressEventHandler, false);
+		if (arg.loadEventHandler)
+			req.addEventListener("load", arg.loadEventHandler, false);
+		if (arg.errorEventHandler)
+			req.addEventListener("error", arg.errorEventHandler, false);
+		if (arg.abortEventHandler)
+			req.addEventListener("abort", arg.abortEventHandler, false);
 	} else {
-		if (loadStartEventHandler)
-			req.upload.addEventListener("loadstart", loadStartEventHandler, false);
-		if (progressEventHandler)
-			req.upload.addEventListener("progress", progressEventHandler, false);
-		if (loadEventHandler)
-			req.upload.addEventListener("load", loadEventHandler, false);
-		if (errorEventHandler)
-			req.upload.addEventListener("error", errorEventHandler, false);
-		if (abortEventHandler)
-			req.upload.addEventListener("abort", abortEventHandler, false);
+		if (arg.loadStartEventHandler)
+			req.upload.addEventListener("loadstart", arg.loadStartEventHandler, false);
+		if (arg.progressEventHandler)
+			req.upload.addEventListener("progress", arg.progressEventHandler, false);
+		if (arg.loadEventHandler)
+			req.upload.addEventListener("load", arg.loadEventHandler, false);
+		if (arg.errorEventHandler)
+			req.upload.addEventListener("error", arg.errorEventHandler, false);
+		if (arg.abortEventHandler)
+			req.upload.addEventListener("abort", arg.abortEventHandler, false);
 	}
-	req.open(method, gss.API_URL + resource, true);
+	req.open(arg.method, gss.API_URL + arg.resource, true);
 	req.onreadystatechange = function (event) {
 		if (req.readyState == 4) {
 			switch (req.status) {
 				case 200: // fallthrough
 				case 201: // fallthrough
 				case 204:
-					if (handler)
-						handler(req, handlerArg, nextAction, nextActionArg);
+					if (arg.handler)
+						arg.handler(req, arg.handlerArg, arg.nextAction, arg.nextActionArg);
 					break;
 				default:
 					alert("The server responded with an error: HTTP status " +
@@ -120,33 +124,33 @@ gss.sendRequest = function(handler, handlerArg, nextAction, nextActionArg, metho
 	};
 	req.setRequestHeader("Authorization", gss.username + " " + sig);
 	req.setRequestHeader("X-GSS-Date", now);
-	if (modified)
-		req.setRequestHeader("If-Modified-Since", modified);
+	if (arg.modified)
+		req.setRequestHeader("If-Modified-Since", arg.modified);
 
-	if (file) {
+	if (arg.file) {
 		// Make a stream from a file.
 		var stream = Components.classes["@mozilla.org/network/file-input-stream;1"]
                        .createInstance(Components.interfaces.nsIFileInputStream);
-		stream.init(file, 0x04 | 0x08, 0644, 0x04); // file is an nsIFile instance
+		stream.init(arg.file, 0x04 | 0x08, 0644, 0x04); // file is an nsIFile instance
 
 		// Try to determine the MIME type of the file
 		var mimeType = "application/octet-stream";
 		try {
 		  var mimeService = Components.classes["@mozilla.org/mime;1"]
 					          .getService(Components.interfaces.nsIMIMEService);
-		  mimeType = mimeService.getTypeFromFile(file); // file is an nsIFile instance
+		  mimeType = mimeService.getTypeFromFile(arg.file); // file is an nsIFile instance
 		}
 		catch(e) { /* eat it; just use application/octet-stream */ }
 		req.setRequestHeader("Content-Type", mimeType);
-	} else if (form) {
+	} else if (arg.form) {
 		req.setRequestHeader("Content-Length", params.length);
 		req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
-	} else if (update) {
+	} else if (arg.update) {
 		req.setRequestHeader("Content-Length", params.length);
 		req.setRequestHeader("Content-Type", "application/json;");
 	}
 
-	if (!file)
+	if (!arg.file)
 		req.send(params);
 	else
 		req.send(stream);
@@ -158,7 +162,11 @@ gss.fetchUserAsync = function(next) {
 
 // Fetches the 'user' namespace.
 gss.fetchUser = function(nextAction, nextActionArg) {
-	gss.sendRequest(gss.parseUser, null, nextAction, nextActionArg, 'GET', '/'+gss.username+'/');
+	gss.sendRequest({handler: gss.parseUser,
+					nextAction: nextAction,
+					nextActionArg: nextActionArg,
+					method: 'GET',
+					resource: '/'+gss.username+'/'});
 };
 
 // Parses the 'user' namespace response.
@@ -248,12 +256,22 @@ gss.updateFolderAttributes = function(folder, newFolder) {
 
 // Fetches the contents of the folder with the specified uri
 gss.fetchFolder = function(folder, nextAction, nextActionArg) {
-	gss.sendRequest(gss.parseFiles, folder, nextAction, nextActionArg, 'GET', folder.uri);
+	gss.sendRequest({handler: gss.parseFiles,
+					handlerArg: folder,
+					nextAction: nextAction,
+					nextActionArg: nextActionArg,
+					method:'GET',
+					resource: folder.uri});
 };
 
 gss.fetchRootFolder = function(nextAction) {
 	if (gss.root.fileroot) {
-		gss.sendRequest(gss.parseFiles, gss.rootFolder, nextAction, gss.rootFolder, 'GET', gss.root.fileroot);
+		gss.sendRequest({handler: gss.parseFiles,
+						handlerArg: gss.rootFolder,
+						nextAction: nextAction,
+						nextActionArg: gss.rootFolder,
+						method: 'GET',
+						resource: gss.root.fileroot});
 	}
 	else {
 		gss.fetchUser(gss.fetchRootFolder, nextAction);
@@ -261,7 +279,9 @@ gss.fetchRootFolder = function(nextAction) {
 };
 
 gss.getFile = function(file) {
-	gss.sendRequest(gss.processFile, null, null, null, "GET", file.uri);
+	gss.sendRequest({handler: gss.processFile,
+					method: "GET",
+					resource: file.uri});
 };
 
 gss.processFile = function(req, arg, nextAction, nextActionArg) {
@@ -272,12 +292,23 @@ gss.processFile = function(req, arg, nextAction, nextActionArg) {
 
 gss.uploadFile = function(file, remoteFolder, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventHandler, abortEventHandler) {
 	var resource = remoteFolder.uri + '/' + encodeURI(file.leafName);
-	gss.sendRequest(null, null, null, null, 'PUT', resource, false, file, false, false, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventHandler, abortEventHandler);
+	gss.sendRequest({method: 'PUT',
+					resource: resource,
+					file: file,
+					loadStartEventHandler: loadStartEventHandler,
+					progressEventHandler: progressEventHandler,
+					loadEventHandler: loadEventHandler,
+					errorEventHandler: errorEventHandler,
+					abortEventHandler: abortEventHandler});
 };
 
 gss.createFolder = function(parent, name, nextAction) {
 	var resource = parent.uri + "?new=" + encodeURIComponent(name);
-	gss.sendRequest(gss.parseNewFolder, parent, nextAction, null, 'POST', resource);
+	gss.sendRequest({handler: gss.parseNewFolder,
+					handlerArg: parent,
+					nextAction: nextAction,
+					method: 'POST',
+					resource: resource});
 };
 
 gss.parseNewFolder = function(req, parent, nextAction) {
@@ -286,9 +317,16 @@ gss.parseNewFolder = function(req, parent, nextAction) {
 		level: parent.level ? parent.level + 1 : 1
 	};
 	parent.folders.push(newFolder);
-	gss.sendRequest(gss.parseFiles, newFolder, nextAction, newFolder, 'GET', newFolder.uri);
+	gss.sendRequest({handler: gss.parseFiles,
+					handlerArg: newFolder,
+					nextAction: nextAction,
+					nextActionArg: newFolder,
+					method: 'GET',
+					resource: newFolder.uri});
 };
 
 gss.deleteResource = function(uri, nextAction) {
-	gss.sendRequest(nextAction, null, null, null, 'DELETE', uri);
+	gss.sendRequest({handler: nextAction,
+					method: 'DELETE',
+					resource: uri});
 };

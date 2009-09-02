@@ -36,30 +36,24 @@ var localFile = {
 
   remove : function(file, prompt, multiple) {
     if (prompt && multiple && multiple > 1) {                                           // deleting multiple
-      if (!window.confirm(gStrbundle.getFormattedString("confirmDelete2", [multiple]) + '\n'
-                        + gStrbundle.getString("localDeleteWarning"))) {
+      if (!window.confirm(gStrbundle.getFormattedString("confirmDelete2", [multiple]))) {
         return false;
       }
     } else if (prompt && file.isDirectory()) {                                          // deleting a directory
-      if (!window.confirm(gStrbundle.getFormattedString("confirmDelete3", [file.leafName]) + '\n'
-                        + gStrbundle.getString("localDeleteWarning"))) {
+      if (!window.confirm(gStrbundle.getFormattedString("confirmDelete3", [file.leafName]))) {
         return false;
       }
     } else if (prompt) {                                                                // deleting a file
-      if (!window.confirm(gStrbundle.getFormattedString("confirmDelete", [file.leafName]) + '\n'
-                        + gStrbundle.getString("localDeleteWarning"))) {
+      if (!window.confirm(gStrbundle.getFormattedString("confirmDelete", [file.leafName]))) {
         return false;
       }
     }
 
     try {
       ++gProcessing;
-      var innerEx = gfiregssUtils.removeFile(file);
+		file.remove(true);
       --gProcessing;
 
-      if (innerEx) {
-        throw innerEx;
-      }
     } catch (ex) {
       debug(ex);
       error(gStrbundle.getString("delFail"));

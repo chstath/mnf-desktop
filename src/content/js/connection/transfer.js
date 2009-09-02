@@ -341,7 +341,6 @@ transfer.prototype = {
 								o.mode = "determined";
 								o.percent = percentComplete;
 								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
-								o.status = "Transfering";
 							}
 							obj.status = "Finished";
 							queueTree.treebox.invalidate();
@@ -355,7 +354,6 @@ transfer.prototype = {
 								o.mode = "determined";
 								o.percent = percentComplete;
 								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
-								o.status = "Transfering";
 							}
 							o.status = "Failed";
 							o.failed = true;
@@ -370,7 +368,6 @@ transfer.prototype = {
 								o.mode = "determined";
 								o.percent = percentComplete;
 								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
-								o.status = "Transfering";
 							}
 							o.status = "Canceled";
 							queueTree.treebox.invalidate();

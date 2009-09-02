@@ -1035,7 +1035,6 @@ var remoteTree = {
       }
       remoteTree.rowCount = remoteTree.data.length;
       remoteTree.treebox.rowCountChanged(0, remoteTree.rowCount);
-      remoteTree.selection.select(0);
   },
 
   dblClick : function(event) {

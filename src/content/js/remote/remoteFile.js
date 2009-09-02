@@ -17,7 +17,9 @@ var remoteFile = {
       }
     }
 
+	gProcessing++;
     gss.deleteResource(file.uri, function () { remoteTree.updateView(); } );
+	gProcessing--;
     return true;
   }
 }

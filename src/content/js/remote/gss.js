@@ -105,14 +105,16 @@ gss.sendRequest = function(handler, handlerArg, nextAction, nextActionArg, metho
 	req.open(method, gss.API_URL + resource, true);
 	req.onreadystatechange = function (event) {
 		if (req.readyState == 4) {
-			if(req.status == 200) {
-				handler(req, handlerArg, nextAction, nextActionArg);
-			} else if (req.status == 201) {
-				if (handler)
-					handler(req, handlerArg, nextAction, nextActionArg);
-			}
-			else {
-				alert("Error fetching data: HTTP status " + req.status+" ("+req.statusText+")");
+			switch (req.status) {
+				case 200: // fallthrough
+				case 201: // fallthrough
+				case 204:
+					if (handler)
+						handler(req, handlerArg, nextAction, nextActionArg);
+					break;
+				default:
+					alert("The server responded with an error: HTTP status " +
+						  req.status+" ("+req.statusText+")");
 			}
 		}
 	};
@@ -268,9 +270,9 @@ gss.processFile = function(req, arg, nextAction, nextActionArg) {
 		nextAction(nextActionArg);
 };
 
-gss.uploadFile = function(file, remoteFolder, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventtHandler, abortEventHandler) {
+gss.uploadFile = function(file, remoteFolder, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventHandler, abortEventHandler) {
 	var resource = remoteFolder.uri + '/' + encodeURI(file.leafName);
-	gss.sendRequest(null, null, null, null, 'PUT', resource, false, file, false, false, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventtHandler, abortEventHandler);
+	gss.sendRequest(null, null, null, null, 'PUT', resource, false, file, false, false, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventHandler, abortEventHandler);
 };
 
 gss.createFolder = function(parent, name, nextAction) {
@@ -287,6 +289,6 @@ gss.parseNewFolder = function(req, parent, nextAction) {
 	gss.sendRequest(gss.parseFiles, newFolder, nextAction, newFolder, 'GET', newFolder.uri);
 };
 
-gss.deleteResource = function(uri) {
-	gss.sendRequest(null, null, null, null, 'DELETE', uri);
+gss.deleteResource = function(uri, nextAction) {
+	gss.sendRequest(nextAction, null, null, null, 'DELETE', uri);
 };

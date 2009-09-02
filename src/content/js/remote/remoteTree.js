@@ -471,14 +471,6 @@ var remoteTree = {
 
       prompt = false;
     }
-
-    // Since we're deleting on a separate thread make sure we're in the same
-    // directory on refresh.
-    /*if (origParent == gRemotePath.value) {
-      this.refresh(false, true);
-    } else {
-      remoteDirTree.addDirtyList(origParent);
-    }*/
   },
 
   rename : function() {

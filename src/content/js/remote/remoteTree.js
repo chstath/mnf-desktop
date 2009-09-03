@@ -653,16 +653,6 @@ var remoteTree = {
       this.selection.currentIndex = this.rowCount - 1;
     }
 
-    for (var x = $('remoteOpenWithMenu').childNodes.length - 1; x >= 0; --x) {                  // clear out the menus
-      $('remoteOpenWithMenu').removeChild($('remoteOpenWithMenu').childNodes.item(x));
-    }
-
-    for (var x = $('remoteFXPMenu').childNodes.length - 1; x >= 0; --x) {
-      $('remoteFXPMenu').removeChild($('remoteFXPMenu').childNodes.item(x));
-    }
-
-    $('remoteOpenCont').collapsed    =               this.searchMode != 2;
-    $('remoteOpenContSep').collapsed =               this.searchMode != 2;
     $('remoteCutContext').setAttribute("disabled",   this.searchMode == 2 || !gFtp.isConnected);
     $('remotePasteContext').setAttribute("disabled", this.searchMode == 2 || !gFtp.isConnected || !this.pasteFiles.length);
     $('remoteCreateDir').setAttribute("disabled",    this.searchMode == 2 || !gFtp.isConnected);
@@ -675,77 +665,13 @@ var remoteTree = {
     var hasDir = false;
     for (var x = 0; x < this.rowCount; ++x) {
       if (this.selection.isSelected(x)) {
-        if (this.data[x].isDirectory()) {
+        if (this.data[x].isFolder) {
           hasDir = true;
           break;
         }
       }
     }
 
-    $('remoteRecursiveProperties').setAttribute("disabled", !hasDir || !gFtp.isConnected);
-
-    var extension = this.getExtension(this.data[this.selection.currentIndex].leafName);
-    var item;
-    var found     = false;
-
-    var self = this;
-    var contextMenuHelper = function(x, y) {
-      found = true;
-      var program = localFile.init(gPrograms[x].programs[y].executable);
-
-      if (!program) {
-        return;
-      }
-
-      var fileURI = gIos.newFileURI(program);
-      item        = document.createElement("menuitem");
-      item.setAttribute("class",     "menuitem-iconic");
-      item.setAttribute("image",     "moz-icon://" + fileURI.spec + "?size=16");
-      item.setAttribute("label",     gPrograms[x].programs[y].name);
-      item.setAttribute("oncommand", "remoteLaunchProgram(" + x + ", " + y + ", " + self.selection.currentIndex + ")");
-      $('remoteOpenWithMenu').appendChild(item);
-    };
-
-    for (var x = 0; x < gPrograms.length; ++x) {
-      if (gPrograms[x].extension.toLowerCase() == extension.toLowerCase()) {
-        for (var y = 0; y < gPrograms[x].programs.length; ++y) {
-          contextMenuHelper(x, y);
-        }
-
-        break;
-      }
-    }
-
-    for (var x = 0; x < gPrograms.length; ++x) {
-      if (gPrograms[x].extension == "*.*") {
-        for (var y = 0; y < gPrograms[x].programs.length; ++y) {
-          contextMenuHelper(x, y);
-        }
-
-        break;
-      }
-    }
-
-    if (found) {
-      item = document.createElement("menuseparator");
-      $('remoteOpenWithMenu').appendChild(item);
-    }
-
-    item = document.createElement("menuitem");
-    item.setAttribute("label", gStrbundle.getString("chooseProgram"));
-    item.setAttribute("oncommand", "chooseProgram(true)");
-    $('remoteOpenWithMenu').appendChild(item);
-
-    for (var x = 0; x < gSiteManager.length; ++x) {
-      if (gSiteManager[x].account != gAccount) {
-        item = document.createElement("menuitem");
-        item.setAttribute("class",     "menuitem-iconic");
-        item.setAttribute("image",     "chrome://fireftp/skin/icons/logo.png");
-        item.setAttribute("label",     gSiteManager[x].account);
-        item.setAttribute("oncommand", "fxp('" + gSiteManager[x].account + "')");
-        $('remoteFXPMenu').appendChild(item);
-      }
-    }
   },
 
   mouseOver : function(event) {                                                                 // display remote folder info

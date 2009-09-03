@@ -246,6 +246,7 @@ transfer.prototype = {
 							this.transferObject.size = percentComplete + " - " + commas(aCurTotalProgress) +"/" + commas(aMaxTotalProgress);
 							this.transferObject.status = "Transfering";
 							queueTree.treebox.invalidate();
+							localTree.refresh();
 						},
 						onStateChange: function(aWebProgress, aRequest, aStateFlags, aStatus) {
 							if (aStateFlags & IListener.STATE_START) {
@@ -258,6 +259,7 @@ transfer.prototype = {
 							else if (aStateFlags & IListener.STATE_STOP) {
 								this.transferObject.status = 'Finished';
 								queueTree.treebox.invalidate();
+								localTree.refresh();
 							}
 						}
 					}
@@ -270,6 +272,7 @@ transfer.prototype = {
 						var nextAction = function() {
 							var lf = files[x];
 							return function(folder) {
+								remoteTree.refresh(false, true);
 								var contents = lf.directoryEntries;
 								while(contents.hasMoreElements()) {
 									var child = contents.getNext().QueryInterface(Components.interfaces.nsILocalFile);
@@ -344,6 +347,7 @@ transfer.prototype = {
 							}
 							obj.status = "Finished";
 							queueTree.treebox.invalidate();
+							remoteTree.refresh(false, true);
 						};
 					}();
 					var errorHandler = function(evt) {

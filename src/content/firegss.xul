@@ -197,7 +197,7 @@
         <!-- :::::::::::::::::::::::::::::: local toolbar :::::::::::::::::::::::::::::: -->
 
         <toolbar id="localtoolbar">
-<!--          <toolbarbutton class="upButton"      oncommand="localDirTree.cdup()"            tooltiptext="&parentdir.tip;"/>-->
+          <toolbarbutton class="upButton"      oncommand="localDirTree.cdup()"            tooltiptext="&parentdir.tip;"/>
           <toolbarbutton class="refreshButton" oncommand="localTree.refresh(false, true)" tooltiptext="&refresh.tip;"/>
           <textbox id                      = "localpath"
                    flex                    = "1"
@@ -270,7 +270,7 @@
         <!-- :::::::::::::::::::::::::::::: remote toolbar :::::::::::::::::::::::::::::: -->
 
         <toolbar>
-<!--          <toolbarbutton id="remoteUpButton"      class="upButton"      oncommand="remoteDirTree.cdup()" tooltiptext="&parentdir.tip;"/>-->
+          <toolbarbutton id="remoteUpButton"      class="upButton"      oncommand="remoteDirTree.cdup()" tooltiptext="&parentdir.tip;"/>
           <toolbarbutton id="remoteRefreshButton" class="refreshButton" oncommand="remoteTree.refresh()" tooltiptext="&refresh.tip;"/>
           <textbox id                      = "remotepath"
                    value                   = "/"

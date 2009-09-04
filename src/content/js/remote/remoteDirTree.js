@@ -7,7 +7,7 @@ var remoteDirTree = {
 
 	getCellText         : function(row, column)       { return this.data[row].leafName; },
 	getLevel            : function(row)               { return this.data[row].level; },
-	getParentIndex      : function(row)               { return this.data[row].parentIndex; },
+	getParentIndex      : function(row)               { return remoteDirTree.data[row].parentIndex; },
 	getImageSrc         : function(row, col)          { },
 	getColumnProperties : function(colid, col, props) { },
 	getRowProperties    : function(row, props)        { },
@@ -42,7 +42,6 @@ var remoteDirTree = {
 			}
 
 			this.data.splice(row + 1, lastChild - row);                        // get rid of subdirectories from view
-			this.updateParentIndices();
 			this.rowCount = this.data.length;
 			this.treebox.rowCountChanged(row, -(lastChild - row));
 
@@ -145,12 +144,6 @@ var remoteDirTree = {
 			this.dirtyList.push(path);
 		  },
 
-		  updateParentIndices : function() {
-			for (var x = 0; x < this.data.length; ++x) {
-			  this.data[x].parentIndex = this.indexOfPath(this.data[x].parent);                            // ah, beautiful
-			}
-		  },
-
 		  indexOfPath : function(path) {                                                                   // binary search to find a path in the remoteDirTree
 			if (!path) {
 			  return -1;
@@ -201,7 +194,6 @@ var remoteDirTree = {
 		  findDirectory : null,
 
 		  changeDir : function(path, retry) {
-
 			gRemotePath.value  = path;
 
 			if (this.data.length == 0 || this.data[0].path.charAt(0) != gRemotePath.value.charAt(0)) {      // if dirTree is empty
@@ -600,27 +592,29 @@ var remoteDirTree = {
 		var level     = remoteDirTree.data[row].level;
 		var lastChild = row;
 
-		while (lastChild + 1 < remoteDirTree.rowCount && remoteDirTree.data[lastChild + 1].level > level) {            // find last index in same level as collapsed dir
+        // find last index in same level as collapsed dir
+		while (lastChild + 1 < remoteDirTree.rowCount && remoteDirTree.data[lastChild + 1].level > level) {
 		  ++lastChild;
 		}
         var currentSelection = remoteDirTree.selection.currentIndex;
 
 		remoteDirTree.data.splice(row + 1, lastChild - row);                        // get rid of subdirectories from view
-		//remoteDirTree.updateParentIndices();
 		remoteDirTree.rowCount = remoteDirTree.data.length;
 		remoteDirTree.treebox.rowCountChanged(row, -(lastChild - row));
-		if (remoteDirTree.data[row].children) {                                                               // stored from before
+        
+        // stored from before
+		if (remoteDirTree.data[row].children) {
 			for (var x = remoteDirTree.data[row].children.length - 1; x >= 0; --x) {
 				remoteDirTree.data.splice(row + 1, 0, remoteDirTree.data[row].children[x]);
 			}
 
-			remoteDirTree.updateParentIndices();
 			remoteDirTree.rowCount           = remoteDirTree.data.length;
 			remoteDirTree.treebox.rowCountChanged(row + 1, remoteDirTree.data[row].children.length);
 			remoteDirTree.data[row].children = null;
 			remoteDirTree.data[row].open     = true;
 			remoteDirTree.treebox.invalidateRow(row);
-		} else {                                                                                     // get data for this directory
+		} else {
+            // get data for this directory
 			var newDirectories = new Array();
 
 			var entries = remoteDirTree.data[row].gssObj.folders;
@@ -640,7 +634,7 @@ var remoteDirTree = {
 						newDirectories[x] = { open        : false,
 												empty       : false,
 												hasNext     : true,
-												parentIndex : -1,
+												parentIndex : row,
 												children    : null,
 												path        : newDirectories[x].uri,
 												leafName    : newDirectories[x].name,
@@ -655,7 +649,6 @@ var remoteDirTree = {
 					for (var x = newDirectories.length - 1; x >= 0; --x) {
 						remoteDirTree.data.splice(row + 1, 0, newDirectories[x]);
 					}
-					remoteDirTree.updateParentIndices();
 					remoteDirTree.rowCount       = remoteDirTree.data.length;
 					remoteDirTree.treebox.rowCountChanged(row + 1, newDirectories.length);
                     remoteDirTree.selection.select(currentSelection);

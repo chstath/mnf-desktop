@@ -105,8 +105,8 @@ transfer.prototype = {
 
 				for (var y = 0; y < remoteList.length; ++y) {
 					if (remoteList[y].name == fileName) {
-						file       = { fileSize: remoteList[y].fileSize, lastModifiedTime: remoteList[y].lastModifiedTime, leafName: fileName, exists: function() { return true; },
-							isDir: remoteList[y].isDirectory(), isDirectory: function() { return this.isDir }};
+						file       = { fileSize: remoteList[y].size, lastModifiedTime: remoteList[y].modificationDate, leafName: name, exists: function() { return true; },
+							isDir: remoteList[y].isFolder, isDirectory: function() { return this.isDir }};
 						break;
 					}
 				}
@@ -272,7 +272,7 @@ transfer.prototype = {
 						var nextAction = function() {
 							var lf = files[x];
 							return function(folder) {
-								remoteTree.refresh(false, true);
+//								remoteTree.refresh(false, true);
 								var contents = lf.directoryEntries;
 								while(contents.hasMoreElements()) {
 									var child = contents.getNext().QueryInterface(Components.interfaces.nsILocalFile);

@@ -953,7 +953,6 @@ var remoteTree = {
           if (!remoteDirTree.isContainerOpen(parentIndex))
               remoteDirTree.toggleOpenState(parentIndex);
           var thisIndex = remoteDirTree.indexOfFolder(folder)
-          appendLog(thisIndex + ' ');
           remoteDirTree.selection.select(thisIndex);
       }
       else {
@@ -966,5 +965,29 @@ var remoteTree = {
           var auth = gss.getAuth("GET", uri);
           window.open(uri + "?" + auth.authString);
       }
+  },
+  
+  copyUrl: function () {
+    if (this.selection.count == 0) {
+      return;
+    }
+
+    if (this.selection.currentIndex < 0 || this.selection.currentIndex >= this.rowCount) {
+      this.selection.currentIndex = this.rowCount - 1;
+    }
+
+    var paths = "";
+
+    for (var x = 0; x < remoteTree.rowCount; ++x) {
+      if (remoteTree.selection.isSelected(x)) {
+        var path = this.data[x].uri;
+        paths += (paths ? '\n' : '') + path;
+      }
+    }
+
+
+    var clipboard = Components.classes["@mozilla.org/widget/clipboardhelper;1"].createInstance(Components.interfaces.nsIClipboardHelper);
+    clipboard.copyString(paths);
+ 
   }
 };

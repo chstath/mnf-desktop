@@ -117,8 +117,13 @@ gss.sendRequest = function(arg) {
 						arg.handler(req, arg.handlerArg, arg.nextAction, arg.nextActionArg);
 					break;
 				default:
-					alert("The server responded with an error: HTTP status " +
-						  req.status+" ("+req.statusText+")");
+				    try {
+					    alert("The server responded with an error: HTTP status " +
+						      req.status+" ("+req.statusText+")");
+				    } catch (Error) {
+       					alert("The server responded with an error: HTTP status " +
+    						  req.status);
+				    }
 			}
 		}
 	};

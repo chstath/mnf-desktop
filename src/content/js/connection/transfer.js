@@ -126,11 +126,11 @@ transfer.prototype = {
 			if (file.exists() && this.prompt && !files[x].isFolder) {
 
 				var params = { response         : 0,
-							fileName         : download ? localPath : remotePath,
+							fileName         : download ? localPath : remoteFolder.uri + fileName,
 							existingSize     : file.fileSize,
 							existingDate     : file.lastModifiedTime,
-							newSize          : download ? files[x].size : file.fileSize,
-							newDate          : download ? files[x].modificationDate : file.lastModifiedTime,
+							newSize          : download ? files[x].size : files[x].fileSize,
+							newDate          : download ? files[x].modificationDate : files[x].lastModifiedTime,
 							timerEnable      : false };
 
 					this.busy = true;                                    // ooo, the fun of doing semi-multi-threaded stuff in firefox
@@ -139,7 +139,9 @@ transfer.prototype = {
 					for (var y = 0; y < gMaxCon; ++y) {
 						gConnections[y].waitToRefresh = true;
 					}
-
+                    //TODO: Check if it remembers "overwrite all" and "skip all"
+                    //TODO: Check if the prompt works ok for multiple file uploads
+                    //TODO: Check if the prompt works ok for recursive folder uploads
 					window.openDialog("chrome://firegss/content/confirmFile.xul", "confirmFile", "chrome,modal,dialog,resizable,centerscreen", params);
 
 					for (var y = 0; y < gMaxCon; ++y) {

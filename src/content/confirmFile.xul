@@ -52,7 +52,7 @@
       <button id="overwriteall" label="&overwriteall.label;" accesskey="&overwriteall.access;" oncommand="answer(2)"/>
       <button id="skip"         label="&skip.label;"         accesskey="&skip.access;"         dlgtype="cancel"/>
       <button id="skipall"      label="&skipall.label;"      accesskey="&skipall.access;"      oncommand="answer(5)"/>
-      <button id="resume"       label="&resume.label;"       accesskey="&resume.access;"       oncommand="answer(4)"/>
+<!--      <button id="resume"       label="&resume.label;"       accesskey="&resume.access;"       oncommand="answer(4)"/>-->
     </hbox>
     <description id="timeout" value=""/>
   </vbox>

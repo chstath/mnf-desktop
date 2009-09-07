@@ -20,16 +20,16 @@ function init() {
   $('nfileIcon').src  = "moz-icon://file:///" + gArgs.fileName + "?size=32";
   $('skip').focus();
 
-  if (gArgs.replaceResume) {
-    $('resume').setAttribute("label",     gStrbundle.getString("cancelButton"));
-    $('resume').setAttribute("accesskey", gStrbundle.getString("cancelAccess"));
-  } else {
-    $('resume').focus();
-  }
+//  if (gArgs.replaceResume) {
+//    $('resume').setAttribute("label",     gStrbundle.getString("cancelButton"));
+//    $('resume').setAttribute("accesskey", gStrbundle.getString("cancelAccess"));
+//  } else {
+//    $('resume').focus();
+//  }
 
-  if (!gArgs.resume) {
-    $('resume').disabled = true;
-  }
+//  if (!gArgs.resume) {
+//    $('resume').disabled = true;
+//  }
 
   if (gArgs.timerEnable) {
     selfClose(15);
@@ -42,7 +42,7 @@ function answer(value) {
 }
 
 function selfClose(sec) {
-  var defaultAction  = gStrbundle.getString(gArgs.resume && !gArgs.replaceResume ? "resumeButton" : "skipButton");
+  var defaultAction  = gStrbundle.getString("skipButton");
   $('timeout').value = gStrbundle.getFormattedString("timeout", [defaultAction, sec]);
 
   if (!sec) {

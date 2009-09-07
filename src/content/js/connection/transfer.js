@@ -127,13 +127,11 @@ transfer.prototype = {
 
 				var params = { response         : 0,
 							fileName         : download ? localPath : remotePath,
-							resume           : true,
-							replaceResume    : !resume,
 							existingSize     : file.fileSize,
 							existingDate     : file.lastModifiedTime,
-							newSize          : files[x].fileSize,
-							newDate          : files[x].lastModifiedTime,
-							timerEnable      : !gDisableDestructMode };
+							newSize          : download ? files[x].size : file.fileSize,
+							newDate          : download ? files[x].modificationDate : file.lastModifiedTime,
+							timerEnable      : false };
 
 					this.busy = true;                                    // ooo, the fun of doing semi-multi-threaded stuff in firefox
 															 // we're doing some 'locking' above

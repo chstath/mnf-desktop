@@ -25,7 +25,7 @@ var remoteFile = {
   
   showProperties : function(file, recursive) {
     try {
-      var date = new Date(file.lastModifiedTime);
+      var date = new Date(file.modificationDate);
       date     = gMonths[date.getMonth()] + ' ' + date.getDate() + ' ' + date.getFullYear() + ' ' + date.toLocaleTimeString();
 
       var recursiveFolderData = { type: "remote", nFolders: 0, nFiles: 0, nSize: 0 };
@@ -37,8 +37,8 @@ var remoteFile = {
       var origWritable = file.isWritable();
 
       var params = { path                : file.path,
-                     leafName            : file.leafName,
-                     fileSize            : file.fileSize,
+                     leafName            : file.name,
+                     fileSize            : file.size,
                      date                : date,
                      origPermissions     : gSlash == "/" ? "-" + remoteTree.convertPermissions(false, file.permissions) : 0,
                      permissions         : "",

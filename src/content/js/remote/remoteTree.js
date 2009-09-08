@@ -506,21 +506,33 @@ var remoteTree = {
 
     // since were doing threading, the parent path could change
     var origParent = this.data[this.selection.currentIndex].parent;
+    var resource = this.data[this.selection.currentIndex];
+    if (!resource.properties) {
+        // Update the cache.
+        if (resource.isFolder)
+            gss.fetchFolder(resource, this.updateProperties, [resource, origParent, recursive]);
+        else
+            gss.fetchFile(resource, this.updateProperties, [resource, origParent, recursive]);
+    } else
+        updateProperties([resource, origParent, recursive]);
+  },
 
-    if (remoteFile.showProperties(this.data[this.selection.currentIndex], recursive)) {
+  updateProperties : function(args) {
+    var [file, origParent, recursive] = args;
+    if (remoteFile.showProperties(file, recursive)) {
       // since we're working on a separate thread make sure we're in the same directory on refresh
-      if (origParent == this.data[this.selection.currentIndex].parent) {
-        var single  = this.selection.count == 1 ? this.selection.currentIndex : -1;
-        var name    = this.data[this.selection.currentIndex].leafName;
-        var rowDiff = this.treebox.getLastVisibleRow() - single;
+      if (origParent == remoteTree.data[remoteTree.selection.currentIndex].parent) {
+        var single = remoteTree.selection.count == 1 ? remoteTree.selection.currentIndex : -1;
+        var name = remoteTree.data[remoteTree.selection.currentIndex].leafName;
+        var rowDiff = remoteTree.treebox.getLastVisibleRow() - single;
 
-        this.refresh(false, true);
+        remoteTree.refresh(false, true);
 
         if (single != -1) {
-          for (var x = 0; x < this.rowCount; ++x) {
-            if (this.data[x].leafName == name) {
-              this.selection.select(x);
-              this.treebox.ensureRowIsVisible(rowDiff + x - 1 < this.rowCount ? rowDiff + x - 1 : this.rowCount - 1);
+          for (var x = 0; x < remoteTree.rowCount; ++x) {
+            if (remoteTree.data[x].leafName == name) {
+              remoteTree.selection.select(x);
+              remoteTree.treebox.ensureRowIsVisible(rowDiff + x - 1 < remoteTree.rowCount ? rowDiff + x - 1 : remoteTree.rowCount - 1);
               break;
             }
           }
@@ -528,7 +540,7 @@ var remoteTree = {
       }
     }
   },
-
+  
   getRecursiveFolderData : function(dir, recursiveFolderData) {
     ++gProcessing;
     //gfiregssUtils.getRecursiveFolderData(dir, new wrapperClass(recursiveFolderData));

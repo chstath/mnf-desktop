@@ -317,8 +317,9 @@ var remoteDirTree = {
 			}
 		  },
 
-		  click : function(event) {                                                                        // this is a special case: if we want the search to go away
-			var index = this.selection.currentIndex;
+		  click : function(event) {
+            // this is a special case: if we want the search to go away
+            var index = this.selection.currentIndex;
 
 			if (index >= 0 && index < this.data.length && (this.data[index].path == gRemotePath.value && remoteTree.searchMode)) {
 			  this.changeDir(this.data[index].path);
@@ -326,9 +327,11 @@ var remoteDirTree = {
 		  },
 
 		  keyPress : function(event) {
-			if (event.keyCode == 8) {                                                                      // backspace
+			if (event.keyCode == 8) {
+              // backspace
 			  this.cdup();
-			} else if (event.keyCode == 116) {                                                             // F5
+			} else if (event.keyCode == 116) {
+              // F5
 			  event.preventDefault();
 			  remoteTree.refresh(false, true);
 			}
@@ -443,8 +446,7 @@ var remoteDirTree = {
 	changeFolder: function(index) {
 		var folder = remoteDirTree.data[index].gssObj;
 		remoteDirTree.showFolder(folder);
-		gss.fetchFolder.nextAction = remoteDirTree.showFolder;
-		gss.fetchFolder(folder);
+		gss.fetchFolder(folder, remoteDirTree.showFolder);
 	},
 
 	showFolder: function(folder) {

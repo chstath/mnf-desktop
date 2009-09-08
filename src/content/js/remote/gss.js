@@ -337,9 +337,49 @@ gss.deleteResource = function(uri, nextAction) {
 					resource: uri});
 };
 
+// Fetches the specified file.
+gss.fetchFile = function (file, nextAction, nextActionArg) {
+    gss.sendRequest({handler: gss.parseFile,
+                    handlerArg: file,
+                    nextAction: nextAction,
+                    nextActionArg: nextActionArg,
+					method: 'HEAD',
+					resource: file.uri});
+};
+ 
+// Parses the response for a file request.
+gss.parseFile = function (req, file, nextAction, nextActionArg) {
+    var headers = gss.parseHeaders(req);
+    var fileobj = JSON.parse(headers['X-GSS-Metadata']);
+	gss.updateFolderAttributes(file, fileobj);
+    file.isWritable = gss.isWritable;
+	if (nextAction)
+		nextAction(nextActionArg);
+};
+ 
+// A helper function that parses the HTTP headers from the specified XHR and returns them in a map.
+gss.parseHeaders = function (req) {
+    var allHeaders = req.getAllResponseHeaders();
+    var headers = {};
+    var ls = /^\s*/;
+    var ts = /\s*$/;
+    appendLog('Headers: '+allHeaders);
+    var lines = allHeaders.split("\n");
+    for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        if (line.length == 0) continue;
+        var pos = line.indexOf(':');
+        var name = line.substring(0, pos).replace(ls, "").replace(ts, "");
+        var value = line.substring(pos + 1).replace(ls, "").replace(ts, "");
+        headers[name] = value;
+    }
+    return headers;
+};
+    
 // A helper function that checks whether the current user has write permission
 // on the file or folder object the function is attached to.
 gss.isWritable = function () {
+    if (!this.permissions) return false;
     var hasWrite = false;
     jQuery.each(this.permissions, function (i, e) {
         if (e.user && e.user === gss.username && e.write) {

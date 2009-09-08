@@ -470,15 +470,12 @@ var remoteTree = {
       this.selection.currentIndex = this.rowCount - 1;
     }
 
-    if (this.selection.count > 1) {                                                             // multiple files
+    // multiple files
+    if (this.selection.count > 1) {
       var files = new Array();
 
       for (var x = 0; x < this.rowCount; ++x) {
         if (this.selection.isSelected(x)) {
-          if (!localFile.verifyExists(this.data[x])) {
-            continue;
-          }
-
           files.push(this.data[x]);
         }
       }
@@ -486,10 +483,6 @@ var remoteTree = {
       var recursiveFolderData = { type: "local", nFolders: 0, nFiles: 0, nSize: 0 };
 
       for (var x = 0; x < files.length; ++x) {
-        if (!localFile.verifyExists(files[x])) {
-          continue;
-        }
-
         if (files[x].isDirectory()) {
           ++recursiveFolderData.nFolders;
 
@@ -511,14 +504,12 @@ var remoteTree = {
       return;
     }
 
-    if (!localFile.verifyExists(this.data[this.selection.currentIndex])) {
-      return;
-    }
+    // since were doing threading, the parent path could change
+    var origParent = this.data[this.selection.currentIndex].parent;
 
-    var origParent = gRemotePath.value;                                                          // since were doing threading, the parent path could change
-
-    if (localFile.showProperties(this.data[this.selection.currentIndex], recursive)) {
-      if (origParent == gRemotePath.value) {                                                     // since we're working on a separate thread make sure we're in the same directory on refresh
+    if (remoteFile.showProperties(this.data[this.selection.currentIndex], recursive)) {
+      // since we're working on a separate thread make sure we're in the same directory on refresh
+      if (origParent == this.data[this.selection.currentIndex].parent) {
         var single  = this.selection.count == 1 ? this.selection.currentIndex : -1;
         var name    = this.data[this.selection.currentIndex].leafName;
         var rowDiff = this.treebox.getLastVisibleRow() - single;
@@ -540,7 +531,7 @@ var remoteTree = {
 
   getRecursiveFolderData : function(dir, recursiveFolderData) {
     ++gProcessing;
-    gfiregssUtils.getRecursiveFolderData(dir, new wrapperClass(recursiveFolderData));
+    //gfiregssUtils.getRecursiveFolderData(dir, new wrapperClass(recursiveFolderData));
     --gProcessing;
   },
 

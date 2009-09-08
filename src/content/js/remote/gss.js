@@ -193,6 +193,7 @@ gss.parseFiles = function(req, folder, nextAction, nextActionArg) {
 		f.position = i;
 		f.isFolder = true;
 	}
+	folder.isWritable = gss.isWritable;
 	if (nextAction)
 		nextAction(nextActionArg);
 };
@@ -335,3 +336,22 @@ gss.deleteResource = function(uri, nextAction) {
 					method: 'DELETE',
 					resource: uri});
 };
+
+// A helper function that checks whether the current user has write permission
+// on the file or folder object the function is attached to.
+gss.isWritable = function () {
+    var hasWrite = false;
+    jQuery.each(this.permissions, function (i, e) {
+        if (e.user && e.user === gss.username && e.write) {
+            hasWrite = true;
+            return false;
+        }
+        // XXX: fix group membership check
+        else if (e.group && e.group && e.write) {
+            hasWrite = true;
+            return false;
+        }
+	});
+	return hasWrite;
+};
+

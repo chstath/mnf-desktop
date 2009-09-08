@@ -185,7 +185,7 @@ gss.parseUser = function(req, arg, nextAction, nextActionArg) {
 // Parses the 'files' namespace response.
 gss.parseFiles = function(req, folder, nextAction, nextActionArg) {
 	var filesobj = JSON.parse(req.responseText);
-	gss.updateFolderAttributes(folder, filesobj);
+	gss.updateCache(folder, filesobj);
 	var folders = folder.folders;
 	for (var i=0; i<folders.length; i++) {
 		var f = folders[i];
@@ -198,23 +198,23 @@ gss.parseFiles = function(req, folder, nextAction, nextActionArg) {
 		nextAction(nextActionArg);
 };
 
-// Update the cached folder copy with the new one, in order to maintain cached
+// Update the cached resource copy with the new one, in order to maintain cached
 // object identities.
-gss.updateFolderAttributes = function(folder, newFolder) {
+gss.updateCache = function(res, newRes) {
 	var attr, cons = Components.classes["@mozilla.org/consoleservice;1"].
    			getService(Components.interfaces.nsIConsoleService);
-	cons.logStringMessage("updating "+newFolder.name);
-	for (attr in newFolder)
-		if (newFolder.hasOwnProperty(attr)) {
+	cons.logStringMessage("updating "+newRes.name);
+	for (attr in newRes)
+		if (newRes.hasOwnProperty(attr)) {
 			if (attr === 'folders' || attr === 'files') {
-				cons.logStringMessage(attr+": "+(folder[attr]? folder[attr].length: -1));
-				if (!folder[attr] || folder[attr].length === 0)
-					folder[attr] = newFolder[attr];
+				cons.logStringMessage(attr+": "+(res[attr]? res[attr].length: -1));
+				if (!res[attr] || res[attr].length === 0)
+					res[attr] = newRes[attr];
 				else {
 					// Remove deleted children from cache.
-					jQuery.each(folder[attr], function (i, e) {
+					jQuery.each(res[attr], function (i, e) {
 						var found = false;
-						jQuery.each(newFolder[attr], function (it, el) {
+						jQuery.each(newRes[attr], function (it, el) {
 							if (el.uri === e.uri) {
 								found = true;
 								return false;
@@ -222,13 +222,13 @@ gss.updateFolderAttributes = function(folder, newFolder) {
 						});
 						if (!found) {
 							cons.logStringMessage("Deleting "+e.name);
-							folder[attr].splice(i,1);
+							res[attr].splice(i,1);
 						}
 					});
 					// Recursively update existing children.
-					jQuery.each(newFolder[attr], function (i, e) {
+					jQuery.each(newRes[attr], function (i, e) {
 						var found;
-						jQuery.each(folder[attr], function (it, el) {
+						jQuery.each(res[attr], function (it, el) {
 							if (el.uri === e.uri) {
 								found = el;
 								return false;
@@ -236,13 +236,13 @@ gss.updateFolderAttributes = function(folder, newFolder) {
 						});
 						if (found) {
 							cons.logStringMessage("Recursing in "+e.name);
-							gss.updateFolderAttributes(found, e);
+							gss.updateCache(found, e);
 						}
 					});
 					// Add new children to the cache.
-					jQuery.each(newFolder[attr], function (i, e) {
+					jQuery.each(newRes[attr], function (i, e) {
 						var found = false;
-						jQuery.each(folder[attr], function (it, el) {
+						jQuery.each(res[attr], function (it, el) {
 							if (el.uri === e.uri) {
 								found = true;
 								return false;
@@ -250,13 +250,13 @@ gss.updateFolderAttributes = function(folder, newFolder) {
 						});
 						if (!found) {
 							cons.logStringMessage("Adding "+e.name);
-							folder[attr].push(e);
+							res[attr].push(e);
 						}
 					});
 				}
 			}
 			else
-				folder[attr] = newFolder[attr];
+				res[attr] = newRes[attr];
 		}
 };
 
@@ -351,7 +351,7 @@ gss.fetchFile = function (file, nextAction, nextActionArg) {
 gss.parseFile = function (req, file, nextAction, nextActionArg) {
     var headers = gss.parseHeaders(req);
     var fileobj = JSON.parse(headers['X-GSS-Metadata']);
-	gss.updateFolderAttributes(file, fileobj);
+	gss.updateCache(file, fileobj);
     file.isWritable = gss.isWritable;
 	if (nextAction)
 		nextAction(nextActionArg);

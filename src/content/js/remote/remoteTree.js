@@ -483,7 +483,7 @@ var remoteTree = {
       var recursiveFolderData = { type: "local", nFolders: 0, nFiles: 0, nSize: 0 };
 
       for (var x = 0; x < files.length; ++x) {
-        if (files[x].isDirectory()) {
+        if (files[x].isFolder) {
           ++recursiveFolderData.nFolders;
 
           if (recursive) {
@@ -493,7 +493,7 @@ var remoteTree = {
           ++recursiveFolderData.nFiles;
         }
 
-        recursiveFolderData.nSize += files[x].fileSize;
+        recursiveFolderData.nSize += files[x].isFolder? 0: files[x].size;
       }
 
       var params = { multipleFiles       : true,

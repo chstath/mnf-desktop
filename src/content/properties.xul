@@ -128,51 +128,6 @@
           </groupbox>
         </box>
       </row>
-      <row           id="hashrow"     align="center">
-        <description value="&hash;"   class="paddingRight" />
-        <hbox>
-          <description id="md5btn"    value="MD5"      class="textLink paddingRight" onclick="generateHashes('md5')"/>
-          <description id="sha1btn"   value="SHA1"     class="textLink paddingRight" onclick="generateHashes('sha1')"/>
-          <description id="sha256btn" value="SHA256"   class="textLink paddingRight" onclick="generateHashes('sha256')"/>
-          <description id="sha384btn" value="SHA384"   class="textLink paddingRight" onclick="generateHashes('sha384')"/>
-          <description id="sha512btn" value="SHA512"   class="textLink paddingRight" onclick="generateHashes('sha512')"/>
-        </hbox>
-      </row>
-      <row           id="md5row"      align="center"  collapsed="true">
-        <description                  value="MD5:"/>
-        <deck        id="md5deck">
-          <progressmeter id="md5meter" mode="undetermined" />
-          <textbox   id="md5"         readonly="true" class="textfield"/>
-        </deck>
-      </row>
-      <row           id="sha1row"     align="center"  collapsed="true">
-        <description                  value="SHA1:"/>
-        <deck        id="sha1deck">
-          <progressmeter id="sha1meter" mode="undetermined" />
-          <textbox   id="sha1"        readonly="true" class="textfield"/>
-        </deck>
-      </row>
-      <row           id="sha256row"   align="center"  collapsed="true">
-        <description                  value="SHA256:"/>
-        <deck        id="sha256deck">
-          <progressmeter id="sha256meter" mode="undetermined" />
-          <textbox   id="sha256"      readonly="true" class="textfield"/>
-        </deck>
-      </row>
-      <row           id="sha384row"   align="center"  collapsed="true">
-        <description                  value="SHA384:"/>
-        <deck        id="sha384deck">
-          <progressmeter id="sha384meter" mode="undetermined" />
-          <textbox   id="sha384"      readonly="true" class="textfield"/>
-        </deck>
-      </row>
-      <row           id="sha512row"   align="center"  collapsed="true">
-        <description                  value="SHA512:"/>
-        <deck        id="sha512deck">
-          <progressmeter id="sha512meter" mode="undetermined" />
-          <textbox   id="sha512"      readonly="true" class="textfield"/>
-        </deck>
-      </row>
     </rows>
   </grid>
 

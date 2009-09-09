@@ -254,27 +254,3 @@ function multipleFiles() {
                   + (gArgs.recursiveFolderData.nSize > 1023 ? "  (" + gStrbundle.getFormattedString("bytes", [commas(gArgs.recursiveFolderData.nSize)]) + ")": "");
 }
 
-function generateHashes(hash) {
-  $(hash + 'deck').selectedIndex = 0;
-  $(hash + 'meter').setAttribute("mode", "undetermined");
-  $(hash + 'row').collapsed = false;
-
-  if (!gArgs.isLocal) {
-    var func = function(zeHash) {
-      $(hash).value             = zeHash;
-      $(hash + 'deck').selectedIndex = 1;
-      $(hash + 'meter').setAttribute("mode", "determined");
-    };
-
-    gArgs.gFtp.addEventQueue(hash == 'md5' ? "XMD5" : "XSHA1", gArgs.leafName, func);
-    gArgs.gFtp.writeControlWrapper();
-    return;
-  }
-
-  var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
-  file.initWithPath(gArgs.path);
-
-  $(hash).value                  = gfiregssUtils.generateHash(file, hash);
-  $(hash + 'deck').selectedIndex = 1;
-  $(hash + 'meter').setAttribute("mode", "determined");
-}

@@ -69,27 +69,24 @@
       <row id="permrow" align="center">
         <description value="&perm;"/>
         <hbox>
-          <groupbox>
-            <caption                       label="&owner;"/>
-            <checkbox   id="readowner"     label="&read;"/>
-            <checkbox   id="writeowner"    label="&write;"/>
-            <checkbox   id="execowner"     label="&exec;"/>
-            <checkbox   id="suid"          label="&suid;"/>
-          </groupbox>
-          <groupbox     class="paddingLeft">
-            <caption                       label="&group;"/>
-            <checkbox   id="readgroup"     label="&read;"/>
-            <checkbox   id="writegroup"    label="&write;"/>
-            <checkbox   id="execgroup"     label="&exec;"/>
-            <checkbox   id="guid"          label="&guid;"/>
-          </groupbox>
-          <groupbox     class="paddingLeft">
-            <caption                       label="&public;"/>
-            <checkbox   id="readpublic"    label="&read;"/>
-            <checkbox   id="writepublic"   label="&write;"/>
-            <checkbox   id="execpublic"    label="&exec;"/>
-            <checkbox   id="sticky"        label="&sticky;"/>
-          </groupbox>
+          <hbox id="permitem">
+            <groupbox>
+              <caption label="&usersgroups;"/>
+              <label id="permuser"/>
+            </groupbox>
+            <groupbox>
+              <caption label="&read;"/>
+              <checkbox id="permread"/>
+            </groupbox>
+            <groupbox class="paddingLeft">
+              <caption label="&write;"/>
+              <checkbox id="permwrite"/>
+            </groupbox>
+            <groupbox class="paddingLeft">
+              <caption label="&modifyAcl;"/>
+              <checkbox id="permacl"/>
+            </groupbox>
+          </hbox>
           <vbox         class="paddingLeft">
             <vbox       id="multipleprops">
               <label                       value="&applyto;"/>

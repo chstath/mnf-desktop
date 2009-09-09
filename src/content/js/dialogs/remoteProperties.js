@@ -20,67 +20,42 @@ function init() {
   $('user').value = gArgs.user;
 
   if (gArgs.recursiveFolderData) {
-    $('size').value     = parseSize(gArgs.recursiveFolderData.nSize)
-                        + (gArgs.recursiveFolderData.nSize > 1023 ? "  (" + gStrbundle.getFormattedString("bytes", [commas(gArgs.recursiveFolderData.nSize)]) + ")" : "");
+    $('size').value = parseSize(gArgs.recursiveFolderData.nSize)
+        + (gArgs.recursiveFolderData.nSize > 1023 ?
+        "  (" + gStrbundle.getFormattedString("bytes", [commas(gArgs.recursiveFolderData.nSize)]) + ")" :
+        "");
     $('contains').value = gStrbundle.getFormattedString("files", [commas(parseInt(gArgs.recursiveFolderData.nFiles))]) + ", "
                         + gStrbundle.getFormattedString("folders", [commas(parseInt(gArgs.recursiveFolderData.nFolders))]);
 
     if (gArgs.applyTo && gArgs.applyTo.type) {
-      $('thisprop').checked    = gArgs.applyTo.thisFile;
+      $('thisprop').checked = gArgs.applyTo.thisFile;
       $('foldersprop').checked = gArgs.applyTo.folders;
-      $('filesprop').checked   = gArgs.applyTo.files;
+      $('filesprop').checked = gArgs.applyTo.files;
     } else {
       $('multipleprops').collapsed = true;
     }
   } else {
-    $('size').value              = parseSize(gArgs.fileSize) + (gArgs.fileSize > 1023 ? "  (" + gStrbundle.getFormattedString("bytes", [commas(gArgs.fileSize)]) + ")" : "");
-    $('containsrow').collapsed   = true;
+    $('size').value = parseSize(gArgs.fileSize) + (gArgs.fileSize > 1023 ? "  (" + gStrbundle.getFormattedString("bytes", [commas(gArgs.fileSize)]) + ")" : "");
+    $('containsrow').collapsed = true;
     $('multipleprops').collapsed = true;
   }
 
   if (gArgs.isDirectory)
     $('sizerow').collapsed = true;
   
-  if (gArgs.origPermissions) {
-    $('readowner').checked   = gArgs.origPermissions.charAt(1) != '-';
-    $('writeowner').checked  = gArgs.origPermissions.charAt(2) != '-';
-    $('execowner').checked   = gArgs.origPermissions.charAt(3) != '-';
-    $('readgroup').checked   = gArgs.origPermissions.charAt(4) != '-';
-    $('writegroup').checked  = gArgs.origPermissions.charAt(5) != '-';
-    $('execgroup').checked   = gArgs.origPermissions.charAt(6) != '-';
-    $('readpublic').checked  = gArgs.origPermissions.charAt(7) != '-';
-    $('writepublic').checked = gArgs.origPermissions.charAt(8) != '-';
-    $('execpublic').checked  = gArgs.origPermissions.charAt(9) != '-';
-
-    if (gArgs.origPermissions.charAt(3) == 's') {
-      $('suid').checked      = true;
-    }
-
-    if (gArgs.origPermissions.charAt(3) == 'S') {
-      $('suid').checked      = true;
-      $('execowner').checked = false;
-    }
-
-    if (gArgs.origPermissions.charAt(6) == 's') {
-      $('guid').checked      = true;
-    }
-
-    if (gArgs.origPermissions.charAt(6) == 'S') {
-      $('guid').checked      = true;
-      $('execgroup').checked = false;
-    }
-
-    if (gArgs.origPermissions.charAt(9) == 't') {
-      $('sticky').checked     = true;
-    }
-
-    if (gArgs.origPermissions.charAt(9) == 'T') {
-      $('sticky').checked     = true;
-      $('execpublic').checked = false;
-    }
+  if (gArgs.permissions) {
+    var perm = gArgs.permissions[0];
+    $('permuser').value = perm.user || perm.group;
+    $('permread').checked = perm.read;
+    $('permwrite').checked = perm.write;
+    $('permacl').checked = perm.modifyACL;
+    gArgs.permissions.forEach(function (i) {
+        var p = (perm.user || perm.group) + ' ' + perm.read + ' ' + perm.write + ' ' + perm.modifyACL;
+        jQuery('permitem').after("<hbox id='permitem"+i+"'><label value='"+p+"'/></hbox>");
+    });
 
     change();
-    gInitialPermissions = $('manual').value;
+//    gInitialPermissions = $('manual').value;
     addEventListener("CheckboxStateChange", change, true);
   } else {
     $('permrow').collapsed = true;
@@ -99,14 +74,8 @@ function init() {
 
   if (gArgs.isDirectory) {
     $('fileIcon').setAttribute("class", "isFolder");
-  } else if (gArgs.isSymlink) {
-    $('fileIcon').setAttribute("class", "isLink");
   } else {
     $('fileIcon').src = "moz-icon://file:///" + gArgs.path + "?size=32";
-  }
-
-  if (gArgs.isSymlink) {
-    $('path').value += " -> " + gArgs.symlink;
   }
 
 }

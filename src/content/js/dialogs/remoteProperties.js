@@ -83,16 +83,16 @@ function init() {
   }
 
   if (gArgs.writable != 'disabled') {
-    $('readonly').checked   = !gArgs.writable;
-    $('hidden').checked     =  gArgs.hidden;
-    $('readonly').disabled  =  gArgs.isLinuxType;
-    $('hidden').disabled    =  true;
-    $('userrow').collapsed  =  true;
-    $('grouprow').collapsed =  true;
+    $('public').checked = gArgs.isPublic;
+    $('versioned').checked = gArgs.isVersioned;
+    $('public').disabled = gArgs.isDirectory;
+    $('versioned').disabled = gArgs.isDirectory;
+    $('userrow').collapsed = true;
+    $('grouprow').collapsed = true;
   } else {
-    $('attrrow').collapsed  =  true;
-    $('user').value         =  gArgs.user;
-    $('group').value        =  gArgs.group;
+    $('attrrow').collapsed = true;
+    $('user').value = gArgs.user;
+    $('group').value = gArgs.group;
   }
 
   if (gArgs.isDirectory) {

@@ -14,12 +14,14 @@
 <!ENTITY reado       "Read-only">
 <!ENTITY hidden      "Hidden">
 <!ENTITY versioned   "Versioned">
-<!ENTITY owner       "Owner">
+<!ENTITY owner       "Owner:">
 <!ENTITY group       "Group">
+<!ENTITY usersgroups "Users/Groups">
 <!ENTITY public      "Public">
 <!ENTITY read        "Read">
 <!ENTITY write       "Write">
 <!ENTITY exec        "Execute">
+<!ENTITY modifyAcl   "Modify Access">
 <!ENTITY manual      "Manual:">
 <!ENTITY suid        "SUID">
 <!ENTITY guid        "SGID">

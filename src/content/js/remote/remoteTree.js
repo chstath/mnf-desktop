@@ -180,48 +180,6 @@ var remoteTree = {
     return leafName.lastIndexOf(".") != -1 ? leafName.substring(leafName.lastIndexOf(".") + 1, leafName.length).toLowerCase() : "";
   },
 
-  convertPermissions : function(hidden, permissions) {
-    if (gSlash == "\\") {                                                                       // msdos
-      var returnString = "";
-
-      if (permissions == 438) {                                                                 // Normal file  (666 in octal)
-        returnString = gStrbundle.getString("normalFile");
-      } else if (permissions == 511) {                                                          // Executable file (777 in octal)
-        returnString = gStrbundle.getString("executableFile");
-      } else if (permissions == 292) {                                                          // Read-only (444 in octal)
-        returnString = gStrbundle.getString("readOnlyFile");
-      } else if (permissions == 365) {                                                          // Read-only and executable (555 in octal)
-        returnString = gStrbundle.getString("readOnlyExecutableFile");
-      } else {
-        returnString = " ";
-      }
-
-      if (hidden) {
-        returnString += gStrbundle.getString("hiddenFile");
-      }
-
-      return returnString;
-    } else {
-      permissions           = permissions.toString(8);
-
-      if (gPlatform == 'mac') {
-        permissions         = permissions.substring(permissions.length - 4);
-      }
-
-      permissions           = parseInt(permissions, 8);
-      var binary            = permissions.toString(2);
-      var permissionsString = "";
-
-      for (var x = 0; x < 9; x += 3) {
-        permissionsString += binary.charAt(0 + x) == "1" ? "r" : "-";
-        permissionsString += binary.charAt(1 + x) == "1" ? "w" : "-";
-        permissionsString += binary.charAt(2 + x) == "1" ? "x" : "-";
-      }
-
-      return permissionsString;
-    }
-  },
-
   getFileIcon : function(row) {
     var icon, name, ext, file;
     if (this.data[row].isFolder) {

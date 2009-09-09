@@ -42,8 +42,7 @@ var remoteFile = {
                      date                : date,
                      uri                 : file.uri,
                      user                : file.owner,
-                     origPermissions     : gSlash == "/" ? "-" + remoteTree.convertPermissions(false, file.permissions) : 0,
-                     permissions         : "",
+                     permissions         : file.permissions,
                      writable            : file.isWritable(),
                      isPublic            : file.readForAll,
                      isVersioned         : file.versioned,
@@ -52,9 +51,7 @@ var remoteFile = {
                      isLinuxType         : gSlash == "/",
                      isLocal             : false,
                      recursiveFolderData : file.isFolder && recursive ? recursiveFolderData : null,
-                     returnVal           : false,
-                     isSymlink           : false,
-                     symlink             : "" };
+                     returnVal           : false };
 
       window.openDialog("chrome://firegss/content/remoteProperties.xul", "properties", "chrome,modal,dialog,resizable,centerscreen", params);
 
@@ -62,25 +59,7 @@ var remoteFile = {
         return false;
       }
 
-      if (params.isLinuxType) {
-        if (params.permissions) {
-          if (gPlatform == 'mac') {
-            var perm         = (file.isDirectory() ? "4" : "10") + params.permissions;
-            file.permissions = parseInt(perm, 8);
-          } else {
-            file.permissions = parseInt(params.permissions, 8);
-          }
-          return true;
-        }
-      } else if (origWritable != params.writable) {
-        if (params.writable) {
-          file.permissions = file.permissions == 365 ? 511 : 438;
-        } else {
-          file.permissions = file.permissions == 511 ? 365 : 292;
-        }
-
-        return true;
-      }
+      return true;
     } catch (ex) {
       debug(ex);
     }

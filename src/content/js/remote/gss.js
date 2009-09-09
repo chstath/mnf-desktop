@@ -363,7 +363,6 @@ gss.parseHeaders = function (req) {
     var headers = {};
     var ls = /^\s*/;
     var ts = /\s*$/;
-    appendLog('Headers: '+allHeaders);
     var lines = allHeaders.split("\n");
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];

@@ -2,6 +2,7 @@
 
 <!ENTITY path        "Path:">
 <!ENTITY webpath     "Web Path:">
+<!ENTITY uri         "URI:">
 <!ENTITY size        "Size:">
 <!ENTITY date        "Date:">
 <!ENTITY contains    "Contains:">

@@ -39,11 +39,11 @@
         <description                  value="&path;"/>
         <textbox     id="path"        readonly="true" class="textfield"/>
       </row>
-      <row           id="webpathrow"  align="center">
-        <description                  value="&webpath;"/>
-        <textbox     id="webpath"     readonly="true" class="textfield"/>
+      <row           id="urirow"      align="center">
+        <description                  value="&uri;"/>
+        <textbox     id="uri"         readonly="true" class="textfield"/>
       </row>
-      <row                            align="center">
+      <row           id="sizerow"     align="center">
         <description                  value="&size;"/>
         <textbox     id="size"        readonly="true" class="textfield"/>
       </row>

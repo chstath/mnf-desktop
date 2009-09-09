@@ -116,6 +116,10 @@ gss.sendRequest = function(arg) {
 					if (arg.handler)
 						arg.handler(req, arg.handlerArg, arg.nextAction, arg.nextActionArg);
 					break;
+				case 403:
+				    if (confirm("Your session has expired. You have to reauthenticate."))
+    				    doDesktopLogin();
+				    break;
 				default:
 				    try {
 					    alert("The server responded with an error: HTTP status " +

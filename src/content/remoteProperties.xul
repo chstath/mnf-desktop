@@ -66,8 +66,8 @@
       <row           id="attrrow"     align="center">
         <description                  value="&attr;"/>
         <hbox>
-          <checkbox  id="readonly"    label="&reado;"/>
-          <checkbox  id="hidden"      label="&hidden;"/>
+          <checkbox  id="public"      label="&public;"/>
+          <checkbox  id="versioned"   label="&versioned;"/>
         </hbox>
       </row>
       <row id="permrow" align="center">

@@ -12,6 +12,7 @@
 <!ENTITY perm        "Permissions:">
 <!ENTITY reado       "Read-only">
 <!ENTITY hidden      "Hidden">
+<!ENTITY versioned   "Versioned">
 <!ENTITY owner       "Owner">
 <!ENTITY group       "Group">
 <!ENTITY public      "Public">

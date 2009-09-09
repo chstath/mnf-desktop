@@ -95,8 +95,6 @@
             <checkbox   id="sticky"        label="&sticky;"/>
           </groupbox>
           <vbox         class="paddingLeft">
-            <label                         value="&manual;" control="manual"/>
-            <textbox    id="manual"        value=""         size="4"        maxlength="4"/>
             <vbox       id="multipleprops">
               <label                       value="&applyto;"/>
               <checkbox id="thisprop"      label="&thisprop;"/>

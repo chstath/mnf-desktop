@@ -207,11 +207,11 @@ gss.parseFiles = function(req, folder, nextAction, nextActionArg) {
 gss.updateCache = function(res, newRes) {
 	var attr, cons = Components.classes["@mozilla.org/consoleservice;1"].
    			getService(Components.interfaces.nsIConsoleService);
-	cons.logStringMessage("updating "+newRes.name);
+//	cons.logStringMessage("updating "+newRes.name);
 	for (attr in newRes)
 		if (newRes.hasOwnProperty(attr)) {
 			if (attr === 'folders' || attr === 'files') {
-				cons.logStringMessage(attr+": "+(res[attr]? res[attr].length: -1));
+				cons.logStringMessage(res.name + " " + attr+": "+(res[attr]? res[attr].length: -1));
 				if (!res[attr] || res[attr].length === 0)
 					res[attr] = newRes[attr];
 				else {
@@ -239,7 +239,7 @@ gss.updateCache = function(res, newRes) {
 							}
 						});
 						if (found) {
-							cons.logStringMessage("Recursing in "+e.name);
+//							cons.logStringMessage("Recursing in "+e.name);
 							gss.updateCache(found, e);
 						}
 					});

@@ -222,7 +222,6 @@ function multipleFiles() {
   $('userrow').collapsed      = true;
   $('grouprow').collapsed     = true;
   $('attrrow').collapsed      = true;
-  $('hashrow').collapsed      = true;
   $('thisprop').collapsed     = true;
 
   if (gArgs.recursiveFolderData.type == "remote") {

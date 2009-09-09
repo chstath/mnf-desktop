@@ -166,13 +166,6 @@ function runInFirefox(path) {
   }
 }
 
-function tipJar() {
-  if (!gDonated) {
-    gPrefs.setBoolPref("donated", true);
-    runInFirefox("http://firegss.mozdev.org/donate.html");
-  }
-}
-
 function doAbort() {
   gSearchRunning = false;
   var forceKill  = false;

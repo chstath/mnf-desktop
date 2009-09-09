@@ -17,6 +17,7 @@ function init() {
   $('name').value = gArgs.leafName;
   $('date').value = gArgs.date;
   $('uri').value = gArgs.uri;
+  $('user').value = gArgs.user;
 
   if (gArgs.recursiveFolderData) {
     $('size').value     = parseSize(gArgs.recursiveFolderData.nSize)
@@ -91,11 +92,9 @@ function init() {
     $('public').disabled = gArgs.isDirectory;
     $('versioned').disabled = gArgs.isDirectory;
     $('userrow').collapsed = true;
-    $('grouprow').collapsed = true;
   } else {
     $('attrrow').collapsed = true;
     $('user').value = gArgs.user;
-    $('group').value = gArgs.group;
   }
 
   if (gArgs.isDirectory) {
@@ -152,7 +151,6 @@ function multipleFiles() {
   $('daterow').collapsed = true;
   $('containsrow').collapsed = true;
   $('userrow').collapsed = true;
-  $('grouprow').collapsed = true;
   $('attrrow').collapsed = true;
   $('thisprop').collapsed = true;
 

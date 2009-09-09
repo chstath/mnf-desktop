@@ -1,7 +1,6 @@
 var gInitialPermissions;
 var gStrbundle;
 var gArgs;
-var gfiregssUtils = Components.classes['@nightlight.ws/firegssutils;1'].getService(Components.interfaces.nsIfiregssUtils);
 
 function init() {
   gStrbundle = $("strings");
@@ -106,16 +105,6 @@ function init() {
 
   if (gArgs.isSymlink) {
     $('path').value += " -> " + gArgs.symlink;
-  }
-
-  $('hashrow').collapsed = gArgs.isDirectory || (!gArgs.isLocal && !gArgs.featXMD5 && !gArgs.featXSHA1) || gArgs.recursiveFolderData || !gArgs.fileSize;
-
-  if (!gArgs.isLocal) {
-    $('md5btn').collapsed    = !gArgs.featXMD5;
-    $('sha1btn').collapsed   = !gArgs.featXSHA1;
-    $('sha256btn').collapsed = true;
-    $('sha384btn').collapsed = true;
-    $('sha512btn').collapsed = true;
   }
 
   if (gArgs.recursiveFolderData == null && (gArgs.isLocal || gArgs.webHost)) {

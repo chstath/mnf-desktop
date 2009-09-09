@@ -465,6 +465,7 @@ var remoteDirTree = {
 			remoteTree.showFolderContents(remoteDirTree.data[index].gssObj);
 			gss.fetchFolder(remoteDirTree.data[index].gssObj, remoteTree.showFolderContents,
 							remoteDirTree.data[index].gssObj);
+			remoteDirTree.treebox.ensureRowIsVisible(index);
 //			this.changeDir(remoteDirTree.data[index].path);
 		}
 	},

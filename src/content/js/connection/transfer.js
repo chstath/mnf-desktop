@@ -105,8 +105,8 @@ transfer.prototype = {
 
 				for (var y = 0; y < remoteList.length; ++y) {
 					if (remoteList[y].name == fileName) {
-						file       = { fileSize: remoteList[y].fileSize, lastModifiedTime: remoteList[y].lastModifiedTime, leafName: fileName, exists: function() { return true; },
-							isDir: remoteList[y].isDirectory(), isDirectory: function() { return this.isDir }};
+						file       = { fileSize: remoteList[y].size, lastModifiedTime: remoteList[y].modificationDate, leafName: name, exists: function() { return true; },
+							isDir: remoteList[y].isFolder, isDirectory: function() { return this.isDir }};
 						break;
 					}
 				}
@@ -126,14 +126,12 @@ transfer.prototype = {
 			if (file.exists() && this.prompt && !files[x].isFolder) {
 
 				var params = { response         : 0,
-							fileName         : download ? localPath : remotePath,
-							resume           : true,
-							replaceResume    : !resume,
+							fileName         : download ? localPath : remoteFolder.uri + fileName,
 							existingSize     : file.fileSize,
 							existingDate     : file.lastModifiedTime,
-							newSize          : files[x].fileSize,
-							newDate          : files[x].lastModifiedTime,
-							timerEnable      : !gDisableDestructMode };
+							newSize          : download ? files[x].size : files[x].fileSize,
+							newDate          : download ? files[x].modificationDate : files[x].lastModifiedTime,
+							timerEnable      : false };
 
 					this.busy = true;                                    // ooo, the fun of doing semi-multi-threaded stuff in firefox
 															 // we're doing some 'locking' above
@@ -141,7 +139,9 @@ transfer.prototype = {
 					for (var y = 0; y < gMaxCon; ++y) {
 						gConnections[y].waitToRefresh = true;
 					}
-
+                    //TODO: Check if it remembers "overwrite all" and "skip all"
+                    //TODO: Check if the prompt works ok for multiple file uploads
+                    //TODO: Check if the prompt works ok for recursive folder uploads
 					window.openDialog("chrome://firegss/content/confirmFile.xul", "confirmFile", "chrome,modal,dialog,resizable,centerscreen", params);
 
 					for (var y = 0; y < gMaxCon; ++y) {
@@ -272,7 +272,7 @@ transfer.prototype = {
 						var nextAction = function() {
 							var lf = files[x];
 							return function(folder) {
-								remoteTree.refresh(false, true);
+//								remoteTree.refresh(false, true);
 								var contents = lf.directoryEntries;
 								while(contents.hasMoreElements()) {
 									var child = contents.getNext().QueryInterface(Components.interfaces.nsILocalFile);

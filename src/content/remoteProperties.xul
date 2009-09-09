@@ -56,12 +56,8 @@
         <textbox     id="contains"    readonly="true" class="textfield"/>
       </row>
       <row           id="userrow"     align="center">
-        <description                  value="&user;"/>
+        <description                  value="&owner;"/>
         <textbox     id="user"        readonly="true" class="textfield"/>
-      </row>
-      <row           id="grouprow"    align="center">
-        <description                  value="&groupl;"/>
-        <textbox     id="group"       readonly="true" class="textfield"/>
       </row>
       <row           id="attrrow"     align="center">
         <description                  value="&attr;"/>

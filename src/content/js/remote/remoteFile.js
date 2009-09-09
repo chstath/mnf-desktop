@@ -53,7 +53,7 @@ var remoteFile = {
                      isSymlink           : false,
                      symlink             : "" };
 
-      window.openDialog("chrome://firegss/content/properties.xul", "properties", "chrome,modal,dialog,resizable,centerscreen", params);
+      window.openDialog("chrome://firegss/content/remoteProperties.xul", "properties", "chrome,modal,dialog,resizable,centerscreen", params);
 
       if (!params.returnVal) {
         return false;

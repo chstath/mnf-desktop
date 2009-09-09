@@ -9,7 +9,6 @@ function init() {
   setTimeout("$('properties').getButton('accept').focus()", 0);
 
   if (gArgs.multipleFiles) {
-    $('thumbrow').collapsed = true;
     multipleFiles();
     return;
   }
@@ -17,6 +16,7 @@ function init() {
   $('path').value = gArgs.path;
   $('name').value = gArgs.leafName;
   $('date').value = gArgs.date;
+  $('uri').value = gArgs.uri;
 
   if (gArgs.recursiveFolderData) {
     $('size').value     = parseSize(gArgs.recursiveFolderData.nSize)
@@ -37,6 +37,9 @@ function init() {
     $('multipleprops').collapsed = true;
   }
 
+  if (gArgs.isDirectory)
+    $('sizerow').collapsed = true;
+  
   if (gArgs.origPermissions) {
     $('readowner').checked   = gArgs.origPermissions.charAt(1) != '-';
     $('writeowner').checked  = gArgs.origPermissions.charAt(2) != '-';
@@ -144,14 +147,14 @@ function doOK() {
 }
 
 function multipleFiles() {
-  $('pathrow').collapsed      = true;
-  $('webpathrow').collapsed   = true;
-  $('daterow').collapsed      = true;
-  $('containsrow').collapsed  = true;
-  $('userrow').collapsed      = true;
-  $('grouprow').collapsed     = true;
-  $('attrrow').collapsed      = true;
-  $('thisprop').collapsed     = true;
+  $('pathrow').collapsed = true;
+  $('urirow').collapsed = true;
+  $('daterow').collapsed = true;
+  $('containsrow').collapsed = true;
+  $('userrow').collapsed = true;
+  $('grouprow').collapsed = true;
+  $('attrrow').collapsed = true;
+  $('thisprop').collapsed = true;
 
   if (gArgs.recursiveFolderData.type == "remote") {
     change();
@@ -159,7 +162,7 @@ function multipleFiles() {
     addEventListener("CheckboxStateChange", change, true);
 
     $('foldersprop').checked = gArgs.applyTo.folders;
-    $('filesprop').checked   = gArgs.applyTo.files;
+    $('filesprop').checked = gArgs.applyTo.files;
   } else {
     $('permrow').collapsed = true;
   }

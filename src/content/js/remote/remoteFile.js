@@ -36,10 +36,11 @@ var remoteFile = {
 
       var origWritable = file.isWritable();
 
-      var params = { path                : file.path,
+      var params = { path                : file.isFolder? file.parent.uri.substr(gss.rootFolder.uri.length): file.path,
                      leafName            : file.name,
                      fileSize            : file.size,
                      date                : date,
+                     uri                 : file.uri,
                      origPermissions     : gSlash == "/" ? "-" + remoteTree.convertPermissions(false, file.permissions) : 0,
                      permissions         : "",
                      writable            : file.isWritable(),

@@ -271,7 +271,7 @@
 
         <toolbar>
           <toolbarbutton id="remoteUpButton"      class="upButton"      oncommand="remoteDirTree.cdup()" tooltiptext="&parentdir.tip;"/>
-          <toolbarbutton id="remoteRefreshButton" class="refreshButton" oncommand="remoteTree.refresh()" tooltiptext="&refresh.tip;"/>
+          <toolbarbutton id="remoteRefreshButton" class="refreshButton" oncommand="remoteTree.refresh(false, true)" tooltiptext="&refresh.tip;"/>
           <textbox id                      = "remotepath"
                    value                   = "/"
                    flex                    = "1"

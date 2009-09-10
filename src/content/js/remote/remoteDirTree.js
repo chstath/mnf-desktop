@@ -29,7 +29,7 @@ var remoteDirTree = {
 	  }
 	},
 
-	toggleOpenState     : function(row, suppressChange) {
+	toggleOpenState : function(row, suppressChange) {
 		var doOpen = true;
 
 		if (this.isContainerOpen(row)) {
@@ -37,23 +37,27 @@ var remoteDirTree = {
 			var level     = this.data[row].level;
 			var lastChild = row;
 
-			while (lastChild + 1 < this.rowCount && this.data[lastChild + 1].level > level) {            // find last index in same level as collapsed dir
+			while (lastChild + 1 < this.rowCount && this.data[lastChild + 1].level > level) {
+                // find last index in same level as collapsed dir
 				++lastChild;
 			}
 
-			this.data.splice(row + 1, lastChild - row);                        // get rid of subdirectories from view
+            // get rid of subdirectories from view
+			this.data.splice(row + 1, lastChild - row);
 			this.rowCount = this.data.length;
 			this.treebox.rowCountChanged(row, -(lastChild - row));
 
 			this.data[row].open = false;
-			this.treebox.invalidateRow(row);                                                             // update row
+            // update row
+			this.treebox.invalidateRow(row);
 
 			var remotePathSlash = gRemotePath.value    + (gRemotePath.value.charAt(gRemotePath.value.length - 1)       != gSlash ? gSlash : '');
 			var dataPathSlash  = this.data[row].path + (this.data[row].path.charAt(this.data[row].path.length - 1) != gSlash ? gSlash : '');
 
 			if (remotePathSlash.indexOf(dataPathSlash) == 0 && gRemotePath.value != this.data[row].path
 			&& gRemotePath.value.match(gSlash == "/" ? /\x2f/g : /\x5c/g ).length > this.data[row].level && !suppressChange) {
-				gRemotePath.value = this.data[row].path;                                                    // we were in a subdirectory and we collapsed
+                // we were in a subdirectory and we collapsed
+				gRemotePath.value = this.data[row].path;
 				this.selection.select(row);
 				this.treebox.ensureRowIsVisible(row);
 				remoteTree.updateView();
@@ -455,18 +459,18 @@ var remoteDirTree = {
 	},
 
 	select: function(event) {
+	    var index, gssObj;
 		if (remoteDirTree.ignoreSelect) {
 			return;
 		}
 
-		var index = remoteDirTree.selection.currentIndex;
-
+		index = remoteDirTree.selection.currentIndex;
+        
 		if (index >= 0 && index < remoteDirTree.data.length) {
-			remoteTree.showFolderContents(remoteDirTree.data[index].gssObj);
-			gss.fetchFolder(remoteDirTree.data[index].gssObj, remoteTree.showFolderContents,
-							remoteDirTree.data[index].gssObj);
+            gssObj = remoteDirTree.data[index].gssObj;
+			remoteTree.showFolderContents(gssObj);
+			gss.fetchFolder(gssObj, remoteTree.showFolderContents, gssObj);
 			remoteDirTree.treebox.ensureRowIsVisible(index);
-//			this.changeDir(remoteDirTree.data[index].path);
 		}
 	},
 

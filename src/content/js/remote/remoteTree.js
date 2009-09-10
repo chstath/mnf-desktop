@@ -196,17 +196,27 @@ var remoteTree = {
     return icon;
   },
 
-  // ************************************************** refresh *******************************************************
-
-  refresh : function(skipLocalTree, skipDelay) {
-    if (remoteDirTree.data[remoteDirTree.selection.currentIndex].open) {                          // if remoteDirTree is open
-      remoteDirTree.toggleOpenState(remoteDirTree.selection.currentIndex);                        // close it up
-      remoteDirTree.data[remoteDirTree.selection.currentIndex].children = null;                   // reset its children
-      remoteDirTree.toggleOpenState(remoteDirTree.selection.currentIndex);                        // and open it up again
+  refresh : function (skipLocalTree, skipDelay) {
+    var index = remoteDirTree.selection.currentIndex;
+    if (index < 0) {
+        index = 0;
+        appendLog("Zeroed negative remoteDirTree.selection.currentIndex.");
+    }
+    // if remoteDirTree is open
+    if (remoteDirTree.data[index].open) {
+      // close it up
+      remoteDirTree.toggleOpenState(index);
+      // reset its children
+      remoteDirTree.data[index].children = null;
+      // and open it up again
+      remoteDirTree.toggleOpenState(index);
+      remoteDirTree.selection.select(index);
     } else {
-      remoteDirTree.data[remoteDirTree.selection.currentIndex].empty    = false;                  // not empty anymore
-      remoteDirTree.data[remoteDirTree.selection.currentIndex].children = null;                   // reset its children
-      remoteDirTree.treebox.invalidateRow(remoteDirTree.selection.currentIndex);
+      // not empty anymore
+      remoteDirTree.data[index].empty    = false;
+      // reset its children
+      remoteDirTree.data[index].children = null;
+      remoteDirTree.treebox.invalidateRow(index);
     }
 
     if (!skipLocalTree) {
@@ -553,14 +563,14 @@ var remoteTree = {
   // ************************************************* keyEvent *****************************************************
 
   keyPress : function(event) {
-    if (gLocalTree.editingRow != -1) {
+    if (gRemoteTree.editingRow != -1) {
       if (event.keyCode == 27) {
         if (this.editType == "create") {
           this.setCellText(-1, "", "");
         } else {
-          this.displayData[gLocalTree.editingRow].leafName = this.displayData[gLocalTree.editingRow].origLeafName;
-          this.displayData[gLocalTree.editingRow].path     = this.displayData[gLocalTree.editingRow].origPath;
-          this.treebox.invalidateRow(gLocalTree.editingRow);
+          this.displayData[gRemoteTree.editingRow].leafName = this.displayData[gRemoteTree.editingRow].origLeafName;
+          this.displayData[gRemoteTree.editingRow].path = this.displayData[gRemoteTree.editingRow].origPath;
+          this.treebox.invalidateRow(gRemoteTree.editingRow);
         }
       }
 
@@ -572,11 +582,7 @@ var remoteTree = {
     }
 
     if (event.keyCode == 13 && this.selection.count != 0) {                                     // enter
-      if (!localFile.verifyExists(this.data[this.selection.currentIndex])) {
-        return;
-      }
-
-      if (this.selection.count == 1 && this.data[this.selection.currentIndex].isDirectory()) {  // if it's a directory
+      if (this.selection.count == 1 && this.data[this.selection.currentIndex].isFolder) {  // if it's a directory
         remoteDirTree.changeDir(this.data[this.selection.currentIndex].path);                    // navigate to it
       } else {
         if (gOpenMode) {
@@ -610,7 +616,7 @@ var remoteTree = {
       var x = {};    var y = {};    var width = {};    var height = {};
       this.treebox.getCoordsForCellItem(this.selection.currentIndex, this.treebox.columns["remotename"], "text", x, y, width, height);
       this.createContextMenu();
-      $('remotemenu').showPopup(gLocalTreeChildren, gLocalTreeChildren.boxObject.x + 75, gLocalTreeChildren.boxObject.y + y.value + 5, "context");
+      $('remotemenu').showPopup(gRemoteTreeChildren, gRemoteTreeChildren.boxObject.x + 75, gRemoteTreeChildren.boxObject.y + y.value + 5, "context");
     } else if (event.charCode == 112 && event.ctrlKey && this.selection.count != 0) {           // ctrl-p
       event.preventDefault();
       this.showProperties(false);

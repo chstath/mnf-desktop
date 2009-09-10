@@ -918,13 +918,8 @@ var remoteTree = {
       }
       else {
           var file = this.data[index];
-          var uri = file.uri;
-          var now = (new Date()).toUTCString();
-          var resource = uri;
-          if (resource.indexOf(gss.API_URL) == 0)
-              resource = resource.slice(gss.API_URL.length, resource.length);
-          var auth = gss.getAuth("GET", uri);
-          window.open(uri + "?" + auth.authString);
+          var auth = gss.getAuth("GET", file.uri);
+          window.open(file.uri + "?" + auth.authString);
       }
   },
   

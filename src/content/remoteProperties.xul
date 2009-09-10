@@ -97,6 +97,9 @@
           </vbox>
         </hbox>
       </row>
+      <row>
+        <iframe id="preview" style="width:600px; height:500px;" frameborder="1" collapsed="true"/>
+      </row>
     </rows>
   </grid>
 

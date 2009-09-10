@@ -78,6 +78,17 @@ function init() {
     $('fileIcon').src = "moz-icon://file:///" + gArgs.path + "?size=32";
   }
 
+  if ((gArgs.leafName.indexOf(".pdf") !== -1) ||
+    (gArgs.leafName.indexOf(".ppt") !== -1)) {
+    var auth = gss.getAuth("GET", gArgs.uri);
+    $('preview').collapsed = false;
+    var link = "http://docs.google.com/gview?url=" + gArgs.uri + "?" +
+        auth.authString + "&embedded=true";
+    appendLog(link);
+    $('preview').src = link;
+  } else
+    $('preview').collapsed = true;
+
 }
 
 function change() {

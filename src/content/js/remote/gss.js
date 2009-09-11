@@ -109,6 +109,7 @@ gss.sendRequest = function(arg) {
 	req.open(arg.method, gss.API_URL + arg.resource, true);
 	req.onreadystatechange = function (event) {
 		if (req.readyState == 4) {
+            $('loading').collapsed = true;
 			switch (req.status) {
 				case 200: // fallthrough
 				case 201: // fallthrough
@@ -163,6 +164,7 @@ gss.sendRequest = function(arg) {
 		req.send(params);
 	else
 		req.send(stream);
+	$('loading').collapsed = false;
 };
 
 gss.fetchUserAsync = function(next) {

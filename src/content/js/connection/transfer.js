@@ -26,7 +26,7 @@ transfer.prototype = {
 		}
 
 		var localParent  = aLocalParent  ? aLocalParent  : gLocalPath.value;
-		var remoteParent = aRemoteParent ? aRemoteParent : "";//gRemotePath.value;
+		var remoteParent = aRemoteParent ? aRemoteParent : "";
 		var files        = new Array();
 		var resume;
 		var listData     = aListData ? aListData : [];//gFtp.listData;
@@ -473,17 +473,6 @@ transfer.prototype = {
 			new transfer().start(true, folder.files[i], parent);
 		for (var i=0; i<folder.folders.length; i++)
 			new transfer().start(true, folder.folders[i], parent);
-	},
-
-	recurseLocalFolder: function(folder) {
-		while(folder.directoryEntries.hasNextElement()) {
-			var child = folder.directoryEntries.getNextElement();
-			if (child.isDirectory()) {
-
-			}
-			else {
-				new transfer().start(false, child, parent);
-			}
-		}
 	}
+
 };

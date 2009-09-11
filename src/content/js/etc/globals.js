@@ -1,6 +1,6 @@
 var gConnections;               // array of all our ftp connections
 var gFtp;                       // the main ftp connection - where the magic happens
-var gVersion = "0.5";           // version of FireGSS we're using
+var gVersion = "0.6";           // version of FireGSS we're using
 var gSlash;                     // holds '/' or '\\' depending on local system
 var gPlatform;                  // holds what platform we're on
 var gTransferTypes;             // holds 'Auto', 'Binary', 'ASCII'

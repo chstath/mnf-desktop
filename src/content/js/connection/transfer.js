@@ -124,7 +124,7 @@ transfer.prototype = {
 
 			resume = false;
 
-			if (file.exists() && this.prompt && !files[x].isFolder) {
+			if (file.exists() && this.prompt) {
 
 				var params = { response         : 0,
 							fileName         : download ? localPath : remoteFolder.uri + fileName,
@@ -141,8 +141,6 @@ transfer.prototype = {
 						gConnections[y].waitToRefresh = true;
 					}
                     //TODO: Check if it remembers "overwrite all" and "skip all"
-                    //TODO: Check if the prompt works ok for recursive folder uploads
-                    //TODO: No prompt for existing folders during download
 					window.openDialog("chrome://firegss/content/confirmFile.xul", "confirmFile", "chrome,modal,dialog,resizable,centerscreen", params);
 
 					for (var y = 0; y < gMaxCon; ++y) {

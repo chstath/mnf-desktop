@@ -101,12 +101,13 @@ transfer.prototype = {
 				file           = localFile.init(localPath);
 			} else {
 				file           = { exists: function() { return false; } };
-				var remoteList = aRemoteParent ? listData : remoteTree.data;
+				var remoteList = aRemoteParent ? aRemoteParent.folders.concat(aRemoteParent.files) : remoteTree.data;
 
 				for (var y = 0; y < remoteList.length; ++y) {
 					if (remoteList[y].name == fileName) {
 						file       = { fileSize: remoteList[y].size, lastModifiedTime: remoteList[y].modificationDate, leafName: name, exists: function() { return true; },
 							isDir: remoteList[y].isFolder, isDirectory: function() { return this.isDir }};
+						var existingFolder = remoteList[y];
 						break;
 					}
 				}
@@ -140,8 +141,8 @@ transfer.prototype = {
 						gConnections[y].waitToRefresh = true;
 					}
                     //TODO: Check if it remembers "overwrite all" and "skip all"
-                    //TODO: Check if the prompt works ok for multiple file uploads
                     //TODO: Check if the prompt works ok for recursive folder uploads
+                    //TODO: No prompt for existing folders during download
 					window.openDialog("chrome://firegss/content/confirmFile.xul", "confirmFile", "chrome,modal,dialog,resizable,centerscreen", params);
 
 					for (var y = 0; y < gMaxCon; ++y) {
@@ -268,26 +269,28 @@ transfer.prototype = {
 				}
 			} else {
 				if (files[x].isDirectory()) {                        // if the directory doesn't exist we create it
-					if (!file.exists()) {
-						var nextAction = function() {
-							var lf = files[x];
-							return function(folder) {
+					var nextAction = function() {
+						var lf = files[x];
+						return function(folder) {
 //								remoteTree.refresh(false, true);
-								var contents = lf.directoryEntries;
-								while(contents.hasMoreElements()) {
-									var child = contents.getNext().QueryInterface(Components.interfaces.nsILocalFile);
-									if (child.isDirectory()) {
-										new transfer().start(false, child, lf, folder);
-									}
-									else {
-										new transfer().start(false, child, lf, folder);
-									}
-								}
-							};
-						}();
+							var contents = lf.directoryEntries;
+							var folderQueue = [];
+							while(contents.hasMoreElements()) {
+								var child = contents.getNext().QueryInterface(Components.interfaces.nsILocalFile);
+								if (!child.isDirectory())
+    								new transfer().start(false, child, lf, folder);
+    							else
+    							    folderQueue.push(child);
+							}
+							for (var ff=0; ff<folderQueue.length; ff++)
+							    new transfer().start(false, folderQueue[ff], lf, folder);
+						};
+					}();
+					if (!file.exists()) {
 						gss.createFolder(remoteFolder, files[x].leafName, nextAction);
-
-//						this.start(false, '', localPath, remotePath);
+					}
+					else {
+					    gss.fetchFolder(existingFolder, nextAction, existingFolder);
 					}
 				} else {
 					var ext = fileName.substring(fileName.lastIndexOf('.') + 1);

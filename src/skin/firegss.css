@@ -465,3 +465,8 @@ image.isMultiple {
 .hint {
   color: #d3d3d3;
 }
+
+#loading {  
+  list-style-image: url("chrome://firegss/skin/icons/ajax-loader.gif");  
+}
+

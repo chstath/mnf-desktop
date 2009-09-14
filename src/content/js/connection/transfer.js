@@ -110,15 +110,16 @@ transfer.prototype = {
 			var localPath  =  download ? localTree.constructPath(localParent,  fileName) : files[x].path;
 			var file;
 
-			if (download) {                                        // check to see if file exists
-				file           = localFile.init(localPath);
+			if (download) {
+                // check to see if file exists
+				file = localFile.init(localPath);
 			} else {
-				file           = { exists: function() { return false; } };
+				file = { exists: function() { return false; } };
 				var remoteList = aRemoteParent ? listData : remoteTree.data;
 
 				for (var y = 0; y < remoteList.length; ++y) {
 					if (remoteList[y].name == fileName) {
-						file       = { fileSize: remoteList[y].size, lastModifiedTime: remoteList[y].modificationDate, leafName: name, exists: function() { return true; },
+						file = { fileSize: remoteList[y].size, lastModifiedTime: remoteList[y].modificationDate, leafName: name, exists: function() { return true; },
 							isDir: remoteList[y].isFolder, isDirectory: function() { return this.isDir }};
 						break;
 					}
@@ -146,8 +147,9 @@ transfer.prototype = {
 							newDate          : download ? files[x].modificationDate : files[x].lastModifiedTime,
 							timerEnable      : false };
 
-					this.busy = true;                                    // ooo, the fun of doing semi-multi-threaded stuff in firefox
-															 // we're doing some 'locking' above
+                    // ooo, the fun of doing semi-multi-threaded stuff in firefox
+					this.busy = true;
+					// we're doing some 'locking' above
 
 					for (var y = 0; y < gMaxCon; ++y) {
 						gConnections[y].waitToRefresh = true;
@@ -155,11 +157,12 @@ transfer.prototype = {
                     //TODO: Check if it remembers "overwrite all" and "skip all"
                     //TODO: Check if the prompt works ok for multiple file uploads
                     //TODO: Check if the prompt works ok for recursive folder uploads
-					window.openDialog("chrome://firegss/content/confirmFile.xul", "confirmFile", "chrome,modal,dialog,resizable,centerscreen", params);
+					window.openDialog("chrome://firegss/content/confirmFile.xul", "confirmFile",
+					    "chrome,modal,dialog,resizable,centerscreen", params);
 
 					for (var y = 0; y < gMaxCon; ++y) {
 						gConnections[y].waitToRefresh = false;
-					}
+				    }
 
 					this.busy = false;
 
@@ -200,7 +203,8 @@ transfer.prototype = {
 			}
 
 			if (download) {
-				if (files[x].isFolder) {                        // if the directory doesn't exist we create it
+                // if the directory doesn't exist we create it
+				if (files[x].isFolder) {
 					if (!file.exists()) {
 						try {
 							file.create(Components.interfaces.nsILocalFile.DIRECTORY_TYPE, 0755);
@@ -212,11 +216,10 @@ transfer.prototype = {
 					}
 					files[x].parentPath = localPath;
 					gss.fetchFolder(files[x], this.recurseFolder, files[x]);
-//					this.downloadHelper(localPath, remotePath);
 				} else {                                             // download the file
 					// create a persist
 					var persist = Components.classes["@mozilla.org/embedding/browser/nsWebBrowserPersist;1"].createInstance(Components.interfaces.nsIWebBrowserPersist);
-					// with persist flags if desired See nsIWebBrowserPersist page for more PERSIST_FLAGS.
+					// with persist flags if desired. See nsIWebBrowserPersist page for more PERSIST_FLAGS.
 					const nsIWBP = Components.interfaces.nsIWebBrowserPersist;
 					const flags = nsIWBP.PERSIST_FLAGS_REPLACE_EXISTING_FILES;
 					persist.persistFlags = flags | nsIWBP.PERSIST_FLAGS_FROM_CACHE;
@@ -232,7 +235,6 @@ transfer.prototype = {
 						icon = "moz-icon://"+name+"?size=16&contentType="+files[x].content;
 
 					var obj = {
-//					  id      : info.id,
 					  source  : files[x].uri,
 					  dest    : localPath,
 					  size    : files[x].size,
@@ -280,7 +282,8 @@ transfer.prototype = {
 					persist.saveURI(nsIURI, null, null, null, "", nsIFile);
 				}
 			} else {
-				if (files[x].isDirectory()) {                        // if the directory doesn't exist we create it
+				if (files[x].isDirectory()) {
+                    // if the directory doesn't exist we create it
 					if (!file.exists()) {
 						var nextAction = function() {
 							var lf = files[x];
@@ -299,13 +302,10 @@ transfer.prototype = {
 							};
 						}();
 						gss.createFolder(remoteFolder, files[x].leafName, nextAction);
-
-//						this.start(false, '', localPath, remotePath);
 					}
 				} else {
 					var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
 					var obj = {
-//					  id      : info.id,
 					  source  : localPath,
 					  dest    : remoteFolder.uri,
 					  size    : files[x].fileSize,
@@ -394,76 +394,6 @@ transfer.prototype = {
 				}
 			}
 		}
-	},
-
-	downloadHelper : function(localPath, remotePath) {
-		var self = this;
-		var func = function() {                                  // we use downloadHelper b/c if we leave it inline the closures will apply
-			self.start(true,  '', localPath, remotePath);
-		};
-		gFtp.list(remotePath, func, true);
-	},
-
-	uploadHelper   : function(localPath, remotePath) {
-		var self = this;
-		var func = function() {                                  // we use uploadHelper   b/c if we leave it inline the closures will apply
-			gFtp.removeCacheEntry(remotePath);
-			self.start(false, '', localPath, remotePath);
-		};
-		gFtp.list(remotePath, func, true);
-	},
-
-	getConnection : function(func) {
-		if (gConcurrent == 1) {                                                 // short circuit
-			return gFtp;
-		}
-
-		for (var x = 0; x < gConcurrent && x < gMaxCon; ++x) {
-			if (gConnections[x].isConnected && gConnections[x].isReady) {         // pick the first ready connection
-				return gConnections[x];
-			}
-
-			if (x && !gConnections[x].isConnected && gConnections[x].type != 'bad' && !gConnections[x].isReady && !gConnections[x].eventQueue.length) {
-				gConnections[x].featMLSD   = gFtp.featMLSD;                         // copy over feats b/c we add to the queue even b/f connecting
-				gConnections[x].featMDTM   = gFtp.featMDTM;
-				gConnections[x].featXMD5   = gFtp.featXMD5;
-				gConnections[x].featXSHA1  = gFtp.featXSHA1;
-				gConnections[x].featXCheck = gFtp.featXCheck;
-				gConnections[x].featModeZ  = gFtp.featModeZ;
-
-				gConnections[x].connect();                                          // turn on a connection
-				return gConnections[x];
-			}
-		}
-
-		var minConnection = gFtp;
-		var minSize       = Number.MAX_VALUE;
-
-		for (var x = 0; x < gConcurrent && x < gMaxCon; ++x) {                  // if all connections are busy add to the queue with the least bytes to be transferred
-			if (gConnections[x].type == 'bad') {
-				continue;
-			}
-
-			var size = 0;
-
-			for (var y = 0; y < gConnections[x].eventQueue.length; ++y) {
-				if (gConnections[x].eventQueue[y].cmd == "PASV" && parseInt(gConnections[x].eventQueue[y].callback2)) {
-					size += gConnections[x].eventQueue[y].callback2;
-				}
-			}
-
-			if (gConnections[x].dataSocket) {
-				size += gConnections[x].dataSocket.progressEventSink.bytesTotal;
-				size += gConnections[x].dataSocket.dataListener.bytesTotal;
-			}
-
-			if (size < minSize) {
-				minConnection = gConnections[x];
-				minSize       = size;
-			}
-		}
-
-		return minConnection;
 	},
 
 	getPlatform : function() {

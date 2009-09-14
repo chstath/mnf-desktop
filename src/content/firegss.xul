@@ -135,8 +135,6 @@
       <menuitem oncommand="diff(false)"                         label="&diff.label;"                accesskey="&diff.access;"       id="diffMenuItem"/>
       <menuitem oncommand="diff(true)"                          label="&recdiff.label;"             accesskey="&recdiff.access;"    id="recDiffMenuItem"/>
       <menuseparator/>
-      <menuitem oncommand="custom()"                            label="&custom.label;"              accesskey="&custom.access;"     id="customMenuItem"/>
-      <menuseparator/>
       <menuitem oncommand="showPreferences()"                   label="&preferencestab.label;"      accesskey="&prefbutton.access;" id="prefbutton"/>
     </popup>
     <popup id="searchpopup"       position="before_start">
@@ -181,9 +179,6 @@
               ontextentered           = "login(this.value)"/>
       <toolbarbutton label="&login.label;" oncommand="login($('username').value)" accesskey="&loginbutton.access;"/>
       <toolbarbutton label="&logout.label;" oncommand="logout()" accesskey="&logoutbutton.access;"/>
-<!--      <toolbarbutton id="connectbutton"/>-->
-<!--      <toolbarbutton id="editMenuItem"  label="&edit.label;"           accesskey="&edit.access;"       oncommand="editSite()"/>-->
-<!--      <toolbarbutton id="abortbutton"   label="&abort.label;"          accesskey="&abort.access;"      oncommand="doAbort()"/>-->
       <toolbarspacer flex="1"/>
       <image id="loading" collapsed="true"/>
       <toolbarspacer flex="0"/>

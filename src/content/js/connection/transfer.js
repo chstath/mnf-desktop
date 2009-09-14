@@ -15,7 +15,8 @@ transfer.prototype = {
 			return;
 		}
 
-		if (this.busy) {                                         // we're doing locking, sort of, see below
+        // we're doing locking, sort of, see below
+		if (this.busy) {
 			var self = this;
 			var currentListData = aListData ? aListData : cloneArray(gFtp.listData);
 			var func = function() {
@@ -31,24 +32,31 @@ transfer.prototype = {
 		var resume;
 		var listData     = aListData ? aListData : [];//gFtp.listData;
 
-		if (gNoPromptMode) {                                     // overwrite dialog is disabled, do overwrites
+		if (gNoPromptMode) {
+            // overwrite dialog is disabled, do overwrites
 			this.prompt = false;
 		}
 
-		if (aFile) {                                             // populate the files variable with what we're transfering
+		if (aFile) {
+            // populate the files variable with what we're transferring
 			files.push(aFile);
-		} else if (download) {                                   // download specific
-			if (aRemoteParent) {                                   // if recursive
+		} else if (download) {
+            // download specific
+			if (aRemoteParent) {
+                // if recursive
 				files = listData;
-			} else {                                               // if not recursive
+			} else {
+                // if not recursive
 				for (var x = 0; x < remoteTree.rowCount; ++x) {
 					if (remoteTree.selection.isSelected(x)) {
 						files.push(remoteTree.data[x]);
 					}
 				}
 			}
-		} else {                                                 // upload specific
-			if (aLocalParent) {                                    // if recursive
+		} else {
+            // upload specific
+			if (aLocalParent) {
+                // if recursive
 				try {
 					var dir     = localFile.init(localParent);
 					var innerEx = gfiregssUtils.getFileList(dir, new wrapperClass(files));
@@ -58,9 +66,11 @@ transfer.prototype = {
 					}
 				} catch (ex) {
 					debug(ex);
-					return;                                            // skip this directory
+                    // skip this directory
+					return;
 				}
-			} else {                                               // if not recursive
+			} else {
+                // if not recursive
 				for (var x = 0; x < localTree.rowCount; ++x) {
 					if (localTree.selection.isSelected(x)) {
 						if (!localFile.verifyExists(localTree.data[x])) {
@@ -83,12 +93,15 @@ transfer.prototype = {
 			var fileName = download ? files[x].name : files[x].leafName;
 
 			if ((download && gDownloadCaseMode == 1) || (!download && gUploadCaseMode == 1)) {
-				fileName = fileName.toLowerCase();                   // special request to change filename case
+                // special request to change filename case
+				fileName = fileName.toLowerCase();
 			} else if ((download && gDownloadCaseMode == 2) || (!download && gUploadCaseMode == 2)) {
-				fileName = fileName.toUpperCase();                   // special request to change filename case
+                // special request to change filename case
+				fileName = fileName.toUpperCase();
 			}
 
-			if (this.getPlatform() == "windows") {                  // scrub out illegal characters on windows / \ : * ? | " < >
+			if (this.getPlatform() == "windows") {
+                // scrub out illegal characters on windows / \ : * ? | " < >
 				fileName = fileName.replace(/[/\\:*?|"<>]/g, '_');
 			}
 

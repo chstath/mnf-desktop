@@ -244,7 +244,7 @@ transfer.prototype = {
 							this.transferObject.mode = "determined";
 							this.transferObject.percent = percentComplete;
 							this.transferObject.size = percentComplete + " - " + commas(aCurTotalProgress) +"/" + commas(aMaxTotalProgress);
-							this.transferObject.status = "Transfering";
+							this.transferObject.status = "Transferring";
 							queueTree.treebox.invalidate();
 							localTree.refresh();
 						},
@@ -315,7 +315,7 @@ transfer.prototype = {
 								o.mode = "determined";
 								o.percent = percentComplete;
 								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
-								o.status = "Transfering";
+								o.status = "Transferring";
 							}
 							var oldCount  = queueTree.rowCount;
 							queueTree.rowCount = queueTree.data.length;
@@ -331,7 +331,7 @@ transfer.prototype = {
 								o.mode = "determined";
 								o.percent = percentComplete;
 								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
-								o.status = "Transfering";
+								o.status = "Transferring";
 								queueTree.treebox.invalidate();
 							}
 						};

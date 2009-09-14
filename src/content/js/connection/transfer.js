@@ -55,30 +55,14 @@ transfer.prototype = {
 			}
 		} else {
             // upload specific
-			if (aLocalParent) {
-                // if recursive
-				try {
-					var dir     = localFile.init(localParent);
-					var innerEx = gfiregssUtils.getFileList(dir, new wrapperClass(files));
-
-					if (innerEx) {
-						throw innerEx;
+            // if not recursive
+			for (var x = 0; x < localTree.rowCount; ++x) {
+				if (localTree.selection.isSelected(x)) {
+					if (!localFile.verifyExists(localTree.data[x])) {
+						continue;
 					}
-				} catch (ex) {
-					debug(ex);
-                    // skip this directory
-					return;
-				}
-			} else {
-                // if not recursive
-				for (var x = 0; x < localTree.rowCount; ++x) {
-					if (localTree.selection.isSelected(x)) {
-						if (!localFile.verifyExists(localTree.data[x])) {
-							continue;
-						}
 
-						files.push(localTree.data[x]);
-					}
+					files.push(localTree.data[x]);
 				}
 			}
 		}

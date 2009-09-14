@@ -104,20 +104,6 @@ function parseSize(size) {             // adds byte information for file sizes
   return size;
 }
 
-function custom() {
-  if (!gFtp.isConnected || !isReady()) {
-    return;
-  }
-
-  var cmd = window.prompt(gStrbundle.getString("command"), "", gStrbundle.getString("customCommand"));
-
-  if (!cmd) {
-    return;
-  }
-
-  gFtp.custom(cmd);
-}
-
 function cloneObject(what) {
   for (i in what) {
     this[i] = what[i];

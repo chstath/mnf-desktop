@@ -140,7 +140,8 @@ transfer.prototype = {
 					for (var y = 0; y < gMaxCon; ++y) {
 						gConnections[y].waitToRefresh = true;
 					}
-                    //TODO: Check if it remembers "overwrite all" and "skip all"
+                    //TODO: Check if it remembers "overwrite all" and "skip all" on recursive folder upload
+                    //TODO: Check if it remembers "overwrite all" and "skip all" on recursive folder download
 					window.openDialog("chrome://firegss/content/confirmFile.xul", "confirmFile", "chrome,modal,dialog,resizable,centerscreen", params);
 
 					for (var y = 0; y < gMaxCon; ++y) {
@@ -198,7 +199,6 @@ transfer.prototype = {
 					}
 					files[x].parentPath = localPath;
 					gss.fetchFolder(files[x], this.recurseFolder, files[x]);
-//					this.downloadHelper(localPath, remotePath);
 				} else {                                             // download the file
 					// create a persist
 					var persist = Components.classes["@mozilla.org/embedding/browser/nsWebBrowserPersist;1"].createInstance(Components.interfaces.nsIWebBrowserPersist);

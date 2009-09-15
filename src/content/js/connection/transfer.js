@@ -140,8 +140,6 @@ transfer.prototype = {
 					for (var y = 0; y < gMaxCon; ++y) {
 						gConnections[y].waitToRefresh = true;
 					}
-                    //TODO: Check if it remembers "overwrite all" and "skip all" on recursive folder upload
-                    //TODO: Check if it remembers "overwrite all" and "skip all" on recursive folder download
 					window.openDialog("chrome://firegss/content/confirmFile.xul", "confirmFile", "chrome,modal,dialog,resizable,centerscreen", params);
 
 					for (var y = 0; y < gMaxCon; ++y) {
@@ -197,8 +195,7 @@ transfer.prototype = {
 							continue;
 						}
 					}
-					files[x].parentPath = localPath;
-					gss.fetchFolder(files[x], this.recurseFolder, files[x]);
+					this.recurseFolder(localPath, files[x]);
 				} else {                                             // download the file
 					// create a persist
 					var persist = Components.classes["@mozilla.org/embedding/browser/nsWebBrowserPersist;1"].createInstance(Components.interfaces.nsIWebBrowserPersist);
@@ -267,21 +264,21 @@ transfer.prototype = {
 				}
 			} else {
 				if (files[x].isDirectory()) {                        // if the directory doesn't exist we create it
+				    var self = this;
 					var nextAction = function() {
 						var lf = files[x];
 						return function(folder) {
-//								remoteTree.refresh(false, true);
 							var contents = lf.directoryEntries;
 							var folderQueue = [];
-							while(contents.hasMoreElements()) {
+							while (contents.hasMoreElements()) {
 								var child = contents.getNext().QueryInterface(Components.interfaces.nsILocalFile);
 								if (!child.isDirectory())
-    								new transfer().start(false, child, lf, folder);
+    								self.start(false, child, lf, folder);
     							else
     							    folderQueue.push(child);
 							}
 							for (var ff=0; ff<folderQueue.length; ff++)
-							    new transfer().start(false, folderQueue[ff], lf, folder);
+							    self.start(false, folderQueue[ff], lf, folder);
 						};
 					}();
 					if (!file.exists()) {
@@ -468,12 +465,17 @@ transfer.prototype = {
 		return 'windows';
 	},
 
-	recurseFolder: function(folder) {
-		var parent = folder.parentPath;
-		for (var i=0; i<folder.files.length; i++)
-			new transfer().start(true, folder.files[i], parent);
-		for (var i=0; i<folder.folders.length; i++)
-			new transfer().start(true, folder.folders[i], parent);
+	recurseFolder: function(localPath, remoteFolder) {
+    	var self = this;
+	    var func = function(folder) {
+		    var parent = folder.parentPath;
+		    for (var i=0; i<folder.files.length; i++)
+			    self.start(true, folder.files[i], parent);
+		    for (var i=0; i<folder.folders.length; i++)
+			    self.start(true, folder.folders[i], parent);
+	    }
+		remoteFolder.parentPath = localPath;
+		gss.fetchFolder(remoteFolder, func, remoteFolder);
 	},
 
 	recurseLocalFolder: function(folder) {

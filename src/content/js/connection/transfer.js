@@ -342,6 +342,7 @@ transfer.prototype = {
 								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
 							}
 							obj.status = "Finished";
+							uploading = false;
 							queueTree.treebox.invalidate();
 							remoteTree.refresh(false, true);
 						};
@@ -357,6 +358,7 @@ transfer.prototype = {
 							}
 							o.status = "Failed";
 							o.failed = true;
+							uploading = false;
 							queueTree.treebox.invalidate();
 						};
 					}();
@@ -370,10 +372,18 @@ transfer.prototype = {
 								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
 							}
 							o.status = "Canceled";
+							uploading = false;
 							queueTree.treebox.invalidate();
 						}
 					}();
-					gss.uploadFile(files[x], remoteFolder, loadStartHandler, progressHandler, loadHandler, errorHandler, abortHandler);
+					uploadq.push({ file: files[x],
+					           folder: remoteFolder,
+					           onstart: loadStartHandler,
+					           onprogress: progressHandler,
+					           onload: loadHandler,
+					           onerror: errorHandler,
+					           onabort: abortHandler
+					});
 				}
 			}
 		}

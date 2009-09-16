@@ -1,3 +1,20 @@
+// The queue of upload requests for files.
+var uploadq = [];
+// The upload queue monitor used for locking.
+var uploading = false;
+// Processes the queue of pending uploads.
+function processUploadq() {
+    if (uploading) return;
+    var upload = uploadq.shift();
+    if (upload) {
+        uploading = true;
+	    gss.uploadFile(upload.file, upload.folder, upload.onstart,
+	        upload.onprogress, upload.onload, upload.onerror, upload.onabort);
+    } else
+        uploading = false;
+}
+setInterval(processUploadq, 500);
+
 window.setInterval("UIUpdate()", 500);                                             // update once a second
 
 function UIUpdate() {

@@ -122,12 +122,14 @@ gss.sendRequest = function(arg) {
     				    doDesktopLogin();
 				    break;
 				default:
+			        var message = "The server responded with an error: HTTP status " + req.status;
 				    try {
-					    alert("The server responded with an error: HTTP status " +
-						      req.status+" ("+req.statusText+")");
-				    } catch (Error) {
-       					alert("The server responded with an error: HTTP status " +
-    						  req.status);
+					    alert(message + " (" + req.statusText + ")");
+				    } catch (e) {
+				        // Handle exceptions when the statusText is unavailable.
+				        if (e instanceof Error)
+				            message += ". " + e.name + ": " + e.message;
+       					alert(message);
 				    }
 			}
 		}

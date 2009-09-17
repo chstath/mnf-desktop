@@ -143,7 +143,7 @@ gss.sendRequest = function(arg) {
 		// Make a stream from a file.
 		var stream = Components.classes["@mozilla.org/network/file-input-stream;1"]
                        .createInstance(Components.interfaces.nsIFileInputStream);
-		stream.init(arg.file, 0x04 | 0x08, 0644, 0x04); // file is an nsIFile instance
+		stream.init(arg.file, 0x01, 0444, 0); // file is an nsIFile instance
 
 		// Try to determine the MIME type of the file
 		var mimeType = "application/octet-stream";

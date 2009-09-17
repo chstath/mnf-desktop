@@ -24,7 +24,13 @@ function processDownloadq() {
     var download = downloadq.shift();
     if (download) {
         downloading = true;
-		download.persist.saveURI(download.uri, null, null, null, "", download.file);
+        var now = (new Date()).toUTCString();
+        var authHeader = "Authorization: " + gss.username + " " +
+            gss.sign('GET', now, download.file.uri, gss.authToken);
+        var dateHeader = "X-GSS-Date: " + now;
+        var headers = authHeader + "\r\n" + dateHeader;
+		var nsIURI = gIos.newURI(download.file.uri, "utf-8", null);
+		download.persist.saveURI(nsIURI, null, null, null, headers, download.nsIFile);
     } else
         downloading = false;
 }

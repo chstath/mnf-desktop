@@ -207,7 +207,6 @@ transfer.prototype = {
 					var nsIFile = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
 					nsIFile.initWithPath(localPath);
 					var auth = gss.getAuth("GET", files[x].uri);
-					var nsIURI = gIos.newURI(files[x].uri + "?" + auth.authString, "utf-8", null);
 					var ext = files[x].name.substring(files[x].name.lastIndexOf('.') + 1);
 					if (ext !== '')
 						icon = "moz-icon://."+ext+"?size=16";
@@ -260,7 +259,7 @@ transfer.prototype = {
 						}
 					}
 					// do the save
-					downloadq.push({ file: nsIFile, uri: nsIURI, persist: persist });
+					downloadq.push({ file: files[x], nsIFile: nsIFile, persist: persist });
 				}
 			} else {
 				if (files[x].isDirectory()) {                        // if the directory doesn't exist we create it

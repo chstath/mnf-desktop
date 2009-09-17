@@ -13,7 +13,22 @@ function processUploadq() {
     } else
         uploading = false;
 }
-setInterval(processUploadq, 500);
+setInterval(processUploadq, 300);
+// The queue of download requests for files.
+var downloadq = [];
+// The download queue monitor used for locking.
+var downloading = false;
+// Processes the queue of pending downloads.
+function processDownloadq() {
+    if (downloading) return;
+    var download = downloadq.shift();
+    if (download) {
+        downloading = true;
+		download.persist.saveURI(download.uri, null, null, null, "", download.file);
+    } else
+        downloading = false;
+}
+setInterval(processDownloadq, 300);
 
 window.setInterval("UIUpdate()", 500);                                             // update once a second
 

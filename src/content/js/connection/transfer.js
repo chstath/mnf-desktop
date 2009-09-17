@@ -206,7 +206,6 @@ transfer.prototype = {
 
 					var nsIFile = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
 					nsIFile.initWithPath(localPath);
-					var auth = gss.getAuth("GET", files[x].uri);
 					var ext = files[x].name.substring(files[x].name.lastIndexOf('.') + 1);
 					if (ext !== '')
 						icon = "moz-icon://."+ext+"?size=16";

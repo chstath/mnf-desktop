@@ -248,6 +248,7 @@ transfer.prototype = {
 								queueTree.rowCount = queueTree.data.length;
 								queueTree.treebox.rowCountChanged(oldCount - 1, queueTree.rowCount - oldCount);
 								queueTree.treebox.invalidate();
+								queueTree.treebox.ensureRowIsVisible(queueTree.rowCount-1);
 							}
 							else if (aStateFlags & IListener.STATE_STOP) {
 								this.transferObject.status = 'Finished';
@@ -316,6 +317,7 @@ transfer.prototype = {
 							queueTree.rowCount = queueTree.data.length;
 							queueTree.treebox.rowCountChanged(oldCount - 1, queueTree.rowCount - oldCount);
 							queueTree.treebox.invalidate();
+							queueTree.treebox.ensureRowIsVisible(queueTree.rowCount-1);
 						};
 					}();
 					var progressHandler = function() {

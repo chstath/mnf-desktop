@@ -25,11 +25,13 @@ function processDownloadq() {
     if (download) {
         downloading = true;
         var now = (new Date()).toUTCString();
+       	// Unfortunately single quotes are not escaped by default.
+        var resource = download.file.uri.replace(/'/g, "%27");
         var authHeader = "Authorization: " + gss.username + " " +
-            gss.sign('GET', now, download.file.uri, gss.authToken);
+            gss.sign('GET', now, resource, gss.authToken);
         var dateHeader = "X-GSS-Date: " + now;
         var headers = authHeader + "\r\n" + dateHeader;
-		var nsIURI = gIos.newURI(download.file.uri, "utf-8", null);
+		var nsIURI = gIos.newURI(resource, "utf-8", null);
 		download.persist.saveURI(nsIURI, null, null, null, headers, download.nsIFile);
     } else
         downloading = false;

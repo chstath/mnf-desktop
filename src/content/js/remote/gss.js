@@ -71,11 +71,14 @@ gss.getAuth = function(method, resource) {
 // file, form, update, loadStartEventHandler, progressEventHandler,
 // loadEventHandler, errorEventHandler, abortEventHandler
 gss.sendRequest = function(arg) {
+	// Unfortunately single quotes are not escaped by default.
+    var resource = arg.resource.replace(/'/g, "%27");
 	// If the resource is an absolute URI, remove the API_URL.
-	if (arg.resource.indexOf(gss.API_URL) === 0)
-		arg.resource = arg.resource.slice(gss.API_URL.length, arg.resource.length);
+	if (resource.indexOf(gss.API_URL) === 0)
+		resource = resource.slice(gss.API_URL.length, resource.length);
 	var now = (new Date()).toUTCString();
-	var sig = gss.sign(arg.method, now, arg.resource, gss.authToken);
+
+	var sig = gss.sign(arg.method, now, resource, gss.authToken);
 	var params = null;
 	if (arg.form)
 		params = arg.form;
@@ -106,7 +109,7 @@ gss.sendRequest = function(arg) {
 		if (arg.abortEventHandler)
 			req.upload.addEventListener("abort", arg.abortEventHandler, false);
 	}
-	req.open(arg.method, gss.API_URL + arg.resource, true);
+	req.open(arg.method, gss.API_URL + resource, true);
 	req.onreadystatechange = function (event) {
 		if (req.readyState == 4) {
             $('loading').collapsed = true;

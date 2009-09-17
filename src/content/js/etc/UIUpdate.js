@@ -23,16 +23,22 @@ function processDownloadq() {
     if (downloading) return;
     var download = downloadq.shift();
     if (download) {
-        downloading = true;
-        var now = (new Date()).toUTCString();
-       	// Unfortunately single quotes are not escaped by default.
-        var resource = download.file.uri.replace(/'/g, "%27");
-        var authHeader = "Authorization: " + gss.username + " " +
-            gss.sign('GET', now, resource, gss.authToken);
-        var dateHeader = "X-GSS-Date: " + now;
-        var headers = authHeader + "\r\n" + dateHeader;
-		var nsIURI = gIos.newURI(resource, "utf-8", null);
-		download.persist.saveURI(nsIURI, null, null, null, headers, download.nsIFile);
+        try {
+            downloading = true;
+            var now = (new Date()).toUTCString();
+           	// Unfortunately single quotes are not escaped by default.
+            var resource = download.file.uri.replace(/'/g, "%27");
+            var authHeader = "Authorization: " + gss.username + " " +
+                gss.sign('GET', now, resource, gss.authToken);
+            var dateHeader = "X-GSS-Date: " + now;
+            var headers = authHeader + "\r\n" + dateHeader + "\r\n";
+		    var nsIURI = gIos.newURI(resource, "utf-8", null);
+		    var result = download.persist.saveURI(nsIURI, null, null, null, headers, download.nsIFile);
+		    if (result)
+		        alert(result);
+        } catch (e) {
+            alert(e);
+        }
     } else
         downloading = false;
 }

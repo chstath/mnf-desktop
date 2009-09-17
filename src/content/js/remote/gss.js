@@ -46,6 +46,9 @@ gss.rootFolder = {};
 
 // Creates a HMAC-SHA1 signature of method+time+resource, using the token.
 gss.sign = function (method, time, resource, token) {
+	// If the resource is an absolute URI, remove the API_URL.
+	if (resource.indexOf(gss.API_URL) === 0)
+		resource = resource.slice(gss.API_URL.length, resource.length);
 	var q = resource.indexOf('?');
 	var res = q == -1? resource: resource.substring(0, q);
 	var data = method + time + res;
@@ -55,14 +58,9 @@ gss.sign = function (method, time, resource, token) {
 };
 
 gss.getAuth = function(method, resource) {
-	// If the resource is an absolute URI, remove the API_URL.
-	if (resource.indexOf(gss.API_URL) === 0)
-		resource = resource.slice(gss.API_URL.length, resource.length);
 	var now = (new Date()).toUTCString();
-	var sig = gss.sign(method, now, resource, gss.authToken);
 	var authorization = gss.username + " " + gss.sign(method, now, resource, gss.authToken);
-	var date = now;
-	return {authorization: authorization, date: date, authString: "Authorization=" +  encodeURIComponent(authorization) + "&Date=" + encodeURIComponent(date)};
+	return {authorization: authorization, date: now, authString: "Authorization=" +  encodeURIComponent(authorization) + "&Date=" + encodeURIComponent(now)};
 };
 
 // A helper function for making API requests. It expects a single argument object
@@ -73,9 +71,6 @@ gss.getAuth = function(method, resource) {
 gss.sendRequest = function(arg) {
 	// Unfortunately single quotes are not escaped by default.
     var resource = arg.resource.replace(/'/g, "%27");
-	// If the resource is an absolute URI, remove the API_URL.
-	if (resource.indexOf(gss.API_URL) === 0)
-		resource = resource.slice(gss.API_URL.length, resource.length);
 	var now = (new Date()).toUTCString();
 
 	var sig = gss.sign(arg.method, now, resource, gss.authToken);
@@ -109,7 +104,10 @@ gss.sendRequest = function(arg) {
 		if (arg.abortEventHandler)
 			req.upload.addEventListener("abort", arg.abortEventHandler, false);
 	}
-	req.open(arg.method, gss.API_URL + resource, true);
+	// If the resource is not an absolute URI, prepend the API_URL.
+	if (resource.indexOf(gss.API_URL) !== 0)
+		resource = gss.API_URL + resource;
+	req.open(arg.method, resource, true);
 	req.onreadystatechange = function (event) {
 		if (req.readyState == 4) {
             $('loading').collapsed = true;

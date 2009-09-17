@@ -253,13 +253,14 @@ transfer.prototype = {
 							}
 							else if (aStateFlags & IListener.STATE_STOP) {
 								this.transferObject.status = 'Finished';
+								downloading = false;
 								queueTree.treebox.invalidate();
 								localTree.refresh();
 							}
 						}
 					}
 					// do the save
-					persist.saveURI(nsIURI, null, null, null, "", nsIFile);
+					downloadq.push({ file: nsIFile, uri: nsIURI, persist: persist });
 				}
 			} else {
 				if (files[x].isDirectory()) {                        // if the directory doesn't exist we create it

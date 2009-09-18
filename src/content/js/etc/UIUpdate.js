@@ -7,8 +7,7 @@ function processUploadq() {
     if (uploading) return;
     var upload = uploadq.shift();
     if (upload) {
-        uploading = true;
-	    gss.uploadFile(upload.file, upload.folder, upload.onstart,
+        uploading = gss.uploadFile(upload.file, upload.folder, upload.onstart,
 	        upload.onprogress, upload.onload, upload.onerror, upload.onabort);
     } else
         uploading = false;
@@ -24,7 +23,7 @@ function processDownloadq() {
     var download = downloadq.shift();
     if (download) {
         try {
-            downloading = true;
+            downloading = download.persist;
             var now = (new Date()).toUTCString();
            	// Unfortunately single quotes are not escaped by default.
             var resource = download.file.uri.replace(/'/g, "%27");
@@ -43,6 +42,19 @@ function processDownloadq() {
         downloading = false;
 }
 setInterval(processDownloadq, 300);
+
+function cancelAll() {
+    downloadq = [];
+    uploadq = [];
+    if (downloading) {
+        downloading.cancelSave();
+        downloading = false;
+    }
+    if (uploading) {
+        uploading.abort();
+        uploading = false;
+    }
+}
 
 window.setInterval("UIUpdate()", 500);                                             // update once a second
 

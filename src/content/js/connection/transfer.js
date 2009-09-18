@@ -125,7 +125,7 @@ transfer.prototype = {
 			if (file.exists() && this.prompt) {
 
 				var params = { response         : 0,
-							fileName         : download ? localPath : remoteFolder.uri + fileName,
+							fileName         : download ? localPath : remoteFolder.uri + '/' + fileName,
 							existingSize     : file.fileSize,
 							existingDate     : file.lastModifiedTime,
 							newSize          : download ? files[x].size : files[x].fileSize,

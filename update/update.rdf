@@ -6,8 +6,16 @@
                    em:version="0.6">
     <em:targetApplication RDF:resource="rdf:#$xxuJC1"/>
   </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$xxuJC2"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="3.5"
+                   em:maxVersion="3.5.*"
+                   em:updateLink="http://www.ebs.gr/gss/firegss-0.7.xpi"
+                   em:updateHash="sha1:a1a065ac3ec015cd7e9035b9d4a53cd46f4a9577"
+                   em:updateInfoURL="http://www.ebs.gr/gss/updateinfo0.7.xhtml" />
   <RDF:Seq RDF:about="rdf:#$txuJC1">
     <RDF:li RDF:resource="rdf:#$uxuJC1"/>
+    <RDF:li RDF:resource="rdf:#$uxuJC2"/>
   </RDF:Seq>
   <RDF:Description RDF:about="rdf:#$xxuJC1"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
@@ -16,8 +24,12 @@
                    em:updateLink="http://www.ebs.gr/gss/firegss-0.6.xpi"
                    em:updateHash="sha1:44c8ff5689653d1e88d9e73164b2fbf1a1474096"
                    em:updateInfoURL="http://www.ebs.gr/gss/updateinfo0.6.xhtml" />
+  <RDF:Description RDF:about="rdf:#$uxuJC2"
+                   em:version="0.7">
+    <em:targetApplication RDF:resource="rdf:#$xxuJC2"/>
+  </RDF:Description>
   <RDF:Description RDF:about="urn:mozilla:extension:firegss@ebs.gr"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAHWWOw7EkliNxwn41LYYDR/w0nw+YrNrMEbkZ5bQmgBb62T1HlcAOjWkwQ+9IN0EWHx3gAjjrdnJB42hkHq0X7ckqD4/ICaeuDOxNCYHZD4qF/Oep1WtQRC5/1JMoALPZTmtCdhPqrNloHqvR3gEjhhLnca8ZvPGPJWV/gzEfMzZ">
+                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAKvN/R77mktoLsMuIePptEsXYwL9ZK7jJy3LePSt1RHN4B4JgT1xyLmE6zWX95UjZinPgd35HDkTURJDGhelfVg/ddJdhKnQFzQG05kU19puyhkStGngehXrPws9faqp8zbAfww8MLMaJzVAl91e7MKiButq65XuK0Co73LGMq1b">
     <em:updates RDF:resource="rdf:#$txuJC1"/>
   </RDF:Description>
 </RDF:RDF>

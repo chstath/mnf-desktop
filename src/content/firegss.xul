@@ -127,7 +127,7 @@
       <menuitem oncommand="queueTree.retry();"                  label="&retry.label;"                                               id="queueRetry"/>
       <menuitem oncommand="queueTree.cancel();"                 label="&cancel.label;"              key="key_remove"                id="queueCancel"/>
       <menuseparator/>
-      <menuitem oncommand="doAbort()"                           label="&cancelAll.label;"                                           id="queueCancelAll"/>
+      <menuitem oncommand="cancelAll()"                           label="&cancelAll.label;"                                           id="queueCancelAll"/>
     </popup>
     <popup id="advancedpopup"       position="after_start" onpopupshowing="toolsPopupMenu()">
       <menuitem oncommand="showSearch(true)"                    label="&search.label;"              accesskey="&search.access;"     id="searchMenuItem" key="key_search"/>

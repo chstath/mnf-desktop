@@ -68,6 +68,7 @@ gss.getAuth = function(method, resource) {
 // handler, handlerArg, nextAction, nextActionArg, method, resource, modified,
 // file, form, update, loadStartEventHandler, progressEventHandler,
 // loadEventHandler, errorEventHandler, abortEventHandler
+// It returns the XMLHTTPRequest object created.
 gss.sendRequest = function(arg) {
 	// Unfortunately single quotes are not escaped by default.
     var resource = arg.resource.replace(/'/g, "%27");
@@ -111,6 +112,7 @@ gss.sendRequest = function(arg) {
 	req.onreadystatechange = function (event) {
 		if (req.readyState == 4) {
             $('loading').collapsed = true;
+	        var message = "The server responded with an error: HTTP status " + req.status;
 			switch (req.status) {
 				case 200: // fallthrough
 				case 201: // fallthrough
@@ -122,8 +124,10 @@ gss.sendRequest = function(arg) {
 				    if (confirm("Your session has expired. You have to reauthenticate."))
     				    doDesktopLogin();
 				    break;
+				case 0:
+    				appendLog(message);
+				    break;
 				default:
-			        var message = "The server responded with an error: HTTP status " + req.status;
 				    try {
 					    alert(message + " (" + req.statusText + ")");
 				    } catch (e) {
@@ -168,6 +172,7 @@ gss.sendRequest = function(arg) {
 	else
 		req.send(stream);
 	$('loading').collapsed = false;
+	return req;
 };
 
 gss.fetchUserAsync = function(next) {
@@ -307,7 +312,7 @@ gss.processFile = function(req, arg, nextAction, nextActionArg) {
 
 gss.uploadFile = function(file, remoteFolder, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventHandler, abortEventHandler) {
 	var resource = remoteFolder.uri + '/' + encodeURI(file.leafName);
-	gss.sendRequest({method: 'PUT',
+	return gss.sendRequest({method: 'PUT',
 					resource: resource,
 					file: file,
 					loadStartEventHandler: loadStartEventHandler,

@@ -82,9 +82,7 @@ var remoteTree = {
     }
   },
 
-  // ****************************************************** updateView ***************************************************
-
-  updateView : function(files) {
+  updateView : function() {
     remoteDirTree.select();
   },
 

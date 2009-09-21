@@ -2,13 +2,14 @@ var remoteTree = {
   data                    : new Array(),
   displayData             : new Array(),
   rowCount                : 0,
-  remoteSize               : 0,
+  remoteSize              : 0,
   remoteAvailableDiskSpace : 0,
   searchMode              : 0,
   isEditing               : false,
   editType                : "",
   editParent              : null,
   rememberSort            : null,
+  currentFolder           : null,
 
   getParentIndex      : function(row)               { return -1; },
   getLevel            : function(row)               { return 0;  },
@@ -83,6 +84,7 @@ var remoteTree = {
   },
 
   updateView : function() {
+    remoteTree.updateStats();
     remoteDirTree.select();
   },
 
@@ -221,7 +223,8 @@ var remoteTree = {
       if (skipDelay) {
         this.updateView();
       } else {
-        setTimeout("remoteTree.updateView()", 1000);                                             // update remoteTree, after a little bit
+        // update remoteTree, after a little bit
+        setTimeout(remoteTree.updateView, 1000);
       }
     }
   },
@@ -550,11 +553,11 @@ var remoteTree = {
 
   mouseOver : function(event) {                                                                 // display remote folder info
     if (this.rowCount) {
-      $('statustxt').label = gStrbundle.getString("localListing") + " " + gStrbundle.getFormattedString("objects", [this.rowCount])
+      $('statustxt').label = gStrbundle.getString("remoteListing") + " " + gStrbundle.getFormattedString("objects", [this.rowCount])
                            + (this.remoteSize < 0 ? "" : ", " + commas(this.remoteSize)) + ", "
                            + gStrbundle.getString("diskSpace")    + " " + this.remoteAvailableDiskSpace;
     } else {
-      $('statustxt').label = gStrbundle.getString("localListingNoObjects");
+      $('statustxt').label = gStrbundle.getString("remoteListingNoObjects");
     }
   },
 
@@ -867,7 +870,21 @@ var remoteTree = {
     }
   },
 
+  updateStats: function () {
+      // Update displayed statistics.
+      remoteTree.remoteAvailableDiskSpace = parseSize(gss.root.quota.bytesRemaining);
+      remoteTree.remoteSize = 0;
+      if (remoteTree.currentFolder.files) {
+          remoteTree.currentFolder.files.forEach(function (f) {
+            remoteTree.remoteSize += f.size;
+          });
+      }
+      remoteTree.remoteSize = parseSize(remoteTree.remoteSize);
+  },
+  
   showFolderContents: function(folder) {
+      remoteTree.currentFolder = folder;
+      remoteTree.updateStats();
       remoteTree.treebox.rowCountChanged(0, -remoteTree.rowCount);
       //folder = remoteDirTree.data[remoteDirTree.selection.currentIndex].gssObj;
       if (folder.folders) {
@@ -899,6 +916,7 @@ var remoteTree = {
       }
       remoteTree.rowCount = remoteTree.data.length;
       remoteTree.treebox.rowCountChanged(0, remoteTree.rowCount);
+      remoteTree.mouseOver(null);
   },
 
   dblClick : function(event) {

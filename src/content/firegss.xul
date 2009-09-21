@@ -180,8 +180,6 @@
       <toolbarbutton label="&login.label;" oncommand="login($('username').value)" accesskey="&loginbutton.access;"/>
       <toolbarbutton label="&logout.label;" oncommand="logout()" accesskey="&logoutbutton.access;"/>
       <toolbarspacer flex="1"/>
-      <image id="loading" collapsed="true"/>
-      <toolbarspacer flex="0"/>
       <toolbarbutton id="logbutton"     label="&logtab.label;"         accesskey="&logbutton.access;"  oncommand="showLog()" type="checkbox" persist="checked"  autoCheck="false" />
       <toolbarbutton id="advmenu"       label="&advanced.label;"       accesskey="&advanced.access;"   popup="advancedpopup"/>
       <toolbarbutton id="helpbutton"    label="&help.label;"           accesskey="&helpbutton.access;"
@@ -400,14 +398,10 @@
   <!-- :::::::::::::::::::::::::::::: status bar :::::::::::::::::::::::::::::: -->
 
   <statusbar>
-    <statusbarpanel  id="statustxt"       label="FireGSS"             flex="1"/>
-    <statusbarpanel  id="statusbytes"/>
-    <statusbarpanel  id="statustype"      tooltiptext="&type.tip;"    onclick="onChangeType()"/>
-    <statusbarpanel  id="statuselapsed"   tooltiptext="&timeela.tip;"/>
-    <statusbarpanel  id="statusremaining" tooltiptext="&timerem.tip;"/>
-    <statusbarpanel  id="statusrate"      tooltiptext="&download.tip;"/>
-    <statusbarpanel  id="statusmeterpanel">
-      <progressmeter id="statusmeter"     tooltiptext="&percent.tip;" mode="normal" />
+    <statusbarpanel id="statustxt" label="FireGSS" flex="1"/>
+    <statusbarpanel id="statuspct" tooltiptext="&percentCompl.tip;"/>
+    <statusbarpanel id="statusmeterpanel">
+      <progressmeter id="statusmeter" tooltiptext="&percent.tip;" mode="normal" />
     </statusbarpanel>
   </statusbar>
 

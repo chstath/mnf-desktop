@@ -51,11 +51,11 @@
 <!ENTITY cancel.label         "Cancel">
 <!ENTITY cancelAll.label      "Cancel All">
 
-<!ENTITY type.tip             "Change method of transfers (auto recommended)">
 <!ENTITY bytes.tip            "Bytes Downloaded / Total Bytes">
 <!ENTITY timeela.tip          "Time Elapsed">
 <!ENTITY timerem.tip          "Time Remaining">
 <!ENTITY download.tip         "Transfer Rate">
+<!ENTITY percentCompl.tip     "Percent Completed">
 <!ENTITY percent.tip          "Progress">
 
 <!ENTITY openContaining.label "Open Containing Folder">

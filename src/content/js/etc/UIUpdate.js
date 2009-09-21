@@ -59,17 +59,16 @@ function cancelAll() {
 // Display the 'working' indicator. If the progress parameter is  specified,
 // use it as a percentage of the work completed.
 function showWorking(progress) {
-    jQuery("#statusmeter").attr("mode", progress ? "determined" : "undetermined");
-    // Trim the percent character appended by the call sites to the calculated
-    // work percentage.
-    jQuery("#statusmeter").val(progress.substr(0, progress.length-1) || "100");
-    jQuery("#statuspct").attr("label", progress || "");
+    gStatusMeter.setAttribute("mode", progress ? "determined" : "undetermined");
+    gStatusMeter.setAttribute("value", progress || "100");
+    gStatusPercent.label = progress || "";
 }
 
+// Hide the 'working' indicator.
 function hideWorking() {
-    jQuery("#statusmeter").attr("mode", "determined");
-    jQuery("#statusmeter").val("0");
-    jQuery("#statuspct").attr("label", "");
+    gStatusMeter.setAttribute("mode", "determined");
+    gStatusMeter.setAttribute("value", "0");
+    gStatusPercent.label = "";
 }
 
 window.setInterval(UIUpdate, 500);

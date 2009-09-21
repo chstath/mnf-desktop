@@ -83,13 +83,10 @@ var gCmdlogDoc;
 var gCmdlogBody;
 var gQueueTree;
 var gQueueTreeChildren;
-var gStatusBytes;
-var gStatusElapsed;
-var gStatusRemaining;
-var gStatusRate;
+var gStatusPercent;
 var gStatusMeter;
-
-var gProfileDir;                // services
+// services
+var gProfileDir;
 var gAtomService;
 var gLoginManager;
 var gLoginInfo;

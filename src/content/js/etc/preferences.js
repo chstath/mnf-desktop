@@ -64,8 +64,6 @@ function readPreferences(startup) {
 
     $('logQueueTabs').selectedIndex = gLogQueueMode;
 
-    $('statustype').label  = gTransferTypes[gFtp.fileMode];
-
     var asciiList = gPrefs.getComplexValue("asciifiles", Components.interfaces.nsISupportsString).data;
     asciiList     = asciiList.split(",");
     for (var x = 0; x < gMaxCon; ++x) {

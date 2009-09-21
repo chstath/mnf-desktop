@@ -22,10 +22,6 @@ function zeros(num) {                  // pad with zeros
   return num.length == 2 ? num : '0' + num;
 }
 
-function onChangeType() {              // change TYPE A/TYPE I/auto from statusbar
-  gPrefs.setIntPref("filemode", (gFtp.fileMode + 1) % 3);
-}
-
 function setInterfaceMode() {          // update the interface based on collapsing
   gPrefs.setIntPref("interfacemode", ($('leftsplitter').getAttribute('state')  == 'collapsed') * 2
                                    + ($('rightsplitter').getAttribute('state') == 'collapsed'));

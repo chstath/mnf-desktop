@@ -22,10 +22,7 @@ function startup() {
   gCmdlogBody            = $('cmdlog').contentWindow.document.body;
   gQueueTree             = $('queuetree');
   gQueueTreeChildren     = $('queuetreechildren');
-  gStatusBytes           = $('statusbytes');
-  gStatusElapsed         = $('statuselapsed');
-  gStatusRemaining       = $('statusremaining');
-  gStatusRate            = $('statusrate');
+  gStatusPercent         = $('statuspct');
   gStatusMeter           = $('statusmeter');
   gLocalTree.view        = localTree;
   gLocalDirTree.view     = localDirTree;

@@ -240,6 +240,7 @@ transfer.prototype = {
 							this.transferObject.status = "Transferring";
 							queueTree.treebox.invalidate();
 							localTree.refresh();
+							showWorking(percentComplete);
 						},
 						onStateChange: function(aWebProgress, aRequest, aStateFlags, aStatus) {
 							if (aStateFlags & IListener.STATE_START) {
@@ -249,12 +250,14 @@ transfer.prototype = {
 								queueTree.treebox.rowCountChanged(oldCount - 1, queueTree.rowCount - oldCount);
 								queueTree.treebox.invalidate();
 								queueTree.treebox.ensureRowIsVisible(queueTree.rowCount-1);
+								showWorking();
 							}
 							else if (aStateFlags & IListener.STATE_STOP) {
 								this.transferObject.status = 'Finished';
 								downloading = false;
 								queueTree.treebox.invalidate();
 								localTree.refresh();
+								hideWorking();
 							}
 						}
 					}
@@ -312,6 +315,7 @@ transfer.prototype = {
 								o.percent = percentComplete;
 								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
 								o.status = "Transferring";
+								showWorking(percentComplete);
 							}
 							var oldCount  = queueTree.rowCount;
 							queueTree.rowCount = queueTree.data.length;
@@ -330,6 +334,7 @@ transfer.prototype = {
 								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
 								o.status = "Transferring";
 								queueTree.treebox.invalidate();
+								showWorking(percentComplete);
 							}
 						};
 					}();
@@ -346,6 +351,7 @@ transfer.prototype = {
 							uploading = false;
 							queueTree.treebox.invalidate();
 							remoteTree.refresh(false, true);
+							hideWorking();
 						};
 					}();
 					var errorHandler = function(evt) {
@@ -361,6 +367,7 @@ transfer.prototype = {
 							o.failed = true;
 							uploading = false;
 							queueTree.treebox.invalidate();
+							hideWorking();
 						};
 					}();
 					var abortHandler = function(evt) {
@@ -375,6 +382,7 @@ transfer.prototype = {
 							o.status = "Canceled";
 							uploading = false;
 							queueTree.treebox.invalidate();
+							hideWorking();
 						}
 					}();
 					uploadq.push({ file: files[x],

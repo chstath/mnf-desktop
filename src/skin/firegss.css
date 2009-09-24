@@ -356,7 +356,6 @@ treechildren[search="true"] {
 /* Popup Body Text */
 #identity-popup-content-box > description,
 #identity-popup-encryption-label {
-  white-space         : -moz-pre-wrap;
   color               : black;
   padding-left        : 10px;
 }

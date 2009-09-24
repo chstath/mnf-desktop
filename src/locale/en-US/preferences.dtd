@@ -79,3 +79,12 @@
 <!ENTITY duplicates.label      "File Duplicates">
 <!ENTITY timer.label           "Disable timer in overwrite dialog">
 <!ENTITY nopromptmode.label    "Don't display overwrite dialog, simply overwrite">
+<!ENTITY sync.label            "Sync">
+<!ENTITY when.label            "When">
+<!ENTITY manual.label          "Manual">
+<!ENTITY auto.label            "Auto">
+<!ENTITY folder.label          "Sync Folder">
+<!ENTITY syncfolder.label      "Folder">
+<!ENTITY browse.label          "Browse">
+<!ENTITY browsebutton.access   "B">
+

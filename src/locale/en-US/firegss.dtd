@@ -110,3 +110,11 @@
 <!ENTITY searchOptions.access "O">
 
 <!ENTITY iconTip "Launch the GSS file explorer">
+
+<!ENTITY synctab.label        "Sync">
+<!ENTITY syncbutton.access    "Y">
+<!ENTITY sync.label           "Start sync">
+<!ENTITY sync.access          "y">
+<!ENTITY syncprefs.access     "F">
+<!ENTITY syncprefstab.label   "Select folder...">
+

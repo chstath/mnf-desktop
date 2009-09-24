@@ -40,6 +40,7 @@
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/preferences.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/queueTree.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/search.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/sync.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/threads.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/treeHighlighter.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/treeSync.js"/>
@@ -127,7 +128,7 @@
       <menuitem oncommand="queueTree.retry();"                  label="&retry.label;"                                               id="queueRetry"/>
       <menuitem oncommand="queueTree.cancel();"                 label="&cancel.label;"              key="key_remove"                id="queueCancel"/>
       <menuseparator/>
-      <menuitem oncommand="cancelAll()"                           label="&cancelAll.label;"                                           id="queueCancelAll"/>
+      <menuitem oncommand="cancelAll()"                         label="&cancelAll.label;"                                           id="queueCancelAll"/>
     </popup>
     <popup id="advancedpopup"       position="after_start" onpopupshowing="toolsPopupMenu()">
       <menuitem oncommand="showSearch(true)"                    label="&search.label;"              accesskey="&search.access;"     id="searchMenuItem" key="key_search"/>
@@ -171,19 +172,24 @@
       <toolbaritem   collapsed="true" id="folderItem">
         <menulist    id="folder"                                                                       oncommand="onFolderChange(false, true)" width="150"/>
       </toolbaritem>
-      <textbox id                      = "username"
+      <textbox id                     = "username"
               title                   = "Username?"
               flex                    = "1"
               tooltiptext             = "&username.tip;"
               onkeypress              = "if (event.keyCode == 13) login(this.value)"
               ontextentered           = "login(this.value)"/>
-      <toolbarbutton label="&login.label;" oncommand="login($('username').value)" accesskey="&loginbutton.access;"/>
+      <toolbarbutton label="&login.label;" oncommand="login($('username').value)"
+                    accesskey="&loginbutton.access;"/>
       <toolbarbutton label="&logout.label;" oncommand="logout()" accesskey="&logoutbutton.access;"/>
       <toolbarspacer flex="1"/>
-      <toolbarbutton id="logbutton"     label="&logtab.label;"         accesskey="&logbutton.access;"  oncommand="showLog()" type="checkbox" persist="checked"  autoCheck="false" />
-      <toolbarbutton id="advmenu"       label="&advanced.label;"       accesskey="&advanced.access;"   popup="advancedpopup"/>
-      <toolbarbutton id="helpbutton"    label="&help.label;"           accesskey="&helpbutton.access;"
-                     oncommand="runInFirefox('&help.url;')"/>
+      <toolbarbutton id="syncbutton" label="&synctab.label;" accesskey="&syncbutton.access;"
+                    oncommand="sync()" type="checkbox" persist="checked" autoCheck="false"/>
+      <toolbarbutton id="logbutton" label="&logtab.label;" accesskey="&logbutton.access;"
+                    oncommand="showLog()" type="checkbox" persist="checked" autoCheck="false"/>
+      <toolbarbutton id="advmenu" label="&advanced.label;" accesskey="&advanced.access;"
+                    popup="advancedpopup"/>
+      <toolbarbutton id="helpbutton" label="&help.label;" accesskey="&helpbutton.access;"
+                    oncommand="runInFirefox('&help.url;')"/>
     </toolbar>
 
     <box flex="10">

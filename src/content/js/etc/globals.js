@@ -96,4 +96,6 @@ var gPromptService;
 var gPrefsService;
 var gPrefs;
 var gfiregssUtils;
+var gSyncSchedule;
+var gSyncFolder;
 

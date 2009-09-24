@@ -17,6 +17,8 @@
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/misc.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/preferences.js"/>
 
+  <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>
+
   <prefpane id="myPane">
     <preferences>
       <preference id="errormodepref"          name="firegss.errormode"         type="bool"/>
@@ -50,18 +52,17 @@
       <preference id="compressmodepref"       name="firegss.compressmode"      type="bool"/>
       <preference id="integritymodepref"      name="firegss.integritymode"     type="bool"/>
       <preference id="concurrentpref"         name="firegss.concurrent"        type="int"/>
+      <preference id="schedulepref"           name="firegss.schedule"          type="int"/>
+      <preference id="syncfolderpref"         name="firegss.syncfolder"        type="string"/>
     </preferences>
 
     <tabbox flex="1">
       <tabs>
         <tab label="&general.label;"/>
         <tab label="&interface.label;"/>
-<!--        <tab label="&connect.label;"/>
-        <tab label="&downup.label;"/>-->
+        <tab label="&sync.label;"/>
       </tabs>
       <tabpanels flex="1">
-
-        <!-- :::::::::::::::::::::::::::::: general :::::::::::::::::::::::::::::: -->
 
         <tabpanel id="generaltab" orient="vertical">
           <groupbox>
@@ -96,8 +97,6 @@
           </groupbox>
         </tabpanel>
 
-        <!-- :::::::::::::::::::::::::::::: interface :::::::::::::::::::::::::::::: -->
-
         <tabpanel id="interfacetab" orient="vertical">
           <groupbox>
             <caption label="&startup.label;"/>
@@ -127,133 +126,23 @@
           </groupbox>
         </tabpanel>
 
-        <!-- :::::::::::::::::::::::::::::: connect :::::::::::::::::::::::::::::: -->
-<!--
-        <tabpanel id="connecttab" orient="vertical">
+        <tabpanel id="synctab" orient="vertical">
           <groupbox>
-            <caption label="&proxy.label;"/>
-            <hbox align="center">
-              <menulist id="proxytype" preference="proxytypepref" oncommand="portChange()">
-                <menupopup>
-                  <menuitem label="&none.label;"   value="" selected="true"/>
-                  <menuseparator/>
-                  <menuitem label="HTTP"           value="http"/>
-                  <menuitem label="SOCKS 4"        value="socks4"/>
-                  <menuitem label="SOCKS 5"        value="socks"/>
-                  <menuitem label="&direct.label;" value="direct"/>
-                </menupopup>
-              </menulist>
-              <label     id="proxyhostlabel" value="&host.label;" control="proxyhost"/>
-              <vbox>
-                <textbox id="proxyhost"      preference="proxyhostpref"/>
-              </vbox>
-              <label     id="proxyportlabel" value="&port.label;" control="proxyport"/>
-              <vbox>
-                <textbox id="proxyport"      preference="proxyportpref" size="5" type="number" min="0" max="65535" increment="1" hidespinbuttons="true"/>
-              </vbox>
-            </hbox>
+            <caption label="&when.label;"/>
+            <radiogroup id="syncschedule" preference="schedulepref">
+              <radio label="&manual.label;" value="0"/>
+              <radio label="&auto.label;" value="1"/>
+            </radiogroup>
           </groupbox>
           <groupbox>
-            <caption label="&active.label;"/>
-            <hbox align="center">
-              <vbox>
-                <checkbox  id="activeportmode"    preference="activeportmodepref" label="&limitPorts.label;" oncommand="activePortChange()"/>
-              </vbox>
-              <label     id="activelowportlabel"  value="&from.label;" control="activelowport"/>
-              <vbox>
-                <textbox id="activelowport"       preference="activelowportpref"  size="5" type="number" min="0" max="65535" increment="1" hidespinbuttons="true"/>
-              </vbox>
-              <label     id="activehighportlabel" value="&to.label;"   control="activehighport"/>
-              <vbox>
-                <textbox id="activehighport"      preference="activehighportpref" size="5" type="number" min="0" max="65535" increment="1" hidespinbuttons="true"/>
-              </vbox>
-            </hbox>
-          </groupbox>
-          <groupbox>
-            <caption label="&concurrent.label;"/>
-            <hbox align="center">
-              <label id="concurrentlabel" value="&simtransfers.label;" control="concurrent"/>
-              <vbox>
-                <textbox id="concurrent" preference="concurrentpref" size="3" type="number" min="1" max="10" increment="1"/>
-              </vbox>
-            </hbox>
-          </groupbox>
-          <groupbox>
-            <caption label="&recovery.label;"/>
-            <hbox align="center">
-              <label id="networklabel" value="&network.label;" control="network"
-                    tooltiptext="&network.tip;"/>
-              <vbox>
-                <textbox id="network"       preference="networkpref" size="3" type="number" min="1" max="600" increment="1" hidespinbuttons="true"/>
-              </vbox>
-            </hbox>
+            <caption label="&folder.label;"/>
             <hbox align="start">
-              <checkbox  id="keepalivemode" preference="keepalivemodepref" label="&keepalivemode.label;"/>
-            </hbox>
-            <hbox align="start">
-              <checkbox  id="timeoutmode"   preference="timeoutmodepref"   label="&timeout.label;" oncommand="timeoutChange()"/>
-            </hbox>
-            <vbox>
-              <hbox align="center" class="indent">
-                <label   id="retrylabel"    value="&retryd.label;" control="retry" tooltiptext="&retryd.tip;" flex="1"/>
-                <textbox id="retry"         preference="retrypref" size="3" type="number" min="1" max="600" increment="1" hidespinbuttons="true"/>
-              </hbox>
-              <hbox align="center" class="indent">
-                <label   id="attemptslabel" value="&retrya.label;"    control="attempts" tooltiptext="&retrya.tip;" flex="1"/>
-                <textbox id="attempts"      preference="attemptspref" size="3" type="number" min="1" increment="1" hidespinbuttons="true"/>
-              </hbox>
-            </vbox>
-          </groupbox>
-        </tabpanel>
--->
-        <!-- :::::::::::::::::::::::::::::: down/uploads :::::::::::::::::::::::::::::: -->
-<!--
-        <tabpanel id="downuptab" orient="vertical">
-          <groupbox>
-            <caption label="&transfercaption.label;"/>
-            <hbox>
-              <vbox>
-                <radiogroup id="filemode" preference="filemodepref" onselect="filemodeChange()">
-                  <radio label="&automatic.label;" value="0" tooltiptext="&automatic.tip;"/>
-                  <radio label="&binary.label;"    value="1"/>
-                  <radio label="&ascii.label;"     value="2"/>
-                </radiogroup>
-              </vbox>
-              <vbox flex="1" pack="center">
-                <button id="asciibutton"     oncommand="openDialog('asciiFiles.xul', '', 'centerscreen,chrome,modal=yes,dialog=yes,resizable=yes')"
-                        label="&asciiTitle;" tooltiptext="&asciifiles.tip;"/>
-              </vbox>
-            </hbox>
-          </groupbox>
-          <groupbox>
-            <caption label="&duplicates.label;"/>
-            <hbox align="start">
-              <checkbox id="destructmode" preference="destructmodepref" label="&timer.label;"/>
-            </hbox>
-            <hbox align="start">
-              <checkbox id="nopromptmode" preference="nopromptpref"     label="&nopromptmode.label;"/>
-            </hbox>
-          </groupbox>
-          <groupbox>
-            <caption label="&extras.label;"/>
-            <hbox align="center">
-              <vbox>
-                <checkbox  id="compressmode"    preference="compressmodepref"   label="&usecompression.label;"/>
-              </vbox>
-            </hbox>
-            <hbox align="center">
-              <vbox>
-                <checkbox  id="timestampsmode"  preference="timestampsmodepref" label="&synctimestamps.label;"/>
-              </vbox>
-            </hbox>
-            <hbox align="center">
-              <vbox>
-                <checkbox  id="integritymode"   preference="integritymodepref"  label="&integritymode.label;"/>
-              </vbox>
+              <textbox id="syncfolder" preference="syncfolderpref" label="&syncfolder.label;"/>
+              <toolbarbutton label="&browse.label;" oncommand="browseSyncFolder()" accesskey="&browsebutton.access;"/>
             </hbox>
           </groupbox>
         </tabpanel>
--->
+
       </tabpanels>
     </tabbox>
 

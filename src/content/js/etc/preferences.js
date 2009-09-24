@@ -1,21 +1,23 @@
 function readPreferences(startup) {
   try {
-    gDefaultAccount          = gPrefs.getComplexValue("defaultaccount", Components.interfaces.nsISupportsString).data;
-    gBytesMode               = gPrefs.getBoolPref("bytesmode");
-    gConcurrent              = gPrefs.getIntPref ("concurrent");
-    gDebugMode               = gPrefs.getBoolPref("debugmode");
-    gDisableDestructMode     = gPrefs.getBoolPref("destructmode");
-    gDonated                 = gPrefs.getBoolPref("donated");
-    gErrorMode               = gPrefs.getBoolPref("errormode");
-    gInterfaceMode           = gPrefs.getIntPref ("interfacemode");
-    gLogErrorMode            = gPrefs.getBoolPref("logerrormode");
-    gLogMode                 = gPrefs.getBoolPref("logmode");
-    gLogQueueMode            = gPrefs.getIntPref ("logqueue");
-    gNoPromptMode            = gPrefs.getBoolPref("nopromptmode");
-    gPasswordMode            = gPrefs.getBoolPref("passwordmode");
-    gUsernameMode            = gPrefs.getBoolPref("usernamemode");
-    gRefreshMode             = gPrefs.getBoolPref("refreshmode");
-    gOpenMode                = gPrefs.getIntPref ("openmode");
+    gDefaultAccount = gPrefs.getComplexValue("defaultaccount", Components.interfaces.nsISupportsString).data;
+    gBytesMode = gPrefs.getBoolPref("bytesmode");
+    gConcurrent = gPrefs.getIntPref ("concurrent");
+    gDebugMode = gPrefs.getBoolPref("debugmode");
+    gDisableDestructMode = gPrefs.getBoolPref("destructmode");
+    gDonated = gPrefs.getBoolPref("donated");
+    gErrorMode = gPrefs.getBoolPref("errormode");
+    gInterfaceMode = gPrefs.getIntPref ("interfacemode");
+    gLogErrorMode = gPrefs.getBoolPref("logerrormode");
+    gLogMode = gPrefs.getBoolPref("logmode");
+    gLogQueueMode = gPrefs.getIntPref ("logqueue");
+    gNoPromptMode = gPrefs.getBoolPref("nopromptmode");
+    gPasswordMode = gPrefs.getBoolPref("passwordmode");
+    gUsernameMode = gPrefs.getBoolPref("usernamemode");
+    gRefreshMode = gPrefs.getBoolPref("refreshmode");
+    gOpenMode = gPrefs.getIntPref ("openmode");
+    gSyncSchedule = gPrefs.getIntPref("schedule");
+    gSyncFolder = gPrefs.getCharPref("syncfolder");
 
     for (var x = 0; x < gMaxCon; ++x) {
       gConnections[x].fileMode            = gPrefs.getIntPref ("filemode");    // NOTE: if you add a preference here, don't forget to update fxp.js if needed

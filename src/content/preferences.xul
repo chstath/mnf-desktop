@@ -14,6 +14,7 @@
             ondialogaccept = "return true">
 
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/common.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/globals.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/misc.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/preferences.js"/>
 

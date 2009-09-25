@@ -79,11 +79,11 @@ function readPreferences(startup) {
   }
 }
 
-function showPreferences(tab) {
+function showPreferences(args) {
   var branch = gPrefsService.getBranch("browser.");
   var instantApply = branch.getBoolPref("preferences.instantApply");
   window.openDialog("chrome://firegss/content/preferences.xul", "preferences",
-        "chrome,resizable,centerscreen" + (instantApply ? ",dialog=no" : ",modal,dialog"), tab);
+        "chrome,resizable,centerscreen" + (instantApply ? ",dialog=no" : ",modal,dialog"), args);
 }
 
 var prefsObserver = {

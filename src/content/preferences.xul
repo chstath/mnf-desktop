@@ -11,11 +11,12 @@
             xmlns          = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
             buttons        = "accept, cancel"
             onload         = "readPreferences()"
-            ondialogaccept = "return true">
+            ondialogaccept = "onAccept()">
 
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/common.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/globals.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/misc.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/sync.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/preferences.js"/>
 
   <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>

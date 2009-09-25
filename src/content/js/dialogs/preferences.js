@@ -1,7 +1,10 @@
+var next;
+
 function readPreferences() {
     window.sizeToContent();
     if (window.arguments) {
-        var tab = window.arguments[0];
+        var tab = window.arguments[0].tab;
+        next = window.arguments[0].next;
         var tabbox = $("tabbox");
         tabbox.selectedIndex = tab;
     }
@@ -24,3 +27,8 @@ function browseSyncFolder(title) {
     return res == nsIFilePicker.returnOK;
 }
 
+function onAccept() {
+    if (next)
+        opener.setTimeout(next, 200);
+    return true;
+}

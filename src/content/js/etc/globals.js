@@ -1,3 +1,6 @@
+const Cc = Components.classes;
+const Ci = Components.interfaces;
+
 var gConnections;               // array of all our ftp connections
 var gFtp;                       // the main ftp connection - where the magic happens
 var gVersion = "0.7";           // version of FireGSS we're using

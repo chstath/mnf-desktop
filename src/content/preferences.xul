@@ -56,7 +56,7 @@
       <preference id="syncfolderpref"         name="firegss.syncfolder"        type="string"/>
     </preferences>
 
-    <tabbox flex="1">
+    <tabbox id="tabbox" flex="1">
       <tabs>
         <tab label="&general.label;"/>
         <tab label="&interface.label;"/>

@@ -83,7 +83,6 @@ function startup() {
   readPreferences(true);
   localDirTree.changeDir(gLocalPath.value);
 
-  var trht = 'http://code.google.com/p/gss';
   appendLog("<span id='opening' style='line-height:16px'><span style='cursor:pointer;text-decoration:underline;color:blue;' onclick=\"window.open('http://code.google.com/p/gss','FireGSS');\">"
       + "FireGSS</span> <span>" + gVersion
       + "</span>"

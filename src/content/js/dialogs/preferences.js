@@ -2,7 +2,7 @@ var next;
 
 function readPreferences() {
     window.sizeToContent();
-    if (window.arguments) {
+    if (window.arguments && window.arguments[0]) {
         var tab = window.arguments[0].tab;
         next = window.arguments[0].next;
         var tabbox = $("tabbox");

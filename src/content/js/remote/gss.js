@@ -130,6 +130,8 @@ gss.sendRequest = function(arg) {
 				default:
 				    try {
 					    alert(message + " (" + req.statusText + ")");
+					    if (arg.handler)
+					        arg.handler(req, arg.handlerArg, arg.nextAction, req.status);
 				    } catch (e) {
 				        // Handle exceptions when the statusText is unavailable.
 				        if (e instanceof Error)
@@ -331,7 +333,12 @@ gss.createFolder = function(parent, name, nextAction) {
 					resource: resource});
 };
 
-gss.parseNewFolder = function(req, parent, nextAction) {
+gss.parseNewFolder = function(req, parent, nextAction, error) {
+    if (error && nextAction) {
+        nextAction();
+        return;
+    }
+        
 	var newFolder = {
 		uri: req.responseText.trim(),
 		level: parent.level ? parent.level + 1 : 1

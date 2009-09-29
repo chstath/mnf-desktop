@@ -14,7 +14,7 @@ var remoteDirTree = {
 	hasNextSibling      : function(row, nextrow)      { return this.data[row].hasNext; },
 	isContainer         : function(row)               { return true; },
 	isContainerEmpty    : function(row)               { return this.data[row].empty; },
-	isContainerOpen     : function(row)               { return this.data[row].open; },
+	isContainerOpen     : function(row)               { return remoteDirTree.data[row].open; },
 	isSeparator         : function(row)               { return false; },
 	isSorted            : function(row)               { return false; },
 	setTree             : function(treebox)           {

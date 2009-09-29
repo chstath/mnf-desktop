@@ -317,7 +317,7 @@ var remoteTree = {
 
     this.editType   = "create";
     this.editParent = gRemotePath.value;
-    setTimeout("gLocalTree.startEditing(remoteTree.rowCount - 1, gLocalTree.columns['remotename'])", 0);
+    setTimeout("gRemoteTree.startEditing(remoteTree.rowCount - 1, gRemoteTree.columns['remotename'])", 0);
   },
 
   remove : function() {
@@ -401,26 +401,34 @@ var remoteTree = {
       } else {
         this.displayData[row].leafName = val;
         this.treebox.invalidateRow(row);
-        setTimeout("gLocalTree.startEditing(" + row + ", gLocalTree.columns['remotename'])", 0);
+        setTimeout("gLocalRemote.startEditing(" + row + ", gRemoteTree.columns['remotename'])", 0);
       }
     } else if (this.editType == "create") {
       if (val) {
-        if (localFile.create(this.data[row].isDir, val)) {
-          this.refresh(false, true);
-
-          for (var x = 0; x < this.rowCount; ++x) {
-            if (this.data[x].leafName == val) {
-              this.selection.select(x);
-              this.treebox.ensureRowIsVisible(x);
-              break;
+        var callback = function(newFolder) {
+            if (!newFolder) {
+              remoteTree.data[row].leafName = val;
+              remoteTree.displayData[row].leafName = val;
+              remoteTree.treebox.invalidateRow(row);
+              setTimeout("gRemoteTree.startEditing(remoteTree.rowCount - 1, gRemoteTree.columns['remotename'])", 0);
             }
-          }
-        } else {
-          this.data[row].leafName        = val;
-          this.displayData[row].leafName = val;
-          this.treebox.invalidateRow(row);
-          setTimeout("gLocalTree.startEditing(remoteTree.rowCount - 1, gLocalTree.columns['remotename'])", 0);
+            else {
+                remoteTree.updateView();
+                for (var x = 0; x < remoteTree.rowCount; ++x) {
+                  if (remoteTree.data[x].name == val) {
+                    remoteTree.selection.select(x);
+                    remoteTree.treebox.ensureRowIsVisible(x);
+                    break;
+                  }
+                }
+            }
         }
+        gss.createFolder(remoteTree.currentFolder, val, callback);
+//        if (localFile.create(this.data[row].isDir, val)) {
+//          this.refresh(false, true);
+
+//        } else {
+//        }
       } else {
         --this.rowCount;
         this.data.splice(this.rowCount, 1);
@@ -532,7 +540,7 @@ var remoteTree = {
 
     $('remoteCutContext').setAttribute("disabled",   this.searchMode == 2 || !gFtp.isConnected);
     $('remotePasteContext').setAttribute("disabled", this.searchMode == 2 || !gFtp.isConnected || !this.pasteFiles.length);
-    $('remoteCreateDir').setAttribute("disabled",    this.searchMode == 2 || !gFtp.isConnected);
+    $('remoteCreateDir').setAttribute("disabled",    this.searchMode == 2);
     $('remoteCreateFile').setAttribute("disabled",   this.searchMode == 2 || !gFtp.isConnected);
 
     if (this.selection.currentIndex == -1) {

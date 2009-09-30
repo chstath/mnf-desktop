@@ -321,7 +321,6 @@ var remoteTree = {
   },
 
   remove : function() {
-    var origParent;
     if (this.selection.count == 0) {
       return;
     }
@@ -331,7 +330,6 @@ var remoteTree = {
 
     for (var x = 0; x < this.rowCount; ++x) {
       if (this.selection.isSelected(x)) {
-        origParent = this.data[x].parent;
         files.push(this.data[x]);
       }
     }
@@ -345,6 +343,7 @@ var remoteTree = {
 
       prompt = false;
     }
+    
   },
 
   rename : function() {
@@ -415,7 +414,6 @@ var remoteTree = {
               setTimeout("gRemoteTree.startEditing(remoteTree.rowCount - 1, gRemoteTree.columns['remotename'])", 0);
             }
             else {
-//                remoteTree.updateView();
                 var dirRow = remoteDirTree.selection.currentIndex;
                 //if the parent is expanded
                 if (remoteDirTree.isContainerOpen(dirRow)) {
@@ -424,7 +422,6 @@ var remoteTree = {
                     //and expand again to update the subtree
                     remoteDirTree.toggleOpenState(dirRow);
                 }
-                remoteDirTree.toggle
                 for (var x = 0; x < remoteTree.rowCount; ++x) {
                   if (remoteTree.data[x].name == val) {
                     remoteTree.selection.select(x);

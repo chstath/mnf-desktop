@@ -286,7 +286,7 @@ var remoteTree = {
     }
   },
 
-  create : function(isDir) {
+  create : function() {
     if (this.searchMode == 2) {
       return;
     }
@@ -297,8 +297,8 @@ var remoteTree = {
                             extension   : "",
                             attr        : "",
                             path        : "",
-                            isDir       : isDir,
-                            isDirectory : function() { return this.isDir },
+                            isDir       : true,
+                            isDirectory : function() { return true },
                             isSymlink   : function() { return false },
                             isHidden    : false });
     this.displayData.push({ leafName    : "",
@@ -306,9 +306,9 @@ var remoteTree = {
                             date        : "",
                             extension   : "",
                             attr        : "",
-                            icon        : isDir ? "" : "moz-icon://file?size=16",
+                            icon        : "",
                             path        : "",
-                            isDirectory : isDir,
+                            isDirectory : true,
                             isSymlink   : false,
                             isHidden    : false });
     ++this.rowCount;
@@ -422,6 +422,8 @@ var remoteTree = {
                     //and expand again to update the subtree
                     remoteDirTree.toggleOpenState(dirRow);
                 }
+                else
+                    remoteTree.updateView();
                 for (var x = 0; x < remoteTree.rowCount; ++x) {
                   if (remoteTree.data[x].name == val) {
                     remoteTree.selection.select(x);
@@ -544,7 +546,6 @@ var remoteTree = {
     $('remoteCutContext').setAttribute("disabled",   this.searchMode == 2 || !gFtp.isConnected);
     $('remotePasteContext').setAttribute("disabled", this.searchMode == 2 || !gFtp.isConnected || !this.pasteFiles.length);
     $('remoteCreateDir').setAttribute("disabled",    this.searchMode == 2);
-    $('remoteCreateFile').setAttribute("disabled",   this.searchMode == 2 || !gFtp.isConnected);
 
     if (this.selection.currentIndex == -1) {
       return;

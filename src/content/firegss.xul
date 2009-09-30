@@ -117,8 +117,7 @@
       <menuitem oncommand="remoteTree.cut()"                    label="&cut.label;"                 key="key_cut"                   id="remoteCutContext"/>
       <menuitem oncommand="remoteTree.paste()"                  label="&paste.label;"               key="key_paste" disabled="true" id="remotePasteContext"/>
       <menuseparator/>
-      <menuitem oncommand="remoteTree.create(true)"             label="&makedir.label;"             key="key_dir"                   id="remoteCreateDir"/>
-      <menuitem oncommand="remoteTree.create(false)"            label="&makefile.label;"            key="key_file"                  id="remoteCreateFile"/>
+      <menuitem oncommand="remoteTree.create()"             label="&makedir.label;"             key="key_dir"                   id="remoteCreateDir"/>
       <menuitem oncommand="remoteTree.remove()"                 label="&delete.label;"              key="key_remove"                id="remoteRemove"/>
       <menuitem oncommand="remoteTree.rename()"                 label="&rename.label;"              key="key_rename"                id="remoteRename"/>
       <menuseparator/>

@@ -11,7 +11,7 @@
         xmlns          = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         xmlns:html     = "http://www.w3.org/1999/xhtml"
         persist        = "screenX screenY width height"
-        onload         = "init()"
+        onload         = "sync.init()"
         buttons        = "cancel"
         ondialogcancel = "return true">
 
@@ -25,12 +25,12 @@
         </vbox>
         <vbox pack="center">
             <box id="storbutton">
-                <button id="storeButton" oncommand="syncUp()" tooltiptext="&syncup.label;"/>
+                <button id="storeButton" oncommand="sync.syncUp()" tooltiptext="&syncup.label;"/>
             </box>
         </vbox>
         <vbox pack="center">
             <box id="retrbutton">
-                <button id="retrieveButton" oncommand="syncDown()" tooltiptext="&syncdown.label;"/>
+                <button id="retrieveButton" oncommand="sync.syncDown()" tooltiptext="&syncdown.label;"/>
             </box>
         </vbox>
         <vbox pack="right">

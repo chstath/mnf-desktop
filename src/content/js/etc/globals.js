@@ -101,4 +101,5 @@ var gPrefs;
 var gfiregssUtils;
 var gSyncSchedule;
 var gSyncFolder;
+var gRemoteSyncFolder = ".sync";
 

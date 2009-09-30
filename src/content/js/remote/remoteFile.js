@@ -27,6 +27,8 @@ var remoteFile = {
                                         //and expand again to update the subtree
                                         remoteDirTree.toggleOpenState(dirRow);
                                     }
+                                    else
+                                        remoteTree.updateView();
                                  } );
 	gProcessing--;
     return true;

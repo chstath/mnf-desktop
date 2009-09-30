@@ -405,15 +405,26 @@ var remoteTree = {
       }
     } else if (this.editType == "create") {
       if (val) {
+        //Do this so that that tha data[row] has the correct name. Otherwise the selection of the
+        //newly created folder cannot be made
+        remoteTree.data[row].name = val;
         var callback = function(newFolder) {
             if (!newFolder) {
-              remoteTree.data[row].leafName = val;
               remoteTree.displayData[row].leafName = val;
               remoteTree.treebox.invalidateRow(row);
               setTimeout("gRemoteTree.startEditing(remoteTree.rowCount - 1, gRemoteTree.columns['remotename'])", 0);
             }
             else {
-                remoteTree.updateView();
+//                remoteTree.updateView();
+                var dirRow = remoteDirTree.selection.currentIndex;
+                //if the parent is expanded
+                if (remoteDirTree.isContainerOpen(dirRow)) {
+                    //collapse
+                    remoteDirTree.toggleOpenState(dirRow);
+                    //and expand again to update the subtree
+                    remoteDirTree.toggleOpenState(dirRow);
+                }
+                remoteDirTree.toggle
                 for (var x = 0; x < remoteTree.rowCount; ++x) {
                   if (remoteTree.data[x].name == val) {
                     remoteTree.selection.select(x);
@@ -424,11 +435,6 @@ var remoteTree = {
             }
         }
         gss.createFolder(remoteTree.currentFolder, val, callback);
-//        if (localFile.create(this.data[row].isDir, val)) {
-//          this.refresh(false, true);
-
-//        } else {
-//        }
       } else {
         --this.rowCount;
         this.data.splice(this.rowCount, 1);
@@ -890,11 +896,15 @@ var remoteTree = {
       remoteTree.remoteSize = parseSize(remoteTree.remoteSize);
   },
   
-  showFolderContents: function(folder) {
+  showFolderContents: function() {
+      var folder = remoteDirTree.data[remoteDirTree.selection.currentIndex].gssObj;
+      if (remoteTree.currentFolder == folder) {
+        var folderUnchanged = true;
+        var previousSelection = remoteTree.selection.currentIndex;
+      }
       remoteTree.currentFolder = folder;
       remoteTree.updateStats();
       remoteTree.treebox.rowCountChanged(0, -remoteTree.rowCount);
-      //folder = remoteDirTree.data[remoteDirTree.selection.currentIndex].gssObj;
       if (folder.folders) {
           remoteTree.data = folder.folders.concat(folder.files);
           remoteTree.displayData = [];
@@ -925,6 +935,8 @@ var remoteTree = {
       remoteTree.rowCount = remoteTree.data.length;
       remoteTree.treebox.rowCountChanged(0, remoteTree.rowCount);
       remoteTree.mouseOver(null);
+      if (folderUnchanged)
+          remoteTree.selection.select(previousSelection);
   },
 
   dblClick : function(event) {

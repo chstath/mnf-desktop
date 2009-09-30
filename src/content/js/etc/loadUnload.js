@@ -169,20 +169,6 @@ function unload() {
   if (gPrefsService instanceof Components.interfaces.nsIPrefBranchInternal) {
     gPrefsService.removeObserver("firegss", prefsObserver, false);
   }
-
-  for (var x = 0; x < gMaxCon; ++x) {
-    if (gConnections[x].isConnected) {
-      gConnections[x].disconnect();
-    }
-  }
-
-  if (gFxp && gFxp.isConnected) {
-    gFxp.disconnect();
-  }
-
-  for (var x = 0; x < gTempEditFiles.length; ++x) {
-    gfiregssUtils.removeFile(gTempEditFiles[x].file);
-  }
 }
 
 function returnToAppTab(attrName) {

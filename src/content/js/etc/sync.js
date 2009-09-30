@@ -9,7 +9,10 @@ sync.open = function () {
 }
 
 sync.showSync = function () {
-    window.openDialog("chrome://firegss/content/sync.xul", "sync",
+    if (!gss.rootFolder.uri)
+        alert("You have to login first");
+    else
+        window.openDialog("chrome://firegss/content/sync.xul", "sync",
             "chrome,modal,dialog,centerscreen");
 }
 
@@ -18,68 +21,87 @@ sync.init = function () {
 }
 
 sync.syncUp = function () {
-//    gRemoteSyncFolder
+    var remoteRoot;
+    gss.rootFolder.folders.forEach(function (f) {
+        if (f.name === gRemoteSyncFolder)
+            remoteRoot = f;
+    });
+    // Create and return if the remote sync folder is not found.
+    if (!remoteRoot)
+        gss.createFolder(gss.rootFolder, gRemoteSyncFolder, sync.syncUp);
+//    var localRoot = localFile.init(gSyncFolder);
+//    if ()
 }
 
 sync.syncDown = function () {
 
 }
 
-// The sync queue of upload requests for files.
-sync.uploadq = [];
-// The sync upload queue monitor used for locking.
-sync.uploading = false;
-// Processes the queue of pending uploads.
-sync.processUploadq = function () {
-    if (sync.uploading) return;
-    var upload = sync.uploadq.shift();
-    if (upload) {
-        sync.uploading = gss.uploadFile(upload.file, upload.folder, upload.onstart,
-	        upload.onprogress, upload.onload, upload.onerror, upload.onabort);
-    } else
-        sync.uploading = false;
+sync.compare = function (local, remote) {
+    var diff = local.modificationDate - remote.modificationDate;
+    if (diff > 0) {
+        sync.queue.push({   file: files[x],
+				            folder: remoteFolder,
+				            onstart: loadStartHandler,
+				            onprogress: progressHandler,
+				            onload: loadHandler,
+				            onerror: errorHandler,
+				            onabort: abortHandler
+		});
+    } else if (diff < 0) {
+        sync.queue.push({   file: files[x],
+                            nsIFile: nsIFile,
+                            persist: persist
+        });
+    } else {
+        // compare children?
+    }
 }
-//setInterval(sync.processUploadq, 300);
-// The sync queue of download requests for files.
-sync.downloadq = [];
-// The sync download queue monitor used for locking.
-sync.downloading = false;
-// Processes the queue of pending downloads.
-sync.processDownloadq = function () {
-    if (sync.downloading) return;
-    var download = sync.downloadq.shift();
-    if (download) {
+
+// The sync queue of upload and download requests for files.
+sync.queue = [];
+// The sync queue monitor used for locking.
+sync.processingq = false;
+// Processes the queue of pending uploads.
+sync.processq = function () {
+    if (sync.processingq) return;
+    var work = sync.queue.shift();
+    if (work && work.folder) {
+        // This is an upload.
+        sync.uploading = gss.uploadFile(work.file, work.folder, work.onstart,
+	        work.onprogress, work.onload, work.onerror, work.onabort);
+	} else if (work) {
+        // This is a download.
         try {
-            sync.downloading = download.persist;
+            sync.downloading = work.persist;
             var now = (new Date()).toUTCString();
            	// Unfortunately single quotes are not escaped by default.
-            var resource = download.file.uri.replace(/'/g, "%27");
+            var resource = work.file.uri.replace(/'/g, "%27");
             var authHeader = "Authorization: " + gss.username + " " +
                 gss.sign('GET', now, resource, gss.authToken);
             var dateHeader = "X-GSS-Date: " + now;
             var headers = authHeader + "\r\n" + dateHeader + "\r\n";
 		    var nsIURI = gIos.newURI(resource, "utf-8", null);
-		    var result = download.persist.saveURI(nsIURI, null, null, null, headers, download.nsIFile);
+		    var result = work.persist.saveURI(nsIURI, null, null, null, headers, work.nsIFile);
 		    if (result)
 		        alert(result);
         } catch (e) {
             alert(e);
         }
     } else
-        sync.downloading = false;
+        sync.processingq = false;
 }
-//setInterval(processDownloadq, 300);
+
+//setInterval(sync.processUploadq, 300);
 
 sync.cancelAll = function () {
-    sync.downloadq = [];
-    sync.uploadq = [];
-    if (sync.downloading) {
-        sync.downloading.cancelSave();
-        sync.downloading = false;
-    }
-    if (sync.uploading) {
-        sync.uploading.abort();
-        sync.uploading = false;
+    sync.queue = [];
+    if (sync.processingq && sync.processingq.folder) {
+        sync.processingq.abort();
+        sync.processingq = false;
+    } else if (sync.processingq) {
+        sync.processingq.cancelSave();
+        sync.processingq = false;
     }
 }
 

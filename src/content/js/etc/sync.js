@@ -9,15 +9,43 @@ sync.open = function () {
 }
 
 sync.showSync = function () {
-    if (!gss.rootFolder.uri)
+    if (!gss.rootFolder.uri) {
         alert("You have to login first");
-    else
-        window.openDialog("chrome://firegss/content/sync.xul", "sync",
-            "chrome,modal,dialog,centerscreen");
+        return;
+    }
+    var found = false;
+    gss.rootFolder.folders.forEach(function (elem) {
+        if (elem.name === gRemoteSyncFolder)
+            found = true;
+    });
+    if (!found) {
+        var callback = function(newFolder) {
+            if (!newFolder) {
+                alert("Could not create "+gRemoteSyncFolder+" folder");
+            } else {
+                remoteTree.updateView();
+                for (var x = 0; x < remoteTree.rowCount; ++x) {
+                  if (remoteTree.data[x].name == val) {
+                    remoteTree.selection.select(x);
+                    remoteTree.treebox.ensureRowIsVisible(x);
+                    break;
+                  }
+                }
+                sync.showWindow();
+            }
+        }
+        gss.createFolder(gss.rootFolder, gRemoteSyncFolder, callback);
+    }
+    sync.showWindow();
+}
+
+sync.showWindow = function () {
+    window.openDialog("chrome://firegss/content/sync.xul", "sync",
+        "chrome,modal,dialog,centerscreen");
+
 }
 
 sync.init = function () {
-    
 }
 
 sync.syncUp = function () {

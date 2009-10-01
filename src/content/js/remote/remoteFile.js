@@ -18,7 +18,18 @@ var remoteFile = {
     }
 
 	gProcessing++;
-    gss.deleteResource(file.uri, function () { remoteTree.updateView(); } );
+    gss.deleteResource(file.uri, function () {
+                                    var dirRow = remoteDirTree.selection.currentIndex;
+                                    //if the parent is expanded
+                                    if (remoteDirTree.isContainerOpen(dirRow)) {
+                                        //collapse
+                                        remoteDirTree.toggleOpenState(dirRow);
+                                        //and expand again to update the subtree
+                                        remoteDirTree.toggleOpenState(dirRow);
+                                    }
+                                    else
+                                        remoteTree.updateView();
+                                 } );
 	gProcessing--;
     return true;
   },

@@ -443,18 +443,7 @@ var remoteDirTree = {
 		remoteDirTree.rowCount = 1;
 		remoteDirTree.treebox.rowCountChanged(0, 1);
 		remoteDirTree.selection.select(0);
-		remoteTree.showFolderContents(folder);
-		remoteDirTree.treebox.invalidateRow(0);
-	},
-
-	changeFolder: function(index) {
-		var folder = remoteDirTree.data[index].gssObj;
-		remoteDirTree.showFolder(folder);
-		gss.fetchFolder(folder, remoteDirTree.showFolder);
-	},
-
-	showFolder: function(folder) {
-		remoteTree.showFolderContents(folder);
+		remoteTree.showFolderContents();
 		remoteDirTree.treebox.invalidateRow(0);
 	},
 
@@ -468,8 +457,8 @@ var remoteDirTree = {
         
 		if (index >= 0 && index < remoteDirTree.data.length) {
             gssObj = remoteDirTree.data[index].gssObj;
-			remoteTree.showFolderContents(gssObj);
-			gss.fetchFolder(gssObj, remoteTree.showFolderContents, gssObj);
+			remoteTree.showFolderContents();
+			gss.fetchFolder(gssObj, remoteTree.showFolderContents);
 			remoteDirTree.treebox.ensureRowIsVisible(index);
 		}
 	},

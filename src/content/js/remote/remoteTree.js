@@ -286,7 +286,7 @@ var remoteTree = {
     }
   },
 
-  create : function(isDir) {
+  create : function() {
     if (this.searchMode == 2) {
       return;
     }
@@ -297,8 +297,8 @@ var remoteTree = {
                             extension   : "",
                             attr        : "",
                             path        : "",
-                            isDir       : isDir,
-                            isDirectory : function() { return this.isDir },
+                            isDir       : true,
+                            isDirectory : function() { return true },
                             isSymlink   : function() { return false },
                             isHidden    : false });
     this.displayData.push({ leafName    : "",
@@ -306,9 +306,9 @@ var remoteTree = {
                             date        : "",
                             extension   : "",
                             attr        : "",
-                            icon        : isDir ? "" : "moz-icon://file?size=16",
+                            icon        : "",
                             path        : "",
-                            isDirectory : isDir,
+                            isDirectory : true,
                             isSymlink   : false,
                             isHidden    : false });
     ++this.rowCount;
@@ -321,7 +321,6 @@ var remoteTree = {
   },
 
   remove : function() {
-    var origParent;
     if (this.selection.count == 0) {
       return;
     }
@@ -331,7 +330,6 @@ var remoteTree = {
 
     for (var x = 0; x < this.rowCount; ++x) {
       if (this.selection.isSelected(x)) {
-        origParent = this.data[x].parent;
         files.push(this.data[x]);
       }
     }
@@ -345,6 +343,7 @@ var remoteTree = {
 
       prompt = false;
     }
+    
   },
 
   rename : function() {
@@ -405,15 +404,26 @@ var remoteTree = {
       }
     } else if (this.editType == "create") {
       if (val) {
+        //Do this so that that tha data[row] has the correct name. Otherwise the selection of the
+        //newly created folder cannot be made
+        remoteTree.data[row].name = val;
         var callback = function(newFolder) {
             if (!newFolder) {
-              remoteTree.data[row].leafName = val;
               remoteTree.displayData[row].leafName = val;
               remoteTree.treebox.invalidateRow(row);
               setTimeout("gRemoteTree.startEditing(remoteTree.rowCount - 1, gRemoteTree.columns['remotename'])", 0);
             }
             else {
-                remoteTree.updateView();
+                var dirRow = remoteDirTree.selection.currentIndex;
+                //if the parent is expanded
+                if (remoteDirTree.isContainerOpen(dirRow)) {
+                    //collapse
+                    remoteDirTree.toggleOpenState(dirRow);
+                    //and expand again to update the subtree
+                    remoteDirTree.toggleOpenState(dirRow);
+                }
+                else
+                    remoteTree.updateView();
                 for (var x = 0; x < remoteTree.rowCount; ++x) {
                   if (remoteTree.data[x].name == val) {
                     remoteTree.selection.select(x);
@@ -424,11 +434,6 @@ var remoteTree = {
             }
         }
         gss.createFolder(remoteTree.currentFolder, val, callback);
-//        if (localFile.create(this.data[row].isDir, val)) {
-//          this.refresh(false, true);
-
-//        } else {
-//        }
       } else {
         --this.rowCount;
         this.data.splice(this.rowCount, 1);
@@ -541,7 +546,6 @@ var remoteTree = {
     $('remoteCutContext').setAttribute("disabled",   this.searchMode == 2 || !gFtp.isConnected);
     $('remotePasteContext').setAttribute("disabled", this.searchMode == 2 || !gFtp.isConnected || !this.pasteFiles.length);
     $('remoteCreateDir').setAttribute("disabled",    this.searchMode == 2);
-    $('remoteCreateFile').setAttribute("disabled",   this.searchMode == 2 || !gFtp.isConnected);
 
     if (this.selection.currentIndex == -1) {
       return;
@@ -890,11 +894,15 @@ var remoteTree = {
       remoteTree.remoteSize = parseSize(remoteTree.remoteSize);
   },
   
-  showFolderContents: function(folder) {
+  showFolderContents: function() {
+      var folder = remoteDirTree.data[remoteDirTree.selection.currentIndex].gssObj;
+      if (remoteTree.currentFolder == folder) {
+        var folderUnchanged = true;
+        var previousSelection = remoteTree.selection.currentIndex;
+      }
       remoteTree.currentFolder = folder;
       remoteTree.updateStats();
       remoteTree.treebox.rowCountChanged(0, -remoteTree.rowCount);
-      //folder = remoteDirTree.data[remoteDirTree.selection.currentIndex].gssObj;
       if (folder.folders) {
           remoteTree.data = folder.folders.concat(folder.files);
           remoteTree.displayData = [];
@@ -925,6 +933,8 @@ var remoteTree = {
       remoteTree.rowCount = remoteTree.data.length;
       remoteTree.treebox.rowCountChanged(0, remoteTree.rowCount);
       remoteTree.mouseOver(null);
+      if (folderUnchanged)
+          remoteTree.selection.select(previousSelection);
   },
 
   dblClick : function(event) {

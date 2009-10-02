@@ -1,14 +1,14 @@
 var sync;
 if (!sync) sync = {};
 
-sync.open = function () {
+sync.init = function () {
     if (gSyncFolder === "") {
-        showPreferences({ tab: 2, next: sync.showSync });
+        showPreferences({ tab: 2, next: sync.checkPreconditions });
     } else
-        sync.showSync();
+        sync.checkPreconditions();
 }
 
-sync.showSync = function () {
+sync.checkPreconditions = function () {
     if (!gss.rootFolder.uri) {
         alert("You have to login first");
         return;
@@ -19,10 +19,11 @@ sync.showSync = function () {
             found = true;
     });
     if (!found) {
+        // Create remote sync folder first.
         var callback = function(newFolder) {
-            if (!newFolder) {
+            if (!newFolder)
                 alert("Could not create "+gRemoteSyncFolder+" folder");
-            } else {
+            else {
                 remoteTree.updateView();
                 for (var x = 0; x < remoteTree.rowCount; ++x) {
                   if (remoteTree.data[x].name == val) {
@@ -31,41 +32,32 @@ sync.showSync = function () {
                     break;
                   }
                 }
-                sync.showWindow();
+                sync.start();
             }
         }
         gss.createFolder(gss.rootFolder, gRemoteSyncFolder, callback);
     }
-    sync.showWindow();
+    sync.start();
 }
 
-sync.showWindow = function () {
-    window.openDialog("chrome://firegss/content/sync.xul", "sync",
-        "chrome,modal,dialog,centerscreen");
-
-}
-
-sync.init = function () {
-}
-
-sync.syncUp = function () {
+sync.start = function () {
     var remoteRoot;
     gss.rootFolder.folders.forEach(function (f) {
         if (f.name === gRemoteSyncFolder)
             remoteRoot = f;
     });
-    // Create and return if the remote sync folder is not found.
-    if (!remoteRoot)
-        gss.createFolder(gss.rootFolder, gRemoteSyncFolder, sync.syncUp);
-//    var localRoot = localFile.init(gSyncFolder);
-//    if ()
+    // Assert the existence of .sync for now. In the future this code will be
+    // refactored anyway.
+    if (!remoteRoot) {
+        alert("No remote .sync found");
+        return;
+    }
+    // Start comparisons.
+    var localRoot = localFile.init(gSyncFolder);
+    sync.compareFolder(localRoot, remoteRoot);
 }
 
-sync.syncDown = function () {
-
-}
-
-sync.compare = function (local, remote) {
+sync.compareFolder = function (local, remote) {
     var diff = local.modificationDate - remote.modificationDate;
     if (diff > 0) {
         sync.queue.push({   file: files[x],
@@ -83,6 +75,25 @@ sync.compare = function (local, remote) {
         });
     } else {
         // compare children?
+    }
+}
+
+sync.compareFile = function (local, remote) {
+    var diff = local.modificationDate - remote.modificationDate;
+    if (diff > 0) {
+        sync.queue.push({   file: local,
+				            folder: remote.folder,
+				            onstart: loadStartHandler,
+				            onprogress: progressHandler,
+				            onload: loadHandler,
+				            onerror: errorHandler,
+				            onabort: abortHandler
+		});
+    } else if (diff < 0) {
+        sync.queue.push({   file: remote,
+                            nsIFile: nsIFile,
+                            persist: persist
+        });
     }
 }
 

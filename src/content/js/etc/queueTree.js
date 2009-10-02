@@ -116,13 +116,7 @@ var queueTree = {
               failed  : false
             };
 
-            if ((gConnections[x].dataSocket && gConnections[x].dataSocket.id == info.id && info.type == "upload" && gConnections[x].dataSocket.progressEventSink.compressStream)
-             || (info.transport == 'fxp'  && gFtp.eventQueue.length > 1 && gFtp.eventQueue[1].cmd == "transferEnd" && gFtp.eventQueue[1].callback.id == info.id)
-             || (info.transport == 'sftp' && gFtp.eventQueue.length > 1 && gFtp.eventQueue[1].cmd == "transferEnd" && gFtp.eventQueue[1].callback.id == info.id)) {
-              obj.status          = gStrbundle.getString("transferring")
-                                 + (gConnections[x].security ? ", " + (gConnections[x].securityMode == "P" || gConnections[x].security == "sftp" ? gStrbundle.getString("dataEncrypted")
-                                                                                                                                                 : gStrbundle.getString("dataNotEncrypted")) : "");
-            } else if (gConnections[x].dataSocket && gConnections[x].dataSocket.id == info.id) {
+            if (gConnections[x].dataSocket && gConnections[x].dataSocket.id == info.id) {
               var bytesTotal;
               var bytesTransferred;
               var bytesPartial;
@@ -230,7 +224,7 @@ var queueTree = {
   },
 
   retry : function() {                                                                          // retry items from queue
-    if (!gFtp.isConnected || this.selection.currentIndex < 0 || this.selection.currentIndex >= this.rowCount) {
+    if (!gss.hasAuthenticated() || this.selection.currentIndex < 0 || this.selection.currentIndex >= this.rowCount) {
       return;
     }
 
@@ -250,9 +244,9 @@ var queueTree = {
 
     for (var x = 0; x < files.length; ++x) {
       if (files[x].type == "upload") {
-        gFtp.upload(files[x].localPath, files[x].remotePath, false, files[x].size, -1);
+//        gFtp.upload(files[x].localPath, files[x].remotePath, false, files[x].size, -1);
       } else if (files[x].type == "download") {
-        gFtp.download(files[x].remotePath, files[x].localPath, files[x].size, false, -1);
+//        gFtp.download(files[x].remotePath, files[x].localPath, files[x].size, false, -1);
       }
     }
   },
@@ -362,7 +356,7 @@ var queueTree = {
   // ************************************************* dropEvent *****************************************************
 
   canDrop : function(index, orient) {
-    if (!gFtp.isConnected || !dragObserver.origin) {
+    if (!gss.hasAuthenticated() || !dragObserver.origin) {
       return false;
     }
 

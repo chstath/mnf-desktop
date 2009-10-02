@@ -113,7 +113,7 @@ var localTree = {
             }
           }
 
-          if (file.exists() && localFile.testSize(file) && (!file.isHidden() || gFtp.hiddenMode || isException)) {
+          if (file.exists() && localFile.testSize(file) && (!file.isHidden() || gHiddenMode || isException)) {
             this.localSize += file.fileSize;
             localTreeItems.push(file);
           }
@@ -1124,7 +1124,7 @@ var localTree = {
       }
     }
 
-    if (dragObserver.origin.indexOf('remote') != -1 && !gFtp.isConnected) {
+    if (dragObserver.origin.indexOf('remote') != -1 && !gss.hasAuthenticated()) {
       return false;
     }
 

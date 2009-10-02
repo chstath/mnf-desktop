@@ -538,13 +538,13 @@ var remoteTree = {
     }
   },
 
-	createContextMenu : function() {
+  createContextMenu : function() {
     if (this.selection.currentIndex < 0 || this.selection.currentIndex >= this.rowCount) {
       this.selection.currentIndex = this.rowCount - 1;
     }
 
-    $('remoteCutContext').setAttribute("disabled",   this.searchMode == 2 || !gFtp.isConnected);
-    $('remotePasteContext').setAttribute("disabled", this.searchMode == 2 || !gFtp.isConnected || !this.pasteFiles.length);
+    $('remoteCutContext').setAttribute("disabled",   this.searchMode == 2 || !gss.hasAuthenticated());
+    $('remotePasteContext').setAttribute("disabled", this.searchMode == 2 || !gss.hasAuthenticated() || !this.pasteFiles.length);
     $('remoteCreateDir').setAttribute("disabled",    this.searchMode == 2);
 
     if (this.selection.currentIndex == -1) {
@@ -860,7 +860,7 @@ var remoteTree = {
       }
     }
 
-    if (dragObserver.origin.indexOf('remote') != -1 && !gFtp.isConnected) {
+    if (dragObserver.origin.indexOf('remote') != -1 && !gss.hasAuthenticated()) {
       return false;
     }
 

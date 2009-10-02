@@ -346,7 +346,7 @@ var remoteDirTree = {
 			  return false;
 			}
 
-			if (dragObserver.origin.indexOf('remote') != -1 && !gFtp.isConnected) {
+			if (dragObserver.origin.indexOf('remote') != -1 && !gss.hasAuthenticated()) {
 			  return false;
 			}
 

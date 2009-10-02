@@ -16,7 +16,7 @@ function showSearch(show) {
 }
 
 function searchSelectType() {
-  $('searchButton').disabled   =  $('searchWhich').selectedIndex == 1 && (!gFtp || !gFtp.isConnected);
+  $('searchButton').disabled   =  $('searchWhich').selectedIndex == 1 && !gss.hasAuthenticated();
 }
 
 function showSearchDates() {
@@ -28,7 +28,7 @@ function searchWrapper() {
 
   if (gSearchRunning) {
     if (gSearchType && gSearchRecursive) {
-      gFtp.abort();
+//      gFtp.abort();
     }
 
     gSearchRunning = false;
@@ -99,7 +99,7 @@ function search(zeParent, last) {
     }
   }
 
-  if (gSearchType && (!gFtp.isConnected || (!zeParent && !isReady()))) {
+  if (gSearchType && (!gss.hasAuthenticated() || (!zeParent && !isReady()))) {
     return;
   }
 

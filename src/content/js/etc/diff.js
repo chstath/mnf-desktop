@@ -1,5 +1,5 @@
 function diff(recursive, localParent, remoteParent, last) {
-  if (!gFtp.isConnected || (!localParent && !isReady())) {
+  if (!gss.hasAuthenticated() || (!localParent && !isReady())) {
     return;
   }
 

@@ -66,7 +66,7 @@ function onRemotePathFocus(event) {
 }
 
 function onRemotePathBlur(event) {
-  if (!gFtp.isConnected) {
+  if (!gss.hasAuthenticated()) {
     gRemotePathFocus  = gRemotePath.value;
   } else {
     gRemotePath.value = gRemotePathFocus;
@@ -152,7 +152,7 @@ function doAbort() {
   gSearchRunning = false;
   var forceKill  = false;
 
-  if (gFxp && gFxp.isConnected) {
+  if (gFxp && gss.hasAuthenticated()) {
     gFxp.disconnect();
     forceKill = true;
   }
@@ -166,8 +166,8 @@ function doAbort() {
 }
 
 function toolsPopupMenu() {
-  $('diffMenuItem').setAttribute("disabled",     !gFtp.isConnected || localTree.searchMode == 2 || remoteTree.searchMode == 2);
-  $('recDiffMenuItem').setAttribute("disabled",  !gFtp.isConnected || localTree.searchMode == 2 || remoteTree.searchMode == 2);
+  $('diffMenuItem').setAttribute("disabled",     !gss.hasAuthenticated() || localTree.searchMode == 2 || remoteTree.searchMode == 2);
+  $('recDiffMenuItem').setAttribute("disabled",  !gss.hasAuthenticated() || localTree.searchMode == 2 || remoteTree.searchMode == 2);
 }
 
 function setCharAt(str, index, ch) {                         // how annoying

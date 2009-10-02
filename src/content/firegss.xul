@@ -182,7 +182,7 @@
       <toolbarbutton label="&logout.label;" oncommand="logout()" accesskey="&logoutbutton.access;"/>
       <toolbarspacer flex="1"/>
       <toolbarbutton id="syncbutton" label="&synctab.label;" accesskey="&syncbutton.access;"
-                    oncommand="sync.open()" type="checkbox" persist="checked" autoCheck="false"/>
+                    oncommand="sync.init()" type="checkbox" persist="checked" autoCheck="false"/>
       <toolbarbutton id="logbutton" label="&logtab.label;" accesskey="&logbutton.access;"
                     oncommand="showLog()" type="checkbox" persist="checked" autoCheck="false"/>
       <toolbarbutton id="advmenu" label="&advanced.label;" accesskey="&advanced.access;"

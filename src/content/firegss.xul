@@ -24,10 +24,7 @@
 
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/globals.js"/>
 
-  <script type="application/x-javascript" src="chrome://firegss/content/js/connection/controlSocket.js"/>
-  <script type="application/x-javascript" src="chrome://firegss/content/js/connection/dataSocket.js"/>
-  <script type="application/x-javascript" src="chrome://firegss/content/js/connection/ftpController.js"/>
-  <script type="application/x-javascript" src="chrome://firegss/content/js/connection/fxp.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/connection/gss.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/connection/transfer.js"/>
 
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/common.js"/>
@@ -57,7 +54,6 @@
   <script type="application/x-javascript" src="chrome://global/content/nsDragAndDrop.js"/>
   <script type="application/x-javascript" src="chrome://global/content/nsTransferable.js"/>
 
-  <script type="application/x-javascript" src="chrome://firegss/content/js/remote/gss.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/sha1.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/jquery-1.3.2.min.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/jquery.formHints.js"/>
@@ -181,7 +177,7 @@
                     accesskey="&loginbutton.access;"/>
       <toolbarbutton label="&logout.label;" oncommand="logout()" accesskey="&logoutbutton.access;"/>
       <toolbarspacer flex="1"/>
-      <toolbarbutton id="syncbutton" label="&synctab.label;" accesskey="&syncbutton.access;"
+      <toolbarbutton id="syncbutton" label="&synctab.label;" accesskey="&syncbutton.access;" disabled="true"
                     oncommand="sync.init()" type="checkbox" persist="checked" autoCheck="false"/>
       <toolbarbutton id="logbutton" label="&logtab.label;" accesskey="&logbutton.access;"
                     oncommand="showLog()" type="checkbox" persist="checked" autoCheck="false"/>

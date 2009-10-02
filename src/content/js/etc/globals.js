@@ -3,7 +3,7 @@ const Ci = Components.interfaces;
 
 var gConnections;               // array of all our ftp connections
 var gHiddenMode = false;        // show hidden files if true
-var gVersion = "0.7";           // version of FireGSS we're using
+var gVersion = "0.8";           // version of FireGSS we're using
 var gSlash;                     // holds '/' or '\\' depending on local system
 var gPlatform;                  // holds what platform we're on
 var gTransferTypes;             // holds 'Auto', 'Binary', 'ASCII'

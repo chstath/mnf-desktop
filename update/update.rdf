@@ -2,10 +2,6 @@
 <RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
          xmlns:NC="http://home.netscape.com/NC-rdf#"
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <RDF:Description RDF:about="rdf:#$uxuJC1"
-                   em:version="0.6">
-    <em:targetApplication RDF:resource="rdf:#$xxuJC1"/>
-  </RDF:Description>
   <RDF:Description RDF:about="rdf:#$xxuJC2"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="3.5"
@@ -13,10 +9,30 @@
                    em:updateLink="http://www.ebs.gr/gss/firegss-0.7.xpi"
                    em:updateHash="sha1:a1a065ac3ec015cd7e9035b9d4a53cd46f4a9577"
                    em:updateInfoURL="http://www.ebs.gr/gss/updateinfo0.7.xhtml" />
+  <RDF:Description RDF:about="rdf:#$xxuJC3"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="3.5"
+                   em:maxVersion="3.5.*"
+                   em:updateLink="http://www.ebs.gr/gss/firegss-0.8.xpi"
+                   em:updateHash="sha1:0acae7e15f3b6bbd37fbdf9d7ebb0c3c28cf2591"
+                   em:updateInfoURL="http://www.ebs.gr/gss/updateinfo0.8.xhtml" />
+  <RDF:Description RDF:about="rdf:#$uxuJC1"
+                   em:version="0.6">
+    <em:targetApplication RDF:resource="rdf:#$xxuJC1"/>
+  </RDF:Description>
   <RDF:Seq RDF:about="rdf:#$txuJC1">
     <RDF:li RDF:resource="rdf:#$uxuJC1"/>
     <RDF:li RDF:resource="rdf:#$uxuJC2"/>
+    <RDF:li RDF:resource="rdf:#$uxuJC3"/>
   </RDF:Seq>
+  <RDF:Description RDF:about="rdf:#$uxuJC3"
+                   em:version="0.8">
+    <em:targetApplication RDF:resource="rdf:#$xxuJC3"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$uxuJC2"
+                   em:version="0.7">
+    <em:targetApplication RDF:resource="rdf:#$xxuJC2"/>
+  </RDF:Description>
   <RDF:Description RDF:about="rdf:#$xxuJC1"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="3.5"
@@ -24,12 +40,8 @@
                    em:updateLink="http://www.ebs.gr/gss/firegss-0.6.xpi"
                    em:updateHash="sha1:44c8ff5689653d1e88d9e73164b2fbf1a1474096"
                    em:updateInfoURL="http://www.ebs.gr/gss/updateinfo0.6.xhtml" />
-  <RDF:Description RDF:about="rdf:#$uxuJC2"
-                   em:version="0.7">
-    <em:targetApplication RDF:resource="rdf:#$xxuJC2"/>
-  </RDF:Description>
   <RDF:Description RDF:about="urn:mozilla:extension:firegss@ebs.gr"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAKvN/R77mktoLsMuIePptEsXYwL9ZK7jJy3LePSt1RHN4B4JgT1xyLmE6zWX95UjZinPgd35HDkTURJDGhelfVg/ddJdhKnQFzQG05kU19puyhkStGngehXrPws9faqp8zbAfww8MLMaJzVAl91e7MKiButq65XuK0Co73LGMq1b">
+                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAI+kW6brv+nGRAW/l/4MglPWtKlxG0jS5jmOFIG/68OZdDj5Q0B1sZNqXi6G6m5MiEn8JUdbmL/LmnHMyud4gOivGxpr9GVJQtvM4G1SFx0OZXAVMX7Lc+d5rHU2XaqHnjCV08cMGIYnje6X15vRZIIPYXI032YbmSGm3ntYlcOG">
     <em:updates RDF:resource="rdf:#$txuJC1"/>
   </RDF:Description>
 </RDF:RDF>

@@ -49,22 +49,6 @@ function startup() {
     gPrefsService.addObserver("firegss", prefsObserver, false);
   }
 
-  gMaxCon                = gPrefs.getIntPref("concurrentmax");
-
-  gConnections           = new Array();
-  for (var x = 0; x < gMaxCon; ++x) {
-    gConnections.push(new ftpMozilla(x ? new transferObserver(x + 1) : ftpObserver));
-    gConnections[x].type            = x ? 'transfer' : '';
-    gConnections[x].connNo          = x + 1;
-    gConnections[x].errorConnectStr = gStrbundle.getString("errorConn");
-    gConnections[x].errorXCheckFail = gStrbundle.getString("errorXCheckFail");
-    gConnections[x].passNotShown    = gStrbundle.getString("passNotShown");
-    gConnections[x].l10nMonths      = gStrbundle.getString("months").split("|");
-  }
-
-  gFtp                   = gConnections[0];
-  gFtp.setSecurity("");
-
   gTransferTypes         = new Array(gStrbundle.getString("auto"), gStrbundle.getString("binary"), gStrbundle.getString("ascii"));
   gMonths                = gStrbundle.getString("months").split("|");
 
@@ -78,7 +62,6 @@ function startup() {
 
   searchSelectType();
   showSearchDates();
-  securityPopup();
 
   readPreferences(true);
   localDirTree.changeDir(gLocalPath.value);

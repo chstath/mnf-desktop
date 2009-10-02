@@ -18,7 +18,7 @@ transfer.prototype = {
         // we're doing locking, sort of, see below
 		if (this.busy) {
 			var self = this;
-			var currentListData = aListData ? aListData : cloneArray(gFtp.listData);
+			var currentListData = aListData ? aListData : [];//cloneArray(gFtp.listData);
 			var func = function() {
 				self.start(download, aFile, aLocalParent, aRemoteParent, currentListData);
 			};
@@ -174,13 +174,13 @@ transfer.prototype = {
 			if (!this.didRefreshLaterSet) {
 				this.didRefreshLaterSet = true;
 
-				if ((download && !aLocalParent) || this.localRefresh) {
-					gFtp.localRefreshLater  = this.localRefresh  ? this.localRefresh  : localParent;
-				}
+//				if ((download && !aLocalParent) || this.localRefresh) {
+//					gFtp.localRefreshLater  = this.localRefresh  ? this.localRefresh  : localParent;
+//				}
 
-				if ((!download && !aRemoteParent) || this.remoteRefresh) {
-					gFtp.remoteRefreshLater = this.remoteRefresh ? this.remoteRefresh : remoteParent;
-				}
+//				if ((!download && !aRemoteParent) || this.remoteRefresh) {
+//					gFtp.remoteRefreshLater = this.remoteRefresh ? this.remoteRefresh : remoteParent;
+//				}
 			}
 
 			if (download) {

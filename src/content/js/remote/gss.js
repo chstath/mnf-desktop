@@ -415,3 +415,8 @@ gss.isWritable = function () {
 	return hasWrite;
 };
 
+// A helper function that checks whether the user has logged-in to the service.
+gss.hasAuthenticated = function () {
+    return gss.username && gss.authToken;
+};
+

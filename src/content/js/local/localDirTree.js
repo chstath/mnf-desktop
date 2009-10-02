@@ -145,7 +145,7 @@ var localDirTree = {
               }
             }
 
-            if (file.exists() && localFile.testSize(file) && file.isDirectory() && (!file.isHidden() || gFtp.hiddenMode || isParent || isException)) {
+            if (file.exists() && localFile.testSize(file) && file.isDirectory() && (!file.isHidden() || gHiddenMode || isParent || isException)) {
               newDirectories.push(file);
             }
           }
@@ -494,7 +494,7 @@ var localDirTree = {
       return false;
     }
 
-    if (dragObserver.origin.indexOf('remote') != -1 && !gFtp.isConnected) {
+    if (dragObserver.origin.indexOf('remote') != -1 && !gss.hasAuthenticated()) {
       return false;
     }
 

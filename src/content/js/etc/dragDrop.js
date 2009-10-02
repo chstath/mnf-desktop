@@ -15,7 +15,7 @@ var dragObserver = {
     this.origin   = null;
     this.overName = false;
 
-    if ((!gFtp.isConnected && targetID == 'remotetreechildren') || !treeHighlighter.dragSessionEnabled) {
+    if ((!gss.hasAuthenticated() && targetID == 'remotetreechildren') || !treeHighlighter.dragSessionEnabled) {
       return;
     }
 
@@ -32,7 +32,7 @@ var dragObserver = {
     var targetID = event.target.getAttribute('id');
     var row = { }; var col = { }; var child = { };
 
-    if (gFtp.isConnected && flavour.contentType == "application/x-moz-file"
+    if (gss.hasAuthenticated() && flavour.contentType == "application/x-moz-file"
                          && (targetID == 'remotetreechildren' || targetID == 'remotedirtreechildren' || targetID == 'queuetreechildren')) {
       this.externalFiles = new Array();
 
@@ -56,7 +56,7 @@ var dragObserver = {
 
       this.origin         = "external";
       dragSession.canDrop = true;
-    } else if (!gFtp.isConnected && flavour.contentType == "application/x-moz-file") {
+    } else if (!gss.hasAuthenticated() && flavour.contentType == "application/x-moz-file") {
       this.origin         = null;
       dragSession.canDrop = false;
     }

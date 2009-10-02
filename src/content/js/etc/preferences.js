@@ -18,27 +18,8 @@ function readPreferences(startup) {
     gOpenMode = gPrefs.getIntPref ("openmode");
     gSyncSchedule = gPrefs.getIntPref("schedule");
     gSyncFolder = gPrefs.getCharPref("syncfolder");
-
-    for (var x = 0; x < gMaxCon; ++x) {
-      gConnections[x].fileMode            = gPrefs.getIntPref ("filemode");    // NOTE: if you add a preference here, don't forget to update fxp.js if needed
-      gConnections[x].hiddenMode          = gPrefs.getBoolPref("hiddenmode");
-      gConnections[x].keepAliveMode       = gPrefs.getBoolPref("keepalivemode");
-      gConnections[x].networkTimeout      = gPrefs.getIntPref ("network");
-      gConnections[x].proxyHost           = gPrefs.getComplexValue("proxyhost", Components.interfaces.nsISupportsString).data;
-      gConnections[x].proxyPort           = gPrefs.getIntPref ("proxyport");
-      gConnections[x].proxyType           = gPrefs.getCharPref("proxytype");
-      gConnections[x].activePortMode      = gPrefs.getBoolPref("activeportmode");
-      gConnections[x].activeLow           = gPrefs.getIntPref ("activelow");
-      gConnections[x].activeHigh          = gPrefs.getIntPref ("activehigh");
-      gConnections[x].reconnectAttempts   = gPrefs.getIntPref ("attempts");
-      gConnections[x].reconnectInterval   = gPrefs.getIntPref ("retry");
-      gConnections[x].reconnectMode       = gPrefs.getBoolPref("timeoutmode");
-      gConnections[x].sessionsMode        = gPrefs.getBoolPref("sessionsmode");
-      gConnections[x].timestampsMode      = gPrefs.getBoolPref("timestampsmode");
-      gConnections[x].useCompression      = gPrefs.getBoolPref("compressmode");
-      gConnections[x].integrityMode       = gPrefs.getBoolPref("integritymode");
-    }
-
+    gHiddenMode = gPrefs.getBoolPref("hiddenmode");
+    
     if (gPrefs.getComplexValue("folder", Components.interfaces.nsISupportsString).data == "") {
       var file = Components.classes["@mozilla.org/file/directory_service;1"].createInstance(Components.interfaces.nsIProperties)
                            .get("Home", Components.interfaces.nsILocalFile);
@@ -93,7 +74,7 @@ var prefsObserver = {
     if (data == "firegss.bytesmode") {
       localTree.updateView();
 
-      if (gFtp.isConnected) {
+      if (gss.hasAuthenticated()) {
         remoteTree.updateView();
       }
     } else if (data == "firegss.logerrormode") {
@@ -103,7 +84,7 @@ var prefsObserver = {
         showAll();
       }
     } else if (data == "firegss.hiddenmode") {
-      if (!gFtp.hiddenMode) {
+      if (!gHiddenMode) {
         var file        = localFile.init(gLocalPath.value);
         var hiddenFound = false;
 
@@ -130,7 +111,7 @@ var prefsObserver = {
       localDirTree.rowCount = 0;
       localDirTree.changeDir(gLocalPath.value);
 
-      if (gFtp.isConnected) {
+      if (gss.hasAuthenticated()) {
         remoteTree.refresh();
       }
     }

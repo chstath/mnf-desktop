@@ -58,6 +58,8 @@
   <script type="application/x-javascript" src="chrome://firegss/content/js/jquery-1.3.2.min.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/jquery.formHints.js"/>
 
+  <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/help.js"/>
+  
   <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>
 
   <commandset>
@@ -184,7 +186,7 @@
       <toolbarbutton id="advmenu" label="&advanced.label;" accesskey="&advanced.access;"
                     popup="advancedpopup"/>
       <toolbarbutton id="helpbutton" label="&help.label;" accesskey="&helpbutton.access;"
-                    oncommand="runInFirefox('&help.url;')"/>
+                    oncommand="showHelp()"/>
     </toolbar>
 
     <box flex="10">

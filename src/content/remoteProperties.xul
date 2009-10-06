@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/global.css"   type="text/css"?>
+<?xml-stylesheet href="chrome://firegss/skin/firegss.css" type="text/css"?>
+
+<!DOCTYPE dialog SYSTEM "chrome://firegss/locale/properties.dtd">
+<dialog id             = "properties"
+        title          = "&title;"
+        width          = "600"
+        height         = "512"
+        xmlns          = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        xmlns:html     = "http://www.w3.org/1999/xhtml"
+        persist        = "screenX screenY width height"
+        onload         = "init()"
+        buttons        = "accept, cancel"
+        ondialogaccept = "return doOK()"
+        ondialogcancel = "return true">
+
+  <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>
+
+  <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/remoteProperties.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/common.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/misc.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/threads.js"/>
+
+  <grid flex="1" class="overflowBox">
+    <columns>
+      <column/>
+      <column flex="1"/>
+    </columns>
+    <rows>
+      <row                            align="center">
+        <box                          width="32" height="32">
+          <image     id="fileIcon"    width="32" height="32"/>
+        </box>
+        <textbox     id="name"        readonly="true" class="textfield"/>
+      </row>
+      <row           id="pathrow"     align="center">
+        <description                  value="&path;"/>
+        <textbox     id="path"        readonly="true" class="textfield"/>
+      </row>
+      <row           id="urirow"      align="center">
+        <description                  value="&uri;"/>
+        <textbox     id="uri"         readonly="true" class="textfield"/>
+      </row>
+      <row           id="sizerow"     align="center">
+        <description                  value="&size;"/>
+        <textbox     id="size"        readonly="true" class="textfield"/>
+      </row>
+      <row           id="daterow"     align="center">
+        <description                  value="&date;"/>
+        <textbox     id="date"        readonly="true" class="textfield"/>
+      </row>
+      <row           id="containsrow" align="center">
+        <description                  value="&contains;"/>
+        <textbox     id="contains"    readonly="true" class="textfield"/>
+      </row>
+      <row           id="userrow"     align="center">
+        <description                  value="&owner;"/>
+        <textbox     id="user"        readonly="true" class="textfield"/>
+      </row>
+      <row           id="attrrow"     align="center">
+        <description                  value="&attr;"/>
+        <hbox>
+          <checkbox  id="public"      label="&public;"/>
+          <checkbox  id="versioned"   label="&versioned;"/>
+        </hbox>
+      </row>
+      <row id="permrow" align="center">
+        <description value="&perm;"/>
+        <hbox>
+          <hbox id="permitem">
+            <groupbox>
+              <caption label="&usersgroups;"/>
+              <label id="permuser"/>
+            </groupbox>
+            <groupbox>
+              <caption label="&read;"/>
+              <checkbox id="permread"/>
+            </groupbox>
+            <groupbox class="paddingLeft">
+              <caption label="&write;"/>
+              <checkbox id="permwrite"/>
+            </groupbox>
+            <groupbox class="paddingLeft">
+              <caption label="&modifyAcl;"/>
+              <checkbox id="permacl"/>
+            </groupbox>
+          </hbox>
+          <vbox         class="paddingLeft">
+            <vbox       id="multipleprops">
+              <label                       value="&applyto;"/>
+              <checkbox id="thisprop"      label="&thisprop;"/>
+              <checkbox id="foldersprop"   label="&folderprop;"/>
+              <checkbox id="filesprop"     label="&filesprop;"/>
+            </vbox>
+          </vbox>
+        </hbox>
+      </row>
+    </rows>
+  </grid>
+
+</dialog>

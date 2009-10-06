@@ -44,19 +44,31 @@ function init() {
     $('sizerow').collapsed = true;
   
   if (gArgs.permissions) {
-    var perm = gArgs.permissions[0];
-    $('permuser').value = perm.user || perm.group;
-    $('permread').checked = perm.read;
-    $('permwrite').checked = perm.write;
-    $('permacl').checked = perm.modifyACL;
-    gArgs.permissions.forEach(function (i) {
-        var p = (perm.user || perm.group) + ' ' + perm.read + ' ' + perm.write + ' ' + perm.modifyACL;
-        jQuery('permitem').after("<hbox id='permitem"+i+"'><label value='"+p+"'/></hbox>");
-    });
+        for (var p=0; p<gArgs.permissions.length; p++){
+            var perm = gArgs.permissions[p];
+            var permuser = document.createElement("label");
+            permuser.id = "permuser" + new String(p);
+            permuser.textContent = perm.user || perm.group;
+            document.getElementById("permuserlist").appendChild(permuser);
 
-    change();
+            var permread = document.createElement("checkbox");
+            permread.id = "permread_" + new String(p);
+            permread.setAttribute("checked", perm.read);
+            document.getElementById("permreadlist").appendChild(permread);
+
+            var permwrite = document.createElement("checkbox");
+            permwrite.id = "permwrite_" + new String(p);
+            permwrite.setAttribute("checked", perm.write);
+            document.getElementById("permwritelist").appendChild(permwrite);
+
+            var permacl = document.createElement("checkbox");
+            permacl.id = "permacl_" + new String(p);
+            permacl.setAttribute("checked", perm.modifyACL);
+            document.getElementById("permacllist").appendChild(permacl);
+        }
+        change();
 //    gInitialPermissions = $('manual').value;
-    addEventListener("CheckboxStateChange", change, true);
+        addEventListener("CheckboxStateChange", change, true);
   } else {
     $('permrow').collapsed = true;
   }

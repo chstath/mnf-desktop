@@ -6,12 +6,14 @@ function init(){
 
 function doAccept(){
     return true;
-}//doOK
+}//doAccept
 
 //------------------------------------------------------------------------------
 
 function showHelp(){
-            window.openDialog("chrome://firegss/content/help.xul", "help",
-            "chrome,modal,dialog,centerscreen");
+//            window.openDialog("chrome://firegss/content/help.xul", "help",
+//            "chrome,modal,dialog,centerscreen");
+
+    runInFirefox("http://code.google.com/p/firegss");
 }
 //------------------------------------------------------------------------------

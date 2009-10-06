@@ -70,21 +70,17 @@
         <description value="&perm;"/>
         <hbox>
           <hbox id="permitem">
-            <groupbox>
+            <groupbox id="permuserlist">
               <caption label="&usersgroups;"/>
-              <label id="permuser"/>
             </groupbox>
-            <groupbox>
+            <groupbox id="permreadlist">
               <caption label="&read;"/>
-              <checkbox id="permread"/>
             </groupbox>
-            <groupbox class="paddingLeft">
+            <groupbox class="paddingLeft" id="permwritelist">
               <caption label="&write;"/>
-              <checkbox id="permwrite"/>
             </groupbox>
-            <groupbox class="paddingLeft">
+            <groupbox class="paddingLeft" id="permacllist">
               <caption label="&modifyAcl;"/>
-              <checkbox id="permacl"/>
             </groupbox>
           </hbox>
           <vbox         class="paddingLeft">

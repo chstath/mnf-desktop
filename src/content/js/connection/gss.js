@@ -312,8 +312,9 @@ gss.processFile = function(req, arg, nextAction, nextActionArg) {
 		nextAction(nextActionArg);
 };
 
+// Uploads the specified local file to the provided remote folder URI.
 gss.uploadFile = function(file, remoteFolder, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventHandler, abortEventHandler) {
-	var resource = remoteFolder.uri + '/' + encodeURI(file.leafName);
+	var resource = remoteFolder + '/' + encodeURI(file.leafName);
 	return gss.sendRequest({method: 'PUT',
 					resource: resource,
 					file: file,

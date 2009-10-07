@@ -2,9 +2,9 @@ var sync;
 if (!sync) sync = {};
 
 sync.init = function () {
-    if (gSyncFolder === "") {
+    if (gSyncFolder === "")
         showPreferences({ tab: 2, next: sync.checkPreconditions });
-    } else
+    else
         sync.checkPreconditions();
 }
 
@@ -22,7 +22,7 @@ sync.checkPreconditions = function () {
         // Create remote sync folder first.
         var callback = function(newFolder) {
             if (!newFolder)
-                alert("Could not create "+gRemoteSyncFolder+" folder");
+                alert("Could not create " + gRemoteSyncFolder + " folder");
             else {
                 remoteTree.updateView();
                 for (var x = 0; x < remoteTree.rowCount; ++x) {
@@ -34,7 +34,7 @@ sync.checkPreconditions = function () {
                 }
                 sync.start();
             }
-        }
+        };
         gss.createFolder(gss.rootFolder, gRemoteSyncFolder, callback);
     }
     sync.start();
@@ -52,22 +52,35 @@ sync.start = function () {
         alert("No remote .sync found");
         return;
     }
-    // Start comparisons.
+    // Find the remote sync folder that corresponds to the local sync folder.
     var localRoot = localFile.init(gSyncFolder);
-    sync.compareFolder(localRoot, remoteRoot);
+    var found = false;
+    if (remoteRoot.folders)
+        remoteRoot.folders.forEach(function (f) {
+            if (f.name === localRoot.leafName) {
+                remoteRoot = f;
+                found = true;
+            }
+        });
+    if (!found)
+        sync.upload(localRoot, remoteRoot.uri);
+    else
+        sync.compareFolder(localRoot, remoteRoot);
+    // Start processing the queued commands.
+    sync.qprocess = setInterval(sync.processq, 300);
 }
 
 sync.compareFolder = function (local, remote) {
-    var diff = local.modificationDate - remote.modificationDate;
+    var diff = local.lastModifiedTime - remote.modificationDate;
     if (diff > 0) {
         sync.queue.push({   file: files[x],
-				            folder: remoteFolder,
-				            onstart: loadStartHandler,
-				            onprogress: progressHandler,
-				            onload: loadHandler,
-				            onerror: errorHandler,
-				            onabort: abortHandler
-		});
+                            folder: remoteFolder,
+                            onstart: loadStartHandler,
+                            onprogress: progressHandler,
+                            onload: loadHandler,
+                            onerror: errorHandler,
+                            onabort: abortHandler
+        });
     } else if (diff < 0) {
         sync.queue.push({   file: files[x],
                             nsIFile: nsIFile,
@@ -79,19 +92,38 @@ sync.compareFolder = function (local, remote) {
 }
 
 sync.compareFile = function (local, remote) {
-    var diff = local.modificationDate - remote.modificationDate;
-    if (diff > 0) {
+    var diff = local.lastModifiedTime - remote.modificationDate;
+    if (diff > 0)
+        sync.upload(local, remote.folder.uri);
+    else if (diff < 0)
+        sync.download(local, remote);
+}
+
+// Uploads the specified local file or folder to the specified remote parent path.
+sync.upload = function (local, remoteParent) {
+    if (local.isDirectory()) {
+        // TODO: recurse
+    } else if (local.isSpecial()) {
+        return;
+    } else {
+        // Symlinks will be copied as regular files.
         sync.queue.push({   file: local,
-				            folder: remote.folder,
-				            onstart: loadStartHandler,
-				            onprogress: progressHandler,
-				            onload: loadHandler,
-				            onerror: errorHandler,
-				            onabort: abortHandler
-		});
-    } else if (diff < 0) {
+                            folder: remoteParent/*,
+                            onstart: loadStartHandler,
+                            onprogress: progressHandler,
+                            onload: loadHandler,
+                            onerror: errorHandler,
+                            onabort: abortHandler*/
+        });
+    }
+}
+
+sync.download = function (local, remote) {
+    if (remote.isFolder) {
+        // TODO: recurse
+    } else {
         sync.queue.push({   file: remote,
-                            nsIFile: nsIFile,
+                            nsIFile: local,
                             persist: persist
         });
     }
@@ -108,30 +140,30 @@ sync.processq = function () {
     if (work && work.folder) {
         // This is an upload.
         sync.uploading = gss.uploadFile(work.file, work.folder, work.onstart,
-	        work.onprogress, work.onload, work.onerror, work.onabort);
-	} else if (work) {
+            work.onprogress, work.onload, work.onerror, work.onabort);
+    } else if (work) {
         // This is a download.
         try {
             sync.downloading = work.persist;
             var now = (new Date()).toUTCString();
-           	// Unfortunately single quotes are not escaped by default.
+            // Unfortunately single quotes are not escaped by default.
             var resource = work.file.uri.replace(/'/g, "%27");
             var authHeader = "Authorization: " + gss.username + " " +
                 gss.sign('GET', now, resource, gss.authToken);
             var dateHeader = "X-GSS-Date: " + now;
             var headers = authHeader + "\r\n" + dateHeader + "\r\n";
-		    var nsIURI = gIos.newURI(resource, "utf-8", null);
-		    var result = work.persist.saveURI(nsIURI, null, null, null, headers, work.nsIFile);
-		    if (result)
-		        alert(result);
+            var nsIURI = gIos.newURI(resource, "utf-8", null);
+            var result = work.persist.saveURI(nsIURI, null, null, null, headers, work.nsIFile);
+            if (result)
+                alert(result);
         } catch (e) {
             alert(e);
         }
-    } else
+    } else {
         sync.processingq = false;
+        clearInterval(sync.qprocess);
+    }
 }
-
-//setInterval(sync.processUploadq, 300);
 
 sync.cancelAll = function () {
     sync.queue = [];

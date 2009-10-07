@@ -7,7 +7,7 @@ function processUploadq() {
     if (uploading) return;
     var upload = uploadq.shift();
     if (upload) {
-        uploading = gss.uploadFile(upload.file, upload.folder, upload.onstart,
+        uploading = gss.uploadFile(upload.file, upload.folder.uri, upload.onstart,
 	        upload.onprogress, upload.onload, upload.onerror, upload.onabort);
     } else
         uploading = false;

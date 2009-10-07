@@ -103,17 +103,23 @@ sync.compareFile = function (local, remote) {
 sync.upload = function (local, remoteParent) {
     if (local.isDirectory()) {
         // TODO: recurse
+        sync.queue.push({ command: "upload-folder",
+                          folder: local.leafName,
+                          parent: remoteParent,
+                          local:  local
+        });
     } else if (local.isSpecial()) {
         return;
     } else {
         // Symlinks will be copied as regular files.
-        sync.queue.push({   file: local,
-                            folder: remoteParent/*,
-                            onstart: loadStartHandler,
-                            onprogress: progressHandler,
-                            onload: loadHandler,
-                            onerror: errorHandler,
-                            onabort: abortHandler*/
+        sync.queue.push({ command: "upload-file",
+                          file: local,
+                          folder: remoteParent/*,
+                          onstart: loadStartHandler,
+                          onprogress: progressHandler,
+                          onload: loadHandler,
+                          onerror: errorHandler,
+                          onabort: abortHandler*/
         });
     }
 }
@@ -122,9 +128,10 @@ sync.download = function (local, remote) {
     if (remote.isFolder) {
         // TODO: recurse
     } else {
-        sync.queue.push({   file: remote,
-                            nsIFile: local,
-                            persist: persist
+        sync.queue.push({ command: "download-file",
+                          file: remote,
+                          nsIFile: local,
+                          persist: persist
         });
     }
 }
@@ -135,14 +142,22 @@ sync.queue = [];
 sync.processingq = false;
 // Processes the queue of pending uploads.
 sync.processq = function () {
+    // Lock processing queue.
     if (sync.processingq) return;
+    // Clean up queue processing.
+    if (sync.queue.length === 0) {
+        sync.processingq = false;
+        clearInterval(sync.qprocess);
+        return;
+    }
+    // Process next item.
     var work = sync.queue.shift();
-    if (work && work.folder) {
-        // This is an upload.
+    switch (work.command) {
+    case "upload-file":
         sync.uploading = gss.uploadFile(work.file, work.folder, work.onstart,
             work.onprogress, work.onload, work.onerror, work.onabort);
-    } else if (work) {
-        // This is a download.
+        break;
+    case "download-file":
         try {
             sync.downloading = work.persist;
             var now = (new Date()).toUTCString();
@@ -159,9 +174,32 @@ sync.processq = function () {
         } catch (e) {
             alert(e);
         }
-    } else {
-        sync.processingq = false;
-        clearInterval(sync.qprocess);
+        break;
+    case "upload-folder":
+        var callback = function(newFolder) {
+            if (!newFolder)
+                alert("Could not create " + gRemoteSyncFolder + " folder");
+            else {
+                remoteTree.updateView();
+                for (var x = 0; x < remoteTree.rowCount; ++x) {
+                  if (remoteTree.data[x].name == val) {
+                    remoteTree.selection.select(x);
+                    remoteTree.treebox.ensureRowIsVisible(x);
+                    break;
+                  }
+                }
+                if (work.local.folders)
+                    work.local.folders.forEach(function (f) {
+                        sync.upload(f);
+                    });
+                if (work.local.files)
+                    work.local.files.forEach(function (f) {
+                        sync.upload(f);
+                    });
+            }
+        };
+        gss.createFolder(work.parent, work.folder, callback);
+        break;
     }
 }
 
@@ -175,4 +213,3 @@ sync.cancelAll = function () {
         sync.processingq = false;
     }
 }
-

@@ -63,11 +63,12 @@ sync.start = function () {
             }
         });
     if (!found)
-        sync.upload(localRoot, remoteRoot.uri);
+        //sync.upload(localRoot, remoteRoot.uri);
+        new transfer().start(false, localRoot, localRoot.parentPath, remoteRoot);
     else
         sync.compareFolder(localRoot, remoteRoot);
     // Start processing the queued commands.
-    sync.qprocess = setInterval(sync.processq, 300);
+    //sync.qprocess = setInterval(sync.processq, 300);
 }
 
 sync.compareFolder = function (local, remote) {
@@ -87,16 +88,68 @@ sync.compareFolder = function (local, remote) {
                             persist: persist
         });
     } else {
-        // compare children?
+        // Compare children.
+        // First we fetch updates.
+        // Check remote folders.
+        if (remote.folders)
+            remote.folders.forEach(function (f) {
+                // Find the relevant local folder.
+                let localFolders = local.directoryEntries;
+                while (localFolders.hasMoreElements()) {
+                    let lf = localFolders.getNext().QueryInterface(Ci.nsILocalFile);
+                    if (lf.leafName === f.name && lf.isDirectory()) {
+                        sync.compareFolder(lf, f);
+                        break;
+                    }
+                }
+                if (!found) {
+                    // TODO: download new remote folders only if not deleted locally
+                    let newFile = local.append(f.name);
+                    new transfer().start(true, newFile, newFile.parentPath, f);
+                }
+            });
+        // Check remote files.
+        if (remote.files)
+            remote.files.forEach(function (f) {
+                // Find the relevant local file.
+                let localFiles = local.directoryEntries;
+                let found = false;
+                while (localFiles.hasMoreElements()) {
+                    let lf = localFiles.getNext().QueryInterface(Ci.nsILocalFile);
+                    if (lf.leafName === f.name && !lf.isDirectory()) {
+                        found = true;
+                        sync.compareFile(lf, f);
+                        break;
+                    }
+                }
+                if (!found) {
+                    // TODO: download new remote files only if not deleted locally
+                    let newFile = local.append(f.name);
+                    new transfer().start(true, newFile, newFile.parentPath, f);
+                }
+            });
+        // Then we push updates.
+        let localChildren = local.directoryEntries;
+        while (localChildren.hasMoreElements()) {
+            let lf = localChildren.getNext().QueryInterface(Ci.nsILocalFile);
+            if (lf.isDirectory()) {
+                // Check local folders.
+                //if (remote.folders)
+            } else if (!lf.isSpecial()) {
+                // Check local files.
+            }
+        }
     }
 }
 
 sync.compareFile = function (local, remote) {
     var diff = local.lastModifiedTime - remote.modificationDate;
     if (diff > 0)
-        sync.upload(local, remote.folder.uri);
+        new transfer().start(false, local, local.parentPath, remote.folder);
+        //sync.upload(local, remote.folder.uri);
     else if (diff < 0)
-        sync.download(local, remote);
+        new transfer().start(true, local, local.parentPath, remote.folder);
+        //sync.download(local, remote);
 }
 
 // Uploads the specified local file or folder to the specified remote parent path.

@@ -74,19 +74,21 @@ sync.start = function () {
 sync.compareFolder = function (local, remote) {
     var diff = local.lastModifiedTime - remote.modificationDate;
     if (diff > 0) {
-        sync.queue.push({   file: files[x],
+        /*sync.queue.push({   file: files[x],
                             folder: remoteFolder,
                             onstart: loadStartHandler,
                             onprogress: progressHandler,
                             onload: loadHandler,
                             onerror: errorHandler,
                             onabort: abortHandler
-        });
+        });*/
+        alert("Local folder " + local.leafName + " is newer");
     } else if (diff < 0) {
-        sync.queue.push({   file: files[x],
+        /*sync.queue.push({   file: files[x],
                             nsIFile: nsIFile,
                             persist: persist
-        });
+        });*/
+        alert("Remote folder " + remote.name + " is newer");
     } else {
         // Compare children.
         // First we fetch updates.
@@ -128,15 +130,30 @@ sync.compareFolder = function (local, remote) {
                     new transfer().start(true, newFile, newFile.parentPath, f);
                 }
             });
-        // Then we push updates.
+        // Then we push updates for new local files and folders.
         let localChildren = local.directoryEntries;
         while (localChildren.hasMoreElements()) {
             let lf = localChildren.getNext().QueryInterface(Ci.nsILocalFile);
             if (lf.isDirectory()) {
-                // Check local folders.
-                //if (remote.folders)
+                // Check remote folders.
+                let found = false;
+                if (remote.folders)
+                    remote.folders.forEach(function (f) {
+                        if (f.name === lf.leafName)
+                            found = true;
+                    });
+                if (!found)
+                    new transfer().start(false, lf, lf.parentPath, remote);
             } else if (!lf.isSpecial()) {
-                // Check local files.
+                // Check remote files.
+                let found = false;
+                if (remote.files)
+                    remote.files.forEach(function (f) {
+                        if (f.name === lf.leafName)
+                            found = true;
+                    });
+                if (!found)
+                    new transfer().start(false, lf, lf.parentPath, remote);
             }
         }
     }

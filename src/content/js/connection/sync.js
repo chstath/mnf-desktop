@@ -62,18 +62,21 @@ sync.start = function () {
                 found = true;
             }
         });
-    if (!found)
-        //sync.upload(localRoot, remoteRoot.uri);
-        new transfer().start(false, localRoot, localRoot.parentPath, remoteRoot);
     else
-        sync.compareFolder(localRoot, remoteRoot);
-    // Start processing the queued commands.
-    //sync.qprocess = setInterval(sync.processq, 300);
+        gss.fetchFolder(remoteRoot, function () {
+            if (!found)
+                //sync.upload(localRoot, remoteRoot.uri);
+                new transfer().start(false, localRoot, localRoot.parent.path, remoteRoot);
+            else
+                sync.compareFolder(localRoot, remoteRoot);
+            // Start processing the queued commands.
+            //sync.qprocess = setInterval(sync.processq, 300);
+        });
 }
 
 sync.compareFolder = function (local, remote) {
     var diff = local.lastModifiedTime - remote.modificationDate;
-    if (diff > 0) {
+//    if (diff > 0) {
         /*sync.queue.push({   file: files[x],
                             folder: remoteFolder,
                             onstart: loadStartHandler,
@@ -82,14 +85,14 @@ sync.compareFolder = function (local, remote) {
                             onerror: errorHandler,
                             onabort: abortHandler
         });*/
-        alert("Local folder " + local.leafName + " is newer");
-    } else if (diff < 0) {
+//        alert("Local folder " + local.leafName + " is newer");
+//    } else if (diff < 0) {
         /*sync.queue.push({   file: files[x],
                             nsIFile: nsIFile,
                             persist: persist
         });*/
-        alert("Remote folder " + remote.name + " is newer");
-    } else {
+//        alert("Remote folder " + remote.name + " is newer");
+//    } else {
         // Compare children.
         // First we fetch updates.
         // Check remote folders.
@@ -127,7 +130,7 @@ sync.compareFolder = function (local, remote) {
                 if (!found) {
                     // TODO: download new remote files only if not deleted locally
                     let newFile = local.append(f.name);
-                    new transfer().start(true, newFile, newFile.parentPath, f);
+                    new transfer().start(true, newFile, newFile.parent.path, f);
                 }
             });
         // Then we push updates for new local files and folders.
@@ -143,7 +146,7 @@ sync.compareFolder = function (local, remote) {
                             found = true;
                     });
                 if (!found)
-                    new transfer().start(false, lf, lf.parentPath, remote);
+                    new transfer().start(false, lf, lf.parent.path, remote);
             } else if (!lf.isSpecial()) {
                 // Check remote files.
                 let found = false;
@@ -153,19 +156,19 @@ sync.compareFolder = function (local, remote) {
                             found = true;
                     });
                 if (!found)
-                    new transfer().start(false, lf, lf.parentPath, remote);
+                    new transfer().start(false, lf, lf.parent.path, remote);
             }
         }
-    }
+//    }
 }
 
 sync.compareFile = function (local, remote) {
     var diff = local.lastModifiedTime - remote.modificationDate;
     if (diff > 0)
-        new transfer().start(false, local, local.parentPath, remote.folder);
+        new transfer().start(false, local, local.parent.path, remote.folder);
         //sync.upload(local, remote.folder.uri);
     else if (diff < 0)
-        new transfer().start(true, local, local.parentPath, remote.folder);
+        new transfer().start(true, local, local.parent.path, remote.folder);
         //sync.download(local, remote);
 }
 

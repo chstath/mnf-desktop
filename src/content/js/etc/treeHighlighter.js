@@ -69,7 +69,8 @@ var treeHighlighter = {
     if (hack) {                                                // XXX we need 'hack' to get mouse events from the log window
       event = { pageY: hack, pageX: 0 };
     } else {
-      gCmdlogDoc.getElementById('mouseY').innerHTML = this.previousMousePos;
+      if (gCmdlogDoc)
+        gCmdlogDoc.getElementById('mouseY').innerHTML = this.previousMousePos;
     }
 
     if (this.mouseDownPressed && !event.ctrlKey && !event.shiftKey && !this.dragSessionEnabled) {

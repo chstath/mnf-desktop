@@ -209,6 +209,10 @@ gss.parseFiles = function(req, folder, nextAction, nextActionArg) {
 		f.position = i;
 		f.isFolder = true;
 	}
+    // Store the reference to the parent folder to avoid unnecessary future requests.
+    folder.files.forEach(function (f) {
+        f.folder = folder;
+    });
 	folder.isWritable = gss.isWritable;
 	if (nextAction)
 		nextAction(nextActionArg);
@@ -217,13 +221,13 @@ gss.parseFiles = function(req, folder, nextAction, nextActionArg) {
 // Update the cached resource copy with the new one, in order to maintain cached
 // object identities.
 gss.updateCache = function(res, newRes) {
-	var attr, cons = Components.classes["@mozilla.org/consoleservice;1"].
-   			getService(Components.interfaces.nsIConsoleService);
+	var attr;/*, cons = Components.classes["@mozilla.org/consoleservice;1"].
+   			getService(Components.interfaces.nsIConsoleService);*/
 //	cons.logStringMessage("updating "+newRes.name);
 	for (attr in newRes)
 		if (newRes.hasOwnProperty(attr)) {
 			if (attr === 'folders' || attr === 'files') {
-				cons.logStringMessage(res.name + " " + attr+": "+(res[attr]? res[attr].length: -1));
+				//cons.logStringMessage(res.name + " " + attr+": "+(res[attr]? res[attr].length: -1));
 				if (!res[attr] || res[attr].length === 0)
 					res[attr] = newRes[attr];
 				else {
@@ -237,7 +241,7 @@ gss.updateCache = function(res, newRes) {
 							}
 						});
 						if (!found) {
-							cons.logStringMessage("Deleting "+e.name);
+							//cons.logStringMessage("Deleting "+e.name);
 							res[attr].splice(i,1);
 						}
 					});
@@ -265,7 +269,7 @@ gss.updateCache = function(res, newRes) {
 							}
 						});
 						if (!found) {
-							cons.logStringMessage("Adding "+e.name);
+							//cons.logStringMessage("Adding "+e.name);
 							res[attr].push(e);
 						}
 					});
@@ -299,6 +303,31 @@ gss.fetchRootFolder = function(nextAction) {
 		gss.fetchUser(gss.fetchRootFolder, nextAction);
 	}
 };
+
+// Fetch the specified folder and make separate calls to fetch its children as well.
+gss.fetchFolderWithChildren = function (folder, nextAction, nextActionArg) {
+    gss.fetchFolder(folder, function () {
+        var fetchFiles = function () {
+            folder.files.forEach(function (f) {
+                if (!f.folder)
+                    gss.fetchFile(f, fetchFiles);
+            });
+        }
+        var fetchFolders = function () {
+            folder.folders.forEach(function (f) {
+                if (!f.parent)
+                    gss.fetchFolder(f, fetchFolders);
+            });
+        }
+        // XXX: these are not properly serialized.
+        if (folder.files)
+            fetchFiles();
+        if (folder.folders)
+            fetchFolders();
+        if (nextAction)
+            nextAction(nextActionArg);
+    });
+}
 
 gss.getFile = function(file) {
 	gss.sendRequest({handler: gss.processFile,

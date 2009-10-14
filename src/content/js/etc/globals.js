@@ -18,8 +18,6 @@ var gWebHost;                   // url used in viewing things on the web
 var gPrefix;                    // part of the ftp url to get rid of for viewing on the web, e.g. /www
 var gAccount;                   // name of the account we're connecting to
 var gFolder;                    // current folder
-var gDownloadCaseMode;          // 0 == do nothing, 1 == convert filename to lower case, 2 == convert to uppercase
-var gUploadCaseMode;            // ditto
 var gTreeSync;                  // whether or not we're trying to keep directories in sync
 var gTreeSyncLocal;             // base local  tree sync dir
 var gTreeSyncRemote;            // base remote tree sync dir

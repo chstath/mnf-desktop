@@ -563,13 +563,15 @@ var remoteTree = {
 
   },
 
-  mouseOver : function(event) {                                                                 // display remote folder info
+  mouseOver : function(event) {
+    // display remote folder info
     if (this.rowCount) {
       $('statustxt').label = gStrbundle.getString("remoteListing") + " " + gStrbundle.getFormattedString("objects", [this.rowCount])
                            + (this.remoteSize < 0 ? "" : ", " + commas(this.remoteSize)) + ", "
                            + gStrbundle.getString("diskSpace")    + " " + this.remoteAvailableDiskSpace;
     } else {
-      $('statustxt').label = gStrbundle.getString("remoteListingNoObjects");
+      if (gStrbundle)
+        $('statustxt').label = gStrbundle.getString("remoteListingNoObjects");
     }
   },
 

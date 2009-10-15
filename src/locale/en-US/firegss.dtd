@@ -11,14 +11,10 @@
 
 <!ENTITY advanced.label       "Tools">
 <!ENTITY search.label         "Search/Filter">
-<!ENTITY diff.label           "Sync Directories...">
-<!ENTITY recdiff.label        "Sync Directories &amp; Subdirectories...">
 <!ENTITY custom.label         "Custom Command...">
 <!ENTITY import.label         "Import...">
 <!ENTITY export.label         "Export...">
 <!ENTITY preferencestab.label "Options...">
-<!ENTITY diff.access          "S">
-<!ENTITY recdiff.access       "D">
 <!ENTITY custom.access        "C">
 <!ENTITY import.access        "I">
 <!ENTITY export.access        "x">

@@ -4,8 +4,16 @@ if (!sync) sync = {};
 sync.init = function () {
     if (gSyncFolder === "")
         showPreferences({ tab: 2, next: sync.checkPreconditions });
-    else
+    else 
         sync.checkPreconditions();
+}
+
+sync.startSpin = function () {
+    jQuery('#syncbutton').attr('image', 'chrome://firegss/skin/icons/syncing.gif');
+}
+
+sync.stopSpin = function () {
+    jQuery('#syncbutton').attr('image', 'chrome://firegss/skin/icons/sync.png');
 }
 
 sync.checkPreconditions = function () {
@@ -18,27 +26,21 @@ sync.checkPreconditions = function () {
         if (elem.name === gRemoteSyncFolder)
             found = true;
     });
+    sync.startSpin();
     if (!found) {
         // Create remote sync folder first.
         var callback = function(newFolder) {
-            if (!newFolder)
+            if (!newFolder) {
+                sync.stopSpin();
                 alert("Could not create " + gRemoteSyncFolder + " folder");
-            else {
+            } else {
                 remoteTree.updateView();
-                for (var x = 0; x < remoteTree.rowCount; ++x) {
-                  // XXX: val here should probably be newFolder
-                  if (remoteTree.data[x].name == val) {
-                    remoteTree.selection.select(x);
-                    remoteTree.treebox.ensureRowIsVisible(x);
-                    break;
-                  }
-                }
                 sync.ensureCachedRemoteSync();
             }
         };
         gss.createFolder(gss.rootFolder, gRemoteSyncFolder, callback);
-    }
-    sync.ensureCachedRemoteSync();
+    } else 
+        sync.ensureCachedRemoteSync();
 }
 
 sync.ensureCachedRemoteSync = function () {
@@ -50,6 +52,7 @@ sync.ensureCachedRemoteSync = function () {
     // Assert the existence of .sync for now. In the future this code will be
     // refactored anyway.
     if (!remoteRoot) {
+        sync.stopSpin();
         alert("No remote .sync found");
         return;
     }
@@ -66,14 +69,13 @@ sync.ensureCachedRemoteSync = function () {
             });
             if (!found)
                 sync.upload(localRoot, remoteRoot);
-            else
+            else 
                 sync.compareFolders(localRoot, remoteRoot);
-            //sync.start({ found: found, localRoot: localRoot, remoteRoot: remoteRoot });
+            sync.stopSpin();
         };
     }();
     if (!remoteRoot.folders)
-        gss.fetchFolderWithChildren(remoteRoot, start);//sync.start, { found: found,
-            //localRoot: localRoot, remoteRoot: remoteRoot });
+        gss.fetchFolderWithChildren(remoteRoot, start);
     else 
         start();
 }
@@ -81,23 +83,30 @@ sync.ensureCachedRemoteSync = function () {
 sync.start = function (args) {
     if (!args.found)
         sync.upload(args.localRoot, args.remoteRoot);
-    else
+    else 
         sync.compareFolders(args.localRoot, args.remoteRoot);
 }
 
 // Compare the local and remote folders.
 sync.compareFolders = function (local, remote) {
-    var diff = local.lastModifiedTime - remote.modificationDate;
-    if (diff > 0)
-        sync.compareChildren(local, remote, true, false);
-    else if (diff < 0)
-        sync.compareChildren(local, remote, false, true);
-    else
-        sync.compareChildren(local, remote);
+    var doCompare = function () {
+        var diff = local.lastModifiedTime - remote.modificationDate;
+        if (diff > 0)
+            sync.compareChildren(local, remote, true, false);
+        else if (diff < 0)
+            sync.compareChildren(local, remote, false, true);
+        else
+            sync.compareChildren(local, remote);
+    };
+    if (!remote.modificationDate)
+        gss.fetchFolderWithChildren(remote, doCompare);
+    else 
+        doCompare();
 }
 
 // Compare the files and subfolders of a folder.
 sync.compareChildren = function (local, remote, isLocalNewer, isRemoteNewer) {
+    // XXX: Properly consult isLocalNewer & isRemoteNewer.
     // First we fetch updates.
     // Check remote folders.
     if (remote.folders)    
@@ -194,8 +203,9 @@ sync.upload = function (local, remoteParent) {
 sync.download = function (local, remote) {
     var startDownload = function () {
         var t = new transfer();
+        var remoteFolder = remote.isFolder? remote.parent: remote.folder;
         t.prompt = false;
-        t.start(true, '', local.parent.path, remote);
+        t.start(true, remote, local.parent.path, remoteFolder);
     };
     if (remote.isFolder && !remote.parent)
         gss.fetchFolderWithChildren(remote, startDownload);

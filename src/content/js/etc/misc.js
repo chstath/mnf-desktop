@@ -165,11 +165,6 @@ function doAbort() {
   queueTree.failed = new Array();
 }
 
-function toolsPopupMenu() {
-  $('diffMenuItem').setAttribute("disabled",     !gss.hasAuthenticated() || localTree.searchMode == 2 || remoteTree.searchMode == 2);
-  $('recDiffMenuItem').setAttribute("disabled",  !gss.hasAuthenticated() || localTree.searchMode == 2 || remoteTree.searchMode == 2);
-}
-
 function setCharAt(str, index, ch) {                         // how annoying
   return str.substr(0, index) + ch + str.substr(index + 1);
 }

@@ -359,29 +359,31 @@ gss.uploadFile = function(file, remoteFolder, loadStartEventHandler, progressEve
 gss.createFolder = function(parent, name, nextAction) {
 	var resource = parent.uri + "?new=" + encodeURIComponent(name);
 	gss.sendRequest({handler: gss.parseNewFolder,
-					handlerArg: parent,
+					handlerArg: {name: name, parent: parent},
 					nextAction: nextAction,
 					method: 'POST',
 					resource: resource});
 };
 
-gss.parseNewFolder = function(req, parent, nextAction, error) {
+gss.parseNewFolder = function(req, newf, nextAction, error) {
     if (error && nextAction) {
         nextAction();
         return;
     }
-        
-	var newFolder = {
-		uri: req.responseText.trim(),
-		level: parent.level ? parent.level + 1 : 1
-	};
-	parent.folders.push(newFolder);
-	gss.sendRequest({handler: gss.parseFiles,
-					handlerArg: newFolder,
-					nextAction: nextAction,
-					nextActionArg: newFolder,
-					method: 'GET',
-					resource: newFolder.uri});
+    
+    var newFolder = {
+        name: newf.name,
+        isFolder: true,
+        uri: req.responseText.trim(),
+        level: newf.parent.level ? newf.parent.level + 1 : 1
+    };
+    newf.parent.folders.push(newFolder);
+    gss.sendRequest({handler: gss.parseFiles,
+                    handlerArg: newFolder,
+                    nextAction: nextAction,
+                    nextActionArg: newFolder,
+                    method: 'GET',
+                    resource: newFolder.uri});
 };
 
 gss.deleteResource = function(uri, nextAction) {

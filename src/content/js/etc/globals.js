@@ -41,12 +41,6 @@ var gSearchFrom;                // search: from date
 var gSearchTo;                  // search: to date
 var gSearchRemoteUpdate = false;// search: if we are updating the view
 
-var gMissingRemoteFiles;        // directory diff: files missing on remote files
-var gMissingLocalFiles;         // directory diff: files missing on local side
-var gDifferentFiles;            // directory diff: files that have different file sizes
-var gNewerFiles;                // directory diff: files that are newer
-var gOlderFiles;                // directory diff: files that are older
-
 var gDefaultAccount;            // from prefs: select the opened account
 var gBytesMode;                 // from prefs: show kilobytes or just bytes
 var gDebugMode;                 // from prefs: show debug msgs in log or not

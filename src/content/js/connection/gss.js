@@ -305,27 +305,29 @@ gss.fetchRootFolder = function(nextAction) {
 };
 
 // Fetch the specified folder and make separate calls to fetch its children as well.
-gss.fetchFolderWithChildren = function (folder, nextAction, nextActionArg) {
+gss.fetchFolderWithChildren = function (folder, nextAction) {
     gss.fetchFolder(folder, function () {
-        var fetchFiles = function () {
-            folder.files.forEach(function (f) {
-                if (!f.folder)
-                    gss.fetchFile(f, fetchFiles);
-            });
+        var fetchFiles = function (callback) {
+            if (folder.files)
+                folder.files.forEach(function (f) {
+                    // TODO: optimize the loop so that we fetch each file once.
+                    if (!f.folder)
+                        gss.fetchFile(f, fetchFiles);
+                });
+            if (callback)
+                callback();
         }
-        var fetchFolders = function () {
-            folder.folders.forEach(function (f) {
-                if (!f.parent)
-                    gss.fetchFolder(f, fetchFolders);
-            });
+        var fetchFolders = function (callback) {
+            if (folder.folders)
+                folder.folders.forEach(function (f) {
+                    // TODO: optimize the loop so that we fetch each folder once.
+                    if (!f.parent)
+                        gss.fetchFolder(f, fetchFolders);
+                });
+            if (callback)
+                callback();
         }
-        // XXX: these are not properly serialized.
-        if (folder.files)
-            fetchFiles();
-        if (folder.folders)
-            fetchFolders();
-        if (nextAction)
-            nextAction(nextActionArg);
+        fetchFiles(fetchFolders(nextAction));
     });
 }
 

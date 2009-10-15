@@ -106,16 +106,18 @@ sync.compareFolders = function (local, remote) {
 
 // Compare the files and subfolders of a folder.
 sync.compareChildren = function (local, remote, isLocalNewer, isRemoteNewer) {
+    var i, f, found, localFolders, lf, newFile, localFiles, localChildren;
     // XXX: Properly consult isLocalNewer & isRemoteNewer.
     // First we fetch updates.
     // Check remote folders.
-    if (remote.folders)    
-        remote.folders.forEach(function (f) {
+    if (remote.folders)
+        for (i=0; i<remote.folders.length; i++) {
+            f = remote.folders[i];
             // Find the relevant local folder.
-            let localFolders = local.directoryEntries;
-            let found = false;
+            localFolders = local.directoryEntries;
+            found = false;
             while (localFolders.hasMoreElements()) {
-                let lf = localFolders.getNext().QueryInterface(Ci.nsILocalFile);
+                lf = localFolders.getNext().QueryInterface(Ci.nsILocalFile);
                 if (lf.leafName === f.name && lf.isDirectory()) {
                     found = true;
                     sync.compareFolders(lf, f);
@@ -124,18 +126,20 @@ sync.compareChildren = function (local, remote, isLocalNewer, isRemoteNewer) {
             }
             if (!found) {
                 // TODO: download new remote folders only if not deleted locally
-                let newFile = local.append(f.name);
+                newFile = localFile.init(local.path);
+                newFile.append(f.name);
                 sync.download(newFile, f);
             }
-        });        
+        }
     // Check remote files.
     if (remote.files)
-        remote.files.forEach(function (f) {
+        for (i=0; i<remote.files.length; i++) {
+            f = remote.files[i];
             // Find the relevant local file.
-            let localFiles = local.directoryEntries;
-            let found = false;
+            localFiles = local.directoryEntries;
+            found = false;
             while (localFiles.hasMoreElements()) {
-                let lf = localFiles.getNext().QueryInterface(Ci.nsILocalFile);
+                lf = localFiles.getNext().QueryInterface(Ci.nsILocalFile);
                 if (lf.leafName === f.name && !lf.isDirectory()) {
                     found = true;
                     sync.compareFiles(lf, f);
@@ -144,17 +148,18 @@ sync.compareChildren = function (local, remote, isLocalNewer, isRemoteNewer) {
             }
             if (!found) {
                 // TODO: download new remote files only if not deleted locally
-                let newFile = local.append(f.name);
+                newFile = localFile.init(local.path);
+                newFile.append(f.name);
                 sync.download(newFile, f);
             }
-        });
+        }
     // Then we push updates for new local files and folders.
-    let localChildren = local.directoryEntries;
+    localChildren = local.directoryEntries;
     while (localChildren.hasMoreElements()) {
-        let lf = localChildren.getNext().QueryInterface(Ci.nsILocalFile);
+        lf = localChildren.getNext().QueryInterface(Ci.nsILocalFile);
         if (lf.isDirectory()) {
             // Check remote folders.
-            let found = false;
+            found = false;
             if (remote.folders)
                 remote.folders.forEach(function (f) {
                     if (f.name === lf.leafName)
@@ -164,7 +169,7 @@ sync.compareChildren = function (local, remote, isLocalNewer, isRemoteNewer) {
                 sync.upload(lf, remote);
         } else if (!lf.isSpecial()) {
             // Check remote files.
-            let found = false;
+            found = false;
             if (remote.files)
                 remote.files.forEach(function (f) {
                     if (f.name === lf.leafName)

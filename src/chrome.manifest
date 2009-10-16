@@ -1,0 +1,6 @@
+content	firegss	content/
+locale	firegss	en-US	locale/en-US/
+locale	firegss	el-GR	locale/el-GR/
+skin	firegss	classic/1.0	skin/
+overlay	chrome://browser/content/browser.xul	chrome://firegss/content/firegssOverlay.xul
+style   chrome://global/content/customizeToolbar.xul chrome://firegss/skin/overlay.css

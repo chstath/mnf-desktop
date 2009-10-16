@@ -26,9 +26,9 @@ var remoteTree = {
         case "remotename":
           return this.searchMode == 2 ? this.displayData[row].path : this.displayData[row].leafName;
         case "remotesize":
-          return this.displayData[row].fileSize;
+          return this.getFormattedFileSize(row);
         case "remotedate":
-          return this.displayData[row].date;
+          return this.getFormattedDate(row);
         case "remotetype":
           return this.displayData[row].extension;
         case "remoteattr":
@@ -86,6 +86,36 @@ var remoteTree = {
   updateView : function() {
     remoteTree.updateStats();
     remoteDirTree.select();
+    if (this.searchMode){
+        this.searchMode = 0;
+        gRemoteTreeChildren.removeAttribute('search');
+    }
+  },
+
+  updateView2 : function(files) {
+      this.data        = new Array();
+      this.displayData = new Array();
+
+      if (this.remoteSize != -1) {
+        this.treebox.rowCountChanged(0, -this.rowCount);
+
+        this.rememberSort = { cols : ["remotename", "remotesize", "remotedate", "remotetype", "remoteattr"],
+                              vals : [$('remotename').getAttribute("sortDirection"),
+                                      $('remotesize').getAttribute("sortDirection"),
+                                      $('remotedate').getAttribute("sortDirection"),
+                                      $('remotetype').getAttribute("sortDirection"),
+                                      $('remoteattr').getAttribute("sortDirection")] };
+      }
+      files.sort(compareNameRemote);
+      for (var x = 0; x < files.length; ++x) {
+        this.data.push(files[x]);
+      }
+
+      this.remoteSize  = -1;
+      this.searchMode = this.searchMode ? this.searchMode : (gSearchRecursive ? 2 : 1);
+      gRemoteTreeChildren.setAttribute('search', true);
+      this.sort(files);
+      this.mouseOver(null);
   },
 
   sort : function(files) {
@@ -98,11 +128,11 @@ var remoteTree = {
         this.rememberSort = null;
       }
 
-//      this.sortHelper($('remotename'), this.searchMode == 2 ? directorySort2 : compareName);
-//      this.sortHelper($('remotesize'), compareSize);
-//      this.sortHelper($('remotedate'), compareDate);
-//      this.sortHelper($('remotetype'), compareType);
-//      this.sortHelper($('remoteattr'), compareLocalAttr);
+      this.sortHelper($('remotename'), this.searchMode == 2 ? directorySort2Remote : compareNameRemote);
+      this.sortHelper($('remotesize'), compareSizeRemote);
+      this.sortHelper($('remotedate'), compareDateRemote);
+      this.sortHelper($('remotetype'), compareTypeRemote);
+      this.sortHelper($('remoteattr'), compareRemoteAttr);
 
       this.displayData = new Array();
     } else {
@@ -117,17 +147,16 @@ var remoteTree = {
 
     for (var row = start; row < this.data.length; ++row) {
       this.displayData.push({ leafName    : this.data[row].name,
-                              fileSize    : "0",
-                              date        : "1/1/2000",
-                              extension   : this.data[row].isFolder ? "" : "txt",//this.getExtension(this.data[row].leafName),
+                              fileSize    : this.getFormattedFileSize(row),
+                              date        : this.getFormattedDate(row),
+                              extension   : this.data[row].isFolder ? "" : this.getContentType(row),
                               attr        : "",
                               icon        : this.getFileIcon(row),
-                              path        : this.data[row].location,
+                              path        : this.data[row].location ? this.data[row].location : this.data[row].uri,
                               isDirectory : this.data[row].isFolder,
                               isSymlink   : false,
                               isHidden    : false });
     }
-
     if (files) {
       this.rowCount = this.data.length;
       this.treebox.rowCountChanged(start, files.length);
@@ -149,23 +178,27 @@ var remoteTree = {
   },
 
   getFormattedFileSize : function(row) {
-    if (this.data[row].isDirectory()) {
+    if (this.data[row].isFolder) {
       return "";
     }
 
-    if (this.data[row].fileSize == 0) {
+    if (this.data[row].size == 0) {
       return gBytesMode ? "0  " : gStrbundle.getFormattedString("kilobyte", ["0"]) + "  ";
     }
 
     if (gBytesMode) {
-      return commas(this.data[row].fileSize) + "  ";
+      return commas(this.data[row].size) + "  ";
     }
 
-    return gStrbundle.getFormattedString("kilobyte", [commas(Math.ceil(this.data[row].fileSize / 1024))]) + "  ";
+    return gStrbundle.getFormattedString("kilobyte", [commas(Math.ceil(this.data[row].size / 1024))]) + "  ";
   },
 
   getFormattedDate : function(row) {
-    var date = new Date(this.data[row].lastModifiedTime);
+    if (this.data[row].isFolder){
+        return "";
+    }
+
+    var date = new Date(this.data[row].modificationDate);
 
     if ((new Date()).getFullYear() > date.getFullYear()) {                                      // if not current year, display old year
       return gMonths[date.getMonth()] + ' ' + date.getDate() + ' ' + date.getFullYear();
@@ -178,6 +211,10 @@ var remoteTree = {
 
   getExtension : function(leafName) {
     return leafName.lastIndexOf(".") != -1 ? leafName.substring(leafName.lastIndexOf(".") + 1, leafName.length).toLowerCase() : "";
+  },
+
+  getContentType : function(row){
+    return this.data[row].content;
   },
 
   getFileIcon : function(row) {

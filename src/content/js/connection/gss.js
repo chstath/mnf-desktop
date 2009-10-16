@@ -177,10 +177,6 @@ gss.sendRequest = function(arg) {
 	return req;
 };
 
-gss.fetchUserAsync = function(next) {
-	gss.fetchUser(next);
-};
-
 // Fetches the 'user' namespace.
 gss.fetchUser = function(nextAction, nextActionArg) {
 	gss.sendRequest({handler: gss.parseUser,
@@ -280,33 +276,29 @@ gss.updateCache = function(res, newRes) {
 		}
 };
 
-// Fetches the contents of the folder with the specified uri
-gss.fetchFolder = function(folder, nextAction, nextActionArg) {
-	gss.sendRequest({handler: gss.parseFiles,
-					handlerArg: folder,
-					nextAction: nextAction,
-					nextActionArg: nextActionArg,
-					method:'GET',
-					resource: folder.uri});
+// Fetches the contents of the folder with the specified uri.
+gss.fetchFolder = function(folder, nextAction, nextActionArg, uri) {
+    gss.sendRequest({handler: gss.parseFiles,
+                    handlerArg: folder,
+                    nextAction: nextAction,
+                    nextActionArg: nextActionArg,
+                    method:'GET',
+                    resource: uri || folder.uri});
 };
 
+// Fetches the contents of the root folder. This call is safe to be performed as the
+// first API call, since it fetches the user namespace first if not found.
 gss.fetchRootFolder = function(nextAction) {
-	if (gss.root.fileroot) {
-		gss.sendRequest({handler: gss.parseFiles,
-						handlerArg: gss.rootFolder,
-						nextAction: nextAction,
-						nextActionArg: gss.rootFolder,
-						method: 'GET',
-						resource: gss.root.fileroot});
-	}
-	else {
-		gss.fetchUser(gss.fetchRootFolder, nextAction);
-	}
+    if (gss.root.fileroot) {
+        gss.fetchFolder(gss.rootFolder, nextAction, gss.rootFolder, gss.root.fileroot);
+    } else {
+        gss.fetchUser(gss.fetchRootFolder, nextAction);
+    }
 };
 
 // Fetch the specified folder and make separate calls to fetch its children as well.
-gss.fetchFolderWithChildren = function (folder, nextAction) {
-    gss.fetchFolder(folder, function () {
+gss.fetchFolderWithChildren = function (folder, nextAction, nextActionArg, uri) {
+    gss.fetchFolder(folder, function (nextActionArg) {
         var fetchFiles = function (callback) {
             if (folder.files)
                 folder.files.forEach(function (f) {
@@ -317,18 +309,18 @@ gss.fetchFolderWithChildren = function (folder, nextAction) {
             if (callback)
                 callback();
         }
-        var fetchFolders = function (callback) {
+        var fetchFolders = function (callback, arg) {
             if (folder.folders)
                 folder.folders.forEach(function (f) {
                     // TODO: optimize the loop so that we fetch each folder once.
                     if (!f.parent)
-                        gss.fetchFolder(f, fetchFolders);
+                        gss.fetchFolder(f, fetchFolders, nextActionArg);
                 });
             if (callback)
-                callback();
+                callback(arg);
         }
-        fetchFiles(fetchFolders(nextAction));
-    });
+        fetchFiles(fetchFolders(nextAction, nextActionArg));
+    }, '', uri);
 }
 
 gss.getFile = function(file) {

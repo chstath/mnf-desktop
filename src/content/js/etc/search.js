@@ -129,7 +129,8 @@ function searchInFiles(subFolder){
 
     if (gSearchType) {//Remote Search
         if (subFolder){
-            setTimeout("fetchFolder()", 1);
+            //setTimeout("fetchFolder()", 1);
+            fetchFolder();
         }
         else{
           for (var x = 0; x < remoteTree.data.length; ++x) {
@@ -269,7 +270,8 @@ function searchInFiles(subFolder){
             }
             
             if (isDirectory){
-                searchInFiles(files[x]);
+                //searchInFiles(files[x]);
+                arguments.callee(files[x]);
             }
         }
     }

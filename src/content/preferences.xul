@@ -16,7 +16,7 @@
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/common.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/globals.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/misc.js"/>
-  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/sync.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/connection/sync.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/preferences.js"/>
 
   <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>

@@ -209,6 +209,10 @@ gss.parseFiles = function(req, folder, nextAction, nextActionArg) {
 		f.position = i;
 		f.isFolder = true;
 	}
+    // Store the reference to the parent folder to avoid unnecessary future requests.
+    folder.files.forEach(function (f) {
+        f.folder = folder;
+    });
 	folder.isWritable = gss.isWritable;
 	if (nextAction)
 		nextAction(nextActionArg);
@@ -217,13 +221,13 @@ gss.parseFiles = function(req, folder, nextAction, nextActionArg) {
 // Update the cached resource copy with the new one, in order to maintain cached
 // object identities.
 gss.updateCache = function(res, newRes) {
-	var attr, cons = Components.classes["@mozilla.org/consoleservice;1"].
-   			getService(Components.interfaces.nsIConsoleService);
+	var attr;/*, cons = Components.classes["@mozilla.org/consoleservice;1"].
+   			getService(Components.interfaces.nsIConsoleService);*/
 //	cons.logStringMessage("updating "+newRes.name);
 	for (attr in newRes)
 		if (newRes.hasOwnProperty(attr)) {
 			if (attr === 'folders' || attr === 'files') {
-				cons.logStringMessage(res.name + " " + attr+": "+(res[attr]? res[attr].length: -1));
+				//cons.logStringMessage(res.name + " " + attr+": "+(res[attr]? res[attr].length: -1));
 				if (!res[attr] || res[attr].length === 0)
 					res[attr] = newRes[attr];
 				else {
@@ -237,7 +241,7 @@ gss.updateCache = function(res, newRes) {
 							}
 						});
 						if (!found) {
-							cons.logStringMessage("Deleting "+e.name);
+							//cons.logStringMessage("Deleting "+e.name);
 							res[attr].splice(i,1);
 						}
 					});
@@ -265,7 +269,7 @@ gss.updateCache = function(res, newRes) {
 							}
 						});
 						if (!found) {
-							cons.logStringMessage("Adding "+e.name);
+							//cons.logStringMessage("Adding "+e.name);
 							res[attr].push(e);
 						}
 					});
@@ -300,6 +304,33 @@ gss.fetchRootFolder = function(nextAction) {
 	}
 };
 
+// Fetch the specified folder and make separate calls to fetch its children as well.
+gss.fetchFolderWithChildren = function (folder, nextAction) {
+    gss.fetchFolder(folder, function () {
+        var fetchFiles = function (callback) {
+            if (folder.files)
+                folder.files.forEach(function (f) {
+                    // TODO: optimize the loop so that we fetch each file once.
+                    if (!f.folder)
+                        gss.fetchFile(f, fetchFiles);
+                });
+            if (callback)
+                callback();
+        }
+        var fetchFolders = function (callback) {
+            if (folder.folders)
+                folder.folders.forEach(function (f) {
+                    // TODO: optimize the loop so that we fetch each folder once.
+                    if (!f.parent)
+                        gss.fetchFolder(f, fetchFolders);
+                });
+            if (callback)
+                callback();
+        }
+        fetchFiles(fetchFolders(nextAction));
+    });
+}
+
 gss.getFile = function(file) {
 	gss.sendRequest({handler: gss.processFile,
 					method: "GET",
@@ -312,8 +343,9 @@ gss.processFile = function(req, arg, nextAction, nextActionArg) {
 		nextAction(nextActionArg);
 };
 
+// Uploads the specified local file to the provided remote folder URI.
 gss.uploadFile = function(file, remoteFolder, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventHandler, abortEventHandler) {
-	var resource = remoteFolder.uri + '/' + encodeURI(file.leafName);
+	var resource = remoteFolder + '/' + encodeURI(file.leafName);
 	return gss.sendRequest({method: 'PUT',
 					resource: resource,
 					file: file,
@@ -327,29 +359,31 @@ gss.uploadFile = function(file, remoteFolder, loadStartEventHandler, progressEve
 gss.createFolder = function(parent, name, nextAction) {
 	var resource = parent.uri + "?new=" + encodeURIComponent(name);
 	gss.sendRequest({handler: gss.parseNewFolder,
-					handlerArg: parent,
+					handlerArg: {name: name, parent: parent},
 					nextAction: nextAction,
 					method: 'POST',
 					resource: resource});
 };
 
-gss.parseNewFolder = function(req, parent, nextAction, error) {
+gss.parseNewFolder = function(req, newf, nextAction, error) {
     if (error && nextAction) {
         nextAction();
         return;
     }
-        
-	var newFolder = {
-		uri: req.responseText.trim(),
-		level: parent.level ? parent.level + 1 : 1
-	};
-	parent.folders.push(newFolder);
-	gss.sendRequest({handler: gss.parseFiles,
-					handlerArg: newFolder,
-					nextAction: nextAction,
-					nextActionArg: newFolder,
-					method: 'GET',
-					resource: newFolder.uri});
+    
+    var newFolder = {
+        name: newf.name,
+        isFolder: true,
+        uri: req.responseText.trim(),
+        level: newf.parent.level ? newf.parent.level + 1 : 1
+    };
+    newf.parent.folders.push(newFolder);
+    gss.sendRequest({handler: gss.parseFiles,
+                    handlerArg: newFolder,
+                    nextAction: nextAction,
+                    nextActionArg: newFolder,
+                    method: 'GET',
+                    resource: newFolder.uri});
 };
 
 gss.deleteResource = function(uri, nextAction) {

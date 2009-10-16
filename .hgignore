@@ -3,3 +3,8 @@ syntax: regexp
 .swp$
 .swo$
 
+\.orig\..*$
+\.orig$
+\.chg\..*$
+\.rej$
+\.conflict\~$

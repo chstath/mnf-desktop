@@ -25,10 +25,10 @@
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/globals.js"/>
 
   <script type="application/x-javascript" src="chrome://firegss/content/js/connection/gss.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/connection/sync.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/connection/transfer.js"/>
 
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/common.js"/>
-  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/diff.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/dragDrop.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/fileSort.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/loadUnload.js"/>
@@ -37,7 +37,6 @@
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/preferences.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/queueTree.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/search.js"/>
-  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/sync.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/threads.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/treeHighlighter.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/treeSync.js"/>
@@ -59,8 +58,19 @@
   <script type="application/x-javascript" src="chrome://firegss/content/js/jquery.formHints.js"/>
 
   <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/help.js"/>
-  
+  <script type="text/javascript">
+ <![CDATA[
+  function addEntry()
+ {
+     var fhService = Components.classes["@mozilla.org/satchel/form-history;1"].
+                     getService(Components.interfaces.nsIFormHistory2);
+     fhService.addEntry("firegss-username", document.getElementById("username").value);
+ }
+  ]]>
+  </script>
   <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>
+
+
 
   <commandset>
     <command id="cmd_connect"    oncommand="connect()"/>
@@ -127,11 +137,8 @@
       <menuseparator/>
       <menuitem oncommand="cancelAll()"                         label="&cancelAll.label;"                                           id="queueCancelAll"/>
     </popup>
-    <popup id="advancedpopup"       position="after_start" onpopupshowing="toolsPopupMenu()">
+    <popup id="advancedpopup"       position="after_start" >
       <menuitem oncommand="showSearch(true)"                    label="&search.label;"              accesskey="&search.access;"     id="searchMenuItem" key="key_search"/>
-      <menuseparator/>
-      <menuitem oncommand="diff(false)"                         label="&diff.label;"                accesskey="&diff.access;"       id="diffMenuItem"/>
-      <menuitem oncommand="diff(true)"                          label="&recdiff.label;"             accesskey="&recdiff.access;"    id="recDiffMenuItem"/>
       <menuseparator/>
       <menuitem oncommand="showPreferences()"                   label="&preferencestab.label;"      accesskey="&prefbutton.access;" id="prefbutton"/>
     </popup>
@@ -173,13 +180,21 @@
               title                   = "Username?"
               flex                    = "1"
               tooltiptext             = "&username.tip;"
-              onkeypress              = "if (event.keyCode == 13) login(this.value)"
-              ontextentered           = "login(this.value)"/>
-      <toolbarbutton label="&login.label;" oncommand="login($('username').value)"
+              onkeypress              = "if (event.keyCode == 13){ addEntry(); login(this.value)}"
+              ontextentered           = "addEntry();login(this.value)"
+              type="autocomplete"
+              enablehistory="true"
+              autocompletesearch="form-history"
+              autocompletesearchparam="firegss-username"
+              
+              
+              />
+      <toolbarbutton label="&login.label;" oncommand="addEntry();login($('username').value)"
                     accesskey="&loginbutton.access;"/>
       <toolbarbutton label="&logout.label;" oncommand="logout()" accesskey="&logoutbutton.access;"/>
       <toolbarspacer flex="1"/>
       <toolbarbutton id="syncbutton" label="&synctab.label;" accesskey="&syncbutton.access;"
+                    image="chrome://firegss/skin/icons/sync.png"
                     oncommand="sync.init()" type="checkbox" persist="checked" autoCheck="false"/>
       <toolbarbutton id="logbutton" label="&logtab.label;" accesskey="&logbutton.access;"
                     oncommand="showLog()" type="checkbox" persist="checked" autoCheck="false"/>

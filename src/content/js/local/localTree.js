@@ -829,7 +829,8 @@ var localTree = {
                            + (this.localSize < 0 ? "" : ", " + commas(this.localSize)) + ", "
                            + gStrbundle.getString("diskSpace")    + " " + this.localAvailableDiskSpace;
     } else {
-      $('statustxt').label = gStrbundle.getString("localListingNoObjects");
+      if (gStrbundle)
+        $('statustxt').label = gStrbundle.getString("localListingNoObjects");
     }
   },
 

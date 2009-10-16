@@ -5,6 +5,7 @@ var localFile = {
       file.initWithPath(path);
       return file;
     } catch (ex) {
+        alert("Exception: " + ex);
       return null;
     }
   },

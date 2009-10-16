@@ -409,12 +409,6 @@ menuitem[defaultAction="true"] {
   padding             : 5px 0px 5px 0px;
 }
 
-/*----------------[ diff.xul ]-----------------*/
-
-#diffTree treechildren::-moz-tree-checkbox(checked) {
-  list-style-image    : url("chrome://firegss/skin/icons/cbox-check.gif");
-}
-
 /*----------------[ properties.xul ]-----------------*/
 
 image.isFolder {

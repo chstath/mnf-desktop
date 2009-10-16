@@ -18,8 +18,6 @@ var gWebHost;                   // url used in viewing things on the web
 var gPrefix;                    // part of the ftp url to get rid of for viewing on the web, e.g. /www
 var gAccount;                   // name of the account we're connecting to
 var gFolder;                    // current folder
-var gDownloadCaseMode;          // 0 == do nothing, 1 == convert filename to lower case, 2 == convert to uppercase
-var gUploadCaseMode;            // ditto
 var gTreeSync;                  // whether or not we're trying to keep directories in sync
 var gTreeSyncLocal;             // base local  tree sync dir
 var gTreeSyncRemote;            // base remote tree sync dir
@@ -42,12 +40,6 @@ var gSearchDates;               // search: specify dates or not
 var gSearchFrom;                // search: from date
 var gSearchTo;                  // search: to date
 var gSearchRemoteUpdate = false;// search: if we are updating the view
-
-var gMissingRemoteFiles;        // directory diff: files missing on remote files
-var gMissingLocalFiles;         // directory diff: files missing on local side
-var gDifferentFiles;            // directory diff: files that have different file sizes
-var gNewerFiles;                // directory diff: files that are newer
-var gOlderFiles;                // directory diff: files that are older
 
 var gDefaultAccount;            // from prefs: select the opened account
 var gBytesMode;                 // from prefs: show kilobytes or just bytes

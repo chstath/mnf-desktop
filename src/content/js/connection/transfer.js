@@ -76,14 +76,6 @@ transfer.prototype = {
 		for (var x = 0; x < files.length; ++x) {
 			var fileName = download ? files[x].name : files[x].leafName;
 
-			if ((download && gDownloadCaseMode == 1) || (!download && gUploadCaseMode == 1)) {
-                // special request to change filename case
-				fileName = fileName.toLowerCase();
-			} else if ((download && gDownloadCaseMode == 2) || (!download && gUploadCaseMode == 2)) {
-                // special request to change filename case
-				fileName = fileName.toUpperCase();
-			}
-
 			if (this.getPlatform() == "windows") {
                 // scrub out illegal characters on windows / \ : * ? | " < >
 				fileName = fileName.replace(/[/\\:*?|"<>]/g, '_');
@@ -103,7 +95,8 @@ transfer.prototype = {
 
 				for (var y = 0; y < remoteList.length; ++y) {
 					if (remoteList[y].name == fileName) {
-						file = { fileSize: remoteList[y].size, lastModifiedTime: remoteList[y].modificationDate, leafName: name, exists: function() { return true; },
+						file = { fileSize: remoteList[y].size, lastModifiedTime: remoteList[y].modificationDate,
+                            leafName: remoteList[y].name, name: remoteList[y].name, exists: function() { return true; },
 							isDir: remoteList[y].isFolder, isDirectory: function() { return this.isDir }};
 						var existingFolder = remoteList[y];
 						break;
@@ -124,8 +117,14 @@ transfer.prototype = {
 
 			if (file.exists() && this.prompt) {
 
+                if (!download) {
+                    var url = remoteFolder.uri;
+                    if (url.slice(url.length-1) !== '/')
+                        url = url + '/';
+                    url = url + fileName;
+                }
 				var params = { response         : 0,
-							fileName         : download ? localPath : remoteFolder.uri + '/' + fileName,
+							fileName         : download ? localPath : url,
 							existingSize     : file.fileSize,
 							existingDate     : file.lastModifiedTime,
 							newSize          : download ? files[x].size : files[x].fileSize,
@@ -136,14 +135,7 @@ transfer.prototype = {
 					this.busy = true;
 					// we're doing some 'locking' above
 
-					for (var y = 0; y < gMaxCon; ++y) {
-						gConnections[y].waitToRefresh = true;
-					}
 					window.openDialog("chrome://firegss/content/confirmFile.xul", "confirmFile", "chrome,modal,dialog,resizable,centerscreen", params);
-
-					for (var y = 0; y < gMaxCon; ++y) {
-						gConnections[y].waitToRefresh = false;
-				    }
 
 					this.busy = false;
 
@@ -159,11 +151,6 @@ transfer.prototype = {
 					} else if (!resume && params.response == 4) {
 						this.cancel  = true;
 
-					for (var y = 0; y < gMaxCon; ++y) {
-						if (gConnections[y].isConnected) {
-							gConnections[y].abort();
-						}
-					}
 					break;
 				} else if (params.response == 5) {
 					this.skipAll = true;
@@ -196,7 +183,8 @@ transfer.prototype = {
 						}
 					}
 					this.recurseFolder(localPath, files[x]);
-				} else {                                             // download the file
+				} else {
+                    // download the file
 					// create a persist
 					var persist = Components.classes["@mozilla.org/embedding/browser/nsWebBrowserPersist;1"].createInstance(Components.interfaces.nsIWebBrowserPersist);
 					// with persist flags if desired. See nsIWebBrowserPersist page for more PERSIST_FLAGS.
@@ -210,7 +198,7 @@ transfer.prototype = {
 					if (ext !== '')
 						icon = "moz-icon://."+ext+"?size=16";
 					else
-						icon = "moz-icon://"+name+"?size=16&contentType="+files[x].content;
+						icon = "moz-icon://"+files[x].name+"?size=16&contentType="+files[x].content;
 
 					var obj = {
 					  source  : files[x].uri,

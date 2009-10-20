@@ -176,7 +176,6 @@ sync.compareChildren = function (local, remote, isLocalNewer, isRemoteNewer) {
 }
 
 sync.compareFiles = function (local, remote) {
-    appendLog(local.leafName+": llmt: "+new Date(local.lastModifiedTime)+", rmd: "+new Date(remote.modificationDate));
     var diff = local.lastModifiedTime - remote.modificationDate;
     if (diff > 0)
         sync.upload(local, remote.folder);                    

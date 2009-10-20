@@ -62,9 +62,11 @@
  <![CDATA[
   function addEntry()
  {
-     var fhService = Components.classes["@mozilla.org/satchel/form-history;1"].
-                     getService(Components.interfaces.nsIFormHistory2);
-     fhService.addEntry("firegss-username", document.getElementById("username").value);
+     if(document.getElementById("username").value != "Username?"){
+        var fhService = Components.classes["@mozilla.org/satchel/form-history;1"].
+                        getService(Components.interfaces.nsIFormHistory2);
+        fhService.addEntry("firegss-username", document.getElementById("username").value);
+    }
  }
   ]]>
   </script>

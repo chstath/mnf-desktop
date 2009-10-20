@@ -481,7 +481,6 @@ var remoteTree = {
   },
 
   showProperties : function(recursive) {
-  alert("showProperties");
     if (this.rowCount == 0 || this.selection.count == 0) {
       return;
     }
@@ -518,7 +517,7 @@ var remoteTree = {
 
       var params = { multipleFiles       : true,
                      recursiveFolderData : recursiveFolderData };
-
+     
       window.openDialog("chrome://firegss/content/remoteProperties.xul", "properties", "chrome,modal,dialog,resizable,centerscreen", params);
 
       return;

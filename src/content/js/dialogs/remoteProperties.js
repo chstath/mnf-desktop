@@ -100,14 +100,14 @@ function change() {
 }
 
 function doOK() {
-  if ("returnVal" in gArgs) {
-    gArgs.returnVal = true;
+    if ("returnVal" in gArgs) {
+        gArgs.returnVal = true;
     gArgs.writable  = !$('readonly').checked;
-  }
-
+    }
+    
   if (!gInitialPermissions) {
     return true;
-  }
+}
 
   if (gArgs.multipleFiles) {
     gArgs.permissions       = $('manual').value;

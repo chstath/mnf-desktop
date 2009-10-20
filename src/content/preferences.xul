@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/global.css"   type="text/css"?>
+<?xml-stylesheet href="chrome://firegss/skin/firegss.css" type="text/css"?>
+
+<!DOCTYPE dialog SYSTEM "chrome://firegss/locale/preferences.dtd">
+<prefwindow id             = "firegssPreferences3"
+            title          = "&title;"
+            type           = "prefwindow"
+            persist        = "screenX screenY"
+            xmlns          = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+            buttons        = "accept, cancel"
+            onload         = "readPreferences()"
+            ondialogaccept = "onAccept()">
+
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/common.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/globals.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/misc.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/connection/sync.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/preferences.js"/>
+
+  <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>
+
+  <prefpane id="myPane">
+    <preferences>
+      <preference id="errormodepref"          name="firegss.errormode"         type="bool"/>
+      <preference id="refreshmodepref"        name="firegss.refreshmode"       type="bool"/>
+      <preference id="passwordmodepref"       name="firegss.passwordmode"      type="bool"/>
+      <preference id="sessionsmodepref"       name="firegss.sessionsmode"      type="bool"/>
+      <preference id="usernamemodepref"       name="firegss.usernamemode"      type="bool"/>
+      <preference id="hiddenmodepref"         name="firegss.hiddenmode"        type="bool"/>
+      <preference id="openmodepref"           name="firegss.openmode"          type="int"/>
+      <preference id="networkpref"            name="firegss.network"           type="int"/>
+      <preference id="timeoutmodepref"        name="firegss.timeoutmode"       type="bool"/>
+      <preference id="retrypref"              name="firegss.retry"             type="int"/>
+      <preference id="attemptspref"           name="firegss.attempts"          type="int"/>
+      <preference id="destructmodepref"       name="firegss.destructmode"      type="bool"/>
+      <preference id="filemodepref"           name="firegss.filemode"          type="int"/>
+      <preference id="asciifilespref"         name="firegss.asciifiles"        type="unichar"/>
+      <preference id="loadmodepref"           name="firegss.loadmode"          type="int"/>
+      <preference id="logmodepref"            name="firegss.logmode"           type="bool"/>
+      <preference id="debugmodepref"          name="firegss.debugmode"         type="bool"/>
+      <preference id="bytespref"              name="firegss.bytesmode"         type="bool"/>
+      <preference id="nopromptpref"           name="firegss.nopromptmode"      type="bool"/>
+      <preference id="logerrormodepref"       name="firegss.logerrormode"      type="bool"/>
+      <preference id="keepalivemodepref"      name="firegss.keepalivemode"     type="bool"/>
+      <preference id="proxytypepref"          name="firegss.proxytype"         type="string"/>
+      <preference id="proxyhostpref"          name="firegss.proxyhost"         type="unichar"/>
+      <preference id="proxyportpref"          name="firegss.proxyport"         type="int"/>
+      <preference id="activeportmodepref"     name="firegss.activeportmode"    type="bool"/>
+      <preference id="activelowportpref"      name="firegss.activelow"         type="int"/>
+      <preference id="activehighportpref"     name="firegss.activehigh"        type="int"/>
+      <preference id="timestampsmodepref"     name="firegss.timestampsmode"    type="bool"/>
+      <preference id="compressmodepref"       name="firegss.compressmode"      type="bool"/>
+      <preference id="integritymodepref"      name="firegss.integritymode"     type="bool"/>
+      <preference id="concurrentpref"         name="firegss.concurrent"        type="int"/>
+      <preference id="schedulepref"           name="firegss.schedule"          type="int"/>
+      <preference id="syncfolderpref"         name="firegss.syncfolder"        type="string"/>
+    </preferences>
+
+    <tabbox id="tabbox" flex="1">
+      <tabs>
+        <tab label="&general.label;"/>
+        <tab label="&interface.label;"/>
+        <tab label="&sync.label;"/>
+      </tabs>
+      <tabpanels flex="1">
+
+        <tabpanel id="generaltab" orient="vertical">
+          <groupbox>
+            <caption label="&messages.label;"/>
+            <hbox align="start">
+              <checkbox id="errormode"    preference="errormodepref"    label="&error.label;"/>
+            </hbox>
+          </groupbox>
+          <groupbox>
+            <caption label="&sessions.label;"/>
+            <hbox align="start">
+              <checkbox id="passwordmode" preference="passwordmodepref" label="&rememberp.label;"/>
+            </hbox>
+            <hbox align="start">
+              <checkbox id="sessionsmode" preference="sessionsmodepref" label="&rememberd.label;"/>
+            </hbox>
+            <hbox align="start">
+              <checkbox id="usernamemode" preference="usernamemodepref" label="&rememberu.label;"/>
+            </hbox>
+          </groupbox>
+          <groupbox>
+            <caption label="&fileview.label;"/>
+            <hbox align="start">
+              <checkbox id="refreshmode"  preference="refreshmodepref"  label="&autorefresh.label;" tooltiptext="&refresh.tip;"/>
+            </hbox>
+            <hbox align="start">
+              <checkbox id="hiddenmode"   preference="hiddenmodepref"   label="&hidden.label;"/>
+            </hbox>
+            <hbox align="start">
+              <checkbox id="bytesmode"    preference="bytespref"        label="&bytesmode.label;"/>
+            </hbox>
+          </groupbox>
+        </tabpanel>
+
+        <tabpanel id="interfacetab" orient="vertical">
+          <groupbox>
+            <caption label="&startup.label;"/>
+            <radiogroup id="loadmode" preference="loadmodepref">
+              <radio label="&windowopen.label;" value="0"/>
+              <radio label="&tabopen.label;"    value="1"/>
+            </radiogroup>
+          </groupbox>
+          <groupbox>
+            <caption label="&open.label;"/>
+            <radiogroup id="openmode"  preference="openmodepref">
+              <radio label="&download.label;" value="0"/>
+              <radio label="&exec.label;"     value="1"/>
+            </radiogroup>
+          </groupbox>
+          <groupbox>
+            <caption label="&logwindow.label;"/>
+            <hbox align="start">
+              <checkbox id="logmode"      preference="logmodepref"      label="&logmode.label;"/>
+            </hbox>
+            <hbox align="start">
+              <checkbox id="logerrormode" preference="logerrormodepref" label="&logerrormode.label;"/>
+            </hbox>
+            <hbox align="start">
+              <checkbox id="debugmode"    preference="debugmodepref"    label="&debug.label;"/>
+            </hbox>
+          </groupbox>
+        </tabpanel>
+
+        <tabpanel id="synctab" orient="vertical">
+          <groupbox>
+            <caption label="&when.label;"/>
+            <radiogroup id="syncschedule" preference="schedulepref">
+              <radio label="&manual.label;" value="0"/>
+              <radio label="&auto.label;" value="1"/>
+            </radiogroup>
+          </groupbox>
+          <groupbox>
+            <caption label="&folder.label;"/>
+            <hbox align="start">
+              <textbox id="syncfolder" preference="syncfolderpref" label="&syncfolder.label;"/>
+              <toolbarbutton label="&browse.label;" oncommand="browseSyncFolder()" accesskey="&browsebutton.access;"/>
+            </hbox>
+          </groupbox>
+        </tabpanel>
+
+      </tabpanels>
+    </tabbox>
+
+  </prefpane>
+</prefwindow>

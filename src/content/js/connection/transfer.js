@@ -283,6 +283,9 @@ transfer.prototype = {
 					  source  : localPath,
 					  dest    : remoteFolder.uri,
 					  size    : files[x].fileSize,
+                      name    : fileName,
+                      rParent : remoteParent,
+                      modified: files[x].lastModifiedTime,
 					  type    : gStrbundle.getString("upload"),
 					  icon    : "moz-icon://."+ext+"?size=16",
 					  ela     : '',
@@ -340,6 +343,11 @@ transfer.prototype = {
 							queueTree.treebox.invalidate();
 							remoteTree.refresh(false, true);
 							hideWorking();
+                            var uploaded = {};
+                            uploaded.name = o.name;
+                            uploaded.uri = o.dest + o.name;
+                            uploaded.folder = o.rParent;
+                            gss.update(uploaded, { modificationDate: o.modified });
 						};
 					}();
 					var errorHandler = function(evt) {

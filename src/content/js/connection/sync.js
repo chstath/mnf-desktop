@@ -74,10 +74,7 @@ sync.ensureCachedRemoteSync = function () {
             sync.stopSpin();
         };
     }();
-    if (!remoteRoot.folders)
-        gss.fetchFolderWithChildren(remoteRoot, start);
-    else 
-        start();
+    gss.fetchFolderWithChildren(remoteRoot, start);
 }
 
 sync.start = function (args) {
@@ -98,10 +95,7 @@ sync.compareFolders = function (local, remote) {
         else
             sync.compareChildren(local, remote);
     };
-    if (!remote.modificationDate)
-        gss.fetchFolderWithChildren(remote, doCompare);
-    else 
-        doCompare();
+    gss.fetchFolderWithChildren(remote, doCompare);
 }
 
 // Compare the files and subfolders of a folder.
@@ -182,8 +176,9 @@ sync.compareChildren = function (local, remote, isLocalNewer, isRemoteNewer) {
 }
 
 sync.compareFiles = function (local, remote) {
+    appendLog(local.leafName+": llmt: "+new Date(local.lastModifiedTime)+", rmd: "+new Date(remote.modificationDate));
     var diff = local.lastModifiedTime - remote.modificationDate;
-    if (diff > 0)    
+    if (diff > 0)
         sync.upload(local, remote.folder);                    
     else if (diff < 0)
         sync.download(local, remote);

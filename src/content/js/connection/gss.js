@@ -58,9 +58,10 @@ gss.sign = function (method, time, resource, token) {
 };
 
 gss.getAuth = function(method, resource) {
-	var now = (new Date()).toUTCString();
-	var authorization = gss.username + " " + gss.sign(method, now, resource, gss.authToken);
-	return {authorization: authorization, date: now, authString: "Authorization=" +  encodeURIComponent(authorization) + "&Date=" + encodeURIComponent(now)};
+    var now = (new Date()).toUTCString();
+    var authorization = gss.username + " " + gss.sign(method, now, resource, gss.authToken);
+    return { authorization: authorization, date: now, authString: "Authorization=" +
+            encodeURIComponent(authorization) + "&Date=" + encodeURIComponent(now) };
 };
 
 // A helper function for making API requests. It expects a single argument object
@@ -79,7 +80,7 @@ gss.sendRequest = function(arg) {
 	if (arg.form)
 		params = arg.form;
 	else if (arg.update)
-		params = arg.update;
+		params = JSON.stringify(arg.update);
 
 	var req = new XMLHttpRequest();
 	if (!arg.file) {
@@ -437,8 +438,8 @@ gss.isWritable = function () {
             hasWrite = true;
             return false;
         }
-	});
-	return hasWrite;
+    });
+    return hasWrite;
 };
 
 // A helper function that checks whether the user has logged-in to the service.
@@ -446,3 +447,23 @@ gss.hasAuthenticated = function () {
     return gss.username && gss.authToken;
 };
 
+// Update the specified resource (file or folder) properties, using the new values in the changes parameter.
+gss.update = function(resource, changes, nextAction) {
+    var newProperties = {};
+    if (changes.name)
+        newProperties.name = changes.name;
+    if (changes.permissions)
+        newProperties.permissions = changes.permissions;
+    if (changes.tags)
+        newProperties.tags = changes.tags;
+    if (changes.readForAll)
+        newProperties.readForAll = changes.readForAll;
+    if (changes.versioned)
+        newProperties.versioned = changes.versioned;
+    if (changes.modificationDate)
+        newProperties.modificationDate = changes.modificationDate;
+    gss.sendRequest({handler: nextAction,
+                    update: newProperties,
+                    method: 'POST',
+                    resource: resource.uri + "?update="});
+};

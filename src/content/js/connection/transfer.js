@@ -175,7 +175,7 @@ transfer.prototype = {
 				if (files[x].isFolder) {
 					if (!file.exists()) {
 						try {
-							file.create(Components.interfaces.nsILocalFile.DIRECTORY_TYPE, 0755);
+							file.create(Ci.nsILocalFile.DIRECTORY_TYPE, 0755);
 						} catch (ex) {
 							debug(ex);
 							error(gStrbundle.getFormattedString("failedDir", [remotePath]));
@@ -186,13 +186,13 @@ transfer.prototype = {
 				} else {
                     // download the file
 					// create a persist
-					var persist = Components.classes["@mozilla.org/embedding/browser/nsWebBrowserPersist;1"].createInstance(Components.interfaces.nsIWebBrowserPersist);
+					var persist = Cc["@mozilla.org/embedding/browser/nsWebBrowserPersist;1"].createInstance(Ci.nsIWebBrowserPersist);
 					// with persist flags if desired. See nsIWebBrowserPersist page for more PERSIST_FLAGS.
-					const nsIWBP = Components.interfaces.nsIWebBrowserPersist;
+					const nsIWBP = Ci.nsIWebBrowserPersist;
 					const flags = nsIWBP.PERSIST_FLAGS_REPLACE_EXISTING_FILES;
 					persist.persistFlags = flags | nsIWBP.PERSIST_FLAGS_FROM_CACHE;
 
-					var nsIFile = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+					var nsIFile = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);
 					nsIFile.initWithPath(localPath);
 					var ext = files[x].name.substring(files[x].name.lastIndexOf('.') + 1);
 					if (ext !== '')
@@ -204,6 +204,7 @@ transfer.prototype = {
 					  source  : files[x].uri,
 					  dest    : localPath,
 					  size    : files[x].size,
+                      mtime   : files[x].modificationDate,
 					  type    : gStrbundle.getString("download"),
 					  icon    : icon,
 					  ela     : '',
@@ -244,6 +245,7 @@ transfer.prototype = {
 								this.transferObject.status = 'Finished';
 								downloading = false;
 								queueTree.treebox.invalidate();
+                                nsIFile.lastModifiedTime = this.transferObject.mtime;
 								localTree.refresh();
 								hideWorking();
 							}

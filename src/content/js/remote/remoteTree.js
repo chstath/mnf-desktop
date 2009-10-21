@@ -106,13 +106,17 @@ var remoteTree = {
                     $('remotetype').getAttribute("sortDirection"),
                     $('remoteattr').getAttribute("sortDirection")] };
         }
+
+        
         files.sort(compareNameRemote);
+
         for (var x = 0; x < files.length; ++x) {
             this.data.push(files[x]);
         }
 
         this.remoteSize  = -1;
-        this.searchMode = this.searchMode ? this.searchMode : (gSearchRecursive ? 2 : 1);
+        //this.searchMode = this.searchMode ? this.searchMode : (gSearchRecursive ? 2 : 1);
+        this.searchMode = 1;
         gRemoteTreeChildren.setAttribute('search', true);
         this.sort(files);
         this.mouseOver(null);
@@ -180,7 +184,9 @@ var remoteTree = {
 
     getFileName : function(row){
         if (this.searchMode==1 || this.searchMode==2){
-            return this.displayData[row].relativePath + this.displayData[row].leafName;
+            if (this.displayData[row].relativePath){
+                return this.displayData[row].relativePath + this.displayData[row].leafName;
+            }
         }
 
         return this.displayData[row].leafName;

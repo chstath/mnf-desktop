@@ -2,6 +2,7 @@ var searchFiles  = new Array();
 
 function showSearch(show) {
   $('searchToolbar').setAttribute("collapsed", !show);
+    searchSelectType();
 
   if (show) {
     $('searchFile').focus();
@@ -10,7 +11,6 @@ function showSearch(show) {
     if (localTree.searchMode) {
       localTree.updateView();
     }
-
     if (remoteTree.searchMode) {
       remoteTree.updateView();
     }
@@ -19,6 +19,7 @@ function showSearch(show) {
 
 function searchSelectType() {
   $('searchButton').disabled   =  $('searchWhich').selectedIndex == 1 && !gss.hasAuthenticated();
+  $('searchMenu').setAttribute("collapsed", $('searchWhich').selectedIndex == 1);
 }
 
 function showSearchDates() {
@@ -43,34 +44,21 @@ function searchWrapper() {
 }
 
 function search(){
-    if (gSearchType){//remote search
+    if (gSearchType){
+        //remote search
         searchRemote();
     }
-    else{//local search
+    else{
+        //local search
         searchInFiles();
     }
 }
-
-function listSubFolder(){
-    for (var f=0; f<subFolder.files.length; f++){
-        files.push(subFolder.files[f]);
-    }
-
-    for (var d=0; d<subFolder.folders.length; d++){
-        files.push(subFolder.folders[d]);
-    }
-}
-
-function fetchFolder(){
-    gss.fetchFolder(subFolder, listSubFolder);
-}
-
 
 function viewRemoteSearchResults(){
   if (searchFiles.length) {                                                          // update the view with the new results
     gSearchFound = true;
     remoteTree.updateView2(searchFiles);
-  }//if
+  }
   else{
       notifyForNotFound();
   }
@@ -80,11 +68,9 @@ function setResults(){
     var results = arguments[0];
     for (var i=0; i<results.length; i++){
         searchFiles.push(results[i]);
-    }//for
-
+    }
     viewRemoteSearchResults();
     
-
     gSearchRunning = false;
   --gProcessing;
   $('searchFile').disabled = false;
@@ -96,18 +82,13 @@ function setResults(){
 function searchRemote(){
     gSearchName = $('searchFile').value;
 
-
     if (!$('searchFile').value){
       if (remoteTree.searchMode) {
         remoteTree.updateView();
-      }//if
+      }
       return;
-    }//if
-
-    if (remoteTree.searchMode) {
-        remoteTree.updateView();
     }
-    
+
     $('searchFile').removeAttribute("status");
     $('searchStatusIcon').removeAttribute("status");
     $('searchStatus').value  = '';
@@ -119,11 +100,9 @@ function searchRemote(){
 }
 
 function notifyForNotFound(){
-//  if (!gSearchFound) {
     $('searchFile').setAttribute("status",       "notfound");
     $('searchStatusIcon').setAttribute("status", "notfound");
     $('searchStatus').value = gStrbundle.getString("notFound");
-//  }
 }
 
 function searchInFiles(subFolder){
@@ -313,17 +292,13 @@ function searchInFiles(subFolder){
     if (gSearchRecursive){
         for (var x = 0; x < files.length; ++x) {
             var isDirectory;
-            
                 isDirectory = files[x].isDirectory();
-            
-            
             if (isDirectory){
                 //searchInFiles(files[x]);
                 arguments.callee(files[x]);
             }
         }
     }
-  
 
   if (!gSearchFound) {
     $('searchFile').setAttribute("status",       "notfound");

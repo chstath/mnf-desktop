@@ -31,6 +31,8 @@ gss.SERVER = 'pithos.grnet.gr';
 gss.SERVICE_URL = 'http://' + gss.SERVER + '/pithos/';
 // The root URL of the REST API.
 gss.API_URL = gss.SERVICE_URL + 'rest';
+// The URL for search requests.
+gss.SEARCH_URL = gss.API_URL + '/search/';
 // The URL of the nonce request service.
 gss.NONCE_URL = gss.SERVICE_URL + 'nonce';
 // The URL of the login service.
@@ -462,8 +464,24 @@ gss.update = function(resource, changes, nextAction) {
         newProperties.versioned = changes.versioned;
     if (changes.modificationDate)
         newProperties.modificationDate = changes.modificationDate;
-    gss.sendRequest({handler: nextAction,
-                    update: newProperties,
-                    method: 'POST',
-                    resource: resource.uri + "?update="});
+    gss.sendRequest({
+        handler: nextAction,
+        update: newProperties,
+        method: 'POST',
+        resource: resource.uri + "?update="
+    });
+};
+
+// Makes a search request for the provided query string and then executes
+// the specified nextAction with the results as the argument.
+gss.search = function(query, nextAction) {
+    gss.sendRequest({
+        handler: function(req, arg, nextAction) {
+            if (nextAction)
+                nextAction(JSON.parse(req.responseText));
+        },
+        nextAction: nextAction,
+        method:'GET',
+        resource: gss.SEARCH_URL + encodeURIComponent(query)
+    });
 };

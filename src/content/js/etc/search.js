@@ -67,11 +67,13 @@ function fetchFolder(){
 
 
 function viewRemoteSearchResults(){
-//  alert(searchFiles.length);
   if (searchFiles.length) {                                                          // update the view with the new results
     gSearchFound = true;
     remoteTree.updateView2(searchFiles);
   }//if
+  else{
+      notifyForNotFound();
+  }
 }
 
 function setResults(){
@@ -79,10 +81,21 @@ function setResults(){
     for (var i=0; i<results.length; i++){
         searchFiles.push(results[i]);
     }//for
+
+    viewRemoteSearchResults();
+    
+
+    gSearchRunning = false;
+  --gProcessing;
+  $('searchFile').disabled = false;
+  $('searchFile').focus();
+  $('searchButton').label = gStrbundle.getString("search");
+
 }
 
 function searchRemote(){
     gSearchName = $('searchFile').value;
+
 
     if (!$('searchFile').value){
       if (remoteTree.searchMode) {
@@ -91,29 +104,26 @@ function searchRemote(){
       return;
     }//if
 
-//    gss.search(gSearchName, function(results){
-//        results.forEach(function (f) {
-//            searchFiles.push(f);
-//        });
-//    });
+    if (remoteTree.searchMode) {
+        remoteTree.updateView();
+    }
+    
+    $('searchFile').removeAttribute("status");
+    $('searchStatusIcon').removeAttribute("status");
+    $('searchStatus').value  = '';
+    $('searchButton').focus();
+    $('searchFile').disabled = true;
+    $('searchButton').label  = gStrbundle.getString("searchStop");
 
     gss.search(gSearchName, setResults);
-    viewRemoteSearchResults();
-    notifyForNotFound();
-
-    gSearchRunning = false;
-  --gProcessing;
-  $('searchFile').disabled = false;
-  $('searchFile').focus();
-  $('searchButton').label = gStrbundle.getString("search");
 }
 
 function notifyForNotFound(){
-  if (!gSearchFound) {
+//  if (!gSearchFound) {
     $('searchFile').setAttribute("status",       "notfound");
     $('searchStatusIcon').setAttribute("status", "notfound");
     $('searchStatus').value = gStrbundle.getString("notFound");
-  }
+//  }
 }
 
 function searchInFiles(subFolder){

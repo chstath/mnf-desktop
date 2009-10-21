@@ -66,6 +66,25 @@ var remoteFile = {
 
       window.openDialog("chrome://firegss/content/remoteProperties.xul", "properties", "chrome,modal,dialog,resizable,centerscreen", params);
 
+      if (params.returnVal){//"OK" is fired
+           try{
+//               alert("readForAll = " + file.readForAll);
+            var changes = {
+              readForAll : true,
+              permissions : params.permissions
+            };
+
+            alert("changes : " + changes.toSource());
+
+            gss.update(file, changes);
+            alert("OK");
+            }
+            catch(e){
+                alert(e);
+            }
+
+      }
+
       if (!params.returnVal) {
         return false;
       }
@@ -78,4 +97,3 @@ var remoteFile = {
     return false;
   }
 }
-

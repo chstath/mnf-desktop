@@ -18,6 +18,18 @@ function directorySort2(a, b) {
   return 0;
 }
 
+function directorySort2Remote(a, b) {
+  if (a.parent.location.toLowerCase() < b.parent.location.toLowerCase())
+    return -1;
+  if (a.parent.location.toLowerCase() > b.parent.location.toLowerCase())
+    return 1;
+  if (a.location.toLowerCase() < b.location.toLowerCase())
+    return -1;
+  if (a.location.toLowerCase() > b.location.toLowerCase())
+    return 1;
+  return 0;
+}
+
 function compareName(a, b) {
   if (!a.isDirectory() && b.isDirectory())
     return 1;
@@ -30,12 +42,33 @@ function compareName(a, b) {
   return 0;
 }
 
+function compareNameRemote(a, b) {
+  if (!a.isFolder && b.isFolder)
+    return 1;
+  if (a.isFolder && !b.isFolder)
+    return -1;
+  if (a.name.toLowerCase() < b.name.toLowerCase())
+    return -1;
+  if (a.name.toLowerCase() > b.name.toLowerCase())
+    return 1;
+  return 0;
+    
+}
+
 function compareSize(a, b) {
   if (!a.isDirectory() && b.isDirectory())
     return 1;
   if (a.isDirectory() && !b.isDirectory())
     return -1;
   return a.fileSize - b.fileSize;
+}
+
+function compareSizeRemote(a, b) {
+  if (!a.isFolder && b.isFolder)
+    return 1;
+  if (a.isFolder && !b.isFolder)
+    return -1;
+  return a.size - b.size;
 }
 
 function compareType(a, b) {
@@ -50,12 +83,37 @@ function compareType(a, b) {
   return 0;
 }
 
+function compareTypeRemote(a, b) {
+    
+  if (!a.isFolder && b.isFolder)
+    return 1;
+  if (a.isFolder && !b.isFolder)
+    return -1;
+
+  if (!a.isFolder && !b.isFolder){
+      if (a.content.toLowerCase() < b.content.toLowerCase())
+        return -1;
+      if (a.content.toLowerCase() > b.content.toLowerCase())
+        return 1;
+  }
+
+  return 0;
+}
+
 function compareDate(a, b) {
   if (!a.isDirectory() && b.isDirectory())
     return 1;
   if (a.isDirectory() && !b.isDirectory())
     return -1;
   return a.lastModifiedTime - b.lastModifiedTime;
+}
+
+function compareDateRemote(a, b) {
+  if (!a.isFolder && b.isFolder)
+    return 1;
+  if (a.isFolder && !b.isFolder)
+    return -1;
+  return a.modificationDate - b.modificationDate;
 }
 
 function compareLocalAttr(a, b) {
@@ -71,9 +129,9 @@ function compareLocalAttr(a, b) {
 }
 
 function compareRemoteAttr(a, b) {
-  if (!a.isDirectory() && b.isDirectory())
+  if (!a.isFolder && b.isFolder)
     return 1;
-  if (a.isDirectory() && !b.isDirectory())
+  if (a.isFolder && !b.isFolder)
     return -1;
   if (a.permissions < b.permissions)
     return -1;

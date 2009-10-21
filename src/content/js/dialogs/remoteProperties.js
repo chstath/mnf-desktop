@@ -3,6 +3,7 @@ var gStrbundle;
 var gArgs;
 
 function init() {
+   try{
   gStrbundle = $("strings");
   gArgs      = window.arguments[0];
 
@@ -55,23 +56,30 @@ function init() {
             permread.id = "permread_" + new String(p);
             permread.setAttribute("checked", perm.read);
             document.getElementById("permreadlist").appendChild(permread);
+            permread.addEventListener("CheckboxStateChange", permissionChanged, true);
 
             var permwrite = document.createElement("checkbox");
             permwrite.id = "permwrite_" + new String(p);
             permwrite.setAttribute("checked", perm.write);
             document.getElementById("permwritelist").appendChild(permwrite);
+            permwrite.addEventListener("CheckboxStateChange", permissionChanged, true);
 
             var permacl = document.createElement("checkbox");
             permacl.id = "permacl_" + new String(p);
             permacl.setAttribute("checked", perm.modifyACL);
             document.getElementById("permacllist").appendChild(permacl);
+            permacl.addEventListener("CheckboxStateChange", permissionChanged, true);
+
+//            addEventListener("CheckboxStateChange",  permissionChanged, perm, true);
         }
         change();
 //    gInitialPermissions = $('manual').value;
-        addEventListener("CheckboxStateChange", change, true);
+        //addEventListener("CheckboxStateChange", change, true);
+        
   } else {
     $('permrow').collapsed = true;
   }
+
 
   if (gArgs.writable != 'disabled') {
     $('public').checked = gArgs.isPublic;
@@ -89,41 +97,75 @@ function init() {
   } else {
     $('fileIcon').src = "moz-icon://file:///" + gArgs.path + "?size=32";
   }
+   }
+   catch(e){
+       alert(e.toSource());
+   }
 
+}
+
+function isChecked(element){
+    if (element==null){
+        return 0;
+    }
+
+    return element.checked;
 }
 
 function change() {
-  $('manual').value = (4 * $('suid').checked       + 2 * $('guid').checked        + 1 * $('sticky').checked).toString()
-                    + (4 * $('readowner').checked  + 2 * $('writeowner').checked  + 1 * $('execowner').checked).toString()
-                    + (4 * $('readgroup').checked  + 2 * $('writegroup').checked  + 1 * $('execgroup').checked).toString()
-                    + (4 * $('readpublic').checked + 2 * $('writepublic').checked + 1 * $('execpublic').checked).toString();
+//  $('manual').value = (4 * $('suid').checked       + 2 * $('guid').checked        + 1 * $('sticky').checked).toString()
+//                    + (4 * $('readowner').checked  + 2 * $('writeowner').checked  + 1 * $('execowner').checked).toString()
+//                    + (4 * $('readgroup').checked  + 2 * $('writegroup').checked  + 1 * $('execgroup').checked).toString()
+//                    + (4 * $('readpublic').checked + 2 * $('writepublic').checked + 1 * $('execpublic').checked).toString();
+
+  if ($('manual')!=null){
+      $('manual').value = (4 * isChecked($('suid'))       + 2 * isChecked($('guid'))        + 1 * isChecked($('sticky'))).toString()
+                        + (4 * isChecked($('readowner'))  + 2 * isChecked($('writeowner'))  + 1 * isChecked($('execowner'))).toString()
+                        + (4 * isChecked($('readgroup'))  + 2 * isChecked($('writegroup'))  + 1 * isChecked($('execgroup'))).toString()
+                        + (4 * isChecked($('readpublic')) + 2 * isChecked($('writepublic')) + 1 * isChecked($('execpublic'))).toString();
+  }
+}
+
+function permissionChanged(){
+    //alert("permissionChanged: " + this.id + " checked " + this.checked);
+    function parseAttribute(attr){
+//        alert(attr.slice(attr.indexOf("perm"), attr.length));
+        return attr.slice(new String("perm").length, attr.length);
+    }
+
+    var permAttribute = parseAttribute(this.id.split("_")[0]);
+    var permIndex = this.id.split("_")[1];
+    //alert(permAttribute + " " + permIndex);
+//    alert("gArgs.permissions[" + permIndex + "]" + "." + permAttribute + "=" + this.checked);
+    eval("gArgs.permissions[" + permIndex + "]" + "." + permAttribute + "=" + this.checked);
 }
 
 function doOK() {
-  if ("returnVal" in gArgs) {
+//    if ("returnVal" in gArgs) {
+//        gArgs.returnVal = true;
+//    gArgs.writable  = !$('readonly').checked;
+//    }
+//
+//  if (!gInitialPermissions) {
+//    return true;
+//}
+//
+//  if (gArgs.multipleFiles) {
+//    gArgs.permissions       = $('manual').value;
+//    gArgs.applyTo.folders   = $('foldersprop').checked;
+//    gArgs.applyTo.files     = $('filesprop').checked;
+//  } else if (gInitialPermissions != $('manual').value || $('foldersprop').checked || $('filesprop').checked) {
+//    gArgs.permissions = $('manual').value;
+//
+//    if (gArgs.applyTo) {
+//      gArgs.applyTo.thisFile = $('thisprop').checked;
+//      gArgs.applyTo.folders  = $('foldersprop').checked;
+//      gArgs.applyTo.files    = $('filesprop').checked;
+//    }
+//  }
+    
     gArgs.returnVal = true;
-    gArgs.writable  = !$('readonly').checked;
-  }
-
-  if (!gInitialPermissions) {
     return true;
-  }
-
-  if (gArgs.multipleFiles) {
-    gArgs.permissions       = $('manual').value;
-    gArgs.applyTo.folders   = $('foldersprop').checked;
-    gArgs.applyTo.files     = $('filesprop').checked;
-  } else if (gInitialPermissions != $('manual').value || $('foldersprop').checked || $('filesprop').checked) {
-    gArgs.permissions = $('manual').value;
-
-    if (gArgs.applyTo) {
-      gArgs.applyTo.thisFile = $('thisprop').checked;
-      gArgs.applyTo.folders  = $('foldersprop').checked;
-      gArgs.applyTo.files    = $('filesprop').checked;
-    }
-  }
-
-  return true;
 }
 
 function multipleFiles() {

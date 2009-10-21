@@ -243,7 +243,7 @@ transfer.prototype = {
 							}
 							else if (aStateFlags & IListener.STATE_STOP) {
 								this.transferObject.status = 'Finished';
-								downloading = false;
+								qprocessing = false;
 								queueTree.treebox.invalidate();
                                 nsIFile.lastModifiedTime = this.transferObject.mtime;
 								localTree.refresh();
@@ -252,7 +252,7 @@ transfer.prototype = {
 						}
 					}
 					// do the save
-					downloadq.push({ file: files[x], nsIFile: nsIFile, persist: persist });
+					eventq.push({ type: 'download', file: files[x], nsIFile: nsIFile, persist: persist });
 				}
 			} else {
 				if (files[x].isDirectory()) {                        // if the directory doesn't exist we create it
@@ -341,7 +341,7 @@ transfer.prototype = {
 								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
 							}
 							obj.status = "Finished";
-							uploading = false;
+							qprocessing = false;
 							queueTree.treebox.invalidate();
 							remoteTree.refresh(false, true);
 							hideWorking();
@@ -363,7 +363,7 @@ transfer.prototype = {
 							}
 							o.status = "Failed";
 							o.failed = true;
-							uploading = false;
+							qprocessing = false;
 							queueTree.treebox.invalidate();
 							hideWorking();
 						};
@@ -378,12 +378,13 @@ transfer.prototype = {
 								o.size = percentComplete + " - " + commas(evt.loaded) +"/" + commas(evt.total);
 							}
 							o.status = "Canceled";
-							uploading = false;
+							qprocessing = false;
 							queueTree.treebox.invalidate();
 							hideWorking();
 						}
 					}();
-					uploadq.push({ file: files[x],
+					eventq.push({ type: 'upload',
+                               file: files[x],
 					           folder: remoteFolder,
 					           onstart: loadStartHandler,
 					           onprogress: progressHandler,

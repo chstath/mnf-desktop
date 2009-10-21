@@ -1,58 +1,48 @@
-// The queue of upload requests for files.
-var uploadq = [];
-// The upload queue monitor used for locking.
-var uploading = false;
-// Processes the queue of pending uploads.
-function processUploadq() {
-    if (uploading) return;
-    var upload = uploadq.shift();
-    if (upload) {
-        uploading = gss.uploadFile(upload.file, upload.folder.uri, upload.onstart,
-	        upload.onprogress, upload.onload, upload.onerror, upload.onabort);
-    } else
-        uploading = false;
-}
-setInterval(processUploadq, 300);
-// The queue of download requests for files.
-var downloadq = [];
-// The download queue monitor used for locking.
-var downloading = false;
-// Processes the queue of pending downloads.
-function processDownloadq() {
-    if (downloading) return;
-    var download = downloadq.shift();
-    if (download) {
-        try {
-            downloading = download.persist;
-            var now = (new Date()).toUTCString();
-           	// Unfortunately single quotes are not escaped by default.
-            var resource = download.file.uri.replace(/'/g, "%27");
-            var authHeader = "Authorization: " + gss.username + " " +
-                gss.sign('GET', now, resource, gss.authToken);
-            var dateHeader = "X-GSS-Date: " + now;
-            var headers = authHeader + "\r\n" + dateHeader + "\r\n";
-		    var nsIURI = gIos.newURI(resource, "utf-8", null);
-		    var result = download.persist.saveURI(nsIURI, null, null, null, headers, download.nsIFile);
-		    if (result)
-		        alert(result);
-        } catch (e) {
-            alert(e);
+// The event queue of upload and download requests for files.
+var eventq = [];
+// The event queue monitor used for locking.
+var qprocessing = false;
+// Processes the queue of pending events.
+function processq() {
+    if (qprocessing) return;
+    var event = eventq.shift();
+    if (event) {
+        if (event.type === 'upload')
+            qprocessing = gss.uploadFile(event.file, event.folder.uri, event.onstart,
+                event.onprogress, event.onload, event.onerror, event.onabort);
+        else if (event.type === 'download') {
+            try {
+                qprocessing = event.persist;
+                var now = (new Date()).toUTCString();
+                // Unfortunately single quotes are not escaped by default.
+                var resource = event.file.uri.replace(/'/g, "%27");
+                var authHeader = "Authorization: " + gss.username + " " +
+                    gss.sign('GET', now, resource, gss.authToken);
+                var dateHeader = "X-GSS-Date: " + now;
+                var headers = authHeader + "\r\n" + dateHeader + "\r\n";
+                var nsIURI = gIos.newURI(resource, "utf-8", null);
+                var result = event.persist.saveURI(nsIURI, null, null, null, headers, event.nsIFile);
+                if (result)
+                    alert(result);
+            } catch (e) {
+                alert(e);
+            }
         }
     } else
-        downloading = false;
+        qprocessing = false;
 }
-setInterval(processDownloadq, 300);
+setInterval(processq, 300);
 
 function cancelAll() {
-    downloadq = [];
-    uploadq = [];
-    if (downloading) {
-        downloading.cancelSave();
-        downloading = false;
-    }
-    if (uploading) {
-        uploading.abort();
-        uploading = false;
+    eventq = [];
+    if (qprocessing) {
+        if (qprocessing.type === 'download') {
+            qprocessing.cancelSave();
+            qprocessing = false;
+        } else if (qprocessing.type === 'upload') {
+            qprocessing.abort();
+            qprocessing = false;
+        }
     }
 }
 

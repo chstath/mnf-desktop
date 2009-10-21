@@ -77,13 +77,6 @@ sync.ensureCachedRemoteSync = function () {
     gss.fetchFolderWithChildren(remoteRoot, start);
 }
 
-sync.start = function (args) {
-    if (!args.found)
-        sync.upload(args.localRoot, args.remoteRoot);
-    else 
-        sync.compareFolders(args.localRoot, args.remoteRoot);
-}
-
 // Compare the local and remote folders.
 sync.compareFolders = function (local, remote) {
     var doCompare = function () {

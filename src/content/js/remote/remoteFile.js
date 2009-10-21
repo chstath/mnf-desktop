@@ -74,10 +74,10 @@ var remoteFile = {
               permissions : params.permissions
             };
 
-            alert("changes : " + changes.toSource());
+//            alert("changes : " + changes.toSource());
 
-            gss.update(file, changes);
-            alert("OK");
+//            gss.update(file, changes);
+//            alert("OK");
             }
             catch(e){
                 alert(e);

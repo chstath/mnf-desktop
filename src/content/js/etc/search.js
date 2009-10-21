@@ -1,3 +1,5 @@
+var searchFiles  = new Array();
+
 function showSearch(show) {
   $('searchToolbar').setAttribute("collapsed", !show);
 
@@ -27,10 +29,6 @@ function searchWrapper() {
   gSearchRemoteUpdate = false;
 
   if (gSearchRunning) {
-    if (gSearchType && gSearchRecursive) {
-//      gFtp.abort();
-    }
-
     gSearchRunning = false;
     --gProcessing;
     $('searchFile').disabled = false;
@@ -39,29 +37,29 @@ function searchWrapper() {
     return;
   }
 
+  searchFiles = new Array();
   search();
 }
 
-function search(zeParent, last) {
-  if (zeParent && !gSearchRunning) {
-    return;
-  }
+function search(){
+    searchInFiles();
+}
 
-  if (!zeParent) {                                                                      // get the input variables
-    gSearchDates     = $('searchDates').getAttribute('checked');
-
-    if (!$('searchFile').value && !gSearchDates) {
-      if (localTree.searchMode) {
-        localTree.updateView();
-      }
-
-      if (remoteTree.searchMode) {
-        remoteTree.updateView();
-      }
-
-      return;
+function listSubFolder(){
+    for (var f=0; f<subFolder.files.length; f++){
+        files.push(subFolder.files[f]);
     }
 
+    for (var d=0; d<subFolder.folders.length; d++){
+        files.push(subFolder.folders[d]);
+    }
+}
+
+function fetchFolder(){
+    gss.fetchFolder(subFolder, listSubFolder);
+}
+
+function searchInFiles(subFolder){
     gSearchFound     = false;
     gSearchCallbacks = new Array();
     gSearchName      = $('searchFile').value;
@@ -73,6 +71,18 @@ function search(zeParent, last) {
     gSearchTo        = $('searchDateTo').dateValue;
     gSearchFrom.setHours(0); gSearchFrom.setMinutes(0); gSearchFrom.setSeconds(0); gSearchFrom.setMilliseconds(0);
     gSearchTo.setHours(0);   gSearchTo.setMinutes(0);   gSearchTo.setSeconds(0);   gSearchTo.setMilliseconds(0);
+    gSearchDates     = $('searchDates').getAttribute('checked');
+
+    if (!$('searchFile').value && !gSearchDates) {
+      if (localTree.searchMode) {
+        localTree.updateView();
+      }
+
+      if (remoteTree.searchMode) {
+        remoteTree.updateView();
+      }
+      return;
+    }
 
     if (!gSearchRegExp) {                                                               // extract the search terms
       gSearchName    = gSearchName.replace(/'/g, '"');
@@ -97,23 +107,16 @@ function search(zeParent, last) {
         gSearchName[x] = trim(gSearchName[x]).replace(/\//g, " ");
       }
     }
-  }
 
-  if (gSearchType && (!gss.hasAuthenticated() || (!zeParent && !isReady()))) {
-    return;
-  }
-
-  if (!zeParent) {                                                                      // reset trees, setup for new search
     if (!gSearchType && localTree.searchMode) {
       localTree.updateView();
     } else if (gSearchType && remoteTree.searchMode && !gSearchRemoteUpdate) {
       gSearchRemoteUpdate = true;
       remoteTree.extraCallback = search;
       remoteTree.updateView();
-      return;
     }
 
-    gSearchRunning = true;
+     gSearchRunning = true;
     ++gProcessing;
     $('searchFile').removeAttribute("status");
     $('searchStatusIcon').removeAttribute("status");
@@ -121,70 +124,65 @@ function search(zeParent, last) {
     $('searchButton').focus();
     $('searchFile').disabled = true;
     $('searchButton').label  = gStrbundle.getString("searchStop");
-  }
 
-  var files = new Array();
+    var files = new Array();
 
-  if (zeParent) {                                                                       // get the files to be searched
-    if (gSearchType) {
-      for (var x = 0; x < gFtp.listData.length; ++x) {
-        files.push(gFtp.listData[x]);
-      }
-    } else {
-      try {
-        var dir     = localFile.init(zeParent);
-        var innerEx = gfiregssUtils.getFileList(dir, new wrapperClass(files));
-
-        if (innerEx) {
-          throw innerEx;
+    if (gSearchType) {//Remote Search
+        if (subFolder){
+            //setTimeout("fetchFolder()", 1);
+            fetchFolder();
         }
-      } catch (ex) {
-        debug(ex);
-        return;                                                                         // skip this directory
-      }
+        else{
+          for (var x = 0; x < remoteTree.data.length; ++x) {
+            files.push(remoteTree.data[x]);
+          }
+        }
+    } else {//Local Search
+        if (subFolder){
+            var dir = localFile.init(subFolder.path);
+            var entries = dir.directoryEntries;
+            while (entries.hasMoreElements()){
+                var entry = entries.getNext();
+                entry.QueryInterface(Components.interfaces.nsIFile);
+                files.push(entry);
+            }
+        }
+        else{
+          for (var x = 0; x < localTree.data.length; ++x) {
+            files.push(localTree.data[x]);
+          }
+        }
     }
-  } else {
-    if (gSearchType) {
-      for (var x = 0; x < remoteTree.data.length; ++x) {
-        files.push(remoteTree.data[x]);
-      }
-    } else {
-      for (var x = 0; x < localTree.data.length; ++x) {
-        files.push(localTree.data[x]);
-      }
+    var allMinus = true;
+    var regEx;
+
+    
+    for (var y = 0; y < gSearchName.length; ++y) {
+        if (gSearchName[y].charAt(0) != '-') {
+            allMinus = false;
+            break;
+        }
     }
-  }
-
-  if (gSearchRecursive) {
-    files.sort(compareName).reverse();
-  }
-
-  if (gSearchType && gSearchRecursive && !zeParent) {
-    gFtp.beginCmdBatch();
-  }
-
-  var searchFiles  = new Array();
-  var anyRecursion = false;
-  var firstFolder  = true;
-  var allMinus     = true;
-  var regEx;
-
-  for (var y = 0; y < gSearchName.length; ++y) {
-    if (gSearchName[y].charAt(0) != '-') {
-      allMinus = false;
-      break;
-    }
-  }
-
-  if (gSearchRegExp) {
-    regEx = new RegExp(gSearchName, gSearchMatchCase ? "" : "i");
-  }
-
-  for (var x = 0; x < files.length; ++x) {                                              // do the search!
-    var exclude = false;
 
     if (gSearchRegExp) {
-      if (files[x].leafName.search(regEx) != -1) {
+        regEx = new RegExp(gSearchName, gSearchMatchCase ? "" : "i");
+    }
+
+    
+  for (var x = 0; x < files.length; ++x) {                                              // do the search!
+    var fileName;
+    var isDirectory;
+    if (gSearchType){
+        fileName = files[x].name;
+        isDirectory = files[x].isFolder;
+    }
+    else{
+        fileName = files[x].leafName;
+        isDirectory = files[x].isDirectory();
+    }
+
+    if (gSearchRegExp) {
+      if (fileName.search(regEx) != -1) {
         searchFiles.push(files[x]);
       }
     } else {
@@ -193,35 +191,15 @@ function search(zeParent, last) {
       }
 
       for (var y = 0; y < gSearchName.length; ++y) {
-        if (gSearchName[y].charAt(0) == '-') {
-          if (gSearchRecursive && files[x].isDirectory()) {
-            if ((!gSearchMatchCase && files[x].leafName.toLowerCase().indexOf(gSearchName[y].substring(1).toLowerCase()) != -1)
-              || (gSearchMatchCase && files[x].leafName.indexOf(gSearchName[y].substring(1)) != -1)) {
-              exclude = true;
-            }
-          }
-
-          continue;
-        }
-
         var searchTerm = gSearchName[y].charAt(0) == '+' ? gSearchName[y].substring(1) : gSearchName[y];
-
-        if ((!gSearchMatchCase && files[x].leafName.toLowerCase().indexOf(searchTerm.toLowerCase()) != -1)
-          || (gSearchMatchCase && files[x].leafName.indexOf(searchTerm) != -1)) {
+        if ((!gSearchMatchCase && fileName.toLowerCase().indexOf(searchTerm.toLowerCase()) != -1)
+          || (gSearchMatchCase && fileName.indexOf(searchTerm) != -1)) {
           searchFiles.push(files[x]);
           break;
         }
       }
     }
-
-    if (gSearchRecursive && files[x].isDirectory() && !exclude) {                       // look in subdirectories if needed
-      makeSearchCallback(files[x], (firstFolder && !zeParent) || last);
-      last         = false;
-      anyRecursion = true;
-      firstFolder  = false;
-    }
   }
-
   if (!gSearchRegExp) {                                                                 // look at + and - criteria
     for (var x = 0; x < gSearchName.length; ++x) {
       var ch = gSearchName[x].charAt(0);
@@ -231,11 +209,20 @@ function search(zeParent, last) {
       }
 
       for (var y = searchFiles.length - 1; y >= 0; --y) {
-        if (!gSearchMatchCase && ((ch == '-' && searchFiles[y].leafName.toLowerCase().indexOf(gSearchName[x].substring(1).toLowerCase()) != -1)
-                               || (ch == '+' && searchFiles[y].leafName.toLowerCase().indexOf(gSearchName[x].substring(1).toLowerCase()) == -1))) {
+          var fileNameLocal;
+          if (gSearchType){
+              fileNameLocal = searchFiles[y].name;
+          }
+          else{
+             fileNameLocal = searchFiles[y].leafName;
+          }
+
+        
+        if (!gSearchMatchCase && ((ch == '-' && fileNameLocal.toLowerCase().indexOf(gSearchName[x].substring(1).toLowerCase()) != -1)
+                               || (ch == '+' && fileNameLocal.toLowerCase().indexOf(gSearchName[x].substring(1).toLowerCase()) == -1))) {
           searchFiles.splice(y, 1);
-        } else if (gSearchMatchCase && ((ch == '-' && searchFiles[y].leafName.indexOf(gSearchName[x].substring(1)) != -1)
-                                     || (ch == '+' && searchFiles[y].leafName.indexOf(gSearchName[x].substring(1)) == -1))) {
+        } else if (gSearchMatchCase && ((ch == '-' && fileNameLocal.indexOf(gSearchName[x].substring(1)) != -1)
+                                     || (ch == '+' && fileNameLocal.indexOf(gSearchName[x].substring(1)) == -1))) {
           searchFiles.splice(y, 1);
         }
       }
@@ -244,15 +231,21 @@ function search(zeParent, last) {
 
   if (gSearchDates) {                                                                   // look at dates
     for (var x = searchFiles.length - 1; x >= 0; --x) {
-      if (searchFiles[x].lastModifiedTime < gSearchFrom || searchFiles[x].lastModifiedTime - 86400000 > gSearchTo) {
-        searchFiles.splice(x, 1);
-      }
+        var fileDate;
+        if (gSearchType){
+            fileDate = searchFiles[x].modificationDate;
+        }
+        else{
+            fileDate = searchFiles[x].lastModifiedTime;
+        }
+        if (fileDate < gSearchFrom || fileDate - 86400000 > gSearchTo || (gSearchType && searchFiles[x].isFolder)) {
+            searchFiles.splice(x, 1);
+        }
     }
   }
 
   if (searchFiles.length) {                                                             // update the view with the new results
     gSearchFound = true;
-
     if (gSearchType) {
       remoteTree.updateView2(searchFiles);
     } else {
@@ -260,22 +253,40 @@ function search(zeParent, last) {
     }
   }
 
-  if (gSearchType && gSearchRecursive && !zeParent) {
-    gFtp.endCmdBatch();
-  }
+    gSearchRunning = false;
+  --gProcessing;
+  $('searchFile').disabled = false;
+  $('searchFile').focus();
+  $('searchButton').label = gStrbundle.getString("search");
 
-  if (!last && !gSearchType && gSearchRecursive && !zeParent) {                         // go to next directory
-    while (gSearchCallbacks.length) {
-      var func = gSearchCallbacks[0];
-      gSearchCallbacks.shift();
-      func();
+    if (gSearchRecursive){
+        for (var x = 0; x < files.length; ++x) {
+            var isDirectory;
+            if (gSearchType){
+                isDirectory = files[x].isFolder;
+            }
+            else{
+                isDirectory = files[x].isDirectory();
+            }
+            
+            if (isDirectory){
+                //searchInFiles(files[x]);
+                arguments.callee(files[x]);
+            }
+        }
     }
-  }
+  
 
-  if (!gSearchRecursive || last || (!anyRecursion && !zeParent)) {
-    finalSearchCallback();
+  if (!gSearchFound) {
+    $('searchFile').setAttribute("status",       "notfound");
+    $('searchStatusIcon').setAttribute("status", "notfound");
+    $('searchStatus').value = gStrbundle.getString("notFound");
+    return;
   }
 }
+
+
+
 
 function makeSearchCallback(file, last) {
   var func = function() {
@@ -283,7 +294,8 @@ function makeSearchCallback(file, last) {
   };
 
   if (gSearchType) {
-    gFtp.list(file.path, func, true, true);
+    //gFtp.list(file.path, func, true, true);
+    gSearchCallbacks.unshift(func);
   } else {
     gSearchCallbacks.unshift(func);
   }

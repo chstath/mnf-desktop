@@ -246,6 +246,11 @@ transfer.prototype = {
 								qprocessing = false;
 								queueTree.treebox.invalidate();
                                 nsIFile.lastModifiedTime = this.transferObject.mtime;
+                                // Work around Windows brainded DST handling.
+                                var diff = this.transferObject.mtime - nsIFile.lastModifiedTime;
+                                if (diff !== 0)
+                                    nsIFile.lastModifiedTime = this.transferObject.mtime + diff;
+                                
 								localTree.refresh();
 								hideWorking();
 							}

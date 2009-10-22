@@ -458,9 +458,9 @@ gss.update = function(resource, changes, nextAction) {
         newProperties.permissions = changes.permissions;
     if (changes.tags)
         newProperties.tags = changes.tags;
-    if (changes.readForAll)
+    if (changes.readForAll !== undefined)
         newProperties.readForAll = changes.readForAll;
-    if (changes.versioned)
+    if (changes.versioned !== undefined)
         newProperties.versioned = changes.versioned;
     if (changes.modificationDate)
         newProperties.modificationDate = changes.modificationDate;

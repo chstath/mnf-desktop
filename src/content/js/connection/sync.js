@@ -154,7 +154,7 @@ sync.compareChildren = function (local, remote, isLocalNewer, isRemoteNewer) {
                 });
             if (!found)
                 sync.upload(lf, remote);
-        } else if (!lf.isSpecial()) {
+        } else if (lf.isFile() || lf.isSymlink()) {
             // Check remote files.
             found = false;
             if (remote.files)

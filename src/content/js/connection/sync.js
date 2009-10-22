@@ -178,31 +178,35 @@ sync.compareFiles = function (local, remote) {
 
 // Uploads the specified local file or folder to the specified remote parent folder.
 sync.upload = function (local, remoteParent) {
-    var startUpload = function () {
+    var startUpload = function (args) {
+        var l = args[0];
+        var r = args[1];
         var t = new transfer();
         t.prompt = false;
-        t.start(false, local, local.parent.path, remoteParent);
+        t.start(false, l, l.parent.path, r);
     };
     if (remoteParent.isFolder && !remoteParent.parent)
-        gss.fetchFolderWithChildren(remoteParent, startUpload);
+        gss.fetchFolderWithChildren(remoteParent, startUpload, [local, remoteParent]);
     else if (!remoteParent.isFolder && !remoteParent.folder)
-        gss.fetchFile(remoteParent, startUpload);
+        gss.fetchFile(remoteParent, startUpload, [local, remoteParent]);
     else 
-        startUpload();
+        startUpload([local, remoteParent]);
 }
 
 // Downloads the specified remote file or folder to the specified local file or folder.
 sync.download = function (local, remote) {
-    var startDownload = function () {
+    var startDownload = function (args) {
+        var l = args[0];
+        var r = args[1];
         var t = new transfer();
-        var remoteFolder = remote.isFolder? remote.parent: remote.folder;
+        var remoteFolder = r.isFolder? r.parent: r.folder;
         t.prompt = false;
-        t.start(true, remote, local.parent.path, remoteFolder);
+        t.start(true, r, l.parent.path, remoteFolder);
     };
     if (remote.isFolder && !remote.parent)
-        gss.fetchFolderWithChildren(remote, startDownload);
+        gss.fetchFolderWithChildren(remote, startDownload, [local, remote]);
     else if (!remote.isFolder && !remote.folder)
-        gss.fetchFile(remote, startDownload);
+        gss.fetchFile(remote, startDownload, [local, remote]);
     else 
-        startDownload();
+        startDownload([local, remote]);
 }

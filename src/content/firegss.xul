@@ -58,18 +58,6 @@
   <script type="application/x-javascript" src="chrome://firegss/content/js/jquery.formHints.js"/>
 
   <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/help.js"/>
-  <script type="text/javascript">
- <![CDATA[
-  function addEntry()
- {
-     if(document.getElementById("username").value != "Username?"){
-        var fhService = Components.classes["@mozilla.org/satchel/form-history;1"].
-                        getService(Components.interfaces.nsIFormHistory2);
-        fhService.addEntry("firegss-username", document.getElementById("username").value);
-    }
- }
-  ]]>
-  </script>
   <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>
 
 
@@ -182,8 +170,8 @@
               title                   = "Username?"
               flex                    = "1"
               tooltiptext             = "&username.tip;"
-              onkeypress              = "if (event.keyCode == 13){ addEntry(); login(this.value)}"
-              ontextentered           = "addEntry();login(this.value)"
+              onkeypress              = "if (event.keyCode == 13){ login(this.value) }"
+              ontextentered           = "login(this.value)"
               type="autocomplete"
               enablehistory="true"
               autocompletesearch="form-history"
@@ -191,7 +179,7 @@
               
               
               />
-      <toolbarbutton label="&login.label;" oncommand="addEntry();login($('username').value)"
+      <toolbarbutton label="&login.label;" oncommand="login($('username').value)"
                     accesskey="&loginbutton.access;"/>
       <toolbarbutton label="&logout.label;" oncommand="logout()" accesskey="&logoutbutton.access;"/>
       <toolbarspacer flex="1"/>

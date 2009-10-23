@@ -175,11 +175,18 @@ function returnToAppTab(attrName) {
 }
 
 function login(event) {
-  event = event.trim();
   var hint = "Username?";
+  event = event.trim();
   if (event === hint || event === '')
     alert("Enter a username first");
   else if (gss.username !== event) {
+    // Remember the username.
+    if ($("username").value !== hint) {
+      var fhService = Cc["@mozilla.org/satchel/form-history;1"].
+                    getService(Ci.nsIFormHistory2);
+      fhService.addEntry("firegss-username", $("username").value);
+    }
+
     gss.username = event;
     gss.authToken = '';
     doDesktopLogin();

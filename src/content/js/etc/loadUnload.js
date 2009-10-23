@@ -116,7 +116,9 @@ function doDesktopLogin() {
                 var loginTab = returnToAppTab('gss-login');
                 gBrowser.removeTab(loginTab);
                 returnToAppTab('firegss');
-                // Make the username textbox read-only and initialize the remote pane.
+                // Make the username textbox read-only, switch the button to logout and
+                // initialize the remote pane.
+                jQuery("#loginout").attr("label", "Logout");
                 jQuery("#username").attr("readonly", "true");
                 gss.fetchRootFolder(remoteDirTree.initialize);
                 break;
@@ -174,20 +176,26 @@ function returnToAppTab(attrName) {
   return currentTab;
 }
 
-function login(event) {
-  var hint = "Username?";
-  event = event.trim();
-  if (event === hint || event === '')
-    alert("Enter a username first");
-  else if (gss.username !== event) {
-    // Remember the username.
-    if ($("username").value !== hint) {
-      var fhService = Cc["@mozilla.org/satchel/form-history;1"].
-                    getService(Ci.nsIFormHistory2);
-      fhService.addEntry("firegss-username", $("username").value);
-    }
+function loginout() {
+  var isLogin = $("loginout").label === "Login";
+  if (isLogin)
+    login();
+  else 
+    logout();
+}
 
-    gss.username = event;
+function login() {
+  var hint = "Username?";
+  var username = $("username").value.trim();
+  if (username === hint || username === '')
+    alert("Enter a username first");
+  else if (gss.username !== username) {
+    // Remember the username.
+    var fhService = Cc["@mozilla.org/satchel/form-history;1"].
+                    getService(Ci.nsIFormHistory2);
+    fhService.addEntry("firegss-username", username);
+
+    gss.username = username;
     gss.authToken = '';
     doDesktopLogin();
     prefs = Components.classes["@mozilla.org/preferences-service;1"]
@@ -202,6 +210,7 @@ function logout() {
   gss.username = gss.authToken = '';
   jQuery("#username").val("");
   jQuery("#username").removeAttr("readonly");
+  jQuery("#loginout").attr("label", "Login");
   var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
        .getService(Components.interfaces.nsIWindowMediator);
   var mainWindow = wm.getMostRecentWindow("navigator:browser");

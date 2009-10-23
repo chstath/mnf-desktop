@@ -21,7 +21,8 @@
 <!ENTITY prefbutton.access    "O">
 
 <!ENTITY help.label           "Help">
-<!ENTITY help.url             "http://code.google.com/p/gss">
+<!ENTITY helpbug.label        "Report bug">
+<!ENTITY helpabout.label      "About">
 
 <!ENTITY parentdir.tip        "Change to parent directory">
 <!ENTITY refresh.tip          "Refresh Directory">
@@ -92,6 +93,8 @@
 <!ENTITY abort.access         "A">
 <!ENTITY advanced.access      "T">
 <!ENTITY helpbutton.access    "H">
+<!ENTITY helpbug.access       "G">
+<!ENTITY helpabout.access     "U">
 
 <!ENTITY loginbutton.access   "l">
 <!ENTITY browsebutton.access  "B">
@@ -110,4 +113,3 @@
 <!ENTITY sync.access          "y">
 <!ENTITY syncprefs.access     "F">
 <!ENTITY syncprefstab.label   "Select folder...">
-

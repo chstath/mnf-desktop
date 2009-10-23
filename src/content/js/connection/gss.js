@@ -153,13 +153,12 @@ gss.sendRequest = function(arg) {
 		// Make a stream from a file.
 		var stream = Cc["@mozilla.org/network/file-input-stream;1"]
                         .createInstance(Ci.nsIFileInputStream);
-		stream.init(arg.file, 0x01, 0444, 0); // file is an nsIFile instance
-
+		stream.init(arg.file, 0x01, 0444, Ci.nsIFileInputStream.CLOSE_ON_EOF);
 		// Try to determine the MIME type of the file
 		var mimeType = "application/octet-stream";
 		try {
 		    var mimeService = Cc["@mozilla.org/mime;1"].getService(Ci.nsIMIMEService);
-		    mimeType = mimeService.getTypeFromFile(arg.file); // file is an nsIFile instance
+		    mimeType = mimeService.getTypeFromFile(arg.file);
 		} catch (e) { /* eat it; just use application/octet-stream */ }
 		req.setRequestHeader("Content-Type", mimeType);
 	} else if (arg.form) {

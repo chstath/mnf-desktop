@@ -127,9 +127,10 @@
       <menuseparator/>
       <menuitem oncommand="cancelAll()"                         label="&cancelAll.label;"                                           id="queueCancelAll"/>
     </popup>
-    <popup id="advancedpopup"       position="after_start" >
-      <menuitem oncommand="showSearch(true)"                    label="&search.label;"              accesskey="&search.access;"     id="searchMenuItem" key="key_search"/>
-      <menuitem oncommand="showPreferences()"                   label="&preferencestab.label;"      accesskey="&prefbutton.access;" id="prefbutton"/>
+    <popup id="advancedpopup" position="after_start">
+      <menuitem oncommand="showLog()" type="checkbox" label="&logtab.label;" persist="checked" accesskey="&logbutton.access;" id="logbutton"/>
+      <menuitem oncommand="showSearch(true)" label="&search.label;" accesskey="&search.access;" id="searchMenuItem" key="key_search"/>
+      <menuitem oncommand="showPreferences()" label="&preferencestab.label;" accesskey="&prefbutton.access;" id="prefbutton"/>
     </popup>
     <popup id="helppopup" position="after_start" >
       <menuitem oncommand="showHelp()" label="&help.label;" accesskey="&helpbutton.access;" id="helpItem"/>
@@ -191,8 +192,6 @@
                     image="chrome://firegss/skin/icons/sync.png"
                     oncommand="sync.init()" type="checkbox" persist="checked" autoCheck="false"/>
       <toolbarspacer flex="1"/>
-      <toolbarbutton id="logbutton" label="&logtab.label;" accesskey="&logbutton.access;"
-                    oncommand="showLog()" type="checkbox" persist="checked" autoCheck="false"/>
       <toolbarbutton id="advmenu" label="&advanced.label;" accesskey="&advanced.access;"
                     popup="advancedpopup"/>
       <toolbarbutton id="helpbutton" label="&help.label;" accesskey="&helpbutton.access;"

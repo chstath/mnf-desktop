@@ -180,6 +180,7 @@
               
               />
       <button id="loginout" label="Login" oncommand="loginout()"
+                    image="chrome://firegss/skin/icons/login.png"
                     accesskey="&loginbutton.access;"/>
       <toolbarspacer flex="1"/>
       <button id="syncbutton" label="&synctab.label;" accesskey="&syncbutton.access;"

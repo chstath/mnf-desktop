@@ -162,16 +162,16 @@
 
     <!-- :::::::::::::::::::::::::::::: main toolbar :::::::::::::::::::::::::::::: -->
 
-    <toolbar         id="main-toolbar"  align="center">
-      <toolbaritem   collapsed="true" id="folderItem">
-        <menulist    id="folder"                                                                       oncommand="onFolderChange(false, true)" width="150"/>
+    <toolbar id="main-toolbar"  align="center">
+      <toolbaritem collapsed="true" id="folderItem">
+        <menulist id="folder" oncommand="onFolderChange(false, true)" width="150"/>
       </toolbaritem>
       <textbox id                     = "username"
               title                   = "Username?"
               flex                    = "1"
               tooltiptext             = "&username.tip;"
-              onkeypress              = "if (event.keyCode == 13){ login(this.value) }"
-              ontextentered           = "login(this.value)"
+              onkeypress              = "if (event.keyCode == 13){ login() }"
+              ontextentered           = "login()"
               type="autocomplete"
               enablehistory="true"
               autocompletesearch="form-history"
@@ -179,11 +179,10 @@
               
               
               />
-      <toolbarbutton label="&login.label;" oncommand="login($('username').value)"
+      <button id="loginout" label="Login" oncommand="loginout()"
                     accesskey="&loginbutton.access;"/>
-      <toolbarbutton label="&logout.label;" oncommand="logout()" accesskey="&logoutbutton.access;"/>
       <toolbarspacer flex="1"/>
-      <toolbarbutton id="syncbutton" label="&synctab.label;" accesskey="&syncbutton.access;"
+      <button id="syncbutton" label="&synctab.label;" accesskey="&syncbutton.access;"
                     image="chrome://firegss/skin/icons/sync.png"
                     oncommand="sync.init()" type="checkbox" persist="checked" autoCheck="false"/>
       <toolbarbutton id="logbutton" label="&logtab.label;" accesskey="&logbutton.access;"

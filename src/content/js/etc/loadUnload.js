@@ -119,6 +119,7 @@ function doDesktopLogin() {
                 // Make the username textbox read-only, switch the button to logout and
                 // initialize the remote pane.
                 jQuery("#loginout").attr("label", "Logout");
+                jQuery("#loginout").attr("image", "chrome://firegss/skin/icons/logout.png");
                 jQuery("#username").attr("readonly", "true");
                 gss.fetchRootFolder(remoteDirTree.initialize);
                 break;
@@ -211,6 +212,7 @@ function logout() {
   jQuery("#username").val("");
   jQuery("#username").removeAttr("readonly");
   jQuery("#loginout").attr("label", "Login");
+  jQuery("#loginout").attr("image", "chrome://firegss/skin/icons/login.png");
   var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
        .getService(Components.interfaces.nsIWindowMediator);
   var mainWindow = wm.getMostRecentWindow("navigator:browser");

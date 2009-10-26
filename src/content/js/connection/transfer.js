@@ -246,6 +246,11 @@ transfer.prototype = {
 								qprocessing = false;
 								queueTree.treebox.invalidate();
                                 nsIFile.lastModifiedTime = this.transferObject.mtime;
+                                // Work around Windows brainded DST handling.
+                                var diff = this.transferObject.mtime - nsIFile.lastModifiedTime;
+                                if (diff !== 0)
+                                    nsIFile.lastModifiedTime = this.transferObject.mtime + diff;
+                                
 								localTree.refresh();
 								hideWorking();
 							}
@@ -281,13 +286,15 @@ transfer.prototype = {
 					}
 				} else {
 					var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+                    var fileSize = files[x].fileSize;
+                    var mtime = files[x].lastModifiedTime;
 					var obj = {
 					  source  : localPath,
 					  dest    : remoteFolder.uri,
-					  size    : files[x].fileSize,
+					  size    : fileSize,
                       name    : fileName,
                       rParent : remoteParent,
-                      modified: files[x].lastModifiedTime,
+                      mtime   : mtime,
 					  type    : gStrbundle.getString("upload"),
 					  icon    : "moz-icon://."+ext+"?size=16",
 					  ela     : '',
@@ -349,7 +356,7 @@ transfer.prototype = {
                             uploaded.name = o.name;
                             uploaded.uri = o.dest + o.name;
                             uploaded.folder = o.rParent;
-                            gss.update(uploaded, { modificationDate: o.modified });
+                            gss.update(uploaded, { modificationDate: o.mtime });
 						};
 					}();
 					var errorHandler = function(evt) {

@@ -151,18 +151,15 @@ gss.sendRequest = function(arg) {
 
 	if (arg.file) {
 		// Make a stream from a file.
-		var stream = Components.classes["@mozilla.org/network/file-input-stream;1"]
-                       .createInstance(Components.interfaces.nsIFileInputStream);
-		stream.init(arg.file, 0x01, 0444, 0); // file is an nsIFile instance
-
+		var stream = Cc["@mozilla.org/network/file-input-stream;1"]
+                        .createInstance(Ci.nsIFileInputStream);
+		stream.init(arg.file, 0x01, 0444, Ci.nsIFileInputStream.CLOSE_ON_EOF);
 		// Try to determine the MIME type of the file
 		var mimeType = "application/octet-stream";
 		try {
-		  var mimeService = Components.classes["@mozilla.org/mime;1"]
-					          .getService(Components.interfaces.nsIMIMEService);
-		  mimeType = mimeService.getTypeFromFile(arg.file); // file is an nsIFile instance
-		}
-		catch(e) { /* eat it; just use application/octet-stream */ }
+		    var mimeService = Cc["@mozilla.org/mime;1"].getService(Ci.nsIMIMEService);
+		    mimeType = mimeService.getTypeFromFile(arg.file);
+		} catch (e) { /* eat it; just use application/octet-stream */ }
 		req.setRequestHeader("Content-Type", mimeType);
 	} else if (arg.form) {
 		req.setRequestHeader("Content-Length", params.length);
@@ -174,7 +171,7 @@ gss.sendRequest = function(arg) {
 
 	if (!arg.file)
 		req.send(params);
-	else
+	else 
 		req.send(stream);
 	showWorking();
 	return req;
@@ -339,16 +336,17 @@ gss.processFile = function(req, arg, nextAction, nextActionArg) {
 };
 
 // Uploads the specified local file to the provided remote folder URI.
-gss.uploadFile = function(file, remoteFolder, loadStartEventHandler, progressEventHandler, loadEventHandler, errorEventHandler, abortEventHandler) {
-	var resource = remoteFolder + '/' + encodeURI(file.leafName);
-	return gss.sendRequest({method: 'PUT',
-					resource: resource,
-					file: file,
-					loadStartEventHandler: loadStartEventHandler,
-					progressEventHandler: progressEventHandler,
-					loadEventHandler: loadEventHandler,
-					errorEventHandler: errorEventHandler,
-					abortEventHandler: abortEventHandler});
+gss.uploadFile = function(file, remoteFolder, loadStartHandler, progressHandler, loadHandler, errorHandler, abortHandler) {
+    return gss.sendRequest({
+            method: 'PUT',
+            resource: remoteFolder + '/' + encodeURI(file.leafName),
+            file: file,
+            loadStartEventHandler: loadStartHandler,
+            progressEventHandler: progressHandler,
+            loadEventHandler: loadHandler,
+            errorEventHandler: errorHandler,
+            abortEventHandler: abortHandler
+    });
 };
 
 gss.createFolder = function(parent, name, nextAction) {

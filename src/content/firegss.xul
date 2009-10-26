@@ -58,18 +58,6 @@
   <script type="application/x-javascript" src="chrome://firegss/content/js/jquery.formHints.js"/>
 
   <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/help.js"/>
-  <script type="text/javascript">
- <![CDATA[
-  function addEntry()
- {
-     if(document.getElementById("username").value != "Username?"){
-        var fhService = Components.classes["@mozilla.org/satchel/form-history;1"].
-                        getService(Components.interfaces.nsIFormHistory2);
-        fhService.addEntry("firegss-username", document.getElementById("username").value);
-    }
- }
-  ]]>
-  </script>
   <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>
 
 
@@ -139,10 +127,15 @@
       <menuseparator/>
       <menuitem oncommand="cancelAll()"                         label="&cancelAll.label;"                                           id="queueCancelAll"/>
     </popup>
-    <popup id="advancedpopup"       position="after_start" >
-      <menuitem oncommand="showSearch(true)"                    label="&search.label;"              accesskey="&search.access;"     id="searchMenuItem" key="key_search"/>
-      <menuseparator/>
-      <menuitem oncommand="showPreferences()"                   label="&preferencestab.label;"      accesskey="&prefbutton.access;" id="prefbutton"/>
+    <popup id="advancedpopup" position="after_start">
+      <menuitem oncommand="showLog()" type="checkbox" label="&logtab.label;" persist="checked" accesskey="&logbutton.access;" id="logbutton"/>
+      <menuitem oncommand="showSearch(true)" label="&search.label;" accesskey="&search.access;" id="searchMenuItem" key="key_search"/>
+      <menuitem oncommand="showPreferences()" label="&preferencestab.label;" accesskey="&prefbutton.access;" id="prefbutton"/>
+    </popup>
+    <popup id="helppopup" position="after_start" >
+      <menuitem oncommand="showHelp()" label="&help.label;" accesskey="&helpbutton.access;" id="helpItem"/>
+      <menuitem oncommand="showBugs()" label="&helpbug.label;" accesskey="&helpbug.access;" id="bugItem"/>
+      <menuitem oncommand="showAbout()" label="&helpabout.label;" accesskey="&helpabout.access;" id="aboutItem"/>
     </popup>
     <popup id="searchpopup"       position="before_start">
       <menuitem oncommand="showSearchDates()" type="checkbox"   label="&searchDates.label;"         accesskey="&searchDates.access;"  id="searchDates"      persist="checked"/>
@@ -174,16 +167,16 @@
 
     <!-- :::::::::::::::::::::::::::::: main toolbar :::::::::::::::::::::::::::::: -->
 
-    <toolbar         id="main-toolbar"  align="center">
-      <toolbaritem   collapsed="true" id="folderItem">
-        <menulist    id="folder"                                                                       oncommand="onFolderChange(false, true)" width="150"/>
+    <toolbar id="main-toolbar"  align="center">
+      <toolbaritem collapsed="true" id="folderItem">
+        <menulist id="folder" oncommand="onFolderChange(false, true)" width="150"/>
       </toolbaritem>
       <textbox id                     = "username"
               title                   = "Username?"
               flex                    = "1"
               tooltiptext             = "&username.tip;"
-              onkeypress              = "if (event.keyCode == 13){ addEntry(); login(this.value)}"
-              ontextentered           = "addEntry();login(this.value)"
+              onkeypress              = "if (event.keyCode == 13){ login() }"
+              ontextentered           = "login()"
               type="autocomplete"
               enablehistory="true"
               autocompletesearch="form-history"
@@ -191,19 +184,18 @@
               
               
               />
-      <toolbarbutton label="&login.label;" oncommand="addEntry();login($('username').value)"
+      <button id="loginout" label="Login" oncommand="loginout()"
+                    image="chrome://firegss/skin/icons/login.png"
                     accesskey="&loginbutton.access;"/>
-      <toolbarbutton label="&logout.label;" oncommand="logout()" accesskey="&logoutbutton.access;"/>
       <toolbarspacer flex="1"/>
-      <toolbarbutton id="syncbutton" label="&synctab.label;" accesskey="&syncbutton.access;"
+      <button id="syncbutton" label="&synctab.label;" accesskey="&syncbutton.access;"
                     image="chrome://firegss/skin/icons/sync.png"
                     oncommand="sync.init()" type="checkbox" persist="checked" autoCheck="false"/>
-      <toolbarbutton id="logbutton" label="&logtab.label;" accesskey="&logbutton.access;"
-                    oncommand="showLog()" type="checkbox" persist="checked" autoCheck="false"/>
+      <toolbarspacer flex="1"/>
       <toolbarbutton id="advmenu" label="&advanced.label;" accesskey="&advanced.access;"
                     popup="advancedpopup"/>
       <toolbarbutton id="helpbutton" label="&help.label;" accesskey="&helpbutton.access;"
-                    oncommand="showHelp()"/>
+                    popup="helppopup"/>
     </toolbar>
 
     <box flex="10">

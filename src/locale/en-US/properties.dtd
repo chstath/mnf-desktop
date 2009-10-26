@@ -30,6 +30,8 @@
 <!ENTITY thisprop    "This folder">
 <!ENTITY folderprop  "All Contained Folders">
 <!ENTITY filesprop   "All Contained Files">
+<!ENTITY addGroup   "Add Group">
+<!ENTITY addUser   "Add User">
 
 <!ENTITY thumbnail        "Thumbnail">
 <!ENTITY loading          "Loading...">

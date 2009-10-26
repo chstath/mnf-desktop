@@ -450,7 +450,7 @@ gss.hasAuthenticated = function () {
 };
 
 // Update the specified resource (file or folder) properties, using the new values in the changes parameter.
-gss.update = function(resource, changes, nextAction) {
+gss.update = function(resource, changes, nextAction) {    
     var newProperties = {};
     if (changes.name)
         newProperties.name = changes.name;
@@ -483,5 +483,18 @@ gss.search = function(query, nextAction) {
         nextAction: nextAction,
         method:'GET',
         resource: gss.SEARCH_URL + encodeURIComponent(query)
+    });
+};
+
+gss.getUserGroups = function(nextAction){
+    gss.sendRequest({
+        handler: function(req, arg, nextAction) {
+            if (nextAction){
+                nextAction(JSON.parse(req.responseText));
+            }
+        },
+        nextAction: nextAction,
+        method:'GET',
+        resource: gss.API_URL + "/" + gss.username + "/groups"
     });
 };

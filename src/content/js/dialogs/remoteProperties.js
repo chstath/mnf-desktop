@@ -3,7 +3,6 @@ var gStrbundle;
 var gArgs;
 
 function init() {
-   try{
   gStrbundle = $("strings");
   gArgs      = window.arguments[0];
 
@@ -43,35 +42,13 @@ function init() {
 
   if (gArgs.isDirectory)
     $('sizerow').collapsed = true;
-  
+
   if (gArgs.permissions) {
-        for (var p=0; p<gArgs.permissions.length; p++){
+       for (var p=0; p<gArgs.permissions.length; p++){
             var perm = gArgs.permissions[p];
-            var permuser = document.createElement("label");
-            permuser.id = "permuser" + new String(p);
-            permuser.textContent = perm.user || perm.group;
-            document.getElementById("permuserlist").appendChild(permuser);
-
-            var permread = document.createElement("checkbox");
-            permread.id = "permread_" + new String(p);
-            permread.setAttribute("checked", perm.read);
-            document.getElementById("permreadlist").appendChild(permread);
-            permread.addEventListener("CheckboxStateChange", permissionChanged, true);
-
-            var permwrite = document.createElement("checkbox");
-            permwrite.id = "permwrite_" + new String(p);
-            permwrite.setAttribute("checked", perm.write);
-            document.getElementById("permwritelist").appendChild(permwrite);
-            permwrite.addEventListener("CheckboxStateChange", permissionChanged, true);
-
-            var permacl = document.createElement("checkbox");
-            permacl.id = "permacl_" + new String(p);
-            permacl.setAttribute("checked", perm.modifyACL);
-            document.getElementById("permacllist").appendChild(permacl);
-            permacl.addEventListener("CheckboxStateChange", permissionChanged, true);
-
-//            addEventListener("CheckboxStateChange",  permissionChanged, perm, true);
-        }
+            addPermission({permission : perm});
+           
+       }
         change();
 //    gInitialPermissions = $('manual').value;
         //addEventListener("CheckboxStateChange", change, true);
@@ -87,6 +64,12 @@ function init() {
     $('public').disabled = gArgs.isDirectory;
     $('versioned').disabled = gArgs.isDirectory;
     $('userrow').collapsed = true;
+    if (!$('public').disabled){
+        $('public').addEventListener("CheckboxStateChange", isPublicChanged, true);
+    }
+    if (!$('versioned').disabled){
+        $('versioned').addEventListener("CheckboxStateChange", isVersionedChanged, true);
+    }
   } else {
     $('attrrow').collapsed = true;
     $('user').value = gArgs.user;
@@ -97,10 +80,6 @@ function init() {
   } else {
     $('fileIcon').src = "moz-icon://file:///" + gArgs.path + "?size=32";
   }
-   }
-   catch(e){
-       alert(e.toSource());
-   }
 
 }
 
@@ -113,11 +92,6 @@ function isChecked(element){
 }
 
 function change() {
-//  $('manual').value = (4 * $('suid').checked       + 2 * $('guid').checked        + 1 * $('sticky').checked).toString()
-//                    + (4 * $('readowner').checked  + 2 * $('writeowner').checked  + 1 * $('execowner').checked).toString()
-//                    + (4 * $('readgroup').checked  + 2 * $('writegroup').checked  + 1 * $('execgroup').checked).toString()
-//                    + (4 * $('readpublic').checked + 2 * $('writepublic').checked + 1 * $('execpublic').checked).toString();
-
   if ($('manual')!=null){
       $('manual').value = (4 * isChecked($('suid'))       + 2 * isChecked($('guid'))        + 1 * isChecked($('sticky'))).toString()
                         + (4 * isChecked($('readowner'))  + 2 * isChecked($('writeowner'))  + 1 * isChecked($('execowner'))).toString()
@@ -126,18 +100,24 @@ function change() {
   }
 }
 
-function permissionChanged(){
-    //alert("permissionChanged: " + this.id + " checked " + this.checked);
-    function parseAttribute(attr){
-//        alert(attr.slice(attr.indexOf("perm"), attr.length));
-        return attr.slice(new String("perm").length, attr.length);
-    }
+function permissionReadChanged(){
+    gArgs.permissions[this.parentNode.id].read = this.checked;
+}
 
-    var permAttribute = parseAttribute(this.id.split("_")[0]);
-    var permIndex = this.id.split("_")[1];
-    //alert(permAttribute + " " + permIndex);
-//    alert("gArgs.permissions[" + permIndex + "]" + "." + permAttribute + "=" + this.checked);
-    eval("gArgs.permissions[" + permIndex + "]" + "." + permAttribute + "=" + this.checked);
+function permissionWriteChanged(){
+    gArgs.permissions[this.parentNode.id].write = this.checked;
+}
+
+function permissionModifyACLChanged(){
+    gArgs.permissions[this.parentNode.id].modifyACL = this.checked;
+}
+
+function isPublicChanged(){
+    gArgs.isPublic = this.checked;
+}
+
+function isVersionedChanged(){
+    gArgs.isVersioned = this.checked;
 }
 
 function doOK() {
@@ -163,7 +143,7 @@ function doOK() {
 //      gArgs.applyTo.files    = $('filesprop').checked;
 //    }
 //  }
-    
+
     gArgs.returnVal = true;
     return true;
 }
@@ -195,3 +175,117 @@ function multipleFiles() {
                   + (gArgs.recursiveFolderData.nSize > 1023 ? "  (" + gStrbundle.getFormattedString("bytes", [commas(gArgs.recursiveFolderData.nSize)]) + ")": "");
 }
 
+function addPermission(perm){
+    var p = document.getElementById("permissionsRow").childNodes.length-1;
+    var permRow = document.createElement("row");
+    var isNew = !perm.permission;
+    var isOwnersPermissions;
+    var permissionCarrierName;
+
+    permRow.id = p;
+
+    if (!isNew){
+        permissionCarrierName = perm.permission.user || perm.permission.group;
+        isOwnersPermissions = ((perm.permission.user || perm.permission.group)==gArgs.user);
+    }
+    else{
+        isOwnersPermissions = false;
+         permissionCarrierName = perm.group.name || perm.user.name;
+    }
+  
+    //Permission Carrier (User or Group)
+    var permissionCarrier = document.createElement("label");
+    permissionCarrier.textContent = permissionCarrierName;
+    permissionCarrier.disabled = isOwnersPermissions;
+
+    //Read
+    var read = document.createElement("checkbox");
+    if (!isNew){
+        read.setAttribute("checked", perm.permission.read);
+    }
+    read.addEventListener("CheckboxStateChange", permissionReadChanged, true);
+    read.disabled = isOwnersPermissions;
+
+    //Write
+    var write = document.createElement("checkbox");
+    if (!isNew){
+        write.setAttribute("checked", perm.permission.write);
+    }
+    write.addEventListener("CheckboxStateChange", permissionWriteChanged, true);
+    write.disabled = isOwnersPermissions;
+
+    //ModifyACL
+    var modifyACL = document.createElement("checkbox");
+    if (!isNew){
+        modifyACL.setAttribute("checked", perm.permission.modifyACL);
+    }
+    modifyACL.addEventListener("CheckboxStateChange", permissionModifyACLChanged, true);
+    modifyACL.disabled = isOwnersPermissions;
+
+    permRow.appendChild(permissionCarrier);
+    permRow.appendChild(read);
+    permRow.appendChild(write);
+    permRow.appendChild(modifyACL);
+
+    
+    if (!isOwnersPermissions){
+        var deletePermissionCarrier = document.createElement("toolbarbutton");
+        deletePermissionCarrier.setAttribute("label", " X ");
+        deletePermissionCarrier.addEventListener("click", removePermission, true);
+        permRow.appendChild(deletePermissionCarrier);
+    }
+
+    document.getElementById("permissionsRow").appendChild(permRow);
+    
+    if (perm.group){
+       gArgs.permissions.push({
+           modifyACL : false,
+               write : false,
+                read : false,
+               group : perm.group.name,
+            groupUri : perm.group.uri
+       });
+    }
+}
+
+function removePermission(){
+    var id = this.parentNode.id;
+
+    gArgs.permissions.splice(id, 1);
+
+    var permissionRow = this.parentNode;
+    for (var i=permissionRow.childNodes.length-1;; i--){
+        permissionRow.removeChild(permissionRow.childNodes[i]);
+        if(i==0){
+            break;
+        }
+    }
+
+    var next = permissionRow.nextSibling;
+    while (next){
+        next.id=id;
+        id++;
+        next = next.nextSibling;
+    }
+}
+
+function addGroup(){
+    var parameters = {
+        userGroups  : gArgs.ugroups,
+        permissions : gArgs.permissions,
+        returnValue : false
+    };
+
+    alert(parameters.toSource());
+
+    window.openDialog("chrome://firegss/content/addGroupRemote.xul", "addGroupRemote", "chrome,modal,dialog,resizable,centerscreen", parameters);
+
+    for (var i=0; i<parameters.returnValue.length; i++){
+        addPermission({group:parameters.returnValue[i]});
+    }
+
+}
+
+function addUser(){
+    alert("addUser()");
+}

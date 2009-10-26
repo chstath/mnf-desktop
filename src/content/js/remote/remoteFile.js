@@ -1,3 +1,14 @@
+var gUserGroups = new Array();
+
+function setUserGroups(){
+  var ug = arguments[0];
+  gUserGroups.splice(0, gUserGroups.length);
+
+  for (var i=0; i<ug.length; i++){
+      gUserGroups.push(ug[i]);
+  }
+}
+
 var remoteFile = {
   remove : function(file, prompt, multiple) {
     if (prompt && multiple && multiple > 1) {
@@ -35,6 +46,7 @@ var remoteFile = {
   },
   
   showProperties : function(file, recursive) {
+      
     try {
       var date = new Date(file.modificationDate);
       date     = gMonths[date.getMonth()] + ' ' + date.getDate() + ' ' + date.getFullYear() + ' ' + date.toLocaleTimeString();
@@ -44,6 +56,8 @@ var remoteFile = {
       if (file.isFolder && recursive) {
         remoteTree.getRecursiveFolderData(file, recursiveFolderData);
       }
+
+      gss.getUserGroups(setUserGroups);
 
       var origWritable = file.isWritable();
 
@@ -62,27 +76,22 @@ var remoteFile = {
                      isLinuxType         : gSlash == "/",
                      isLocal             : false,
                      recursiveFolderData : file.isFolder && recursive ? recursiveFolderData : null,
-                     returnVal           : false };
+                     returnVal           : false,
+                     ugroups             : gUserGroups};
+
 
       window.openDialog("chrome://firegss/content/remoteProperties.xul", "properties", "chrome,modal,dialog,resizable,centerscreen", params);
 
       if (params.returnVal){//"OK" is fired
-           try{
-//               alert("readForAll = " + file.readForAll);
-            var changes = {
-              readForAll : true,
-              permissions : params.permissions
-            };
+        var changes = {
+                 name : file.name,
+          permissions : params.permissions,
+           readForAll : params.isPublic,
+            versioned : params.isVersioned
+        };
 
-//            alert("changes : " + changes.toSource());
-
-//            gss.update(file, changes);
-//            alert("OK");
-            }
-            catch(e){
-                alert(e);
-            }
-
+        gss.update(file, changes);
+        remoteTree.refresh();
       }
 
       if (!params.returnVal) {

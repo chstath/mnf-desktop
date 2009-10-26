@@ -70,19 +70,19 @@
         <description value="&perm;"/>
         <hbox>
           <hbox id="permitem">
-            <groupbox id="permuserlist">
-              <caption label="&usersgroups;"/>
-            </groupbox>
-            <groupbox id="permreadlist">
-              <caption label="&read;"/>
-            </groupbox>
-            <groupbox class="paddingLeft" id="permwritelist">
-              <caption label="&write;"/>
-            </groupbox>
-            <groupbox class="paddingLeft" id="permacllist">
-              <caption label="&modifyAcl;"/>
-            </groupbox>
-          </hbox>
+              <grid>
+                <columns>
+                    <column><label/></column>
+                    <column><label/><checkbox/></column>
+                    <column><label/><checkbox/></column>
+                    <column><label/><checkbox/></column>
+                    <column flex="1"></column>
+                </columns>
+                <rows id="permissionsRow">
+                    <row><label class="boldText">&usersgroups;</label><label class="boldText">&read;</label><label class="boldText">&write;</label><label class="boldText">&modifyAcl;</label></row>
+                </rows>
+            </grid>
+        </hbox>
           <vbox         class="paddingLeft">
             <vbox       id="multipleprops">
               <label                       value="&applyto;"/>
@@ -92,6 +92,13 @@
             </vbox>
           </vbox>
         </hbox>
+      </row>
+      <row>
+          <hbox/>
+          <hbox>
+              <button id="addGroupButton" label="&addGroup;" oncommand="addGroup();" />
+              <button id="addUserButton" label="&addUser;" oncommand="addUser();" />
+          </hbox>
       </row>
     </rows>
   </grid>

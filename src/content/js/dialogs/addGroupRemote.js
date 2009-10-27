@@ -23,30 +23,25 @@ function isAvailableUserGroup(ug){
 }
 
 function init(){
-    try{
-        var args = window.arguments[0];
-        gPermissions = args.permissions;
-        gUserGroups = args.userGroups;
+    var args = window.arguments[0];
+    gPermissions = args.permissions;
+    gUserGroups = args.userGroups;
 
-        var j=0;
-        for (var i=0; i<gUserGroups.length; i++){
-            if (isAvailableUserGroup(gUserGroups[i])){
-                var groupRow = document.createElement("row");
-                var groupCheckBox = document.createElement("checkbox");
-                groupRow.id = j;
-                groupCheckBox.id = gUserGroups[i].name;
-                groupCheckBox.setAttribute("label", gUserGroups[i].name);
-                groupRow.appendChild(groupCheckBox);
-                groupRow.addEventListener("CheckboxStateChange", addGroup, true);
+    var j=0;
+    for (var i=0; i<gUserGroups.length; i++){
+        if (isAvailableUserGroup(gUserGroups[i])){
+            var groupRow = document.createElement("row");
+            var groupCheckBox = document.createElement("checkbox");
+            groupRow.id = j;
+            groupCheckBox.id = gUserGroups[i].name;
+            groupCheckBox.setAttribute("label", gUserGroups[i].name);
+            groupRow.appendChild(groupCheckBox);
+            groupRow.addEventListener("CheckboxStateChange", addGroup, true);
 
-                document.getElementById("grouprow").appendChild(groupRow);
-                gNewGroups.push("");
-                j++;
-            }
+            document.getElementById("grouprow").appendChild(groupRow);
+            gNewGroups.push("");
+            j++;
         }
-    }
-    catch(e){
-        alert(e.toSource());
     }
 }
 

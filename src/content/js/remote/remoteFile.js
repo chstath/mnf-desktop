@@ -84,7 +84,7 @@ var remoteFile = {
 
       if (params.returnVal){//"OK" is fired
         var changes = {
-                 name : file.name,
+                 name : params.leafName,
           permissions : params.permissions,
            readForAll : params.isPublic,
             versioned : params.isVersioned

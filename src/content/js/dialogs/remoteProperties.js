@@ -144,6 +144,7 @@ function doOK() {
 //    }
 //  }
 
+    gArgs.leafName = $('name').value;
     gArgs.returnVal = true;
     return true;
 }
@@ -276,8 +277,6 @@ function addGroup(){
         returnValue : false
     };
 
-    alert(parameters.toSource());
-
     window.openDialog("chrome://firegss/content/addGroupRemote.xul", "addGroupRemote", "chrome,modal,dialog,resizable,centerscreen", parameters);
 
     for (var i=0; i<parameters.returnValue.length; i++){
@@ -287,5 +286,11 @@ function addGroup(){
 }
 
 function addUser(){
-    alert("addUser()");
+    var parameters = {
+        returnValue : false
+    };
+
+    window.openDialog("chrome://firegss/content/addUserRemote.xul", "addUserRemote", "chrome,modal,dialog,resizable,centerscreen", parameters);
+
+    
 }

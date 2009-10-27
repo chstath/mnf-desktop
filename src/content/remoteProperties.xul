@@ -33,7 +33,7 @@
         <box                          width="32" height="32">
           <image     id="fileIcon"    width="32" height="32"/>
         </box>
-        <textbox     id="name"        readonly="true" class="textfield"/>
+        <textbox     id="name" />
       </row>
       <row           id="pathrow"     align="center">
         <description                  value="&path;"/>

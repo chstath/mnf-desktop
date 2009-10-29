@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/global.css"   type="text/css"?>
+<?xml-stylesheet href="chrome://firegss/skin/firegss.css" type="text/css"?>
+
+<!DOCTYPE dialog SYSTEM "chrome://firegss/locale/help.dtd">
+<dialog id                = "help"
+        title             = "&help.title;"
+        width             = "600"
+        height            = "512"
+        xmlns             = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        xmlns:html        = "http://www.w3.org/1999/xhtml"
+        persist           = "screenX screenY width height"
+        buttons           = "accept"
+        buttonlabelaccept = "&help.ok.label;"
+        buttonalign       = "center">
+
+
+  <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>
+
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/common.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/misc.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/threads.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/help.js"/>
+
+  <dialogheader title="&help.title;" description="" aling="center"/>
+  <description>&help.text;</description>
+</dialog>

@@ -30,6 +30,9 @@ function init(){
 }
 
 function doSearch(){
+    if ($('userName').value==""){
+        return;
+    }
     window.opener.window.opener.wrappedJSObject.searchForUsers($('userName').value, setUsers);
 }
 
@@ -84,7 +87,7 @@ function doAccept(){
             returnValue.push(getUser(gNewUsers[i]));
         }
     }
-    
+
     window.arguments[0].returnValue = returnValue;
     return true;
 }

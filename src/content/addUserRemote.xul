@@ -6,8 +6,8 @@
 <!DOCTYPE dialog SYSTEM "chrome://firegss/locale/addUserRemote.dtd">
 <dialog id                 = "addUserRemote"
         title              = "&title;"
-        width              = "600"
-        height             = "512"
+        width              = "300"
+        height             = "300"
         xmlns              = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         xmlns:html         = "http://www.w3.org/1999/xhtml"
         persist            = "screenX screenY width height"
@@ -35,7 +35,7 @@
         <column></column>
       </columns>
       <rows>
-          <row><label>&userName;:</label><textbox id="userName"></textbox><button label="&search;" oncommand="doSearch()"></button></row>
+          <row><label>&userName;:</label><textbox id="userName" type="search"></textbox><button label="&search;" oncommand="doSearch()"></button></row>
       </rows>
   </grid>
 

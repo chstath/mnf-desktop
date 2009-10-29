@@ -9,6 +9,10 @@ function setUserGroups(){
   }
 }
 
+function searchForUsers(searchString, func){
+    gss.searchForUsers(searchString, func);
+}
+
 var remoteFile = {
   remove : function(file, prompt, multiple) {
     if (prompt && multiple && multiple > 1) {
@@ -91,7 +95,7 @@ var remoteFile = {
         };
 
         gss.update(file, changes);
-        remoteTree.refresh();
+        remoteTree.refresh(false, true);
       }
 
       if (!params.returnVal) {

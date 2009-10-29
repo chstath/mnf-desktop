@@ -18,15 +18,34 @@
         buttonalign        = "center"
         ondialogaccept     = "doAccept()">
 
-
-  <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>
-
   <script type="application/x-javascript" src="chrome://firegss/content/js/connection/gss.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/common.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/misc.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/threads.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/addUserRemote.js"/>
 
-  <dialogheader title="&help.title;" description="" aling="center"/>
-  <description>&help.text;</description>
+  <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>
+
+
+<vbox>
+  <grid flex="1" class="overflowBox">
+      <columns>
+        <column></column>
+        <column></column>
+        <column></column>
+      </columns>
+      <rows>
+          <row><label>&userName;:</label><textbox id="userName"></textbox><button label="&search;" oncommand="doSearch()"></button></row>
+      </rows>
+  </grid>
+
+  <hbox style="text-align:center;" id="message"><label class="boldText">&searchResults;</label></hbox>
+  <hbox style="text-align:center;" id="noResultsMessage"><label class="boldText">&noResults;</label></hbox>
+
+  <grid flex="1" class="overflowBox">
+      <column></column>
+      <rows id="searchResuls">
+      </rows>
+  </grid>
+</vbox>
 </dialog>

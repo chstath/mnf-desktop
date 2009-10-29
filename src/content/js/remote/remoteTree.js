@@ -1047,10 +1047,3 @@ var remoteTree = {
  
     }
 };
-
-
-//[
-//    {folder:{name:"Data", uri:"http://pithos.grnet.gr/pithos/rest/aaitest@grnet-hq.admin.grnet.gr/files/Data/"}, creationDate:1254481506719, name:"foo.mdb", path:"/Data/", owner:"aaitest@grnet-hq.admin.grnet.gr", uri:"http://pithos.grnet.gr/pithos/rest/aaitest@grnet-hq.admin.grnet.gr/files/Data/foo.mdb", deleted:false, size:1912832, version:1},
-//    {folder:{name:"aai+test", uri:"http://pithos.grnet.gr/pithos/rest/aaitest@grnet-hq.admin.grnet.gr/files/"}, creationDate:1243979420606, name:"foo.mdb", path:"/", owner:"aaitest@grnet-hq.admin.grnet.gr", uri:"http://pithos.grnet.gr/pithos/rest/aaitest@grnet-hq.admin.grnet.gr/files/foo.mdb", deleted:false, size:612464, version:1}
-//]
-

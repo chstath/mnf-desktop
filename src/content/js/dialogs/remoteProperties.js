@@ -191,7 +191,12 @@ function addPermission(perm){
     }
     else{
         isOwnersPermissions = false;
-         permissionCarrierName = perm.group.name || perm.user.name;
+        if (perm.group){ //is Group
+            permissionCarrierName = perm.group.name;
+        }
+        else{ //is User
+            permissionCarrierName = perm.user.username;
+        }
     }
   
     //Permission Carrier (User or Group)
@@ -247,6 +252,14 @@ function addPermission(perm){
             groupUri : perm.group.uri
        });
     }
+    else if (perm.user){
+        gArgs.permissions.push({
+           modifyACL : false,
+               write : false,
+                read : false,
+                user : perm.user.username
+        });
+    }
 }
 
 function removePermission(){
@@ -286,11 +299,9 @@ function addGroup(){
 }
 
 function addUser(){
-    var parameters = {
-        returnValue : false
-    };
+    window.openDialog("chrome://firegss/content/addUserRemote.xul", "addUserRemote", "chrome,modal,dialog,resizable,centerscreen");
 
-    window.openDialog("chrome://firegss/content/addUserRemote.xul", "addUserRemote", "chrome,modal,dialog,resizable,centerscreen", parameters);
-
-    
+    for (var i=0; i<parameters.returnValue.length; i++){
+        addPermission({user:parameters.returnValue[i]});
+    }
 }

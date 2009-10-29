@@ -88,11 +88,17 @@ var remoteFile = {
 
       if (params.returnVal){//"OK" is fired
         var changes = {
-                 name : params.leafName,
           permissions : params.permissions,
-           readForAll : params.isPublic,
-            versioned : params.isVersioned
         };
+        if (file.name!=params.leafName){
+            changes.name = params.leafName;
+        }
+        if (file.readForAll!=params.isPublic){
+            changes.readForAll = params.isPublic;
+        }
+        if (file.versioned!=params.isVersioned){
+            changes.versioned = params.isVersioned;
+        }
 
         gss.update(file, changes);
         remoteTree.refresh(false, true);

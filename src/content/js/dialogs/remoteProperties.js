@@ -299,7 +299,10 @@ function addGroup(){
 }
 
 function addUser(){
-    window.openDialog("chrome://firegss/content/addUserRemote.xul", "addUserRemote", "chrome,modal,dialog,resizable,centerscreen");
+    var parameters = {
+        returnValue : false
+    };
+    window.openDialog("chrome://firegss/content/addUserRemote.xul", "addUserRemote", "chrome,modal,dialog,resizable,centerscreen", parameters);
 
     for (var i=0; i<parameters.returnValue.length; i++){
         addPermission({user:parameters.returnValue[i]});

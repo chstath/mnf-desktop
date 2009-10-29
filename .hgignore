@@ -8,3 +8,4 @@ syntax: regexp
 \.chg\..*$
 \.rej$
 \.conflict\~$
+^nbproject/project.xml$

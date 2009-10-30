@@ -1,4 +1,62 @@
 var gUserGroups = new Array();
+var gFileOwner;
+
+function compairePermissions(p1, p2){
+  if (p1.user && p2.group){
+    return -1;
+  }
+
+  if (p1.group && p2.user){
+    return 1;
+  }
+
+  if (p1.user && p2.user){
+   if (p1.user.toLowerCase() < p2.user.toLowerCase()){
+     if (p1.user==gFileOwner || p2.user==gFileOwner){//Owner appears always on the top of the list
+       return 1;
+     }
+     return -1;
+   }
+
+
+   if (p1.user.toLowerCase() > p2.user.toLowerCase()){
+     return 1;
+   }
+  }
+
+  if (p1.group && p2.group){
+   if (p1.group.toLowerCase() < p2.group.toLowerCase()){
+      return -1;
+   }
+
+    if (p1.group.toLowerCase() > p2.group.toLowerCase()){
+     return 1;
+    }
+  }
+}
+
+function permissionsAreEqual(p1, p2){
+  if (p1.length!= p2.length){
+    return false;
+  }
+
+  for (var i=0; i<p1.length; i++){
+    if (p1[i].modifyACL!=p2[i].modifyACL){
+      return false;
+    }
+
+    if (p1[i].write!=p2[i].write){
+      return false;
+    }
+
+    if (p1[i].read!=p2[i].read){
+      return false;
+    }
+
+  }
+
+  return true;
+}
 
 function setUserGroups(){
   var ug = arguments[0];
@@ -52,6 +110,7 @@ var remoteFile = {
   showProperties : function(file, recursive) {
       
     try {
+      gFileOwner = file.owner;
       var date = new Date(file.modificationDate);
       date     = gMonths[date.getMonth()] + ' ' + date.getDate() + ' ' + date.getFullYear() + ' ' + date.toLocaleTimeString();
 
@@ -64,6 +123,7 @@ var remoteFile = {
       gss.getUserGroups(setUserGroups);
 
       var origWritable = file.isWritable();
+      var hxOldPermissions = hex_sha1(file.permissions.sort(compairePermissions).toSource());
 
       var params = { path                : file.isFolder? file.parent.uri.substr(gss.rootFolder.uri.length): file.path,
                      leafName            : file.name,
@@ -87,9 +147,13 @@ var remoteFile = {
       window.openDialog("chrome://firegss/content/remoteProperties.xul", "properties", "chrome,modal,dialog,resizable,centerscreen", params);
 
       if (params.returnVal){//"OK" is fired
-        var changes = {
-          permissions : params.permissions,
-        };
+        var changes = {};
+
+        var hxNewPermissions = hex_sha1(params.permissions.sort(compairePermissions).toSource());
+
+        if (hxOldPermissions != hxNewPermissions){
+            changes.permissions = params.permissions;
+        }
         if (file.name!=params.leafName){
             changes.name = params.leafName;
         }
@@ -100,6 +164,9 @@ var remoteFile = {
             changes.versioned = params.isVersioned;
         }
 
+
+        alert(changes.toSource());
+        
         gss.update(file, changes);
         remoteTree.refresh(false, true);
       }

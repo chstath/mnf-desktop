@@ -339,7 +339,7 @@ gss.processFile = function(req, arg, nextAction, nextActionArg) {
 gss.uploadFile = function(file, remoteFolder, loadStartHandler, progressHandler, loadHandler, errorHandler, abortHandler) {
     return gss.sendRequest({
             method: 'PUT',
-            resource: remoteFolder + '/' + encodeURI(file.leafName),
+            resource: remoteFolder + encodeURI(file.leafName.replace(/ /, "+")),
             file: file,
             loadStartEventHandler: loadStartHandler,
             progressEventHandler: progressHandler,
@@ -447,7 +447,8 @@ gss.hasAuthenticated = function () {
     return gss.username && gss.authToken;
 };
 
-// Update the specified resource (file or folder) properties, using the new values in the changes parameter.
+// Update the specified resource (file or folder) properties, using the new
+// values in the changes parameter.
 gss.update = function(resource, changes, nextAction) {    
     var newProperties = {};
     if (changes.name)

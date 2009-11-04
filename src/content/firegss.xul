@@ -330,8 +330,6 @@
               <treecol id="remotetype" label="&type.label;" flex="1" persist="width ordinal hidden sortDirection"/>
               <splitter                 class="tree-splitter"/>
               <treecol id="remotedate" label="&date.label;" flex="1" persist="width ordinal hidden sortDirection"/>
-              <splitter                 class="tree-splitter"/>
-              <treecol id="remoteattr" label="&attr.label;" flex="1" persist="width ordinal hidden sortDirection" hidden="true"/>
             </treecols>
             <treechildren id="remotetreechildren" class="fileTree" context="remotemenu"
                           ondblclick="remoteTree.dblClick(event)"

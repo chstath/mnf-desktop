@@ -1,7 +1,7 @@
 var gUserGroups = new Array();
 var gFileOwner;
 
-function compairePermissions(p1, p2){
+function comparePermissions(p1, p2){
   if (p1.user && p2.group){
     return -1;
   }
@@ -123,7 +123,7 @@ var remoteFile = {
       gss.getUserGroups(setUserGroups);
 
       var origWritable = file.isWritable();
-      var hxOldPermissions = hex_sha1(file.permissions.sort(compairePermissions).toSource());
+      var hxOldPermissions = hex_sha1(file.permissions.sort(comparePermissions).toSource());
 
       var params = { path                : file.isFolder? file.parent.uri.substr(gss.rootFolder.uri.length): file.path,
                      leafName            : file.name,
@@ -149,7 +149,7 @@ var remoteFile = {
       if (params.returnVal){//"OK" is fired
         var changes = {};
 
-        var hxNewPermissions = hex_sha1(params.permissions.sort(compairePermissions).toSource());
+        var hxNewPermissions = hex_sha1(params.permissions.sort(comparePermissions).toSource());
 
         if (hxOldPermissions != hxNewPermissions){
             changes.permissions = params.permissions;
@@ -163,7 +163,11 @@ var remoteFile = {
         if (file.versioned!=params.isVersioned){
             changes.versioned = params.isVersioned;
         }
+<<<<<<< local
         
+=======
+
+>>>>>>> other
         gss.update(file, changes);
         remoteTree.refresh(false, true);
       }

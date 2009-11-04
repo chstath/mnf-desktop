@@ -217,63 +217,62 @@ gss.parseFiles = function(req, folder, nextAction, nextActionArg) {
 // Update the cached resource copy with the new one, in order to maintain cached
 // object identities.
 gss.updateCache = function(res, newRes) {
-	var attr;/*, cons = Components.classes["@mozilla.org/consoleservice;1"].
-   			getService(Components.interfaces.nsIConsoleService);*/
-//	cons.logStringMessage("updating "+newRes.name);
-	for (attr in newRes)
-		if (newRes.hasOwnProperty(attr)) {
-			if (attr === 'folders' || attr === 'files') {
-				//cons.logStringMessage(res.name + " " + attr+": "+(res[attr]? res[attr].length: -1));
-				if (!res[attr] || res[attr].length === 0)
-					res[attr] = newRes[attr];
-				else {
-					// Remove deleted children from cache.
-					jQuery.each(res[attr], function (i, e) {
-						var found = false;
-						jQuery.each(newRes[attr], function (it, el) {
-							if (el.uri === e.uri) {
-								found = true;
-								return false;
-							}
-						});
-						if (!found) {
-							//cons.logStringMessage("Deleting "+e.name);
-							res[attr].splice(i,1);
-						}
-					});
-					// Recursively update existing children.
-					jQuery.each(newRes[attr], function (i, e) {
-						var found;
-						jQuery.each(res[attr], function (it, el) {
-							if (el.uri === e.uri) {
-								found = el;
-								return false;
-							}
-						});
-						if (found) {
-//							cons.logStringMessage("Recursing in "+e.name);
-							gss.updateCache(found, e);
-						}
-					});
-					// Add new children to the cache.
-					jQuery.each(newRes[attr], function (i, e) {
-						var found = false;
-						jQuery.each(res[attr], function (it, el) {
-							if (el.uri === e.uri) {
-								found = true;
-								return false;
-							}
-						});
-						if (!found) {
-							//cons.logStringMessage("Adding "+e.name);
-							res[attr].push(e);
-						}
-					});
-				}
-			}
-			else
-				res[attr] = newRes[attr];
-		}
+    var attr, i, j;/*, cons = Components.classes["@mozilla.org/consoleservice;1"].
+            getService(Components.interfaces.nsIConsoleService);
+    cons.logStringMessage("updating "+newRes.name);*/
+    for (attr in newRes)
+        if (newRes.hasOwnProperty(attr)) {
+            if (attr === 'folders' || attr === 'files') {
+                //cons.logStringMessage(res.name + " " + attr+": "+(res[attr]? res[attr].length: -1));
+                if (!res[attr] || res[attr].length === 0)
+                    res[attr] = newRes[attr];
+                else {
+                    // Remove deleted children from cache.
+                    for (i=0; i<res[attr].length; i++) {
+                        var found = false;
+                        for (j=0; j<newRes[attr].length; j++) {
+                            if (newRes[attr][j].uri === res[attr][i].uri) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            //cons.logStringMessage("Deleting "+res[attr][i].name);
+                            res[attr].splice(i,1);
+                        }
+                    }
+                    // Recursively update existing children.
+                    jQuery.each(newRes[attr], function (i, e) {
+                        var found;
+                        jQuery.each(res[attr], function (it, el) {
+                            if (el.uri === e.uri) {
+                                found = el;
+                                return false;
+                            }
+                        });
+                        if (found) {
+                            //cons.logStringMessage("Recursing in "+e.name);
+                            gss.updateCache(found, e);
+                        }
+                    });
+                    // Add new children to the cache.
+                    jQuery.each(newRes[attr], function (i, e) {
+                        var found = false;
+                        jQuery.each(res[attr], function (it, el) {
+                            if (el.uri === e.uri) {
+                                found = true;
+                                return false;
+                            }
+                        });
+                        if (!found) {
+                            //cons.logStringMessage("Adding "+e.name);
+                            res[attr].push(e);
+                        }
+                    });
+                }
+            } else 
+                res[attr] = newRes[attr];
+    }
 };
 
 // Fetches the contents of the folder with the specified uri.
@@ -337,9 +336,11 @@ gss.processFile = function(req, arg, nextAction, nextActionArg) {
 
 // Uploads the specified local file to the provided remote folder URI.
 gss.uploadFile = function(file, remoteFolder, loadStartHandler, progressHandler, loadHandler, errorHandler, abortHandler) {
+    // Make sure the folder URI ends with a slash.
+    var folderUri = remoteFolder.slice(-1) === '/' ? remoteFolder : remoteFolder + '/';
     return gss.sendRequest({
             method: 'PUT',
-            resource: remoteFolder + encodeURI(file.leafName.replace(/ /, "+")),
+            resource: folderUri + encodeURI(file.leafName.replace(/ /, "+")),
             file: file,
             loadStartEventHandler: loadStartHandler,
             progressEventHandler: progressHandler,

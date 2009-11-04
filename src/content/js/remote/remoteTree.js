@@ -31,8 +31,6 @@ var remoteTree = {
                     return this.getFormattedDate(row);
                 case "remotetype":
                     return this.displayData[row].extension;
-                case "remoteattr":
-                    return this.displayData[row].attr;
                 default:
                     return " ";
             }
@@ -52,7 +50,6 @@ var remoteTree = {
         $('remotesize').setAttribute("sortDirection", "natural");
         $('remotedate').setAttribute("sortDirection", "natural");
         $('remotetype').setAttribute("sortDirection", "natural");
-        $('remoteattr').setAttribute("sortDirection", "natural");
         col.element.setAttribute(   "sortDirection", sortDirection);
         this.sort();
     },
@@ -99,12 +96,11 @@ var remoteTree = {
         if (this.remoteSize != -1) {
             this.treebox.rowCountChanged(0, -this.rowCount);
 
-            this.rememberSort = { cols : ["remotename", "remotesize", "remotedate", "remotetype", "remoteattr"],
+            this.rememberSort = { cols : ["remotename", "remotesize", "remotedate", "remotetype"],
                 vals : [$('remotename').getAttribute("sortDirection"),
                     $('remotesize').getAttribute("sortDirection"),
                     $('remotedate').getAttribute("sortDirection"),
-                    $('remotetype').getAttribute("sortDirection"),
-                    $('remoteattr').getAttribute("sortDirection")] };
+                    $('remotetype').getAttribute("sortDirection")] };
         }
 
         
@@ -136,7 +132,6 @@ var remoteTree = {
             this.sortHelper($('remotesize'), compareSizeRemote);
             this.sortHelper($('remotedate'), compareDateRemote);
             this.sortHelper($('remotetype'), compareTypeRemote);
-            this.sortHelper($('remoteattr'), compareRemoteAttr);
 
             this.displayData = new Array();
         } else {
@@ -144,7 +139,6 @@ var remoteTree = {
             $('remotesize').setAttribute("sortDirection", "natural");
             $('remotedate').setAttribute("sortDirection", "natural");
             $('remotetype').setAttribute("sortDirection", "natural");
-            $('remoteattr').setAttribute("sortDirection", "natural");
         }
 
         var start = files ? this.data.length - files.length : 0;
@@ -153,7 +147,8 @@ var remoteTree = {
             this.displayData.push({ leafName    : this.data[row].name,
                 fileSize    : this.getFormattedFileSize(row),
                 date        : this.getFormattedDate(row),
-                extension   : this.data[row].isFolder ? "" : this.getContentType(row),
+                contentType : this.data[row].isFolder ? "" : this.getContentType(row),
+                extension   : this.data[row].isFolder ? "" : this.getExtension(this.data[row].name),
                 attr        : "",
                 icon        : this.getFileIcon(row),
                 path        : this.data[row].location ? this.data[row].location : this.data[row].uri,
@@ -363,6 +358,7 @@ var remoteTree = {
             fileSize    : "",
             date        : "",
             extension   : "",
+            contentType : "",
             attr        : "",
             icon        : "",
             path        : "",
@@ -965,7 +961,8 @@ var remoteTree = {
                 remoteTree.displayData.push({ leafName    : remoteTree.data[row].name,
                     fileSize    : remoteTree.data[row].size,
                     date        : fileDate.toLocaleString(),
-                    extension   : remoteTree.data[row].content,
+                    contentType : remoteTree.data[row].content,
+                    extension   : remoteTree.data[row].isFolder? "" : remoteTree.getExtension(remoteTree.data[row].name),
                     attr        : "",
                     icon        : remoteTree.getFileIcon(row),
                     path        : remoteTree.data[row].uri,

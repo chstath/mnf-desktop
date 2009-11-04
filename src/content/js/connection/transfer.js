@@ -354,7 +354,7 @@ transfer.prototype = {
 							hideWorking();
                             var uploaded = {};
                             uploaded.name = o.name;
-                            uploaded.uri = o.dest + o.name;
+                            uploaded.uri = o.dest + o.name.replace(/ /, "+");
                             uploaded.folder = o.rParent;
                             gss.update(uploaded, { modificationDate: o.mtime });
 						};

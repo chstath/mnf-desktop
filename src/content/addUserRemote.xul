@@ -23,6 +23,7 @@
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/misc.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/etc/threads.js"/>
   <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/addUserRemote.js"/>
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/SimpleAutoComplete.js"/>
 
   <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>
 
@@ -35,7 +36,13 @@
         <column></column>
       </columns>
       <rows>
-          <row><label>&userName;:</label><textbox id="userName" type="search"></textbox><button label="&search;" oncommand="doSearch()"></button></row>
+          <row>
+              <label>&userName;:</label>
+              <panel id="richPopup" type="autocomplete-richlistbox" />
+              <textbox id="userName" type="autocomplete" autocompletesearch="simple-autocomplete"
+              showcommentcolumn="true" autocompletepopup="richPopup"
+              autocompletesearchparam='[{"value":"mark","comment":"cool dude"}]'></textbox>
+              <button label="&search;" oncommand="doSearch()"></button></row>
       </rows>
   </grid>
 

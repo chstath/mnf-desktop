@@ -410,10 +410,6 @@ var remoteTree = {
                 this.selection.currentIndex = this.rowCount - 1;
             }
 
-            if (!localFile.verifyExists(this.data[this.selection.currentIndex])) {
-                return;
-            }
-
             this.displayData[this.selection.currentIndex].origLeafName = this.data[this.selection.currentIndex].leafName;
             this.displayData[this.selection.currentIndex].origPath     = this.data[this.selection.currentIndex].path;
 
@@ -424,7 +420,8 @@ var remoteTree = {
 
             this.editType   = "rename";
             this.editParent = gRemotePath.value;
-            gLocalTree.startEditing(this.selection.currentIndex, gLocalTree.columns["remotename"]);
+            var selectionIndex = this.selection.currentIndex;
+            gRemoteTree.startEditing(selectionIndex, gRemoteTree.columns["remotename"]);
         }
     },
 
@@ -435,30 +432,26 @@ var remoteTree = {
     },
 
     setCellText : function(row, col, val) {
+        
         if (!this.isEditing || this.editParent != gRemotePath.value) {                               // for some reason, this is called twice - so we prevent this
             return;
         }
 
         this.isEditing = false;
         if (this.editType == "rename") {
-            if (this.data[row].leafName == val) {
-                // do nothing
-            } else if (localFile.rename(this.data[row], val)) {
-                var rowDiff = this.treebox.getLastVisibleRow() - row;
-
-                this.refresh(false, true);
-
-                for (var x = 0; x < this.rowCount; ++x) {
-                    if (this.data[x].leafName == val) {
-                        this.selection.select(x);
-                        this.treebox.ensureRowIsVisible(rowDiff + x - 1 < this.rowCount ? rowDiff + x - 1 : this.rowCount - 1);
-                        break;
+            if (this.data[row].leafName != val) {
+                var refreshList = function(){
+                    remoteTree.updateView();
+                    for (var x = 0; x < remoteTree.rowCount; ++x) {
+                        if (remoteTree.data[x].name == val) {
+                            remoteTree.selection.select(x);
+                            remoteTree.treebox.ensureRowIsVisible(x);
+                            break;
+                        }
                     }
                 }
-            } else {
-                this.displayData[row].leafName = val;
-                this.treebox.invalidateRow(row);
-                setTimeout("gLocalRemote.startEditing(" + row + ", gRemoteTree.columns['remotename'])", 0);
+                var changes = {name: val};
+                gss.update(this.data[row], changes, refreshList);
             }
         } else if (this.editType == "create") {
             if (val) {
@@ -482,13 +475,13 @@ var remoteTree = {
                         }
                         else
                             remoteTree.updateView();
-                        for (var x = 0; x < remoteTree.rowCount; ++x) {
-                            if (remoteTree.data[x].name == val) {
-                                remoteTree.selection.select(x);
-                                remoteTree.treebox.ensureRowIsVisible(x);
-                                break;
+                            for (var x = 0; x < remoteTree.rowCount; ++x) {
+                                if (remoteTree.data[x].name == val) {
+                                    remoteTree.selection.select(x);
+                                    remoteTree.treebox.ensureRowIsVisible(x);
+                                    break;
+                                }
                             }
-                        }
                     }
                 }
                 gss.createFolder(remoteTree.currentFolder, val, callback);
@@ -637,13 +630,9 @@ var remoteTree = {
 
     keyPress : function(event) {
         if (gRemoteTree.editingRow != -1) {
-            if (event.keyCode == 27) {
+            if (event.keyCode == 27) { //Escape
                 if (this.editType == "create") {
                     this.setCellText(-1, "", "");
-                } else {
-                    this.displayData[gRemoteTree.editingRow].leafName = this.displayData[gRemoteTree.editingRow].origLeafName;
-                    this.displayData[gRemoteTree.editingRow].path = this.displayData[gRemoteTree.editingRow].origPath;
-                    this.treebox.invalidateRow(gRemoteTree.editingRow);
                 }
             }
 

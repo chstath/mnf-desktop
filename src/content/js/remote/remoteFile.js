@@ -163,9 +163,6 @@ var remoteFile = {
         if (file.versioned!=params.isVersioned){
             changes.versioned = params.isVersioned;
         }
-
-
-        alert(changes.toSource());
         
         gss.update(file, changes);
         remoteTree.refresh(false, true);

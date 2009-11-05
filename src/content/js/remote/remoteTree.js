@@ -288,22 +288,6 @@ var remoteTree = {
         return parent + (parent.charAt(parent.length - 1) != gSlash ? gSlash : '') + leafName;
     },
 
-    launch : function() {
-        if (this.selection.count == 0) {
-            return;
-        }
-
-        for (var x = 0; x < this.rowCount; ++x) {
-            if (this.selection.isSelected(x)) {
-                if (!localFile.verifyExists(this.data[x])) {
-                    continue;
-                }
-
-                localFile.launch(this.data[x]);
-            }
-        }
-    },
-
     openContainingFolder : function() {
         if (this.selection.currentIndex < 0 || this.selection.currentIndex >= this.rowCount || !localFile.verifyExists(this.data[this.selection.currentIndex].parent)) {
             return;
@@ -536,14 +520,11 @@ var remoteTree = {
         // since were doing threading, the parent path could change
         var origParent = this.data[this.selection.currentIndex].parent;
         var resource = this.data[this.selection.currentIndex];
-        if (!resource.properties) {
-            // Update the cache.
-            if (resource.isFolder)
-                gss.fetchFolder(resource, this.updateProperties, [resource, origParent, recursive]);
-            else
-                gss.fetchFile(resource, this.updateProperties, [resource, origParent, recursive]);
-        } else
-            updateProperties([resource, origParent, recursive]);
+        // Update the cache first.
+        if (resource.isFolder)
+            gss.fetchFolder(resource, this.updateProperties, [resource, origParent, recursive]);
+        else
+            gss.fetchFile(resource, this.updateProperties, [resource, origParent, recursive]);
     },
 
     updateProperties : function(args) {
@@ -590,8 +571,8 @@ var remoteTree = {
             this.selection.currentIndex = this.rowCount - 1;
         }
 
-        $('remoteCutContext').setAttribute("disabled",   this.searchMode == 2 || !gss.hasAuthenticated());
-        $('remotePasteContext').setAttribute("disabled", this.searchMode == 2 || !gss.hasAuthenticated() || !this.pasteFiles.length);
+        //$('remoteCutContext').setAttribute("disabled",   this.searchMode == 2 || !gss.hasAuthenticated());
+        //$('remotePasteContext').setAttribute("disabled", this.searchMode == 2 || !gss.hasAuthenticated() || !this.pasteFiles.length);
         $('remoteCreateDir').setAttribute("disabled",    this.searchMode == 2);
 
         if (this.selection.currentIndex == -1) {

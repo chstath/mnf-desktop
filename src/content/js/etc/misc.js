@@ -45,12 +45,10 @@ function updateOpenMode() {
   $('localUpload').setAttribute(   "defaultAction", gOpenMode == 0);
   $('localOpen').setAttribute(     "defaultAction", gOpenMode == 1);
   $('remoteDownload').setAttribute("defaultAction", gOpenMode == 0);
-  $('remoteOpen').setAttribute(    "defaultAction", gOpenMode == 1);
 
   $('localUpload').setAttribute(   "key", gOpenMode == 0 ? "key_transfer" : "");
   $('localOpen').setAttribute(     "key", gOpenMode == 1 ? "key_transfer" : "key_open");
   $('remoteDownload').setAttribute("key", gOpenMode == 0 ? "key_transfer" : "");
-  $('remoteOpen').setAttribute(    "key", gOpenMode == 1 ? "key_transfer" : "key_open");
 }
 
 function onLocalPathFocus(event) {

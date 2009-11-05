@@ -164,8 +164,11 @@ var remoteFile = {
             changes.versioned = params.isVersioned;
         }
 
-        gss.update(file, changes);
-        remoteTree.refresh(false, true);
+        gss.update(file, changes, function () {
+            gss.fetchFile(file, function() {
+                remoteTree.refresh(false, true);
+            });
+        });
       }
 
       if (!params.returnVal) {

@@ -795,9 +795,9 @@ var localTree = {
 
     $('localOpenCont').collapsed    =               this.searchMode != 2;
     $('localOpenContSep').collapsed =               this.searchMode != 2;
-    $('localCutContext').setAttribute("disabled",   this.searchMode == 2);
-    $('localCopyContext').setAttribute("disabled",  this.searchMode == 2);
-    $('localPasteContext').setAttribute("disabled", this.searchMode == 2 || !this.pasteFiles.length);
+    //$('localCutContext').setAttribute("disabled",   this.searchMode == 2);
+    //$('localCopyContext').setAttribute("disabled",  this.searchMode == 2);
+    //$('localPasteContext').setAttribute("disabled", this.searchMode == 2 || !this.pasteFiles.length);
     $('localCreateDir').setAttribute("disabled",    this.searchMode == 2);
     $('localCreateFile').setAttribute("disabled",   this.searchMode == 2);
 

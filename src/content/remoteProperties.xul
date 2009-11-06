@@ -100,6 +100,15 @@
               <button id="addUserButton" label="&addUser;" oncommand="addUser();" />
           </hbox>
       </row>
+      <row id="tagsrow" align="center">
+          <description value="&tags;"/>
+          <textbox id="tags" />
+      </row>
+      <row id="alltagsrow" align="center">
+          <description value="&alltags;"/>
+          <vbox id="alltags">
+          </vbox>
+      </row>
     </rows>
   </grid>
 

@@ -511,3 +511,16 @@ gss.searchForUsers = function(userName, nextAction){
         resource: gss.API_URL + "/users/" + userName
     });
 };
+
+gss.getUserTags = function(nextAction){
+    gss.sendRequest({
+        handler: function(req, arg, nextAction) {
+            if (nextAction){
+                nextAction(JSON.parse(req.responseText));
+            }
+        },
+        nextAction: nextAction,
+        method:'GET',
+        resource: gss.API_URL + "/" + gss.username + "/tags"
+    });
+};

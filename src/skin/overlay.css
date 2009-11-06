@@ -1,0 +1,11 @@
+#firegss-button {
+  list-style-image    : url("chrome://firegss/skin/icons/logo24.png");
+}
+
+toolbar[iconsize="small"] #firegss-button {
+  list-style-image    : url("chrome://firegss/skin/icons/logo.png");
+}
+
+#firegsstoolsmenu, #firegsscontentarea, #firegsscontextmenu {
+  list-style-image    : url("chrome://firegss/skin/icons/logo.png");
+}

@@ -118,7 +118,7 @@ transfer.prototype = {
 			if (file.exists() && this.prompt) {
 
                 if (!download) {
-                    var url = remoteFolder.uri;
+                    var url = remoteFolder.uri.slice(gss.root.fileroot.length);
                     if (url.slice(url.length-1) !== '/')
                         url = url + '/';
                     url = url + fileName;
@@ -356,7 +356,7 @@ transfer.prototype = {
                             uploaded.name = o.name;
                             // Make sure the folder URI ends with a slash.
                             var destUri = o.dest.slice(-1) === '/' ? o.dest : o.dest + '/';
-                            uploaded.uri = destUri + o.name.replace(/ /, "+");
+                            uploaded.uri = destUri + o.name.replace(/ /g, "+");
                             uploaded.folder = o.rParent;
                             gss.update(uploaded, { modificationDate: o.mtime });
 						};

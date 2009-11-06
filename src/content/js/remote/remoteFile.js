@@ -1,5 +1,16 @@
 var gUserGroups = new Array();
+var gUserTags = new Array();
 var gFileOwner;
+
+function compareTags(t1, t2){
+   if (t1.toLowerCase() < t2.toLowerCase()){
+      return -1;
+   }
+
+    if (t1.toLowerCase() > t2.toLowerCase()){
+     return 1;
+    }
+}
 
 function comparePermissions(p1, p2){
   if (p1.user && p2.group){
@@ -35,29 +46,6 @@ function comparePermissions(p1, p2){
   }
 }
 
-function permissionsAreEqual(p1, p2){
-  if (p1.length!= p2.length){
-    return false;
-  }
-
-  for (var i=0; i<p1.length; i++){
-    if (p1[i].modifyACL!=p2[i].modifyACL){
-      return false;
-    }
-
-    if (p1[i].write!=p2[i].write){
-      return false;
-    }
-
-    if (p1[i].read!=p2[i].read){
-      return false;
-    }
-
-  }
-
-  return true;
-}
-
 function setUserGroups(){
   var ug = arguments[0];
   gUserGroups.splice(0, gUserGroups.length);
@@ -67,9 +55,19 @@ function setUserGroups(){
   }
 }
 
+function setUserTags(){
+    var ut = arguments[0];
+    gUserTags.splice(0, gUserTags.length);
+
+    for (var i=0; i<ut.length; i++){
+        gUserTags.push(ut[i]);
+    }
+}
+
 function searchForUsers(searchString, func){
     gss.searchForUsers(searchString, func);
 }
+
 
 var remoteFile = {
   remove : function(file, prompt, multiple) {
@@ -121,9 +119,11 @@ var remoteFile = {
       }
 
       gss.getUserGroups(setUserGroups);
+      gss.getUserTags(setUserTags);
 
       var origWritable = file.isWritable();
       var hxOldPermissions = hex_sha1(file.permissions.sort(comparePermissions).toSource());
+      var hxOldTags = hex_sha1(file.tags.sort(compareTags).toSource());
 
       var params = { path                : file.isFolder? file.parent.uri.substr(gss.rootFolder.uri.length): file.path,
                      leafName            : file.name,
@@ -141,8 +141,13 @@ var remoteFile = {
                      isLocal             : false,
                      recursiveFolderData : file.isFolder && recursive ? recursiveFolderData : null,
                      returnVal           : false,
-                     ugroups             : gUserGroups};
+                     ugroups             : gUserGroups
+                 };
 
+      if (!file.isFolder){
+          params.utags = gUserTags;
+          params.tags = file.tags;
+      }
 
       window.openDialog("chrome://firegss/content/remoteProperties.xul", "properties", "chrome,modal,dialog,resizable,centerscreen", params);
 
@@ -150,6 +155,13 @@ var remoteFile = {
         var changes = {};
 
         var hxNewPermissions = hex_sha1(params.permissions.sort(comparePermissions).toSource());
+        if (!file.isFolder){
+            var hxNewTags = hex_sha1(params.tags.sort(compareTags).toSource());
+            if (hxOldTags != hxNewTags){
+                changes.tags = params.tags;
+            }
+        }
+
 
         if (hxOldPermissions != hxNewPermissions){
             changes.permissions = params.permissions;

@@ -1,6 +1,7 @@
 var gInitialPermissions;
 var gStrbundle;
 var gArgs;
+var gTags;
 
 function init() {
   gStrbundle = $("strings");
@@ -47,7 +48,6 @@ function init() {
        for (var p=0; p<gArgs.permissions.length; p++){
             var perm = gArgs.permissions[p];
             addPermission({permission : perm});
-           
        }
         change();
 //    gInitialPermissions = $('manual').value;
@@ -57,6 +57,19 @@ function init() {
     $('permrow').collapsed = true;
   }
 
+  if (gArgs.tags){
+    gTags = new Array();
+    for (var i=0; i<gArgs.tags.length; i++){
+        gTags[i] = gArgs.tags[i];
+
+    }
+    addTags(gTags);
+    addAllTags(gArgs.utags);
+  }
+  else{
+      $('tagsrow').collapsed = true;
+      $('utags').collapsed = true;
+  }
 
   if (gArgs.writable != 'disabled') {
     $('public').checked = gArgs.isPublic;
@@ -145,6 +158,14 @@ function doOK() {
 //  }
 
     gArgs.leafName = $('name').value;
+    gTags = $('tags').value.split(",");
+    gTags.trim();
+    gArgs.tags.splice(0, gArgs.tags.length);
+    
+    for (var i=0; i<gTags.length; i++){
+        gArgs.tags.push(gTags[i]);
+    }
+
     gArgs.returnVal = true;
     return true;
 }
@@ -307,4 +328,63 @@ function addUser(){
     for (var i=0; i<parameters.returnValue.length; i++){
         addPermission({user:parameters.returnValue[i]});
     }
+}
+
+function addTags(tags){
+    var tagsString = "";
+    for (var i=0; i<tags.length; i++){
+        tagsString += tags[i];
+        if (i<tags.length-1){
+            tagsString += ", ";
+        }
+    }
+
+    $('tags').value = tagsString;
+}
+
+function addAllTags(tags){
+    var allTags = document.getElementById("alltags");
+    var tagsPlaceHolder;
+    for (var i=0; i<tags.length; i++){
+        if (i%10==0){
+            tagsPlaceHolder = document.createElement("hbox");
+            allTags.appendChild(tagsPlaceHolder);
+        }
+        var tag = document.createElement("label");
+        tag.className = "text-link";
+        tag.textContent = tags[i];
+        tag.addEventListener("click", addTag, true);
+        tagsPlaceHolder.appendChild(tag);
+    }
+}
+
+Array.prototype.trim = function(){
+  for (var i=0; i<this.length; i++){
+    this[i] = this[i].trim();
+  }
+}
+
+Array.prototype.pushUnique = function(element, caseSensitive){
+   for (var i=0; i<this.length; i++){
+      if (caseSensitive){
+        if (element.toUpperCase()==this[i].toUpperCase()){
+          return false;
+        }
+      }
+      else{
+        if (element==this[i]){
+          return false;
+        }
+      }
+   }
+
+   this.push(element);
+   return true;
+}
+
+function addTag(){
+    gTags = $('tags').value.split(",");
+    gTags.trim();
+    gTags.pushUnique(this.textContent);
+    addTags(gTags);
 }

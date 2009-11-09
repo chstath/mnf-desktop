@@ -340,7 +340,7 @@ gss.uploadFile = function(file, remoteFolder, loadStartHandler, progressHandler,
     var folderUri = remoteFolder.slice(-1) === '/' ? remoteFolder : remoteFolder + '/';
     return gss.sendRequest({
             method: 'PUT',
-            resource: folderUri + encodeURI(file.leafName.replace(/ /, "+")),
+            resource: folderUri + encodeURI(file.leafName.replace(/ /g, "+")),
             file: file,
             loadStartEventHandler: loadStartHandler,
             progressEventHandler: progressHandler,

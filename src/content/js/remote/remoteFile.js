@@ -123,7 +123,10 @@ var remoteFile = {
 
       var origWritable = file.isWritable();
       var hxOldPermissions = hex_sha1(file.permissions.sort(comparePermissions).toSource());
-      var hxOldTags = hex_sha1(file.tags.sort(compareTags).toSource());
+      var hxOldTags="";
+      if (!file.isFolder){
+          hxOldTags = hex_sha1(file.tags.sort(compareTags).toSource());
+      }
 
       var params = { path                : file.isFolder? file.parent.uri.substr(gss.rootFolder.uri.length): file.path,
                      leafName            : file.name,

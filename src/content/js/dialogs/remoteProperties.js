@@ -67,6 +67,7 @@ function init() {
     addAllTags(gArgs.utags);
   }
   else{
+      $('alltagsrow').collapsed = true;
       $('tagsrow').collapsed = true;
       $('utags').collapsed = true;
   }
@@ -383,8 +384,16 @@ Array.prototype.pushUnique = function(element, caseSensitive){
 }
 
 function addTag(){
-    gTags = $('tags').value.split(",");
+    var tagsTemp = $('tags').value.split(",");
+    gTags.splice(0, gTags.length);
+    for (var i=0; i<tagsTemp.length; i++){
+        if (tagsTemp[i].trim()!=""){
+            gTags.push(tagsTemp[i]);
+        }
+    }
+
     gTags.trim();
     gTags.pushUnique(this.textContent);
+
     addTags(gTags);
 }

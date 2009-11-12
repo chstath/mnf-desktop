@@ -69,7 +69,6 @@ function init() {
   else{
       $('alltagsrow').collapsed = true;
       $('tagsrow').collapsed = true;
-      $('utags').collapsed = true;
   }
 
   if (gArgs.writable != 'disabled') {

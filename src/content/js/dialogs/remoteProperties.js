@@ -263,7 +263,7 @@ function addPermission(perm){
     
     if (!isOwnersPermissions){
         var deletePermissionCarrier = document.createElement("toolbarbutton");
-        deletePermissionCarrier.setAttribute("label", " X ");
+        deletePermissionCarrier.setAttribute("id", "searchClosebutton");
         deletePermissionCarrier.addEventListener("click", removePermission, true);
         permRow.appendChild(deletePermissionCarrier);
     }

@@ -135,6 +135,7 @@ function isVersionedChanged(){
 }
 
 function doOK() {
+    var i, tags;
 //    if ("returnVal" in gArgs) {
 //        gArgs.returnVal = true;
 //    gArgs.writable  = !$('readonly').checked;
@@ -159,11 +160,16 @@ function doOK() {
 //  }
 
     gArgs.leafName = $('name').value;
-    gTags = $('tags').value.split(",");
-    gTags.trim();
+    tags = $('tags').value.split(",");
+    tags.trim();
+    gTags = [];
+    for (i=0; i<tags.length; i++){
+        if (tags[i] !== "")
+            gTags.push(tags[i]);
+    }
     gArgs.tags.splice(0, gArgs.tags.length);
     
-    for (var i=0; i<gTags.length; i++){
+    for (i=0; i<gTags.length; i++){
         gArgs.tags.push(gTags[i]);
     }
 

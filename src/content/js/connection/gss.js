@@ -393,7 +393,7 @@ gss.fetchFile = function (file, nextAction, nextActionArg) {
                     nextAction: nextAction,
                     nextActionArg: nextActionArg,
 					method: 'HEAD',
-					resource: file.uri});
+					resource: file.uri+"?"+Math.random()});
 };
  
 // Parses the response for a file request.
@@ -486,17 +486,28 @@ gss.search = function(query, nextAction) {
     });
 };
 
-gss.getUserGroups = function(nextAction){
+// Return the groups defined by this user.
+gss.getUserGroups = function(nextAction, nextActionArg) {
     gss.sendRequest({
-        handler: function(req, arg, nextAction) {
-            if (nextAction){
-                nextAction(JSON.parse(req.responseText));
-            }
-        },
+        handler: gss.parseGroups,
         nextAction: nextAction,
+        nextActionArg: nextActionArg,
         method:'GET',
         resource: gss.API_URL + "/" + gss.username + "/groups"
     });
+};
+
+// Parses the 'groups' namespace response.
+gss.parseGroups = function(req, arg, nextAction, nextActionArg) {
+	var groups = JSON.parse(req.responseText);
+	// Properly decode the group name.
+	groups.forEach(function (g) {
+	    try {
+    	    g.name = decodeURIComponent(g.name.replace(/\+/g, "%20"));	    
+	    } catch (e) { /* do nothing */ }
+	});
+	if (nextAction)
+		nextAction(groups, nextActionArg);
 };
 
 gss.searchForUsers = function(userName, nextAction){
@@ -512,15 +523,22 @@ gss.searchForUsers = function(userName, nextAction){
     });
 };
 
-gss.getUserTags = function(nextAction){
+// Return the tags defined by this user.
+gss.getUserTags = function(nextAction, nextActionArg) {
     gss.sendRequest({
-        handler: function(req, arg, nextAction) {
-            if (nextAction){
-                nextAction(JSON.parse(req.responseText));
-            }
-        },
+        handler: gss.parseTags,
         nextAction: nextAction,
+        nextActionArg: nextActionArg,
         method:'GET',
         resource: gss.API_URL + "/" + gss.username + "/tags"
     });
 };
+
+
+// Parses the 'tags' namespace response.
+gss.parseTags = function(req, arg, nextAction, nextActionArg) {
+	var tags = JSON.parse(req.responseText);
+	if (nextAction)
+		nextAction(tags, nextActionArg);
+};
+

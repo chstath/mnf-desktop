@@ -46,22 +46,24 @@ function comparePermissions(p1, p2){
   }
 }
 
-function setUserGroups(){
-  var ug = arguments[0];
+function setUserGroups(groups, args){
+    var len = groups.length;
   gUserGroups.splice(0, gUserGroups.length);
 
-  for (var i=0; i<ug.length; i++){
-      gUserGroups.push(ug[i]);
+  for (var i=0; i<len; i++){
+      gUserGroups.push(groups[i]);
   }
+  gss.getUserTags(setUserTags, args);
 }
 
-function setUserTags(){
-    var ut = arguments[0];
+function setUserTags(tags, args){
+    var len = tags.length;
     gUserTags.splice(0, gUserTags.length);
 
-    for (var i=0; i<ut.length; i++){
-        gUserTags.push(ut[i]);
+    for (var i=0; i<len; i++){
+        gUserTags.push(tags[i]);
     }
+    remoteFile.actuallyShowProperties(args);
 }
 
 function searchForUsers(searchString, func){
@@ -106,27 +108,28 @@ var remoteFile = {
   },
   
   showProperties : function(file, recursive) {
-      
+      gss.getUserGroups(setUserGroups, { file: file, recursive: recursive });
+  },
+  
+  actuallyShowProperties: function (args) {
+    var file = args.file;
+    var recursive = args.recursive;
     try {
       gFileOwner = file.owner;
       var date = new Date(file.modificationDate);
-      date     = gMonths[date.getMonth()] + ' ' + date.getDate() + ' ' + date.getFullYear() + ' ' + date.toLocaleTimeString();
+      date = gMonths[date.getMonth()] + ' ' + date.getDate() + ' ' +
+            date.getFullYear() + ' ' + date.toLocaleTimeString();
 
       var recursiveFolderData = { type: "remote", nFolders: 0, nFiles: 0, nSize: 0 };
 
-      if (file.isFolder && recursive) {
+      if (file.isFolder && recursive)
         remoteTree.getRecursiveFolderData(file, recursiveFolderData);
-      }
-
-      gss.getUserGroups(setUserGroups);
-      gss.getUserTags(setUserTags);
 
       var origWritable = file.isWritable();
       var hxOldPermissions = hex_sha1(file.permissions.sort(comparePermissions).toSource());
       var hxOldTags="";
-      if (!file.isFolder){
+      if (!file.isFolder)
           hxOldTags = hex_sha1(file.tags.sort(compareTags).toSource());
-      }
 
       var params = { path                : file.isFolder? file.parent.uri.substr(gss.rootFolder.uri.length): file.path,
                      leafName            : file.name,
@@ -158,26 +161,21 @@ var remoteFile = {
         var changes = {};
 
         var hxNewPermissions = hex_sha1(params.permissions.sort(comparePermissions).toSource());
-        if (!file.isFolder){
+        if (!file.isFolder) {
             var hxNewTags = hex_sha1(params.tags.sort(compareTags).toSource());
-            if (hxOldTags != hxNewTags){
+            if (hxOldTags != hxNewTags)
                 changes.tags = params.tags;
-            }
         }
 
 
-        if (hxOldPermissions != hxNewPermissions){
+        if (hxOldPermissions != hxNewPermissions)
             changes.permissions = params.permissions;
-        }
-        if (file.name!=params.leafName){
+        if (file.name != params.leafName)
             changes.name = params.leafName;
-        }
-        if (file.readForAll!=params.isPublic){
+        if (file.readForAll != params.isPublic)
             changes.readForAll = params.isPublic;
-        }
-        if (file.versioned!=params.isVersioned){
+        if (file.versioned != params.isVersioned)
             changes.versioned = params.isVersioned;
-        }
 
         gss.update(file, changes, function () {
             gss.fetchFile(file, function() {

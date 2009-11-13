@@ -203,27 +203,34 @@ function multipleFiles() {
                   + (gArgs.recursiveFolderData.nSize > 1023 ? "  (" + gStrbundle.getFormattedString("bytes", [commas(gArgs.recursiveFolderData.nSize)]) + ")": "");
 }
 
-function addPermission(perm){
+function addPermission(perm) {
     var p = document.getElementById("permissionsRow").childNodes.length-1;
     var permRow = document.createElement("row");
     var isNew = !perm.permission;
     var isOwnersPermissions;
     var permissionCarrierName;
+    var groupname;
 
     permRow.id = p;
 
-    if (!isNew){
-        permissionCarrierName = perm.permission.user || perm.permission.group;
-        isOwnersPermissions = ((perm.permission.user || perm.permission.group)==gArgs.user);
-    }
-    else{
+    if (!isNew) {
+        try {
+            groupname = decodeURIComponent(perm.permission.group.replace(/\+/g, "%20"));
+        } catch (e) {
+            groupname = perm.permission.group;
+        }
+        permissionCarrierName = perm.permission.user || groupname;
+        isOwnersPermissions = perm.permission.user === gArgs.user;
+    } else {
         isOwnersPermissions = false;
-        if (perm.group){ //is Group
-            permissionCarrierName = perm.group.name;
-        }
-        else{ //is User
+        if (perm.group)
+            try {
+                permissionCarrierName = decodeURIComponent(perm.group.name.replace(/\+/g, "%20"));
+            } catch (e) {
+                permissionCarrierName = perm.group.name;
+            }
+        else
             permissionCarrierName = perm.user.username;
-        }
     }
   
     //Permission Carrier (User or Group)
@@ -233,23 +240,23 @@ function addPermission(perm){
 
     //Read
     var read = document.createElement("checkbox");
-    if (!isNew){
+    if (!isNew)
         read.setAttribute("checked", perm.permission.read);
-    }
+
     read.addEventListener("CheckboxStateChange", permissionReadChanged, true);
     read.disabled = isOwnersPermissions;
 
     //Write
     var write = document.createElement("checkbox");
-    if (!isNew){
+    if (!isNew)
         write.setAttribute("checked", perm.permission.write);
-    }
+
     write.addEventListener("CheckboxStateChange", permissionWriteChanged, true);
     write.disabled = isOwnersPermissions;
 
     //ModifyACL
     var modifyACL = document.createElement("checkbox");
-    if (!isNew){
+    if (!isNew) {
         modifyACL.setAttribute("checked", perm.permission.modifyACL);
     }
     modifyACL.addEventListener("CheckboxStateChange", permissionModifyACLChanged, true);
@@ -261,7 +268,7 @@ function addPermission(perm){
     permRow.appendChild(modifyACL);
 
     
-    if (!isOwnersPermissions){
+    if (!isOwnersPermissions) {
         var deletePermissionCarrier = document.createElement("toolbarbutton");
         deletePermissionCarrier.setAttribute("id", "searchClosebutton");
         deletePermissionCarrier.addEventListener("click", removePermission, true);
@@ -270,7 +277,7 @@ function addPermission(perm){
 
     document.getElementById("permissionsRow").appendChild(permRow);
     
-    if (perm.group){
+    if (perm.group) {
        gArgs.permissions.push({
            modifyACL : false,
                write : false,
@@ -278,8 +285,7 @@ function addPermission(perm){
                group : perm.group.name,
             groupUri : perm.group.uri
        });
-    }
-    else if (perm.user){
+    } else if (perm.user) {
         gArgs.permissions.push({
            modifyACL : false,
                write : false,
@@ -289,7 +295,7 @@ function addPermission(perm){
     }
 }
 
-function removePermission(){
+function removePermission() {
     var id = this.parentNode.id;
 
     gArgs.permissions.splice(id, 1);

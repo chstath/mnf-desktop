@@ -5,7 +5,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="firegss@ebs.gr"
                    em:name="FireGSS"
-                   em:version="0.11"
+                   em:version="0.12"
                    em:creator="EBS Ltd"
                    em:description="A client for the GSS online storage"
                    em:homepageURL="http://code.google.com/p/firegss/"

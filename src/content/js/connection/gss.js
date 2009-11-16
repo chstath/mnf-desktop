@@ -206,14 +206,12 @@ gss.parseFiles = function(req, folder, nextAction, nextActionArg) {
 		f.isFolder = true;
 	}
     // Store the reference to the parent folder to avoid unnecessary future requests.
-    var newFiles = new Array();
-    var j=0;
+    var newFiles = [];
+    i=0;
     folder.files.forEach(function (f) {
         f.folder = folder;
-        if(!f.deleted){
-            newFiles[j]=f;
-            j++;
-        }
+        if (!f.deleted)
+            newFiles[i++]=f;
     });
     folder.files=newFiles;
 	folder.isWritable = gss.isWritable;

@@ -72,6 +72,8 @@
 <!ENTITY rename.label         "Rename">
 <!ENTITY properties.label     "Properties">
 <!ENTITY rproperties.label    "Properties (incl. contents)">
+<!ENTITY totrash.label            "Move to Trash">
+<!ENTITY untrash.label            "Restore">
 
 <!ENTITY searchButton.label   "Search">
 <!ENTITY searchLocal.label    "Local">

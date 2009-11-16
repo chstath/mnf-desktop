@@ -404,7 +404,57 @@ var remoteTree = {
             gRemoteTree.startEditing(selectionIndex, gRemoteTree.columns["remotename"]);
         }
     },
+    moveToTrash : function() {
+        if (this.selection.count == 0) {
+            return;
+        }
 
+        var count = this.selection.count;
+        var files = new Array();
+
+        for (var x = 0; x < this.rowCount; ++x) {
+            if (this.selection.isSelected(x)) {
+                files.push(this.data[x]);
+            }
+        }
+
+        var prompt = true;
+
+        for (var x = 0; x < files.length; ++x) {
+            if (!remoteFile.moveToTrash(files[x], prompt, count)) {
+                break;
+            }
+
+            prompt = false;
+        }
+
+    },
+    restoreFromTrash : function() {
+        if (this.selection.count == 0) {
+            return;
+        }
+
+        var count = this.selection.count;
+        var files = new Array();
+
+        for (var x = 0; x < this.rowCount; ++x) {
+            if (this.selection.isSelected(x)) {
+                files.push(this.data[x]);
+            }
+        }
+
+        var prompt = true;
+
+        for (var x = 0; x < files.length; ++x) {
+            if (!remoteFile.restoreFromTrash(files[x], prompt, count)) {
+                break;
+            }
+
+            prompt = false;
+        }
+        
+
+    },
     isEditable : function(row, col) {
         var canEdit = row >= 0 && row < this.data.length && col.id == "remotename";
         this.isEditing = canEdit;
@@ -574,7 +624,34 @@ var remoteTree = {
         //$('remoteCutContext').setAttribute("disabled",   this.searchMode == 2 || !gss.hasAuthenticated());
         //$('remotePasteContext').setAttribute("disabled", this.searchMode == 2 || !gss.hasAuthenticated() || !this.pasteFiles.length);
         $('remoteCreateDir').setAttribute("disabled",    this.searchMode == 2);
+        var indexr = remoteDirTree.selection.currentIndex;
+    if (indexr >= 0 && indexr < remoteDirTree.data.length) {
+            if(remoteDirTree.data[indexr].trash == true){
+              //$('remoteCutContext').setAttribute("hidden",true);
+             // $('remotePasteContext').setAttribute("hidden",true);
+              $('remoteCreateDir').setAttribute("hidden",true);
+              $('remoteDownload').setAttribute("hidden",true);
+              //$('remoteOpen').setAttribute("hidden",true);
+              $('remoteWeb').setAttribute("hidden",true);
+              $('remoteRename').setAttribute("hidden",true);
+              $('remoteProperties').setAttribute("hidden",true);
+              $('remoteToTrash').setAttribute("hidden",true);
+              $('remoteUntrash').setAttribute("hidden",false);
+            }
+            else{
+              //$('remoteCutContext').setAttribute("hidden",false);
+             // $('remotePasteContext').setAttribute("hidden",false);
+              $('remoteCreateDir').setAttribute("hidden",false);
+              $('remoteDownload').setAttribute("hidden",false);
+              //$('remoteOpen').setAttribute("hidden",false);
+              $('remoteWeb').setAttribute("hidden",false);
+              $('remoteRename').setAttribute("hidden",false);
+              $('remoteProperties').setAttribute("hidden",false);
+              $('remoteToTrash').setAttribute("hidden",false)
+                $('remoteUntrash').setAttribute("hidden",true);
+            }
 
+    }
         if (this.selection.currentIndex == -1) {
             return;
         }

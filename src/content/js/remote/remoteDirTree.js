@@ -98,7 +98,12 @@ var remoteDirTree = {
 			}
 //			remoteDirTree.ignoreSelect = true;
 			remoteDirTree.expandSubfolders(remoteDirTree.data[row].gssObj);
-			gss.fetchFolder(remoteDirTree.data[row].gssObj, remoteDirTree.expandSubfolders, remoteDirTree.data[row].gssObj);
+                        if(remoteDirTree.data[row].trash){
+                            gss.fetchTrashFolder(remoteDirTree.data[row].gssObj, remoteDirTree.expandSubfolders, remoteDirTree.data[row].gssObj);
+                        }
+                        else{
+                            gss.fetchFolder(remoteDirTree.data[row].gssObj, remoteDirTree.expandSubfolders, remoteDirTree.data[row].gssObj);
+                        }
 		}
 
 		$('remotedirname').removeAttribute('flex');                                                     // horizontal scrollbars, baby!
@@ -445,28 +450,99 @@ var remoteDirTree = {
 		remoteDirTree.selection.select(0);
 		remoteTree.showFolderContents();
 		remoteDirTree.treebox.invalidateRow(0);
+                gss.fetchTrashFolder(remoteDirTree.initializeTrash);
+	},
+
+        initializeTrash: function(folder) {
+		//remoteDirTree.data = new Array();
+		//remoteDirTree.rowCount = 1;
+		//remoteDirTree.treebox.rowCountChanged(0, 0);
+                appendLog("--->"+remoteDirTree.rowCount);
+		remoteDirTree.data.push({
+								   open        : true,
+								   empty       : false,
+								   hasNext     : false,
+								   parentIndex : -1,
+								   children    : null,
+								   path        : "/",
+								   leafName    : "Trash",
+								   parent      : "",
+								   isHidden    : false,
+								   level       : 0,
+								   sortPath    : "/",
+								   gssObj	   : folder,
+                                                                   trash:true
+								});
+
+		remoteDirTree.rowCount = remoteDirTree.rowCount + 1;
+                //remoteDirTree.rowCount = remoteDirTree.data.length;
+		remoteDirTree.treebox.rowCountChanged(remoteDirTree.rowCount-1,1);
+		//remoteDirTree.selection.select(0);
+		//remoteTree.showFolderContents();
+		//remoteDirTree.treebox.invalidateRow(1);
+                //error("Indexis "+indexOfFolder(folder));
+		gss.fetchMySharedFolder(remoteDirTree.initializeMyShared);
+	},
+	initializeMyShared: function(folder) {
+		//remoteDirTree.data = new Array();
+		//remoteDirTree.rowCount = 1;
+		//remoteDirTree.treebox.rowCountChanged(0, 0);
+
+		remoteDirTree.data.push({
+								   open        : false,
+								   empty       : false,
+								   hasNext     : false,
+								   parentIndex : -1,
+								   children    : null,
+								   path        : "/",
+								   leafName    : "MyShared",
+								   parent      : "",
+								   isHidden    : false,
+								   level       : 0,
+								   sortPath    : "/",
+								   gssObj	   : folder,
+                                                                   trash:false
+								});
+
+		remoteDirTree.rowCount = remoteDirTree.rowCount + 1;
+                //remoteDirTree.rowCount = remoteDirTree.data.length;
+		remoteDirTree.treebox.rowCountChanged(remoteDirTree.rowCount-1,1);
+		//remoteDirTree.selection.select(0);
+		//remoteTree.showFolderContents();
+		//remoteDirTree.treebox.invalidateRow(1);
+                //error("Indexis "+indexOfFolder(folder));
 	},
 
 	select: function(event) {
 	    var index, gssObj;
-		if (remoteDirTree.ignoreSelect) {
-			return;
-		}
+		
 
 		index = remoteDirTree.selection.currentIndex;
         
 		if (index >= 0 && index < remoteDirTree.data.length) {
-            gssObj = remoteDirTree.data[index].gssObj;
-			remoteTree.showFolderContents();
-			gss.fetchFolder(gssObj, remoteTree.showFolderContents);
+                        gssObj = remoteDirTree.data[index].gssObj;
+                        if(!remoteDirTree.data[index].trash){
+                            if (remoteDirTree.ignoreSelect) {
+                                    return;
+                            }
+                        }
+                        remoteTree.showFolderContents();
+                        if(remoteDirTree.data[index].trash)
+                            gss.fetchTrashFolder(gssObj, remoteTree.showFolderContents);
+                        else
+                            gss.fetchFolder(gssObj, remoteTree.showFolderContents);
 			remoteDirTree.treebox.ensureRowIsVisible(index);
+                        
 		}
 	},
 
 	expandSubfolders: function(folder) {
 		var row = 0;
+		var isTrash=false;
 		for (var i=0; i<remoteDirTree.data.length; i++)
 			if (remoteDirTree.data[i].gssObj === folder) {
+                            if(remoteDirTree.data[i].trash == true)
+					isTrash=true;
 				row = i;
 				break;
 			}
@@ -483,8 +559,12 @@ var remoteDirTree = {
 		remoteDirTree.rowCount = remoteDirTree.data.length;
 		remoteDirTree.treebox.rowCountChanged(row, -(lastChild - row));
         
+       /* if(isTrash){
+		remoteDirTree.data[row].empty = true;
+				remoteDirTree.data[row].open  = false;
+	}
         // stored from before
-		if (remoteDirTree.data[row].children) {
+	else*/	if (remoteDirTree.data[row].children) {
 			for (var x = remoteDirTree.data[row].children.length - 1; x >= 0; --x) {
 				remoteDirTree.data.splice(row + 1, 0, remoteDirTree.data[row].children[x]);
 			}
@@ -499,7 +579,7 @@ var remoteDirTree = {
 			var newDirectories = new Array();
 
 			var entries = remoteDirTree.data[row].gssObj.folders;
-			if (entries) {
+			if (entries && !isTrash) {
 				for (var i=0; i<entries.length; i++) {
 					var file = entries[i];// get subdirectories
 					newDirectories.push(file);
@@ -541,7 +621,10 @@ var remoteDirTree = {
 				remoteDirTree.data[row].empty = true;
 				remoteDirTree.data[row].open  = false;
 			}
+
 		}
+                if(isTrash)
+                    remoteDirTree.selection.select(currentSelection);
 //		remoteDirTree.ignoreSelect = false;
 	},
 
@@ -550,5 +633,23 @@ var remoteDirTree = {
             if (remoteDirTree.data[i].gssObj == folder)
                 return i;
         return -1;
+    },
+
+    updateFolder: function(){
+        var index, gssObj;
+		
+
+		index = remoteDirTree.selection.currentIndex;
+
+		if (index >= 0 && index < remoteDirTree.data.length) {
+                gssObj = remoteDirTree.data[index].gssObj;
+			
+                        if(remoteDirTree.data[index].trash)
+                            gss.fetchTrashFolder(gssObj, remoteTree.showFolderContents);
+                        else
+                            gss.fetchFolder(gssObj, remoteTree.showFolderContents);
+			remoteDirTree.treebox.ensureRowIsVisible(index);
+		}
+                remoteTree.showFolderContents();
     }
 };

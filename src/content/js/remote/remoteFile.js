@@ -106,7 +106,84 @@ var remoteFile = {
 	gProcessing--;
     return true;
   },
-  
+  moveToTrash : function(file, prompt, multiple) {
+    if (prompt && multiple && multiple > 1) {
+      // deleting multiple
+      if (!window.confirm(gStrbundle.getFormattedString("confirmToTrash2", [multiple]))) {
+        return false;
+      }
+    } else if (prompt && file.isFolder) {
+      // deleting a directory
+      if (!window.confirm(gStrbundle.getFormattedString("confirmToTrash3", [file.name]))) {
+        return false;
+      }
+    } else if (prompt) {
+      // deleting a file
+      if (!window.confirm(gStrbundle.getFormattedString("confirmToTrash", [file.name]))) {
+        return false;
+      }
+    }
+
+	gProcessing++;
+    gss.moveToTrashResource(file.uri, function () {
+                                    var dirRow = remoteDirTree.selection.currentIndex;
+                                    //if the parent is expanded
+                                    if (remoteDirTree.isContainerOpen(dirRow)) {
+                                        //collapse
+                                        remoteDirTree.toggleOpenState(dirRow);
+                                        //and expand again to update the subtree
+                                        remoteDirTree.toggleOpenState(dirRow);
+                                    }
+                                    else
+                                        remoteTree.updateView();
+                                    remoteTree.refresh(false,false);
+                                 } );
+	gProcessing--;
+        //remoteDirTree.updateFolder();
+    return true;
+  },
+  restoreFromTrash : function(file, prompt, multiple) {
+    if (prompt && multiple && multiple > 1) {
+      // deleting multiple
+      if (!window.confirm(gStrbundle.getFormattedString("confirmFromTrash2", [multiple]))) {
+        return false;
+      }
+    } else if (prompt && file.isFolder) {
+      // deleting a directory
+      if (!window.confirm(gStrbundle.getFormattedString("confirmFromTrash3", [file.name]))) {
+        return false;
+      }
+    } else if (prompt) {
+      // deleting a file
+      if (!window.confirm(gStrbundle.getFormattedString("confirmFromTrash", [file.name]))) {
+        return false;
+      }
+    }
+
+	gProcessing++;
+    gss.restoreFromTrashResource(file.uri, function () {
+                                    var dirRow = remoteDirTree.selection.currentIndex;
+                                    //if the parent is expanded
+                                    appendLog("[restoring]");
+                                    //if (remoteDirTree.isContainerOpen(dirRow)) {
+                                        appendLog("[restoring2]");
+                                        //collapse
+                                        remoteDirTree.toggleOpenState(dirRow);
+                                        //and expand again to update the subtree
+                                        remoteDirTree.toggleOpenState(dirRow);
+                                    //}
+                                    //else{
+                                        appendLog("[restoring3]");
+                                        
+                                        remoteTree.refresh(false,false);
+                                        remoteTree.updateView();
+                                    //}
+                                 } );
+	gProcessing--;
+        //remoteDirTree.updateFolder();
+
+    return true;
+  },
   showProperties : function(file, recursive) {
       gss.getUserGroups(setUserGroups, { file: file, recursive: recursive });
   },

@@ -115,6 +115,8 @@
       <menuitem oncommand="remoteTree.paste()"                  label="&paste.label;"               key="key_paste" disabled="true" id="remotePasteContext"/>
 -->      <menuseparator/>
       <menuitem oncommand="remoteTree.create()"                 label="&makedir.label;"             key="key_dir"                   id="remoteCreateDir"/>
+      <menuitem oncommand="remoteTree.moveToTrash()"                 label="&totrash.label;"              key="key_totrash"                id="remoteToTrash"/>
+      <menuitem oncommand="remoteTree.restoreFromTrash()"                 label="&untrash.label;"              key="key_untrash"                id="remoteUntrash"/>
       <menuitem oncommand="remoteTree.remove()"                 label="&delete.label;"              key="key_remove"                id="remoteRemove"/>
       <menuitem oncommand="remoteTree.rename()"                 label="&rename.label;"              key="key_rename"                id="remoteRename"/>
       <menuseparator/>

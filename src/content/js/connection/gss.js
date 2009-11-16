@@ -206,14 +206,41 @@ gss.parseFiles = function(req, folder, nextAction, nextActionArg) {
 		f.isFolder = true;
 	}
     // Store the reference to the parent folder to avoid unnecessary future requests.
+    var newFiles = new Array();
+    var j=0;
     folder.files.forEach(function (f) {
         f.folder = folder;
+        if(!f.deleted){
+            newFiles[j]=f;
+            j++;
+        }
     });
+    folder.files=newFiles;
 	folder.isWritable = gss.isWritable;
 	if (nextAction)
 		nextAction(nextActionArg);
 };
 
+gss.parseTrashedFiles = function(req, folder, nextAction, nextActionArg) {
+	var filesobj = JSON.parse(req.responseText);
+	gss.updateCache(folder, filesobj);
+	var folders = folder.folders;
+	for (var i=0; i<folders.length; i++) {
+		var f = folders[i];
+		f.level = f.uri.substr(gss.rootFolder.uri.length).match(/\x2f/g).length - 1;
+		f.position = i;
+		f.isFolder = true;
+	}
+    // Store the reference to the parent folder to avoid unnecessary future requests.
+
+    folder.files.forEach(function (f) {
+        f.folder = folder;
+    });
+
+	folder.isWritable = gss.isWritable;
+	if (nextAction)
+		nextAction(nextActionArg);
+};
 // Update the cached resource copy with the new one, in order to maintain cached
 // object identities.
 gss.updateCache = function(res, newRes) {
@@ -542,3 +569,47 @@ gss.parseTags = function(req, arg, nextAction, nextActionArg) {
 		nextAction(tags, nextActionArg);
 };
 
+// The TRASH cache
+gss.trashFolder = {};
+// The My Shared cache
+gss.mySharedFolder = {};
+
+gss.fetchTrashFolder = function(nextAction) {
+	if (gss.root.trash) {
+		gss.sendRequest({handler: gss.parseTrashedFiles,
+						handlerArg: gss.trashFolder,
+						nextAction: nextAction,
+						nextActionArg: gss.trashFolder,
+						method: 'GET',
+						resource: gss.root.trash});
+	}
+	else {
+		gss.fetchUser(gss.fetchTrashFolder, nextAction);
+	}
+};
+
+gss.fetchMySharedFolder = function(nextAction) {
+	if (gss.root.shared) {
+		gss.sendRequest({handler: gss.parseFiles,
+						handlerArg: gss.mySharedFolder,
+						nextAction: nextAction,
+						nextActionArg: gss.mySharedFolder,
+						method: 'GET',
+						resource: gss.root.shared});
+	}
+	else {
+		gss.fetchUser(gss.fetchMySharedFolder, nextAction);
+	}
+};
+
+gss.moveToTrashResource = function(uri, nextAction) {
+	gss.sendRequest({handler: nextAction,
+					method: 'POST',
+					resource: uri+"?trash="});
+};
+
+gss.restoreFromTrashResource = function(uri, nextAction) {
+	gss.sendRequest({handler: nextAction,
+					method: 'POST',
+					resource: uri+"?restore="});
+};

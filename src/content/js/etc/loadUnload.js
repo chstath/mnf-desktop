@@ -199,7 +199,7 @@ function login() {
     gss.username = username;
     gss.authToken = '';
     doDesktopLogin();
-    prefs = Components.classes["@mozilla.org/preferences-service;1"]
+    var prefs = Components.classes["@mozilla.org/preferences-service;1"]
         .getService(Components.interfaces.nsIPrefService)
         .getBranch("firegss.");
     prefs.setCharPref("username", gss.username);

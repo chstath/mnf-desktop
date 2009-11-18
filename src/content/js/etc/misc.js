@@ -119,7 +119,7 @@ function runInFirefox(path) {
   var windowManagerInterface = windowManager.QueryInterface(Components.interfaces.nsIWindowMediator);
   var win                    = windowManagerInterface.getMostRecentWindow("navigator:browser");
 
-  if (win) {
+  if (win && win.gBrowser) {
     var theTab               = win.gBrowser.addTab(path);
     win.gBrowser.selectedTab = theTab;
     return;

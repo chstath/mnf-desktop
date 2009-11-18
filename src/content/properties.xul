@@ -114,7 +114,7 @@
             <vbox    pack="center"      class="paddingTop">
               <hbox>
                 <box       id="imagebox">
-                  <browser id="thumbnail" width="150" height="150" src="" type="content"/>
+                  <browser id="thumbnail" width="150" height="150" src="" type="content" disablehistory="true"/>
                 </box>
                 <box           id="webbox">
                   <html:span   id="loadinglabel">&loading;</html:span>

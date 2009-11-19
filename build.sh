@@ -10,11 +10,11 @@ BUILD_DIR=build
 mkdir -p $BUILD_DIR
 rm $BUILD_DIR/$XPI >/dev/null 2>&1
 cd src
+zip -qDr ../$BUILD_DIR/$XPI .
 cd ..
 
 # Build application.
 cd src
-zip -qDr ../$BUILD_DIR/$XPI .
 mv content/firegss.xul content/main.xul
 zip -qDr ../app/chrome/content.jar content
 mv content/main.xul content/firegss.xul

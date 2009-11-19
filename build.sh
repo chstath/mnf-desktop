@@ -5,6 +5,7 @@
 NAME=firegss
 XPI=$NAME.xpi
 BUILD_DIR=build
+APP_EXT=app/extensions
 
 # Build extension.
 mkdir -p $BUILD_DIR
@@ -14,12 +15,6 @@ zip -qDr ../$BUILD_DIR/$XPI .
 cd ..
 
 # Build application.
-cd src
-mv content/firegss.xul content/main.xul
-zip -qDr ../app/chrome/content.jar content
-mv content/main.xul content/firegss.xul
-cp defaults/preferences/firegss.js ../app/defaults/preferences/
-zip -qDr ../app/chrome/locale.jar locale
-zip -qDr ../app/chrome/skin.jar skin
-cd ..
+rm -r $APP_EXT/firegss@ebs.gr
+cp $BUILD_DIR/$XPI $APP_EXT
 

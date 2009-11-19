@@ -17,9 +17,15 @@
     <em:contributor>Christos Stathis</em:contributor>
     <em:contributor>Panagiotis Astithas</em:contributor>
     <em:targetApplication RDF:resource="rdf:#$uSYcA1"/>
+    <em:targetApplication RDF:resource="rdf:#$uSYcA2"/>
   </RDF:Description>
   <RDF:Description RDF:about="rdf:#$uSYcA1"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="3.5"
                    em:maxVersion="3.6b2" />
+  <RDF:Description RDF:about="rdf:#$uSYcA2"
+                   em:id="firegssapp@ebs.gr"
+                   em:minVersion="0.12"
+                   em:maxVersion="1.0" />
 </RDF:RDF>
+

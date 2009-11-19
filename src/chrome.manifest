@@ -2,5 +2,7 @@ content	firegss	content/
 locale	firegss	en-US	locale/en-US/
 locale	firegss	el-GR	locale/el-GR/
 skin	firegss	classic/1.0	skin/
-overlay	chrome://browser/content/browser.xul	chrome://firegss/content/firegssOverlay.xul
-style   chrome://global/content/customizeToolbar.xul chrome://firegss/skin/overlay.css
+overlay	chrome://firegssapp/content/main.xul chrome://firegss/content/firegssOverlay.xul application=firegssapp@ebs.gr
+overlay	chrome://browser/content/browser.xul chrome://firegss/content/firegssOverlay.xul application={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
+style   chrome://global/content/customizeToolbar.xul chrome://firegss/skin/overlay.css application={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
+

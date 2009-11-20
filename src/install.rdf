@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
+         xmlns:NC="http://home.netscape.com/NC-rdf#"
+         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <RDF:Description RDF:about="urn:mozilla:install-manifest"
+                   em:id="firegss@ebs.gr"
+                   em:name="FireGSS"
+                   em:version="0.12"
+                   em:creator="EBS Ltd"
+                   em:description="A client for the GSS online storage"
+                   em:homepageURL="http://code.google.com/p/firegss/"
+                   em:aboutURL="chrome://firegss/content/about.xul"
+                   em:optionsURL="chrome://firegss/content/preferences.xul"
+                   em:iconURL="chrome://firegss/skin/icons/logo32.png"
+                   em:updateURL="http://www.ebs.gr/gss/update.rdf"
+                   em:updateKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCyRxREI41+m8d2YfTJzh4jSYmiMPqNS/Cqt+FwfJrAsVGUfTdGeIgwTEEfp2sCG+Yg0+RrRQf6Ed/yQrFbZU91EXFoX7w6Joja5uxggjXvgD2nk9I6K2LmN78VsG5Lvhl2U65BNkU+mNmXPpRueDbdgW6AjattY6buTyld5z/RbwIDAQAB">
+    <em:contributor>Christos Stathis</em:contributor>
+    <em:contributor>Panagiotis Astithas</em:contributor>
+    <em:targetApplication RDF:resource="rdf:#$uSYcA1"/>
+    <em:targetApplication RDF:resource="rdf:#$uSYcA2"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$uSYcA1"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="3.5"
+                   em:maxVersion="3.6b2" />
+  <RDF:Description RDF:about="rdf:#$uSYcA2"
+                   em:id="firegssapp@ebs.gr"
+                   em:minVersion="0.12"
+                   em:maxVersion="1.0" />
+</RDF:RDF>
+

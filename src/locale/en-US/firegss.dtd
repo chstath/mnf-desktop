@@ -1,0 +1,117 @@
+<!ENTITY accountlist.label    "(Choose an account)">
+
+<!ENTITY edit.label           "Edit">
+<!ENTITY abort.label          "Abort">
+
+<!ENTITY logtab.label         "Log/Queue">
+<!ENTITY ltab.label           "Log">
+<!ENTITY qtab.label           "Queue">
+<!ENTITY search.access        "S">
+<!ENTITY logbutton.access     "L">
+
+<!ENTITY advanced.label       "Tools">
+<!ENTITY search.label         "Search/Filter">
+<!ENTITY custom.label         "Custom Command...">
+<!ENTITY import.label         "Import...">
+<!ENTITY export.label         "Export...">
+<!ENTITY preferencestab.label "Options...">
+<!ENTITY custom.access        "C">
+<!ENTITY import.access        "I">
+<!ENTITY export.access        "x">
+<!ENTITY prefbutton.access    "O">
+
+<!ENTITY help.label           "Help">
+<!ENTITY helpbug.label        "Report bug">
+<!ENTITY helpabout.label      "About">
+
+<!ENTITY parentdir.tip        "Change to parent directory">
+<!ENTITY refresh.tip          "Refresh Directory">
+<!ENTITY localpath.tip        "Local Path">
+<!ENTITY username.tip         "The service username">
+<!ENTITY remotepath.tip       "Remote Path">
+<!ENTITY browse.label         "Browse">
+<!ENTITY change.label         "Change">
+
+<!ENTITY name.label           "Name">
+<!ENTITY size.label           "Size">
+<!ENTITY date.label           "Date">
+<!ENTITY type.label           "Type">
+<!ENTITY attr.label           "Attributes">
+
+<!ENTITY source.label         "Source">
+<!ENTITY dest.label           "Destination">
+<!ENTITY bytes.label          "Bytes">
+<!ENTITY status.label         "Status">
+<!ENTITY retry.label          "Retry">
+<!ENTITY cancel.label         "Cancel">
+<!ENTITY cancelAll.label      "Cancel All">
+
+<!ENTITY bytes.tip            "Bytes Downloaded / Total Bytes">
+<!ENTITY timeela.tip          "Time Elapsed">
+<!ENTITY timerem.tip          "Time Remaining">
+<!ENTITY download.tip         "Transfer Rate">
+<!ENTITY percentCompl.tip     "Percent Completed">
+<!ENTITY percent.tip          "Progress">
+
+<!ENTITY openContaining.label "Open Containing Folder">
+<!ENTITY upload.label         "Upload">
+<!ENTITY download.label       "Download">
+<!ENTITY open.label           "Open">
+<!ENTITY openwith.label       "Open With">
+<!ENTITY extractHere.label    "Extract Here">
+<!ENTITY extractTo.label      "Extract To Folder">
+<!ENTITY viewweb.label        "View on the Web">
+<!ENTITY copyUrl.label        "Copy URL">
+<!ENTITY copyUrlLogin.label   "FTP with login">
+<!ENTITY cut.label            "Cut">
+<!ENTITY copy.label           "Copy">
+<!ENTITY paste.label          "Paste">
+<!ENTITY makedir.label        "Create Directory">
+<!ENTITY makefile.label       "Create File">
+<!ENTITY delete.label         "Delete">
+<!ENTITY rename.label         "Rename">
+<!ENTITY properties.label     "Properties">
+<!ENTITY rproperties.label    "Properties (incl. contents)">
+<!ENTITY totrash.label            "Move to Trash">
+<!ENTITY untrash.label            "Restore">
+
+<!ENTITY searchButton.label   "Search">
+<!ENTITY searchLocal.label    "Local">
+<!ENTITY searchRemote.label   "Remote">
+<!ENTITY searchOptions.label  "Options">
+<!ENTITY searchFrom.label     "From:">
+<!ENTITY searchTo.label       "To:">
+
+<!ENTITY searchSubdir.label   "Look in subdirectories">
+<!ENTITY searchMatch.label    "Match case">
+<!ENTITY searchRegexp.label   "Regular expression">
+<!ENTITY searchDates.label    "Specify dates">
+<!ENTITY searchSubdir.access  "s">
+<!ENTITY searchMatch.access   "c">
+<!ENTITY searchRegexp.access  "x">
+<!ENTITY searchDates.access   "d">
+
+<!ENTITY edit.access          "E">
+<!ENTITY abort.access         "A">
+<!ENTITY advanced.access      "T">
+<!ENTITY helpbutton.access    "H">
+<!ENTITY helpbug.access       "G">
+<!ENTITY helpabout.access     "U">
+
+<!ENTITY loginbutton.access   "l">
+<!ENTITY browsebutton.access  "B">
+<!ENTITY changebutton.access  "n">
+
+<!ENTITY searchButton.access  "S">
+<!ENTITY searchLocal.access   "L">
+<!ENTITY searchRemote.access  "R">
+<!ENTITY searchOptions.access "O">
+
+<!ENTITY iconTip "Launch the GSS file explorer">
+
+<!ENTITY synctab.label        "Sync">
+<!ENTITY syncbutton.access    "Y">
+<!ENTITY sync.label           "Start sync">
+<!ENTITY sync.access          "y">
+<!ENTITY syncprefs.access     "F">
+<!ENTITY syncprefstab.label   "Select folder...">

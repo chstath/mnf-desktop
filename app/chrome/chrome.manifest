@@ -1,4 +1,5 @@
-content firegssapp  content/
-content branding    branding/
-locale  branding    en-US locale/branding/
+content	firegss	jar:content.jar!/content/
+locale	firegss	en-US	jar:locale.jar!/locale/en-US/
+locale	firegss	el-GR	jar:locale.jar!/locale/el-GR/
+skin	firegss	classic/1.0	jar:skin.jar!/skin/
 

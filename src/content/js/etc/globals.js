@@ -1,9 +1,17 @@
 const Cc = Components.classes;
 const Ci = Components.interfaces;
 
+var gVersion;   // version of FireGSS we're using
 var extManager = Cc["@mozilla.org/extensions/manager;1"].getService(Ci.nsIExtensionManager);
 var addon = extManager.getItemForID("firegss@ebs.gr"); 
-var gVersion = addon? addon.version: '0.12';   // version of FireGSS we're using
+if (addon)
+    gVersion = addon.version;
+else {
+    var info = Components.classes["@mozilla.org/xre/app-info;1"]  
+                .getService(Components.interfaces.nsIXULAppInfo);  
+    gVersion = info.version;
+}
+
 var gConnections;               // array of all our ftp connections
 var gHiddenMode = false;        // show hidden files if true
 var gSlash;                     // holds '/' or '\\' depending on local system

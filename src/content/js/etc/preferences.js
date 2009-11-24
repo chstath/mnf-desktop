@@ -44,7 +44,6 @@ function readPreferences(startup) {
 
     if (startup) {
       gLocalPath.value = gPrefs.getComplexValue("folder", Components.interfaces.nsISupportsString).data;
-      gLoadUrl         = gPrefs.getComplexValue("loadurl", Components.interfaces.nsISupportsString).data;
     }
 
     updateInterface();

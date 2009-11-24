@@ -80,10 +80,6 @@ function startup() {
   jQuery('#username').formHints({'className':'hint'});
 
   setTimeout(doResizeHack, 0);
-
-  if (gLoadUrl) {
-    setTimeout("externalLink()", 1000);
-  }
 }
 
 function doDesktopLogin() {

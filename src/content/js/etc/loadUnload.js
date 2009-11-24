@@ -87,9 +87,9 @@ function doDesktopLogin() {
   var showLogin = function (data) {
     gss.nonce = data.trim();
     showBrowser(gss.LOGIN_URL+'?nonce='+gss.nonce);
-    getBrowser().addEventListener("load", function () {
+    $('browser').addEventListener("load", function () {
       var index;
-      if ((index = getBrowser().contentWindow.document.body.innerHTML.indexOf("You can now close")) !== -1) {
+      if ((index = $('browser').contentWindow.document.body.innerHTML.indexOf("You can now close")) !== -1) {
    	    var req = new XMLHttpRequest();
         req.open('GET', gss.TOKEN_URL+'?user='+gss.username+'&nonce='+gss.nonce, true);
         req.onreadystatechange = function (aEvt) {
@@ -139,15 +139,7 @@ function showFileExplorer() {
 function showBrowser(url) {
     $('deck').selectedIndex = 1;
     if (url)
-        $('auth').contentWindow.document.location = url;
-}
-
-function getBrowser() {
-    return $('auth');
-}
-
-function beforeUnload() {
-  return "";
+        $('browser').contentWindow.document.location = url;
 }
 
 function unload() {
@@ -196,7 +188,7 @@ function logout() {
     showBrowser(gss.LOGOUT_URL);
     // Clear Shibboleth cookies after logout is complete, so that restarting
     // the browser is unnecessary.
-    getBrowser().addEventListener("load", function() {
+    $('browser').addEventListener("load", function() {
         var cookieMgr = Components.classes["@mozilla.org/cookiemanager;1"]
                  .getService(Components.interfaces.nsICookieManager);
         for (var e = cookieMgr.enumerator; e.hasMoreElements();) {

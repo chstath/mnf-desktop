@@ -50,7 +50,6 @@ var gDisableDestructMode;       // from prefs: true if we want to disable the se
 var gDonated;                   // from prefs: donated or not
 var gErrorMode;                 // from prefs: show error msgs or not
 var gInterfaceMode;             // from prefs: show local view, remote view, or both
-var gLoadUrl;                   // from prefs: ftp url to open onload
 var gLogErrorMode;              // from prefs: show only errors in log or not
 var gLogMode;                   // from prefs: show log window or not
 var gLogQueueMode;              // from prefs: show log or queue

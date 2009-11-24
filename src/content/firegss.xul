@@ -384,7 +384,7 @@
 
   </vbox>
 
-  <browser id="auth" flex="1" type="content-targetable" disablehistory="true" height="100%"/>
+  <browser id="browser" flex="1" type="content-targetable" disablehistory="true" height="100%"/>
 </deck>
 
   <!-- :::::::::::::::::::::::::::::: search toolbar :::::::::::::::::::::::::::::: -->

@@ -9,7 +9,6 @@
         width         = "800"
         height        = "600"
         orient        = "vertical"
-        windowtype    = "navigator:browser"
         xmlns         = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         xmlns:html    = "http://www.w3.org/1999/xhtml"
         persist       = "width height screenX screenY sizemode"

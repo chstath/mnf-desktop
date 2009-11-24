@@ -90,88 +90,37 @@ function doDesktopLogin() {
   showWorking();
   var showLogin = function (data) {
     gss.nonce = data.trim();
-    var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-         .getService(Components.interfaces.nsIWindowMediator);
-    var mainWindow = wm.getMostRecentWindow("navigator:browser");
-    var gBrowser;
-    if (mainWindow.getBrowser) {
-        gBrowser = mainWindow.getBrowser();
-        var theTab = gBrowser.addTab(gss.LOGIN_URL+'?nonce='+gss.nonce);
-        theTab.label = "Login";
-        theTab.setAttribute('gss-login', "xyz");
-        gBrowser.selectedTab = theTab;
-        var newTabBrowser = gBrowser.getBrowserForTab(theTab);
-        newTabBrowser.addEventListener("load", function () {
-          var index;
-          if ((index = newTabBrowser.contentDocument.body.innerHTML.indexOf("You can now close")) !== -1) {
-       	    var req = new XMLHttpRequest();
-	        req.open('GET', gss.TOKEN_URL+'?user='+gss.username+'&nonce='+gss.nonce, true);
-	        req.onreadystatechange = function (aEvt) {
-	          if (req.readyState == 4) {
-                switch (req.status) {
-                  case 200:
-                    gss.authToken = req.responseText.trim();
-                    // Close login tab and return to application tab.
-                    var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-                         .getService(Components.interfaces.nsIWindowMediator);
-                    var mainWindow = wm.getMostRecentWindow("navigator:browser");
-                    var gBrowser = mainWindow.getBrowser();
-                    var loginTab = returnToAppTab('gss-login');
-                    gBrowser.removeTab(loginTab);
-                    returnToAppTab('firegss');
-                    // Make the username textbox read-only, switch the button to logout and
-                    // initialize the remote pane.
-                    jQuery("#loginout").attr("label", "Logout");
-                    jQuery("#loginout").attr("image", "chrome://firegss/skin/icons/logout.png");
-                    jQuery("#username").attr("readonly", "true");
-                    hideWorking();
-                    gss.fetchRootFolder(remoteDirTree.initialize);
-                    break;
-                  case 403:
-                    alert("No matching token was found");
-                    break;
-                  default:
-                    alert("Error getting token. req.status="+req.status);
-                }
-	          }
-	        };
-	        req.send(null);
+    showBrowser(gss.LOGIN_URL+'?nonce='+gss.nonce);
+    getBrowser().addEventListener("load", function () {
+      var index;
+      if ((index = getBrowser().contentWindow.document.body.innerHTML.indexOf("You can now close")) !== -1) {
+   	    var req = new XMLHttpRequest();
+        req.open('GET', gss.TOKEN_URL+'?user='+gss.username+'&nonce='+gss.nonce, true);
+        req.onreadystatechange = function (aEvt) {
+          if (req.readyState == 4) {
+            switch (req.status) {
+              case 200:
+                gss.authToken = req.responseText.trim();
+                // Make the username textbox read-only, switch the button to logout and
+                // initialize the remote pane.
+                jQuery("#loginout").attr("label", "Logout");
+                jQuery("#loginout").attr("image", "chrome://firegss/skin/icons/logout.png");
+                jQuery("#username").attr("readonly", "true");
+                showFileExplorer();
+                hideWorking();
+                gss.fetchRootFolder(remoteDirTree.initialize);
+                break;
+              case 403:
+                alert("No matching token was found");
+                break;
+              default:
+                alert("Error getting token. req.status="+req.status);
+            }
           }
-        }, true);
-    } else {
-        $('deck').selectedIndex = 1;
-        $('auth').contentWindow.document.location = gss.LOGIN_URL+'?nonce='+gss.nonce;
-        $('auth').addEventListener("load", function () {
-          var index;
-          if ((index = $('auth').contentWindow.document.body.innerHTML.indexOf("You can now close")) !== -1) {
-       	    var req = new XMLHttpRequest();
-	        req.open('GET', gss.TOKEN_URL+'?user='+gss.username+'&nonce='+gss.nonce, true);
-	        req.onreadystatechange = function (aEvt) {
-	          if (req.readyState == 4) {
-                switch (req.status) {
-                  case 200:
-                    gss.authToken = req.responseText.trim();
-                    // Make the username textbox read-only, switch the button to logout and
-                    // initialize the remote pane.
-                    jQuery("#loginout").attr("label", "Logout");
-                    jQuery("#loginout").attr("image", "chrome://firegss/skin/icons/logout.png");
-                    jQuery("#username").attr("readonly", "true");
-                    $('deck').selectedIndex = 0;
-                    hideWorking();
-                    gss.fetchRootFolder(remoteDirTree.initialize);
-                    break;
-                  case 403:
-                    alert("No matching token was found");
-                    break;
-                  default:
-                    alert("Error getting token. req.status="+req.status);
-                }
-	          }
-	        };
-	        req.send(null);
-          }
-        }, true);
-    }
+        };
+        req.send(null);
+      }
+    }, true);
   };
   jQuery.ajax({
     url: gss.NONCE_URL,
@@ -185,6 +134,22 @@ function doDesktopLogin() {
   });
 }
 
+// Display the file explorer view.
+function showFileExplorer() {
+    $('deck').selectedIndex = 0;
+}
+
+// Display the file browser view with the supplied url loaded.
+function showBrowser(url) {
+    $('deck').selectedIndex = 1;
+    if (url)
+        $('auth').contentWindow.document.location = url;
+}
+
+function getBrowser() {
+    return $('auth');
+}
+
 function beforeUnload() {
   return "";
 }
@@ -193,26 +158,6 @@ function unload() {
   if (gPrefsService instanceof Components.interfaces.nsIPrefBranchInternal) {
     gPrefsService.removeObserver("firegss", prefsObserver, false);
   }
-}
-
-function returnToAppTab(attrName) {
-  var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-           .getService(Components.interfaces.nsIWindowMediator);
-  for (var found = false, index = 0, tabbrowser = wm.getEnumerator('navigator:browser').getNext().getBrowser();
-       index < tabbrowser.mTabs.length && !found; index++) {
-
-    // Get the next tab
-    var currentTab = tabbrowser.mTabs[index];
-    // Does this tab contain our custom attribute?
-    if (currentTab.hasAttribute(attrName)) {
-      // Yes--select and focus it.
-      tabbrowser.selectedTab = currentTab;
-      // Focus *this* browser in case another one is currently focused
-      tabbrowser.focus();
-      found = true;
-    }
-  }
-  return currentTab;
 }
 
 function loginout() {
@@ -245,31 +190,27 @@ function login() {
 }
 
 function logout() {
-  if (gss.username === '') return;
-  gss.username = gss.authToken = '';
-  jQuery("#username").val("");
-  jQuery("#username").removeAttr("readonly");
-  jQuery("#loginout").attr("label", "Login");
-  jQuery("#loginout").attr("image", "chrome://firegss/skin/icons/login.png");
-  var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-       .getService(Components.interfaces.nsIWindowMediator);
-  var mainWindow = wm.getMostRecentWindow("navigator:browser");
-  var gBrowser = mainWindow.getBrowser();
-  var theTab = gBrowser.addTab(gss.LOGOUT_URL);
-  theTab.label = "Logout";
-  gBrowser.selectedTab = theTab;
-  // Clear Shibboleth cookies after logout is complete, so that restarting
-  // the browser is unnecessary.
-  var newTabBrowser = gBrowser.getBrowserForTab(theTab);
-    newTabBrowser.addEventListener("load", function() {
-      var cookieMgr = Components.classes["@mozilla.org/cookiemanager;1"]
+    if (gss.username === '') return;
+    showWorking();
+    gss.username = gss.authToken = '';
+    jQuery("#username").val("");
+    jQuery("#username").removeAttr("readonly");
+    jQuery("#loginout").attr("label", "Login");
+    jQuery("#loginout").attr("image", "chrome://firegss/skin/icons/login.png");
+    showBrowser(gss.LOGOUT_URL);
+    // Clear Shibboleth cookies after logout is complete, so that restarting
+    // the browser is unnecessary.
+    getBrowser().addEventListener("load", function() {
+        var cookieMgr = Components.classes["@mozilla.org/cookiemanager;1"]
                  .getService(Components.interfaces.nsICookieManager);
-      for (var e = cookieMgr.enumerator; e.hasMoreElements();) {
-        var cookie = e.getNext().QueryInterface(Components.interfaces.nsICookie);
-        if (cookie.host === gss.SERVER && (cookie.name.indexOf("_shibstate") == 0
-                                      || cookie.name.indexOf("_shibsession") == 0)) {
-          cookieMgr.remove(cookie.host, cookie.name, cookie.path, false);
+        for (var e = cookieMgr.enumerator; e.hasMoreElements();) {
+            var cookie = e.getNext().QueryInterface(Components.interfaces.nsICookie);
+            if (cookie.host === gss.SERVER && (cookie.name.indexOf("_shibstate") == 0
+                                          || cookie.name.indexOf("_shibsession") == 0)) {
+              cookieMgr.remove(cookie.host, cookie.name, cookie.path, false);
+            }
         }
-      }
+        showFileExplorer();
+        hideWorking();
     }, true);
 }

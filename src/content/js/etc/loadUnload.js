@@ -87,53 +87,91 @@ function startup() {
 }
 
 function doDesktopLogin() {
+  showWorking();
   var showLogin = function (data) {
     gss.nonce = data.trim();
     var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
          .getService(Components.interfaces.nsIWindowMediator);
     var mainWindow = wm.getMostRecentWindow("navigator:browser");
-    var gBrowser = mainWindow.getBrowser();
-    var theTab = gBrowser.addTab(gss.LOGIN_URL+'?nonce='+gss.nonce);
-    theTab.label = "Login";
-    theTab.setAttribute('gss-login', "xyz");
-    gBrowser.selectedTab = theTab;
-    var newTabBrowser = gBrowser.getBrowserForTab(theTab);
-    newTabBrowser.addEventListener("load", function() {
-      var index;
-      if ((index = newTabBrowser.contentDocument.body.innerHTML.indexOf("You can now close")) !== -1) {
-   	    var req = new XMLHttpRequest();
-	    req.open('GET', gss.TOKEN_URL+'?user='+gss.username+'&nonce='+gss.nonce, true);
-	    req.onreadystatechange = function (aEvt) {
-	      if (req.readyState == 4) {
-            switch (req.status) {
-              case 200:
-                gss.authToken = req.responseText.trim();
-                // Close login tab and return to application tab.
-                var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-                     .getService(Components.interfaces.nsIWindowMediator);
-                var mainWindow = wm.getMostRecentWindow("navigator:browser");
-                var gBrowser = mainWindow.getBrowser();
-                var loginTab = returnToAppTab('gss-login');
-                gBrowser.removeTab(loginTab);
-                returnToAppTab('firegss');
-                // Make the username textbox read-only, switch the button to logout and
-                // initialize the remote pane.
-                jQuery("#loginout").attr("label", "Logout");
-                jQuery("#loginout").attr("image", "chrome://firegss/skin/icons/logout.png");
-                jQuery("#username").attr("readonly", "true");
-                gss.fetchRootFolder(remoteDirTree.initialize);
-                break;
-              case 403:
-                alert("No matching token was found");
-                break;
-              default:
-                alert("Error getting token. req.status="+req.status);
-            }
-	      }
-	    };
-	    req.send(null);
-      }
-    }, true);
+    var gBrowser;
+    if (mainWindow.getBrowser) {
+        gBrowser = mainWindow.getBrowser();
+        var theTab = gBrowser.addTab(gss.LOGIN_URL+'?nonce='+gss.nonce);
+        theTab.label = "Login";
+        theTab.setAttribute('gss-login', "xyz");
+        gBrowser.selectedTab = theTab;
+        var newTabBrowser = gBrowser.getBrowserForTab(theTab);
+        newTabBrowser.addEventListener("load", function () {
+          var index;
+          if ((index = newTabBrowser.contentDocument.body.innerHTML.indexOf("You can now close")) !== -1) {
+       	    var req = new XMLHttpRequest();
+	        req.open('GET', gss.TOKEN_URL+'?user='+gss.username+'&nonce='+gss.nonce, true);
+	        req.onreadystatechange = function (aEvt) {
+	          if (req.readyState == 4) {
+                switch (req.status) {
+                  case 200:
+                    gss.authToken = req.responseText.trim();
+                    // Close login tab and return to application tab.
+                    var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+                         .getService(Components.interfaces.nsIWindowMediator);
+                    var mainWindow = wm.getMostRecentWindow("navigator:browser");
+                    var gBrowser = mainWindow.getBrowser();
+                    var loginTab = returnToAppTab('gss-login');
+                    gBrowser.removeTab(loginTab);
+                    returnToAppTab('firegss');
+                    // Make the username textbox read-only, switch the button to logout and
+                    // initialize the remote pane.
+                    jQuery("#loginout").attr("label", "Logout");
+                    jQuery("#loginout").attr("image", "chrome://firegss/skin/icons/logout.png");
+                    jQuery("#username").attr("readonly", "true");
+                    hideWorking();
+                    gss.fetchRootFolder(remoteDirTree.initialize);
+                    break;
+                  case 403:
+                    alert("No matching token was found");
+                    break;
+                  default:
+                    alert("Error getting token. req.status="+req.status);
+                }
+	          }
+	        };
+	        req.send(null);
+          }
+        }, true);
+    } else {
+        $('deck').selectedIndex = 1;
+        $('auth').contentWindow.document.location = gss.LOGIN_URL+'?nonce='+gss.nonce;
+        $('auth').addEventListener("load", function () {
+          var index;
+          if ((index = $('auth').contentWindow.document.body.innerHTML.indexOf("You can now close")) !== -1) {
+       	    var req = new XMLHttpRequest();
+	        req.open('GET', gss.TOKEN_URL+'?user='+gss.username+'&nonce='+gss.nonce, true);
+	        req.onreadystatechange = function (aEvt) {
+	          if (req.readyState == 4) {
+                switch (req.status) {
+                  case 200:
+                    gss.authToken = req.responseText.trim();
+                    // Make the username textbox read-only, switch the button to logout and
+                    // initialize the remote pane.
+                    jQuery("#loginout").attr("label", "Logout");
+                    jQuery("#loginout").attr("image", "chrome://firegss/skin/icons/logout.png");
+                    jQuery("#username").attr("readonly", "true");
+                    $('deck').selectedIndex = 0;
+                    hideWorking();
+                    gss.fetchRootFolder(remoteDirTree.initialize);
+                    break;
+                  case 403:
+                    alert("No matching token was found");
+                    break;
+                  default:
+                    alert("Error getting token. req.status="+req.status);
+                }
+	          }
+	        };
+	        req.send(null);
+          }
+        }, true);
+    }
   };
   jQuery.ajax({
     url: gss.NONCE_URL,

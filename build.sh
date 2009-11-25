@@ -1,10 +1,16 @@
 #!/bin/sh
 #
-# A simple build script for FireGSS
+# A build script for packaging FireGSS as both a Firefox extension and a
+# standalone application. Generated artifacts will be placed in the build
+# directory.
 #
 NAME=firegss
 XPI=$NAME.xpi
 BUILD_DIR=build
+XULRUNNER_URL=http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/1.9.1.4/runtimes
+XULRUNNER_FILE_LIN=xulrunner-1.9.1.4.en-US.linux-i686.tar.bz2
+XULRUNNER_FILE_MAC=xulrunner-1.9.1.4.en-US.mac-pkg.dmg
+XULRUNNER_FILE_WIN=xulrunner-1.9.1.4.en-US.win32.zip
 
 # Build extension.
 mkdir -p $BUILD_DIR
@@ -21,5 +27,27 @@ mv content/main.xul content/firegss.xul
 cp defaults/preferences/firegss.js ../app/defaults/preferences/
 zip -qDr ../app/chrome/locale.jar locale
 zip -qDr ../app/chrome/skin.jar skin
+# Package FireGSS bits with XULRunner.
+cd ../app
+# Package for Linux.
+rm -r xulrunner firegss firegss.exe >/dev/null 2>&1
+if [ ! -f ../build/$XULRUNNER_FILE_LIN ]
+then
+    # Fetch xulrunner.
+    curl $XULRUNNER_URL/$XULRUNNER_FILE_LIN -o ../build/$XULRUNNER_FILE_LIN
+fi
+tar jxf ../build/$XULRUNNER_FILE_LIN
+cp xulrunner/xulrunner-stub firegss
+tar jcf ../$BUILD_DIR/$NAME-linux.tar.bz2 .
+# Package for Windows.
+rm -r xulrunner firegss firegss.exe >/dev/null 2>&1
+if [ ! -f ../build/$XULRUNNER_FILE_WIN ]
+then
+    # Fetch xulrunner.
+    curl $XULRUNNER_URL/$XULRUNNER_FILE_WIN -o ../build/$XULRUNNER_FILE_WIN
+fi
+unzip -q ../build/$XULRUNNER_FILE_WIN
+cp xulrunner/xulrunner-stub.exe firegss.exe
+zip -qr ../$BUILD_DIR/$NAME-win.zip .
 cd ..
 

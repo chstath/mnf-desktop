@@ -2,7 +2,9 @@
 #
 # A build script for packaging FireGSS as both a Firefox extension and a
 # standalone application. Generated artifacts will be placed in the build
-# directory.
+# directory. In order to properly verify the integrity of the xulrunner
+# binaries, the public key must be imported first, like this:
+# gpg --fetch-keys http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/1.9.1.4/KEY
 #
 NAME=firegss
 XPI=$NAME.xpi
@@ -35,6 +37,8 @@ if [ ! -f ../build/$XULRUNNER_FILE_LIN ]
 then
     # Fetch xulrunner.
     curl $XULRUNNER_URL/$XULRUNNER_FILE_LIN -o ../build/$XULRUNNER_FILE_LIN
+    curl $XULRUNNER_URL/$XULRUNNER_FILE_LIN.asc -o ../build/$XULRUNNER_FILE_LIN.asc
+    gpg --verify ../build/$XULRUNNER_FILE_LIN.asc ../build/$XULRUNNER_FILE_LIN
 fi
 tar jxf ../build/$XULRUNNER_FILE_LIN
 cp xulrunner/xulrunner-stub firegss
@@ -45,6 +49,8 @@ if [ ! -f ../build/$XULRUNNER_FILE_WIN ]
 then
     # Fetch xulrunner.
     curl $XULRUNNER_URL/$XULRUNNER_FILE_WIN -o ../build/$XULRUNNER_FILE_WIN
+    curl $XULRUNNER_URL/$XULRUNNER_FILE_WIN.asc -o ../build/$XULRUNNER_FILE_WIN	.asc
+    gpg --verify ../build/$XULRUNNER_FILE_WIN.asc ../build/$XULRUNNER_FILE_WIN
 fi
 unzip -q ../build/$XULRUNNER_FILE_WIN
 cp xulrunner/xulrunner-stub.exe firegss.exe

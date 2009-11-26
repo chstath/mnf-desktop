@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # A build script for packaging FireGSS as both a Firefox extension and a
 # standalone application. Generated artifacts will be placed in the build
@@ -55,5 +55,18 @@ fi
 unzip -q ../build/$XULRUNNER_FILE_WIN
 cp xulrunner/xulrunner-stub.exe firegss.exe
 zip -qr ../$BUILD_DIR/$NAME-win.zip .
+cd ..
+# Package for Mac.
+rm -r xulrunner firegss firegss.exe >/dev/null 2>&1
+if [ ! -f ../build/$XULRUNNER_FILE_MAC ]
+then
+    # Fetch xulrunner.
+    curl $XULRUNNER_URL/$XULRUNNER_FILE_MAC -o ../build/$XULRUNNER_FILE_MAC
+    curl $XULRUNNER_URL/$XULRUNNER_FILE_MAC.asc -o ../build/$XULRUNNER_FILE_MAC	.asc
+    gpg --verify ../build/$XULRUNNER_FILE_MAC.asc ../build/$XULRUNNER_FILE_MAC
+fi
+unzip -q ../build/$XULRUNNER_FILE_MAC
+cp xulrunner/xulrunner-stub.exe firegss.exe
+zip -qr ../$BUILD_DIR/$NAME-mac.zip .
 cd ..
 

@@ -79,8 +79,6 @@ function startup() {
   }
   jQuery('#username').formHints({'className':'hint'});
 
-  if (isStandalone())
-    installCertOverride();
   setTimeout(doResizeHack, 0);
 }
 
@@ -203,30 +201,5 @@ function logout() {
         showFileExplorer();
         hideWorking();
     }, true);
-}
-// Install the cert_override.txt file in the profile directory, for allowing
-// self-signed certs or certs from a private CA.
-function installCertOverride() {
-    const CERT_OVERRIDE = "cert_override.txt";
-    // Get a reference to the distributed file, if any.
-    var appDir = Cc["@mozilla.org/file/directory_service;1"].
-                            getService(Ci.nsIProperties).
-                            get("resource:app", Ci.nsIFile);
-    var distCertOverride = appDir.clone();
-    distCertOverride.append(CERT_OVERRIDE);
-    // Do nothing if no file exists.
-    if (!distCertOverride.exists())
-        return;
-    // Get a reference to the currently installed file, if any.
-    var profDir = Cc["@mozilla.org/file/directory_service;1"].
-                            getService(Ci.nsIProperties).
-                            get("ProfD", Ci.nsIFile);
-    var certOverride = profDir.clone();
-    certOverride.append(CERT_OVERRIDE);
-    // Do nothing if the file exists.
-    if (certOverride.exists() && certOverride.fileSize === distCertOverride.fileSize)
-        return;
-    // Install the new file.
-    distCertOverride.copyTo(profDir, CERT_OVERRIDE);
 }
 

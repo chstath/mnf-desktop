@@ -221,10 +221,4 @@ function doResizeHack() {
   $('remoteview').setAttribute(      'width', $('remoteview').boxObject.width);
   $('remoteview').removeAttribute(   'flex');
 }
-function isStandalone() {
-  var extManager = Cc["@mozilla.org/extensions/manager;1"].getService(Ci.nsIExtensionManager);
-  var addon = extManager.getItemForID("firegss@ebs.gr"); 
-  if (addon)
-    return false;
-  return true;
-}
+

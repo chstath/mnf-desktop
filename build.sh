@@ -49,20 +49,19 @@ if [ ! -f ../build/$XULRUNNER_FILE_WIN ]
 then
     # Fetch xulrunner.
     curl $XULRUNNER_URL/$XULRUNNER_FILE_WIN -o ../build/$XULRUNNER_FILE_WIN
-    curl $XULRUNNER_URL/$XULRUNNER_FILE_WIN.asc -o ../build/$XULRUNNER_FILE_WIN	.asc
+    curl $XULRUNNER_URL/$XULRUNNER_FILE_WIN.asc -o ../build/$XULRUNNER_FILE_WIN.asc
     gpg --verify ../build/$XULRUNNER_FILE_WIN.asc ../build/$XULRUNNER_FILE_WIN
 fi
 unzip -q ../build/$XULRUNNER_FILE_WIN
 cp xulrunner/xulrunner-stub.exe firegss.exe
 zip -qr ../$BUILD_DIR/$NAME-win.zip .
-cd ..
 # Package for Mac.
 rm -r xulrunner firegss firegss.exe >/dev/null 2>&1
 if [ ! -f ../build/$XULRUNNER_FILE_MAC ]
 then
     # Fetch xulrunner.
     curl $XULRUNNER_URL/$XULRUNNER_FILE_MAC -o ../build/$XULRUNNER_FILE_MAC
-    curl $XULRUNNER_URL/$XULRUNNER_FILE_MAC.asc -o ../build/$XULRUNNER_FILE_MAC	.asc
+    curl $XULRUNNER_URL/$XULRUNNER_FILE_MAC.asc -o ../build/$XULRUNNER_FILE_MAC.asc
     gpg --verify ../build/$XULRUNNER_FILE_MAC.asc ../build/$XULRUNNER_FILE_MAC
 fi
 unzip -q ../build/$XULRUNNER_FILE_MAC

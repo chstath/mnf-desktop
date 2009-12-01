@@ -1061,12 +1061,54 @@ var remoteTree = {
             remoteDirTree.selection.select(thisIndex);
         }
         else {
-            var file = this.data[index];
-            var auth = gss.getAuth("GET", file.uri);
-            window.open(file.uri + "?" + auth.authString);
+            if (gOpenMode) {
+                this.launch();
+            } else {
+                new transfer().start(true);
+            }
         }
     },
   
+    launch: function () {
+        if (this.selection.count == 0) {
+          return;
+        }
+
+        for (var x = 0; x < this.rowCount; ++x) {
+            if (this.selection.isSelected(x)) {
+                var file = this.data[x];
+                var tmpfolder = Cc["@mozilla.org/file/directory_service;1"].
+                        getService(Ci.nsIProperties).get("TmpD", Ci.nsIFile);
+                // Create a folder name like firegss-4960 for conflict avoidance.
+                tmpfolder.append('firegss-' + (Math.random() * 10000).toFixed());
+                if (!tmpfolder.exists() || !tmpfolder.isDirectory())
+                    tmpfolder.create(Ci.nsIFile.DIRECTORY_TYPE, 0777);
+                this.tempDownload(tmpfolder, file);
+            }
+        }
+    },
+
+    // Downloads the specified remote file to the specified local file.
+    tempDownload: function (local, remote) {
+        var startDownload = function (args) {
+            var l = args[0];
+            var r = args[1];
+            var t = new transfer();
+            t.prompt = false;
+            t.start(true, r, l.path, r.folder, null, function () {
+                var file = Cc["@mozilla.org/file/local;1"]
+                      .createInstance(Ci.nsILocalFile);
+                file.initWithPath(l.path);
+                file.append(r.name);
+                localFile.launch(file);
+            });
+        };
+        if (!remote.folder)
+            gss.fetchFile(remote, startDownload, [local, remote]);
+        else 
+            startDownload([local, remote]);
+    },
+
     copyUrl: function () {
         if (this.selection.count == 0) {
             return;

@@ -9,7 +9,7 @@ function transfer() {
 }
 
 transfer.prototype = {
-	start : function(download, aFile, aLocalParent, aRemoteParent, aListData) {
+	start : function(download, aFile, aLocalParent, aRemoteParent, aListData, callback) {
 		if (this.cancel || ( download && !aFile && remoteTree.selection.count == 0 && !aLocalParent)
 			|| (!download && !aFile && localTree.selection.count  == 0 && !aLocalParent)) {
 			return;
@@ -195,6 +195,7 @@ transfer.prototype = {
 					var nsIFile = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);
 					nsIFile.initWithPath(localPath);
 					var ext = files[x].name.substring(files[x].name.lastIndexOf('.') + 1);
+					var icon;
 					if (ext !== '')
 						icon = "moz-icon://."+ext+"?size=16";
 					else
@@ -253,6 +254,8 @@ transfer.prototype = {
                                 
 								localTree.refresh();
 								hideWorking();
+								if (callback)
+								    callback();
 							}
 						}
 					}

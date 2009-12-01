@@ -109,6 +109,7 @@
     </popup>
     <popup id="remotemenu" onpopupshowing="remoteTree.createContextMenu()">
       <menuitem oncommand="new transfer().start(true)"          label="&download.label;"            key="key_transfer"              id="remoteDownload"/>
+      <menuitem oncommand="remoteTree.launch()"                 label="&open.label;"                key="key_open"                  id="remoteOpen"/>
       <menuitem oncommand="remoteTree.copyUrl()"                label="&copyUrl.label;"                                             id="remoteWeb"/>
 <!--      <menuseparator/>
       <menuitem oncommand="remoteTree.cut()"                    label="&cut.label;"                 key="key_cut"                   id="remoteCutContext"/>

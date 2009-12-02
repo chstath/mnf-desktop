@@ -150,36 +150,6 @@ function init() {
   }
 }
 
-// XXX: this has become broken since Firefox 2.0.0.5 - and I don't know how to work around it.  I'm open to ideas...
-/*function browserLoad(event) {
-  $('loadinglabel').collapsed = true;
-
-  var canvas  = $("canvas");                 // this bit of code inspired from Ted Mielczarek's Tab Preview extension
-  var ctx     = canvas.getContext("2d");     // http://ted.mielczarek.org/code/mozilla/tabpreview/
-  var browser = $('hiddenBrowser');
-  var win     = browser.contentWindow;
-  var w       = browser.width;
-  var h       = browser.height;
-  var canvasW = canvas.width;
-  var canvasH = canvas.height;
-  ctx.scale(canvasW / w, canvasH / h);
-  ctx.drawWindow(win, 0, 0, w, h, "rgb(255,255,255)");
-}*/
-
-function viewImage() {
-  if (gArgs.webHost && gArgs.webHost.indexOf("http://") != 0) {
-    gArgs.webHost = "http://" + gArgs.webHost;
-  }
-
-  var webPath = gArgs.path;
-
-  if (gArgs.prefix && gArgs.path.indexOf(gArgs.prefix) == 0) {
-    webPath = webPath.substring(gArgs.prefix.length);
-  }
-
-  runInFirefox((gArgs.isLocal ? ("file:///" + gArgs.path) : (gArgs.webHost + webPath)));
-}
-
 function change() {
   $('manual').value = (4 * $('suid').checked       + 2 * $('guid').checked        + 1 * $('sticky').checked).toString()
                     + (4 * $('readowner').checked  + 2 * $('writeowner').checked  + 1 * $('execowner').checked).toString()

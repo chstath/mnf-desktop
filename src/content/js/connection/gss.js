@@ -46,6 +46,11 @@ gss.root = {};
 // The file cache
 gss.rootFolder = {};
 
+// The trash cache.
+gss.trash = {};
+// The My Shared cache.
+gss.shared = {};
+
 // Creates a HMAC-SHA1 signature of method+time+resource, using the token.
 gss.sign = function (method, time, resource, token) {
 	// If the resource is an absolute URI, remove the API_URL.
@@ -178,7 +183,7 @@ gss.sendRequest = function(arg) {
 };
 
 // Fetches the 'user' namespace.
-gss.fetchUser = function(nextAction, nextActionArg) {
+gss.fetchUser = function (nextAction, nextActionArg) {
 	gss.sendRequest({handler: gss.parseUser,
 					nextAction: nextAction,
 					nextActionArg: nextActionArg,
@@ -187,7 +192,7 @@ gss.fetchUser = function(nextAction, nextActionArg) {
 };
 
 // Parses the 'user' namespace response.
-gss.parseUser = function(req, arg, nextAction, nextActionArg) {
+gss.parseUser = function (req, arg, nextAction, nextActionArg) {
 	gss.root = JSON.parse(req.responseText);
 	gss.rootFolder.uri = gss.root.fileroot;
 	if (nextAction)
@@ -195,7 +200,7 @@ gss.parseUser = function(req, arg, nextAction, nextActionArg) {
 };
 
 // Parses the 'files' namespace response.
-gss.parseFiles = function(req, folder, nextAction, nextActionArg) {
+gss.parseFiles = function (req, folder, nextAction, nextActionArg) {
 	var filesobj = JSON.parse(req.responseText);
 	gss.updateCache(folder, filesobj);
 	var folders = folder.folders;
@@ -219,7 +224,7 @@ gss.parseFiles = function(req, folder, nextAction, nextActionArg) {
 		nextAction(nextActionArg);
 };
 
-gss.parseTrashedFiles = function(req, folder, nextAction, nextActionArg) {
+gss.parseTrash = function (req, folder, nextAction, nextActionArg) {
 	var filesobj = JSON.parse(req.responseText);
 	gss.updateCache(folder, filesobj);
 	var folders = folder.folders;
@@ -230,7 +235,6 @@ gss.parseTrashedFiles = function(req, folder, nextAction, nextActionArg) {
 		f.isFolder = true;
 	}
     // Store the reference to the parent folder to avoid unnecessary future requests.
-
     folder.files.forEach(function (f) {
         f.folder = folder;
     });
@@ -239,6 +243,7 @@ gss.parseTrashedFiles = function(req, folder, nextAction, nextActionArg) {
 	if (nextAction)
 		nextAction(nextActionArg);
 };
+
 // Update the cached resource copy with the new one, in order to maintain cached
 // object identities.
 gss.updateCache = function(res, newRes) {
@@ -475,7 +480,7 @@ gss.hasAuthenticated = function () {
 
 // Update the specified resource (file or folder) properties, using the new
 // values in the changes parameter.
-gss.update = function(resource, changes, nextAction) {    
+gss.update = function (resource, changes, nextAction) {    
     var newProperties = {};
     if (changes.name)
         newProperties.name = changes.name;
@@ -499,7 +504,7 @@ gss.update = function(resource, changes, nextAction) {
 
 // Makes a search request for the provided query string and then executes
 // the specified nextAction with the results as the argument.
-gss.search = function(query, nextAction) {
+gss.search = function (query, nextAction) {
     gss.sendRequest({
         handler: function(req, arg, nextAction) {
             if (nextAction)
@@ -512,7 +517,7 @@ gss.search = function(query, nextAction) {
 };
 
 // Return the groups defined by this user.
-gss.getUserGroups = function(nextAction, nextActionArg) {
+gss.getUserGroups = function (nextAction, nextActionArg) {
     gss.sendRequest({
         handler: gss.parseGroups,
         nextAction: nextAction,
@@ -523,7 +528,7 @@ gss.getUserGroups = function(nextAction, nextActionArg) {
 };
 
 // Parses the 'groups' namespace response.
-gss.parseGroups = function(req, arg, nextAction, nextActionArg) {
+gss.parseGroups = function (req, arg, nextAction, nextActionArg) {
 	var groups = JSON.parse(req.responseText);
 	// Properly decode the group name.
 	groups.forEach(function (g) {
@@ -535,7 +540,7 @@ gss.parseGroups = function(req, arg, nextAction, nextActionArg) {
 		nextAction(groups, nextActionArg);
 };
 
-gss.searchForUsers = function(userName, nextAction){
+gss.searchForUsers = function (userName, nextAction){
     gss.sendRequest({
         handler: function(req, arg, nextAction) {
             if (nextAction){
@@ -549,7 +554,7 @@ gss.searchForUsers = function(userName, nextAction){
 };
 
 // Return the tags defined by this user.
-gss.getUserTags = function(nextAction, nextActionArg) {
+gss.getUserTags = function (nextAction, nextActionArg) {
     gss.sendRequest({
         handler: gss.parseTags,
         nextAction: nextAction,
@@ -561,53 +566,51 @@ gss.getUserTags = function(nextAction, nextActionArg) {
 
 
 // Parses the 'tags' namespace response.
-gss.parseTags = function(req, arg, nextAction, nextActionArg) {
+gss.parseTags = function (req, arg, nextAction, nextActionArg) {
 	var tags = JSON.parse(req.responseText);
 	if (nextAction)
 		nextAction(tags, nextActionArg);
 };
 
-// The TRASH cache
-gss.trashFolder = {};
-// The My Shared cache
-gss.mySharedFolder = {};
-
-gss.fetchTrashFolder = function(nextAction) {
+gss.fetchTrash = function (nextAction) {
 	if (gss.root.trash) {
-		gss.sendRequest({handler: gss.parseTrashedFiles,
-						handlerArg: gss.trashFolder,
+	    gss.trash.uri = gss.root.trash;
+		gss.sendRequest({handler: gss.parseTrash,
+						handlerArg: gss.trash,
 						nextAction: nextAction,
-						nextActionArg: gss.trashFolder,
+						nextActionArg: gss.trash,
 						method: 'GET',
 						resource: gss.root.trash});
 	}
 	else {
-		gss.fetchUser(gss.fetchTrashFolder, nextAction);
+		gss.fetchUser(gss.fetchTrash, nextAction);
 	}
 };
 
-gss.fetchMySharedFolder = function(nextAction) {
+gss.fetchShared = function (nextAction) {
 	if (gss.root.shared) {
+	    gss.shared.uri = gss.root.shared;
 		gss.sendRequest({handler: gss.parseFiles,
-						handlerArg: gss.mySharedFolder,
+						handlerArg: gss.shared,
 						nextAction: nextAction,
-						nextActionArg: gss.mySharedFolder,
+						nextActionArg: gss.shared,
 						method: 'GET',
 						resource: gss.root.shared});
 	}
 	else {
-		gss.fetchUser(gss.fetchMySharedFolder, nextAction);
+		gss.fetchUser(gss.fetchShared, nextAction);
 	}
 };
 
-gss.moveToTrashResource = function(uri, nextAction) {
+gss.moveToTrash = function (uri, nextAction) {
 	gss.sendRequest({handler: nextAction,
 					method: 'POST',
 					resource: uri+"?trash="});
 };
 
-gss.restoreFromTrashResource = function(uri, nextAction) {
+gss.restoreFromTrash = function (uri, nextAction) {
 	gss.sendRequest({handler: nextAction,
 					method: 'POST',
 					resource: uri+"?restore="});
 };
+

@@ -111,16 +111,16 @@
       <menuitem oncommand="new transfer().start(true)"          label="&download.label;"            key="key_transfer"              id="remoteDownload"/>
       <menuitem oncommand="remoteTree.launch()"                 label="&open.label;"                key="key_open"                  id="remoteOpen"/>
       <menuitem oncommand="remoteTree.copyUrl()"                label="&copyUrl.label;"                                             id="remoteWeb"/>
-<!--      <menuseparator/>
+<!--      <menuseparator id="rsep1"/>
       <menuitem oncommand="remoteTree.cut()"                    label="&cut.label;"                 key="key_cut"                   id="remoteCutContext"/>
       <menuitem oncommand="remoteTree.paste()"                  label="&paste.label;"               key="key_paste" disabled="true" id="remotePasteContext"/>
--->      <menuseparator/>
+-->      <menuseparator id="rsep2"/>
       <menuitem oncommand="remoteTree.create()"                 label="&makedir.label;"             key="key_dir"                   id="remoteCreateDir"/>
       <menuitem oncommand="remoteTree.moveToTrash()"                 label="&totrash.label;"              key="key_totrash"                id="remoteToTrash"/>
       <menuitem oncommand="remoteTree.restoreFromTrash()"                 label="&untrash.label;"              key="key_untrash"                id="remoteUntrash"/>
       <menuitem oncommand="remoteTree.remove()"                 label="&delete.label;"              key="key_remove"                id="remoteRemove"/>
       <menuitem oncommand="remoteTree.rename()"                 label="&rename.label;"              key="key_rename"                id="remoteRename"/>
-      <menuseparator/>
+      <menuseparator id="rsep3"/>
       <menuitem oncommand="remoteTree.showProperties(false)"    label="&properties.label;"          key="key_properties"            id="remoteProperties"/>
     </popup>
     <popup id="queuemenu" onpopupshowing="queueTree.createContextMenu()">

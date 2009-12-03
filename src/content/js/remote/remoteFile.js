@@ -133,7 +133,6 @@ var remoteFile = {
             remoteTree.updateView();
         remoteTree.refresh(false,false);
     });
-    //remoteDirTree.updateFolder();
     return true;
   },
 
@@ -169,7 +168,6 @@ var remoteFile = {
             remoteTree.updateView();
         //}
     } );
-    //remoteDirTree.updateFolder();
     return true;
   },
 

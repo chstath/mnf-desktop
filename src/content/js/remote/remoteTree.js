@@ -625,33 +625,37 @@ var remoteTree = {
         //$('remotePasteContext').setAttribute("disabled", this.searchMode == 2 || !gss.hasAuthenticated() || !this.pasteFiles.length);
         $('remoteCreateDir').setAttribute("disabled",    this.searchMode == 2);
         var indexr = remoteDirTree.selection.currentIndex;
-    if (indexr >= 0 && indexr < remoteDirTree.data.length) {
-            if(remoteDirTree.data[indexr].trash == true){
-              //$('remoteCutContext').setAttribute("hidden",true);
-             // $('remotePasteContext').setAttribute("hidden",true);
-              $('remoteCreateDir').setAttribute("hidden",true);
-              $('remoteDownload').setAttribute("hidden",true);
-              //$('remoteOpen').setAttribute("hidden",true);
-              $('remoteWeb').setAttribute("hidden",true);
-              $('remoteRename').setAttribute("hidden",true);
-              $('remoteProperties').setAttribute("hidden",true);
-              $('remoteToTrash').setAttribute("hidden",true);
-              $('remoteUntrash').setAttribute("hidden",false);
-            }
-            else{
-              //$('remoteCutContext').setAttribute("hidden",false);
-             // $('remotePasteContext').setAttribute("hidden",false);
-              $('remoteCreateDir').setAttribute("hidden",false);
-              $('remoteDownload').setAttribute("hidden",false);
-              //$('remoteOpen').setAttribute("hidden",false);
-              $('remoteWeb').setAttribute("hidden",false);
-              $('remoteRename').setAttribute("hidden",false);
-              $('remoteProperties').setAttribute("hidden",false);
-              $('remoteToTrash').setAttribute("hidden",false)
+        if (indexr >= 0 && indexr < remoteDirTree.data.length) {
+            if (remoteDirTree.data[indexr].gssObj.deleted == true) {
+                //$('rsep1').setAttribute("hidden",true);
+                //$('remoteCutContext').setAttribute("hidden",true);
+                // $('remotePasteContext').setAttribute("hidden",true);
+                $('rsep2').setAttribute("hidden",true);
+                $('rsep3').setAttribute("hidden",true);
+                $('remoteCreateDir').setAttribute("hidden",true);
+                $('remoteDownload').setAttribute("hidden",true);
+                $('remoteOpen').setAttribute("hidden",true);
+                $('remoteWeb').setAttribute("hidden",true);
+                $('remoteRename').setAttribute("hidden",true);
+                $('remoteProperties').setAttribute("hidden",true);
+                $('remoteToTrash').setAttribute("hidden",true);
+                $('remoteUntrash').setAttribute("hidden",false);
+            } else {
+                //$('rsep1').setAttribute("hidden",false);
+                //$('remoteCutContext').setAttribute("hidden",false);
+                // $('remotePasteContext').setAttribute("hidden",false);
+                $('rsep2').setAttribute("hidden",false);
+                $('rsep3').setAttribute("hidden",false);
+                $('remoteCreateDir').setAttribute("hidden",false);
+                $('remoteDownload').setAttribute("hidden",false);
+                $('remoteOpen').setAttribute("hidden",false);
+                $('remoteWeb').setAttribute("hidden",false);
+                $('remoteRename').setAttribute("hidden",false);
+                $('remoteProperties').setAttribute("hidden",false);
+                $('remoteToTrash').setAttribute("hidden",false)
                 $('remoteUntrash').setAttribute("hidden",true);
             }
-
-    }
+        }
         if (this.selection.currentIndex == -1) {
             return;
         }
@@ -997,7 +1001,7 @@ var remoteTree = {
         remoteTree.remoteSize = parseSize(remoteTree.remoteSize);
     },
   
-    showFolderContents: function() {
+    showFolderContents: function () {
         var folder = remoteDirTree.data[remoteDirTree.selection.currentIndex].gssObj;
         if (remoteTree.currentFolder == folder) {
             var folderUnchanged = true;
@@ -1016,7 +1020,8 @@ var remoteTree = {
                 }
                 else
                     fileDate = "";
-                remoteTree.displayData.push({ leafName    : remoteTree.data[row].name,
+                remoteTree.displayData.push({
+                    leafName    : remoteTree.data[row].name,
                     fileSize    : remoteTree.data[row].size,
                     date        : fileDate.toLocaleString(),
                     contentType : remoteTree.data[row].content,
@@ -1029,8 +1034,7 @@ var remoteTree = {
                     isHidden    : false
                 });
             }
-        }
-        else {
+        } else {
             remoteTree.data = [];
             remoteTree.displayData = [];
         }

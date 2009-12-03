@@ -211,34 +211,10 @@ gss.parseFiles = function (req, folder, nextAction, nextActionArg) {
 		f.isFolder = true;
 	}
     // Store the reference to the parent folder to avoid unnecessary future requests.
-    var newFiles = [];
-    i=0;
     folder.files.forEach(function (f) {
-        f.folder = folder;
-        if (!f.deleted)
-            newFiles[i++]=f;
-    });
-    folder.files=newFiles;
-	folder.isWritable = gss.isWritable;
-	if (nextAction)
-		nextAction(nextActionArg);
-};
-
-gss.parseTrash = function (req, folder, nextAction, nextActionArg) {
-	var filesobj = JSON.parse(req.responseText);
-	gss.updateCache(folder, filesobj);
-	var folders = folder.folders;
-	for (var i=0; i<folders.length; i++) {
-		var f = folders[i];
-		f.level = f.uri.substr(gss.rootFolder.uri.length).match(/\x2f/g).length - 1;
-		f.position = i;
-		f.isFolder = true;
-	}
-    // Store the reference to the parent folder to avoid unnecessary future requests.
-    folder.files.forEach(function (f) {
+        // XXX: if (folder.uri !=== gss.trash.uri)
         f.folder = folder;
     });
-
 	folder.isWritable = gss.isWritable;
 	if (nextAction)
 		nextAction(nextActionArg);
@@ -575,7 +551,11 @@ gss.parseTags = function (req, arg, nextAction, nextActionArg) {
 gss.fetchTrash = function (nextAction) {
 	if (gss.root.trash) {
 	    gss.trash.uri = gss.root.trash;
-		gss.sendRequest({handler: gss.parseTrash,
+	    // Every item in the trash will have a deleted=true attribute, so
+	    // store it in the trash root as well, for simpler detection of the
+	    // relevant tree nodes that require a different context menu.
+	    gss.trash.deleted = true;
+		gss.sendRequest({handler: gss.parseFiles,
 						handlerArg: gss.trash,
 						nextAction: nextAction,
 						nextActionArg: gss.trash,

@@ -125,7 +125,7 @@ var remoteFile = {
     }
 
 	gProcessing++;
-    gss.moveToTrashResource(file.uri, function () {
+    gss.moveToTrash(file.uri, function () {
                                     var dirRow = remoteDirTree.selection.currentIndex;
                                     //if the parent is expanded
                                     if (remoteDirTree.isContainerOpen(dirRow)) {
@@ -161,7 +161,7 @@ var remoteFile = {
     }
 
 	gProcessing++;
-    gss.restoreFromTrashResource(file.uri, function () {
+    gss.restoreFromTrash(file.uri, function () {
                                     var dirRow = remoteDirTree.selection.currentIndex;
                                     //if the parent is expanded
                                     appendLog("[restoring]");

@@ -2,77 +2,76 @@ var gUserGroups = new Array();
 var gUserTags = new Array();
 var gFileOwner;
 
-function compareTags(t1, t2){
-   if (t1.toLowerCase() < t2.toLowerCase()){
+function compareTags(t1, t2) {
+   if (t1.toLowerCase() < t2.toLowerCase()) {
       return -1;
    }
 
-    if (t1.toLowerCase() > t2.toLowerCase()){
+    if (t1.toLowerCase() > t2.toLowerCase()) {
      return 1;
     }
 }
 
-function comparePermissions(p1, p2){
-  if (p1.user && p2.group){
+function comparePermissions(p1, p2) {
+  if (p1.user && p2.group) {
     return -1;
   }
 
-  if (p1.group && p2.user){
+  if (p1.group && p2.user) {
     return 1;
   }
 
-  if (p1.user && p2.user){
-   if (p1.user.toLowerCase() < p2.user.toLowerCase()){
-     if (p1.user==gFileOwner || p2.user==gFileOwner){//Owner appears always on the top of the list
+  if (p1.user && p2.user) {
+   if (p1.user.toLowerCase() < p2.user.toLowerCase()) {
+     if (p1.user==gFileOwner || p2.user==gFileOwner) {//Owner appears always on the top of the list
        return 1;
      }
      return -1;
    }
 
 
-   if (p1.user.toLowerCase() > p2.user.toLowerCase()){
+   if (p1.user.toLowerCase() > p2.user.toLowerCase()) {
      return 1;
    }
   }
 
-  if (p1.group && p2.group){
-   if (p1.group.toLowerCase() < p2.group.toLowerCase()){
+  if (p1.group && p2.group) {
+   if (p1.group.toLowerCase() < p2.group.toLowerCase()) {
       return -1;
    }
 
-    if (p1.group.toLowerCase() > p2.group.toLowerCase()){
+    if (p1.group.toLowerCase() > p2.group.toLowerCase()) {
      return 1;
     }
   }
 }
 
-function setUserGroups(groups, args){
+function setUserGroups(groups, args) {
     var len = groups.length;
   gUserGroups.splice(0, gUserGroups.length);
 
-  for (var i=0; i<len; i++){
+  for (var i=0; i<len; i++) {
       gUserGroups.push(groups[i]);
   }
   gss.getUserTags(setUserTags, args);
 }
 
-function setUserTags(tags, args){
+function setUserTags(tags, args) {
     var len = tags.length;
     gUserTags.splice(0, gUserTags.length);
 
-    for (var i=0; i<len; i++){
+    for (var i=0; i<len; i++) {
         gUserTags.push(tags[i]);
     }
     remoteFile.actuallyShowProperties(args);
 }
 
-function searchForUsers(searchString, func){
+function searchForUsers(searchString, func) {
     gss.searchForUsers(searchString, func);
 }
 
-
 var remoteFile = {
-  remove : function(file, prompt, multiple) {
+  remove : function (file, prompt, multiple) {
     if (prompt && multiple && multiple > 1) {
       // deleting multiple
       if (!window.confirm(gStrbundle.getFormattedString("confirmDelete2", [multiple]))) {
@@ -90,23 +89,21 @@ var remoteFile = {
       }
     }
 
-	gProcessing++;
     gss.deleteResource(file.uri, function () {
-                                    var dirRow = remoteDirTree.selection.currentIndex;
-                                    //if the parent is expanded
-                                    if (remoteDirTree.isContainerOpen(dirRow)) {
-                                        //collapse
-                                        remoteDirTree.toggleOpenState(dirRow);
-                                        //and expand again to update the subtree
-                                        remoteDirTree.toggleOpenState(dirRow);
-                                    }
-                                    else
-                                        remoteTree.updateView();
-                                 } );
-	gProcessing--;
+        var dirRow = remoteDirTree.selection.currentIndex;
+        //if the parent is expanded
+        if (remoteDirTree.isContainerOpen(dirRow)) {
+            //collapse
+            remoteDirTree.toggleOpenState(dirRow);
+            //and expand again to update the subtree
+            remoteDirTree.toggleOpenState(dirRow);
+        } else
+            remoteTree.updateView();
+    });
     return true;
   },
-  moveToTrash : function(file, prompt, multiple) {
+  
+  moveToTrash : function (file, prompt, multiple) {
     if (prompt && multiple && multiple > 1) {
       // deleting multiple
       if (!window.confirm(gStrbundle.getFormattedString("confirmToTrash2", [multiple]))) {
@@ -124,25 +121,23 @@ var remoteFile = {
       }
     }
 
-	gProcessing++;
     gss.moveToTrash(file.uri, function () {
-                                    var dirRow = remoteDirTree.selection.currentIndex;
-                                    //if the parent is expanded
-                                    if (remoteDirTree.isContainerOpen(dirRow)) {
-                                        //collapse
-                                        remoteDirTree.toggleOpenState(dirRow);
-                                        //and expand again to update the subtree
-                                        remoteDirTree.toggleOpenState(dirRow);
-                                    }
-                                    else
-                                        remoteTree.updateView();
-                                    remoteTree.refresh(false,false);
-                                 } );
-	gProcessing--;
-        //remoteDirTree.updateFolder();
+        var dirRow = remoteDirTree.selection.currentIndex;
+        //if the parent is expanded
+        if (remoteDirTree.isContainerOpen(dirRow)) {
+            //collapse
+            remoteDirTree.toggleOpenState(dirRow);
+            //and expand again to update the subtree
+            remoteDirTree.toggleOpenState(dirRow);
+        } else
+            remoteTree.updateView();
+        remoteTree.refresh(false,false);
+    });
+    //remoteDirTree.updateFolder();
     return true;
   },
-  restoreFromTrash : function(file, prompt, multiple) {
+
+  restoreFromTrash : function (file, prompt, multiple) {
     if (prompt && multiple && multiple > 1) {
       // deleting multiple
       if (!window.confirm(gStrbundle.getFormattedString("confirmFromTrash2", [multiple]))) {
@@ -160,31 +155,25 @@ var remoteFile = {
       }
     }
 
-	gProcessing++;
     gss.restoreFromTrash(file.uri, function () {
-                                    var dirRow = remoteDirTree.selection.currentIndex;
-                                    //if the parent is expanded
-                                    appendLog("[restoring]");
-                                    //if (remoteDirTree.isContainerOpen(dirRow)) {
-                                        appendLog("[restoring2]");
-                                        //collapse
-                                        remoteDirTree.toggleOpenState(dirRow);
-                                        //and expand again to update the subtree
-                                        remoteDirTree.toggleOpenState(dirRow);
-                                    //}
-                                    //else{
-                                        appendLog("[restoring3]");
-                                        
-                                        remoteTree.refresh(false,false);
-                                        remoteTree.updateView();
-                                    //}
-                                 } );
-	gProcessing--;
-        //remoteDirTree.updateFolder();
-
+        var dirRow = remoteDirTree.selection.currentIndex;
+        //if the parent is expanded
+        //if (remoteDirTree.isContainerOpen(dirRow)) {
+            //collapse
+            remoteDirTree.toggleOpenState(dirRow);
+            //and expand again to update the subtree
+            remoteDirTree.toggleOpenState(dirRow);
+        //}
+        //else{
+            remoteTree.refresh(false,false);
+            remoteTree.updateView();
+        //}
+    } );
+    //remoteDirTree.updateFolder();
     return true;
   },
-  showProperties : function(file, recursive) {
+
+  showProperties : function (file, recursive) {
       gss.getUserGroups(setUserGroups, { file: file, recursive: recursive });
   },
   

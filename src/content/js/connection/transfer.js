@@ -192,7 +192,7 @@ transfer.prototype = {
 					const flags = nsIWBP.PERSIST_FLAGS_REPLACE_EXISTING_FILES;
 					persist.persistFlags = flags | nsIWBP.PERSIST_FLAGS_FROM_CACHE;
 
-					var nsIFile = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);
+					let nsIFile = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);
 					nsIFile.initWithPath(localPath);
 					var ext = files[x].name.substring(files[x].name.lastIndexOf('.') + 1);
 					var icon;

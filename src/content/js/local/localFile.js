@@ -1,7 +1,7 @@
 var localFile = {
   init : function(path) {
     try {
-      var file = Components.classes['@mozilla.org/file/local;1'].createInstance(Components.interfaces.nsILocalFile);
+      var file = Cc['@mozilla.org/file/local;1'].createInstance(Ci.nsILocalFile);
       file.initWithPath(path);
       return file;
     } catch (ex) {
@@ -24,7 +24,7 @@ var localFile = {
     var dir = this.init(localTree.constructPath(gLocalPath.value, name));
 
     try {
-      dir.create(isDir ? Components.interfaces.nsILocalFile.DIRECTORY_TYPE : Components.interfaces.nsILocalFile.NORMAL_FILE_TYPE,
+      dir.create(isDir ? Ci.nsILocalFile.DIRECTORY_TYPE : Ci.nsILocalFile.NORMAL_FILE_TYPE,
                  isDir ? 0755 : 0644);
     } catch (ex) {
       debug(ex);
@@ -36,15 +36,18 @@ var localFile = {
   },
 
   remove : function(file, prompt, multiple) {
-    if (prompt && multiple && multiple > 1) {                                           // deleting multiple
+    if (prompt && multiple && multiple > 1) {
+      // deleting multiple
       if (!window.confirm(gStrbundle.getFormattedString("confirmDelete2", [multiple]))) {
         return false;
       }
-    } else if (prompt && file.isDirectory()) {                                          // deleting a directory
+    } else if (prompt && file.isDirectory()) {
+      // deleting a directory
       if (!window.confirm(gStrbundle.getFormattedString("confirmDelete3", [file.leafName]))) {
         return false;
       }
-    } else if (prompt) {                                                                // deleting a file
+    } else if (prompt) {
+      // deleting a file
       if (!window.confirm(gStrbundle.getFormattedString("confirmDelete", [file.leafName]))) {
         return false;
       }
@@ -83,11 +86,13 @@ var localFile = {
         error(gStrbundle.getString("renameFail"));
         return false;
       }
-
-      file.moveTo(null, newName);                                                       // rename the file
+      // rename the file
+      file.moveTo(null, newName);
     } catch (ex) {
-      if (gSlash == '\\' && oldName.toLowerCase() == newName.toLowerCase()) {           // we renamed the file the same but with different case
-        return true;                                                                    // for some reason this throws an exception
+      if (gSlash == '\\' && oldName.toLowerCase() == newName.toLowerCase()) {
+        // we renamed the file the same but with different case
+        // for some reason this throws an exception
+        return true;
       }
 
       debug(ex);
@@ -170,7 +175,8 @@ var localFile = {
     return exists;
   },
 
-  testSize : function(file) {                                                           // XXX in linux, files over 2GB throw an exception
+  testSize : function(file) {
+    // XXX in linux, files over 2GB throw an exception
     try {
       var x = file.fileSize;
       return true;

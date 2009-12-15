@@ -201,7 +201,22 @@ gss.parseUser = function (req, arg, nextAction, nextActionArg) {
 
 // Parses the 'files' namespace response.
 gss.parseFiles = function (req, folder, nextAction, nextActionArg) {
-	var filesobj = JSON.parse(req.responseText);
+    // Just execute the callback for an empty trash (No Content status).
+    if (req.status == 204) {
+	    if (nextAction)
+		    nextAction(nextActionArg);
+        return;    
+    }
+
+    try {
+    	var filesobj = JSON.parse(req.responseText);
+    } catch (e) {
+        var f = folder;
+        if (folder && folder.uri)
+            f = folder.uri;
+        error(e + '\nFolder: [' + f + ']\nInput: [' + req.responseText + ']');
+        return;    
+    }
 	gss.updateCache(folder, filesobj);
 	var folders = folder.folders;
 	for (var i=0; i<folders.length; i++) {

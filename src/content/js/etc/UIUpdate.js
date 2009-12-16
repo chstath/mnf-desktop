@@ -49,7 +49,7 @@ function cancelAll() {
 // A helper function that decides whether there are any download events in the
 // queue.
 function pendingDownloads() {
-    if (qprocessing.type === 'download')
+    if (qprocessing && (qprocessing.type === 'download'))
         return true;
     for (var i=0; i<eventq.length; i++) {
         if (eventq[i].type === 'download')

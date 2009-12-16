@@ -798,8 +798,8 @@ var localTree = {
     //$('localCutContext').setAttribute("disabled",   this.searchMode == 2);
     //$('localCopyContext').setAttribute("disabled",  this.searchMode == 2);
     //$('localPasteContext').setAttribute("disabled", this.searchMode == 2 || !this.pasteFiles.length);
-    $('localCreateDir').setAttribute("disabled",    this.searchMode == 2);
-    $('localCreateFile').setAttribute("disabled",   this.searchMode == 2);
+    $('localCreateDir').setAttribute("disabled",    this.searchMode == 2 || pendingDownloads());
+    $('localCreateFile').setAttribute("disabled",   this.searchMode == 2 || pendingDownloads());
 
     if (this.selection.currentIndex == -1) {
       return;

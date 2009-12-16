@@ -19,15 +19,19 @@ function error(message, skipLog, untrusted) {
 }
 
 function doAlert(msg, modal) {
-  if (gAlertWindow) {
+  if (gAlertWindow && !gAlertWindow.closed && gAlertWindow.add) {
     try {
-      if (gAlertWindow && !gAlertWindow.closed) {
-        var func = function() { gAlertWindow.add(msg); };
-        setTimeout(func, 0);
-        return;
-      }
+      var func = function() { gAlertWindow.add(msg); };
+      setTimeout(func, 0);
+      return;
     } catch (ex) { }
   }
+
+  // XXX: in some cases gAlertWindow seems to be the global window. Since this
+  // happens mostly in loops, we don't really want to fill the screen with new
+  // dialog windows.
+  if (gAlertWindow && !gAlertWindow.add)
+    return;
 
   gAlertWindow = window.openDialog("chrome://firegss/content/alert.xul", "alert", "chrome,dialog,resizable,centerscreen" + (modal ? ",modal" : ""), msg);
 }

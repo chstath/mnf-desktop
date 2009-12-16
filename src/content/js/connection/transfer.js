@@ -246,6 +246,8 @@ transfer.prototype = {
 								this.transferObject.status = 'Finished';
 								qprocessing = false;
 								queueTree.treebox.invalidate();
+								if (!nsIFile.exists())
+								    nsIFile.create(Ci.nsILocalFile.NORMAL_FILE_TYPE, 0644);
                                 nsIFile.lastModifiedTime = this.transferObject.mtime;
                                 // Work around Windows brainded DST handling.
                                 var diff = this.transferObject.mtime - nsIFile.lastModifiedTime;

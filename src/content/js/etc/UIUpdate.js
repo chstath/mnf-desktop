@@ -46,6 +46,18 @@ function cancelAll() {
     }
 }
 
+// A helper function that decides whether there are any download events in the
+// queue.
+function pendingDownloads() {
+    if (qprocessing.type === 'download')
+        return true;
+    for (var i=0; i<eventq.length; i++) {
+        if (eventq[i].type === 'download')
+            return true;
+    }
+    return false;
+}
+
 // Display the 'working' indicator. If the progress parameter is  specified,
 // use it as a percentage of the work completed.
 function showWorking(progress) {

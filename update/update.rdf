@@ -2,9 +2,9 @@
 <RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
          xmlns:NC="http://home.netscape.com/NC-rdf#"
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <RDF:Description RDF:about="urn:mozilla:extension:mnf-desktop@ebs.gr"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAD1B5p75lBUJEOQj/LyVpEhu7KuW8pFYLL57H4e+9AwNNTjRq4WBI4pqEmWzL9lsNvqrA9qjuQSqHCkAD10AZiK3exp6ICGRmFyInTAFWbM32JfCWpB+I7KXItAuVbpBTkS+RrI5CCNhZ/tdHODnXBWEkrM4oyNrgZq4Kdf+sSNq">
-    <em:updates RDF:resource="rdf:#$txuJC1"/>
+  <RDF:Description RDF:about="rdf:#$uxuJC9"
+                   em:version="0.14">
+    <em:targetApplication RDF:resource="rdf:#$xxuJC9"/>
   </RDF:Description>
   <RDF:Seq RDF:about="rdf:#$txuJC1">
     <RDF:li RDF:resource="rdf:#$uxuJC9"/>
@@ -13,11 +13,11 @@
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="3.5"
                    em:maxVersion="3.6b4"
-                   em:updateLink="http://www.ebs.gr/gss/firegss-0.14.xpi"
+                   em:updateLink="http://mynetworkfolders.com/desktop/mynetworkfolders-0.14.xpi"
                    em:updateHash="sha1:e03e86725dbcbfd33122b0f3ca865b8567271c84"
                    em:updateInfoURL="http://mynetworkfolders.com/desktop/updateinfo0.14.xhtml" />
-  <RDF:Description RDF:about="rdf:#$uxuJC9"
-                   em:version="0.14">
-    <em:targetApplication RDF:resource="rdf:#$xxuJC9"/>
+  <RDF:Description RDF:about="urn:mozilla:extension:mnf-desktop@ebs.gr"
+                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAJW4ImN9TsKJAj1NI8xaX6oUXxeSmrbj+QyIsR5KUtIyREvXzhou8SRzuO+QqNdvvAgHbkQg/zrqqoWzAVuVN/5itVU47AVj5hhRO58daO9UR57Mex/hKA4LleIfpLrQeWwTAn7C3BEA/t/3yY8ZtDqpjs1PmqsdRw7XhRDs72J1">
+    <em:updates RDF:resource="rdf:#$txuJC1"/>
   </RDF:Description>
 </RDF:RDF>

@@ -5,7 +5,7 @@
 
 <!DOCTYPE window SYSTEM "chrome://firegss/locale/firegss.dtd">
 <window id            = "main-window"
-        title         = "FireGSS"
+        title         = "My Network Folders"
         width         = "800"
         height        = "600"
         orient        = "vertical"
@@ -414,7 +414,7 @@
   <!-- :::::::::::::::::::::::::::::: status bar :::::::::::::::::::::::::::::: -->
 
   <statusbar>
-    <statusbarpanel id="statustxt" label="FireGSS" flex="1"/>
+    <statusbarpanel id="statustxt" label="My Network Folders" flex="1"/>
     <statusbarpanel id="statuspct" tooltiptext="&percentCompl.tip;"/>
     <statusbarpanel id="statusmeterpanel">
       <progressmeter id="statusmeter" tooltiptext="&percent.tip;" mode="normal" />

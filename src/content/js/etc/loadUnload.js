@@ -66,8 +66,8 @@ function startup() {
   readPreferences(true);
   localDirTree.changeDir(gLocalPath.value);
 
-  appendLog("<span id='opening' style='line-height:16px'><span style='cursor:pointer;text-decoration:underline;color:blue;' onclick=\"window.open('http://code.google.com/p/gss','FireGSS');\">"
-      + "FireGSS</span> <span>" + gVersion
+  appendLog("<span id='opening' style='line-height:16px'><span style='cursor:pointer;text-decoration:underline;color:blue;' onclick=\"window.open('http://mynetworkfolders.com','My Network Folders');\">"
+      + "My Network Folders</span> <span>" + gVersion
       + "</span>"
       + "</span><br style='font-size:5pt'/><br style='font-size:5pt'/>", 'blue', "info");
   gCmdlogBody.scrollTop = 0;

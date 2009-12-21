@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <!DOCTYPE dialog SYSTEM "chrome://firegss/locale/about.dtd">
-<dialog id="aboutDialog" title="&about; FireGSS" orient="vertical" autostretch="always" onload="init()"
+<dialog id="aboutDialog" title="&about; My Network Folders" orient="vertical" autostretch="always" onload="init()"
     buttons="accept" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/about.js"/>
 <script type="application/x-javascript" src="chrome://firegss/content/js/etc/common.js"/>
@@ -22,9 +22,9 @@
   <separator class="thin"/>
   <hbox>
     <text value="&homepage; " style="font-weight: bold;"/>
-    <text value="http://code.google.com/p/firegss"
+    <text value="http://mynetworkfolders.com"
         class="url"
-        onclick="window.open('http://code.google.com/p/firegss/'); window.close();"/>
+        onclick="window.open('http://mynetworkfolders.com'); window.close();"/>
   </hbox>
   <separator class="thin"/>
 </vbox>

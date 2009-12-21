@@ -107,7 +107,7 @@
 <!ENTITY searchRemote.access  "R">
 <!ENTITY searchOptions.access "O">
 
-<!ENTITY iconTip "Launch the GSS file explorer">
+<!ENTITY iconTip "Launch the file explorer for My Network Folders">
 
 <!ENTITY synctab.label        "Sync">
 <!ENTITY syncbutton.access    "Y">

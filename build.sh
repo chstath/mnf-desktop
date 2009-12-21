@@ -6,7 +6,7 @@
 # binaries, the public key must be imported first, like this:
 # gpg --fetch-keys http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/1.9.1.4/KEY
 #
-NAME=firegss
+NAME=mynetworkfolders
 XPI=$NAME.xpi
 BUILD_DIR=build
 XULRUNNER_URL=http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/1.9.1.4/runtimes

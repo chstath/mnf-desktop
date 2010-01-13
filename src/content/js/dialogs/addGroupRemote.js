@@ -14,7 +14,7 @@ function getUserGroup(name){
 
 function isAvailableUserGroup(ug){
     for (var i=0; i<gPermissions.length; i++){
-        if (gPermissions[i].group==ug.name){
+        if (gPermissions[i].group && gPermissions[i].group == ug.name){
             return false;
         }
     }

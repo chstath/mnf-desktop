@@ -33,7 +33,11 @@ function doSearch(){
     if ($('userName').value==""){
         return;
     }
-    window.opener.window.opener.wrappedJSObject.gss.searchForUsers($('userName').value, setUsers);
+    var parent = window.opener.window.opener;
+    if (parent.wrappedJSObject)
+        parent.wrappedJSObject.gss.searchForUsers($('userName').value, setUsers);
+    else
+        parent.gss.searchForUsers($('userName').value, setUsers);
 }
 
 function listResults(){

@@ -6,8 +6,8 @@
 <!DOCTYPE dialog SYSTEM "chrome://firegss/locale/addUserRemote.dtd">
 <dialog id                 = "addUserRemote"
         title              = "&title;"
-        width              = "300"
-        height             = "300"
+        width              = "400"
+        height             = "200"
         xmlns              = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         xmlns:html         = "http://www.w3.org/1999/xhtml"
         persist            = "screenX screenY width height"
@@ -29,14 +29,15 @@
 
 
 <vbox>
-  <grid flex="1" class="overflowBox">
+  <grid flex="1" >
       <columns>
+        <column></column>
         <column></column>
         <column></column>
         <column></column>
       </columns>
       <rows>
-          <row>
+          <row align="center">
               <label>&userName;:</label>
               <panel id="richPopup" type="autocomplete-richlistbox" />
               <textbox id="userName" type="autocomplete" autocompletesearch="simple-autocomplete"

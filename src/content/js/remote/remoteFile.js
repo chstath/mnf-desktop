@@ -66,10 +66,6 @@ function setUserTags(tags, args) {
     remoteFile.actuallyShowProperties(args);
 }
 
-function searchForUsers(searchString, func) {
-    gss.searchForUsers(searchString, func);
-}
-
 var remoteFile = {
   remove : function (file, prompt, multiple) {
     if (prompt && multiple && multiple > 1) {

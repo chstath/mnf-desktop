@@ -1,7 +1,7 @@
 <!ENTITY title "Add User">
 <!ENTITY add "Add">
 <!ENTITY cancel "Cancel">
-<!ENTITY userName "User Name">
-<!ENTITY searchResults "Search Results">
+<!ENTITY userName "Username">
+<!ENTITY searchResults "Results">
 <!ENTITY search "Search">
 <!ENTITY noResults "No Results">

@@ -467,10 +467,10 @@ var remoteDirTree = {
 		remoteDirTree.rowCount++;
 		remoteDirTree.treebox.rowCountChanged(remoteDirTree.rowCount-1, 1);
 		remoteDirTree.treebox.invalidateRow(remoteDirTree.rowCount-1);
-		gss.fetchShared(remoteDirTree.initializeMyShared);
+		gss.fetchShared(remoteDirTree.initializeShared);
 	},
 	
-	initializeMyShared: function (folder) {
+	initializeShared: function (folder) {
 		remoteDirTree.data.push({
 								   open        : false,
 								   empty       : false,
@@ -479,6 +479,28 @@ var remoteDirTree = {
 								   children    : null,
 								   path        : "/",
 								   leafName    : "My Shared",
+								   parent      : "",
+								   isHidden    : false,
+								   level       : 0,
+								   sortPath    : "/",
+								   gssObj	   : folder
+								});
+
+		remoteDirTree.rowCount++;
+		remoteDirTree.treebox.rowCountChanged(remoteDirTree.rowCount-1, 1);
+		remoteDirTree.treebox.invalidateRow(remoteDirTree.rowCount-1);
+		gss.fetchOthers(remoteDirTree.initializeOthers);
+	},
+
+	initializeOthers: function (folder) {
+		remoteDirTree.data.push({
+								   open        : false,
+								   empty       : false,
+								   hasNext     : false,
+								   parentIndex : -1,
+								   children    : null,
+								   path        : "/",
+								   leafName    : "Other's Shared",
 								   parent      : "",
 								   isHidden    : false,
 								   level       : 0,

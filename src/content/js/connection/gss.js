@@ -646,6 +646,7 @@ gss.parseOthers = function (req, others, nextAction) {
 	    u.position = i;
 	}
 	others.folders = users;
+	others.files = [];
 	//gss.updateCache(others, users);
 	if (nextAction)
 		nextAction(others);

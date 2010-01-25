@@ -9,10 +9,10 @@
     <ROW Property="BannerBitmap" MultiBuildValue="DefaultBuild:banner_image.jpg" Type="1"/>
     <ROW Property="DialogBitmap" MultiBuildValue="DefaultBuild:dialog_image.jpg" Type="1"/>
     <ROW Property="Manufacturer" Value="EBS" ValueLocId="*"/>
-    <ROW Property="ProductCode" Value="1033:{4D7B8FEC-AED1-4E33-8CD2-1E5E5EA70779} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{A76AF5C7-0F08-4ACD-BAA1-B2A4A4D0C756} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="FireGSS" ValueLocId="*"/>
-    <ROW Property="ProductVersion" Value="0.15"/>
+    <ROW Property="ProductVersion" Value="0.15.1"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{B75E331F-5419-49CE-9FB3-8B4FF4E0CB96}"/>
   </COMPONENT>

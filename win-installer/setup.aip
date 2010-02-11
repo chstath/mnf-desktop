@@ -3,17 +3,17 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
     <ROW Property="ALLUSERS" Value="2"/>
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
-    <ROW Property="ARPHELPLINK" Value="http://mynetworkfolders.uservoice.com"/>
+    <ROW Property="ARPHELPLINK" Value="http://home.mynetworkfolders.com/support/"/>
     <ROW Property="ARPPRODUCTICON" Value="logo.exe" Type="8"/>
-    <ROW Property="ARPURLINFOABOUT" Value="http://mynetworkfolders.com"/>
-    <ROW Property="ARPURLUPDATEINFO" Value="http://mynetworkfolders.com"/>
+    <ROW Property="ARPURLINFOABOUT" Value="http://home.mynetworkfolders.com"/>
+    <ROW Property="ARPURLUPDATEINFO" Value="http://home.mynetworkfolders.com/support/downloads/"/>
     <ROW Property="BannerBitmap" MultiBuildValue="DefaultBuild:banner_image.jpg" Type="1"/>
     <ROW Property="DialogBitmap" MultiBuildValue="DefaultBuild:dialog_image.jpg" Type="1"/>
     <ROW Property="Manufacturer" Value="EBS Ltd." ValueLocId="*"/>
-    <ROW Property="ProductCode" Value="1033:{62AAA0EF-5EBB-4248-A206-7D3414DAC48D} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{08752EBA-E4AC-408C-BBC1-0803C9F88A2A} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="My Network Folders" ValueLocId="*"/>
-    <ROW Property="ProductVersion" Value="1.0.0"/>
+    <ROW Property="ProductVersion" Value="0.15"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{AA2895E7-B1CF-4D52-ADBE-3105B266337E}"/>
   </COMPONENT>

@@ -50,6 +50,8 @@ gss.rootFolder = {};
 gss.trash = {};
 // The My Shared cache.
 gss.shared = {};
+// The Others' Shared cache.
+gss.others = {};
 
 // Creates a HMAC-SHA1 signature of method+time+resource, using the token.
 gss.sign = function (method, time, resource, token) {
@@ -221,12 +223,19 @@ gss.parseFiles = function (req, folder, nextAction, nextActionArg) {
 	var folders = folder.folders;
 	for (var i=0; i<folders.length; i++) {
 		var f = folders[i];
-		f.level = f.uri.substr(gss.rootFolder.uri.length).match(/\x2f/g).length - 1;
 		f.position = i;
 		f.isFolder = true;
+		// Calculate the indentation level by counting the slashes.
+		var prefix;
+		if (f.uri.indexOf(gss.rootFolder.uri) === 0)
+		    prefix = gss.rootFolder.uri;
+    	else
+    	    // Files shared by others have a different URI prefix.
+    	    prefix = gss.API_URL + '/' + gss.username;
+   		f.level = f.uri.substr(prefix.length).match(/\x2f/g).length - 1;
 	}
     // Store the reference to the parent folder to avoid unnecessary future requests.
-    folder.files.forEach(function (f) {
+    folder.files && folder.files.forEach(function (f) {
         // XXX: if (folder.uri !=== gss.trash.uri)
         f.folder = folder;
     });
@@ -607,5 +616,39 @@ gss.restoreFromTrash = function (uri, nextAction) {
 	gss.sendRequest({handler: nextAction,
 					method: 'POST',
 					resource: uri+"?restore="});
+};
+
+// Retrieves the users that have shared files with the current user.
+gss.fetchOthers = function (nextAction) {
+	if (gss.root.others) {
+	    gss.others.uri = gss.root.others;
+		gss.sendRequest({handler: gss.parseOthers,
+						handlerArg: gss.others,
+						nextAction: nextAction,
+						nextActionArg: gss.others,
+						method: 'GET',
+						resource: gss.root.others});
+	}
+	else {
+		gss.fetchUser(gss.fetchOthers, nextAction);
+	}
+};
+
+// Parses the 'others' namespace response.
+gss.parseOthers = function (req, others, nextAction) {
+	var users = JSON.parse(req.responseText);
+	// Decorate the users as pseudo-folders for uniform handling.
+	for (var i=0; i< users.length; i++) {
+	    var u = users[i];
+	    u.name = u.username;
+	    u.isFolder = true;
+	    u.level = 1;
+	    u.position = i;
+	}
+	others.folders = users;
+	others.files = [];
+	//gss.updateCache(others, users);
+	if (nextAction)
+		nextAction(others);
 };
 

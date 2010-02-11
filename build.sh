@@ -4,15 +4,15 @@
 # standalone application. Generated artifacts will be placed in the build
 # directory. In order to properly verify the integrity of the xulrunner
 # binaries, the public key must be imported first, like this:
-# gpg --fetch-keys http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/1.9.1.4/KEY
+# gpg --fetch-keys http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/1.9.1.7/KEY
 #
 NAME=mynetworkfolders
 XPI=$NAME.xpi
 BUILD_DIR=build
-XULRUNNER_URL=http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/1.9.1.4/runtimes
-XULRUNNER_FILE_LIN=xulrunner-1.9.1.4.en-US.linux-i686.tar.bz2
-XULRUNNER_FILE_MAC=xulrunner-1.9.1.4.en-US.mac-pkg.dmg
-XULRUNNER_FILE_WIN=xulrunner-1.9.1.4.en-US.win32.zip
+XULRUNNER_URL=http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/1.9.1.7/runtimes
+XULRUNNER_FILE_LIN=xulrunner-1.9.1.7.en-US.linux-i686.tar.bz2
+XULRUNNER_FILE_MAC=xulrunner-1.9.1.7.en-US.mac-pkg.dmg
+XULRUNNER_FILE_WIN=xulrunner-1.9.1.7.en-US.win32.zip
 
 # Build extension.
 mkdir -p $BUILD_DIR

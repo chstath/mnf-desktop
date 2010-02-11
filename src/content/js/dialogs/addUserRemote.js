@@ -1,18 +1,6 @@
 var gNewUsers = new Array();
 var gUsers = new Array();
 
-//function setUsers2(){
-//    return arguments[0];
-//}
-//
-//function searchForUsers(searchString){
-//    if (searchString==""){
-//        return "";
-//    }
-//
-//    window.opener.window.opener.wrappedJSObject.searchForUsers($('userName').value, setUsers2);
-//}
-
 function setUsers(){    
     var u = arguments[0];
     gUsers.splice(0, gUsers.length);
@@ -45,7 +33,11 @@ function doSearch(){
     if ($('userName').value==""){
         return;
     }
-    window.opener.window.opener.wrappedJSObject.searchForUsers($('userName').value, setUsers);
+    var parent = window.opener.window.opener;
+    if (parent.wrappedJSObject)
+        parent.wrappedJSObject.gss.searchForUsers($('userName').value, setUsers);
+    else
+        parent.gss.searchForUsers($('userName').value, setUsers);
 }
 
 function listResults(){
@@ -103,3 +95,4 @@ function doAccept(){
     window.arguments[0].returnValue = returnValue;
     return true;
 }
+

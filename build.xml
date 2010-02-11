@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="mynetworkfolders" default="package" basedir=".">
+	<description>The FireGSS project build file</description>
+
+	<property name="src.dir" value="${basedir}/src"/>
+	<property name="build.dir" value="${basedir}/build" />
+
+	<available file="${build.dir}" type="dir" property="build.exists"/>
+	
+	<target name="init" unless="build.exists">
+		<mkdir dir="${build.dir}"/>
+	</target>
+
+	<target name="package" depends="init" description="Package up the project code as a jar">
+		<jar destfile="${build.dir}/${ant.project.name}.xpi">
+			<fileset dir="${src.dir}">
+				<include name="**/*" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="clean" description="Delete the contents of the build directory">
+		<delete dir="${build.dir}" />
+	</target>
+
+</project>

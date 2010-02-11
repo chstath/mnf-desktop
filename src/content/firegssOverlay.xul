@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://firegss/skin/overlay.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://firegss/locale/firegss.dtd">
+<overlay id    = "firegssOverlay"
+         xmlns = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <script type="application/x-javascript" src="chrome://firegss/content/js/etc/firegssOverlay.js"/>
+
+  <menupopup       id="menu_ToolsPopup">
+    <menuitem      id="firegsstoolsmenu"   label="My Network Folders"       oncommand="loadFireGSS()"
+                   accesskey="F"           position="8"          class="menuitem-iconic"/>
+  </menupopup>
+
+  <toolbarpalette  id="BrowserToolbarPalette">
+    <toolbarbutton id="firegss-button" label="My Network Folders" oncommand="loadFireGSS()" onclick="if (event.button == 1) loadFireGSS()"
+                   class="toolbarbutton-1 chromeclass-toolbar-additional" tooltiptext="My Network Folders"/>
+  </toolbarpalette>
+  <statusbar id="status-bar">
+      <statusbarpanel id="firegss-panel" onclick="loadFireGSS();">
+          <image id="firegss-icon" tooltiptext="&iconTip;" src="chrome://firegss/skin/icons/logo.png"/>
+      </statusbarpanel>
+  </statusbar>
+
+</overlay>

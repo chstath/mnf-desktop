@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/global.css"   type="text/css"?>
+<?xml-stylesheet href="chrome://firegss/skin/firegss.css" type="text/css"?>
+
+<!DOCTYPE dialog SYSTEM "chrome://firegss/locale/addGroupRemote.dtd">
+<dialog id                = "addGroupRemote"
+        title             = "&title;"
+        width             = "300"
+        height            = "250"
+        xmlns             = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        xmlns:html        = "http://www.w3.org/1999/xhtml"
+        persist           = "screenX screenY width height"
+        onload            = "init()"
+        buttons           = "accept, cancel"
+        buttonlabelaccept = "&add;"
+        buttonlabelacancel = "&cancel;"
+        buttonalign       = "center"
+        ondialogaccept    = "doAccept()">
+
+
+  <stringbundle id="strings" src="chrome://firegss/locale/strings.properties"/>
+
+  <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/addGroupRemote.js"/>
+  
+  <grid flex="1" class="overflowBox">
+    <columns>
+      <column/>
+      <column flex="1"/>
+    </columns>
+    <rows id="grouprow">
+    </rows>
+  </grid>
+</dialog>
+

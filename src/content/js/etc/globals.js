@@ -3,7 +3,7 @@ const Ci = Components.interfaces;
 
 var gVersion;   // version of FireGSS we're using
 var extManager = Cc["@mozilla.org/extensions/manager;1"].getService(Ci.nsIExtensionManager);
-var addon = extManager.getItemForID("firegss@ebs.gr"); 
+var addon = extManager.getItemForID("mnf-desktop@ebs.gr"); 
 if (addon)
     gVersion = addon.version;
 else {

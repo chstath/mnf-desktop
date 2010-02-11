@@ -30,6 +30,6 @@
                    em:minVersion="3.5"
                    em:maxVersion="3.6.*"
                    em:updateLink="http://mynetworkfolders.com/desktop/mynetworkfolders-0.15.xpi"
-                   em:updateHash="sha1:940d7aa31f1f9160dc5baf5e40bec65eab464535"
+                   em:updateHash="sha1:940f2c5f2ab67c87c15aab5712206f31b9064fb1"
                    em:updateInfoURL="http://mynetworkfolders.com/desktop/updateinfo0.15.xhtml" />
 </RDF:RDF>

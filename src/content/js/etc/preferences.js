@@ -21,7 +21,7 @@ function readPreferences(startup) {
     gHiddenMode = gPrefs.getBoolPref("hiddenmode");
     
     gss.SERVER = gPrefs.getCharPref("service.server");
-    gss.SERVICE_URL = 'http://' + gss.SERVER + gPrefs.getCharPref("service.servicepath");
+    gss.SERVICE_URL = 'https://' + gss.SERVER + gPrefs.getCharPref("service.servicepath");
     gss.LOGIN_URL = 'https://' + gss.SERVER + gPrefs.getCharPref("service.loginpath");
     gss.LOGOUT_URL = 'https://' + gss.SERVER + gPrefs.getCharPref("service.logoutpath");
     gss.TOKEN_URL = 'https://' + gss.SERVER + gPrefs.getCharPref("service.servicepath") + 'token';

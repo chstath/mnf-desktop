@@ -3,13 +3,21 @@
          xmlns:NC="http://home.netscape.com/NC-rdf#"
          xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <RDF:Description RDF:about="urn:mozilla:extension:mnf-desktop@ebs.gr"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAD6dXXVgGJW7fiPI0Y10WeZnmdjvlyGcdP5LAUf8cg+PynR3o6BzXZuh8cHgjPL1FI+3OY7LEbe/zCZf06DUzvKXaVtsb+7zUN1m3u1+lEwpf/xmFqy06/AIlJjAa9BexNEkOyIR62LF3OXAzr3BCyVaD6Iy6jooD3zhIppMhzB0">
+                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAICIsX9WxL7mAtQRJV0S3ySMIAw460rfk1TKGwhiB6R4vyxntghzA7Et1AD8PVEAAivHoG70tJ/UjonsrNbCH8AhAGFLz1YEVEjuWfVJjsAHKPeKH4lF0N4+hMBrIMGd10sPJuKnOGtnCKJ3TibjU2yCOpy8pCLvRxA77vgecp2r">
     <em:updates RDF:resource="rdf:#$txuJC1"/>
   </RDF:Description>
-  <RDF:Seq RDF:about="rdf:#$txuJC1">
-    <RDF:li RDF:resource="rdf:#$uxuJC9"/>
-    <RDF:li RDF:resource="rdf:#$uxuJC10"/>
-  </RDF:Seq>
+  <RDF:Description RDF:about="rdf:#$uxuJC11"
+                   em:version="0.16">
+    <em:targetApplication RDF:resource="rdf:#$xxuJC11"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$uxuJC10"
+                   em:version="0.15">
+    <em:targetApplication RDF:resource="rdf:#$xxuJC10"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$uxuJC9"
+                   em:version="0.14">
+    <em:targetApplication RDF:resource="rdf:#$xxuJC9"/>
+  </RDF:Description>
   <RDF:Description RDF:about="rdf:#$xxuJC9"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="3.5"
@@ -17,14 +25,11 @@
                    em:updateLink="http://mynetworkfolders.com/desktop/mynetworkfolders-0.14.xpi"
                    em:updateHash="sha1:e03e86725dbcbfd33122b0f3ca865b8567271c84"
                    em:updateInfoURL="http://mynetworkfolders.com/desktop/updateinfo0.14.xhtml" />
-  <RDF:Description RDF:about="rdf:#$uxuJC9"
-                   em:version="0.14">
-    <em:targetApplication RDF:resource="rdf:#$xxuJC9"/>
-  </RDF:Description>
-  <RDF:Description RDF:about="rdf:#$uxuJC10"
-                   em:version="0.15">
-    <em:targetApplication RDF:resource="rdf:#$xxuJC10"/>
-  </RDF:Description>
+  <RDF:Seq RDF:about="rdf:#$txuJC1">
+    <RDF:li RDF:resource="rdf:#$uxuJC9"/>
+    <RDF:li RDF:resource="rdf:#$uxuJC10"/>
+    <RDF:li RDF:resource="rdf:#$uxuJC11"/>
+  </RDF:Seq>
   <RDF:Description RDF:about="rdf:#$xxuJC10"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="3.5"

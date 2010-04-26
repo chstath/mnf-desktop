@@ -21,12 +21,6 @@ var queueTree = {
           return this.data[row].dest;
         case "queuebytes":
           return this.data[row].size;
-        case "queueela":
-          return this.data[row].ela;
-        case "queuerem":
-          return this.data[row].remain;
-        case "queuerate":
-          return this.data[row].rate;
         case "queuepercent":
           return "";
         case "queuetype":
@@ -107,9 +101,6 @@ var queueTree = {
               typeO   : info.transport,
               type    : (info.type == "download" ? gStrbundle.getString("download") : (info.type == "fxp" ? "FXP" : gStrbundle.getString("upload"))) + (info.ascii == "A" ? " (ASCII)": ''),
               icon    : "moz-icon://" + leafName + "?size=16",
-              ela     : '',
-              remain  : '',
-              rate    : '',
               percent : '',
               status  : '',
               mode    : '',
@@ -187,9 +178,6 @@ var queueTree = {
         typeO   : '',
         type    : (info.type == "download" ? gStrbundle.getString("download") : (info.type == "fxp" ? "FXP" : gStrbundle.getString("upload"))) + (info.ascii == "A" ? " (ASCII)": ''),
         icon    : "moz-icon://" + leafName + "?size=16",
-        ela     : '',
-        remain  : '',
-        rate    : '',
         percent : '',
         status  : gStrbundle.getString("error") + ": " + (info.reason == "checksum" ? gStrbundle.getString("checksum") : info.reason),
         mode    : '',

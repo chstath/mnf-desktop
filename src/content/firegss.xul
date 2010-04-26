@@ -363,12 +363,6 @@
               <splitter                   class="tree-splitter"/>
               <treecol id="queuepercent" label="&percent.tip;"  flex="3" persist="width ordinal hidden" type="progressmeter"/>
               <splitter                   class="tree-splitter"/>
-              <treecol id="queueela"     label="&timeela.tip;"  flex="1" persist="width ordinal hidden"/>
-              <splitter                   class="tree-splitter"/>
-              <treecol id="queuerem"     label="&timerem.tip;"  flex="1" persist="width ordinal hidden"/>
-              <splitter                   class="tree-splitter"/>
-              <treecol id="queuerate"    label="&download.tip;" flex="1" persist="width ordinal hidden"/>
-              <splitter                   class="tree-splitter"/>
               <treecol id="queuetype"    label="&type.label;"   flex="1" persist="width ordinal hidden"/>
               <splitter                   class="tree-splitter"/>
               <treecol id="queuestatus"  label="&status.label;" flex="1" persist="width ordinal hidden"/>

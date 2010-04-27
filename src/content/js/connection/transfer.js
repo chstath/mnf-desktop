@@ -18,7 +18,7 @@ transfer.prototype = {
         // we're doing locking, sort of, see below
 		if (this.busy) {
 			var self = this;
-			var currentListData = aListData ? aListData : [];//cloneArray(gFtp.listData);
+			var currentListData = aListData ? aListData : [];// cloneArray(gFtp.listData);
 			var func = function() {
 				self.start(download, aFile, aLocalParent, aRemoteParent, currentListData);
 			};
@@ -30,7 +30,7 @@ transfer.prototype = {
 		var remoteParent = aRemoteParent ? aRemoteParent : "";
 		var files        = new Array();
 		var resume;
-		var listData     = aListData ? aListData : [];//gFtp.listData;
+		var listData     = aListData ? aListData : [];// gFtp.listData;
 
 		if (gNoPromptMode) {
             // overwrite dialog is disabled, do overwrites
@@ -81,7 +81,8 @@ transfer.prototype = {
 				fileName = fileName.replace(/[/\\:*?|"<>]/g, '_');
 			}
 
-//			var remotePath = !download ? gFtp.constructPath     (remoteParent, fileName) : files[x].path;
+// var remotePath = !download ? gFtp.constructPath (remoteParent, fileName) :
+// files[x].path;
 			var remoteFolder = !download ? (aRemoteParent ? aRemoteParent : remoteDirTree.data[remoteDirTree.selection.currentIndex].gssObj) : null;
 			var localPath  =  download ? localTree.constructPath(localParent,  fileName) : files[x].path;
 			var file;
@@ -116,7 +117,7 @@ transfer.prototype = {
 			resume = false;
 
 			if (file.exists() && this.prompt) {
-
+				
                 if (!download) {
                     var url = remoteFolder.uri.slice(gss.root.fileroot.length);
                     if (url.slice(url.length-1) !== '/')
@@ -125,13 +126,15 @@ transfer.prototype = {
                 }
 				var params = { response         : 0,
 							fileName         : download ? localPath : url,
-							existingSize     : file.fileSize,
-							existingDate     : file.lastModifiedTime,
-							newSize          : download ? files[x].size : files[x].fileSize,
-							newDate          : download ? files[x].modificationDate : files[x].lastModifiedTime,
+							existingSize     : file.isDirectory() ? "" : file.fileSize,
+							existingDate     : file.isDirectory() ? "" : file.lastModifiedTime,
+							newSize          : download ? (files[x].isFolder ? "" : files[x].size) : files[x].fileSize,
+							newDate          : download ? (files[x].isFolder ? "" : files[x].modificationDate) : files[x].lastModifiedTime,
+							isFolder				: file.isDirectory(),
 							timerEnable      : false };
 
-                    // ooo, the fun of doing semi-multi-threaded stuff in firefox
+                    // ooo, the fun of doing semi-multi-threaded stuff in
+					// firefox
 					this.busy = true;
 					// we're doing some 'locking' above
 
@@ -161,13 +164,14 @@ transfer.prototype = {
 			if (!this.didRefreshLaterSet) {
 				this.didRefreshLaterSet = true;
 
-//				if ((download && !aLocalParent) || this.localRefresh) {
-//					gFtp.localRefreshLater  = this.localRefresh  ? this.localRefresh  : localParent;
-//				}
+// if ((download && !aLocalParent) || this.localRefresh) {
+// gFtp.localRefreshLater = this.localRefresh ? this.localRefresh : localParent;
+// }
 
-//				if ((!download && !aRemoteParent) || this.remoteRefresh) {
-//					gFtp.remoteRefreshLater = this.remoteRefresh ? this.remoteRefresh : remoteParent;
-//				}
+// if ((!download && !aRemoteParent) || this.remoteRefresh) {
+// gFtp.remoteRefreshLater = this.remoteRefresh ? this.remoteRefresh :
+// remoteParent;
+// }
 			}
 
 			if (download) {
@@ -187,7 +191,8 @@ transfer.prototype = {
                     // download the file
 					// create a persist
 					var persist = Cc["@mozilla.org/embedding/browser/nsWebBrowserPersist;1"].createInstance(Ci.nsIWebBrowserPersist);
-					// with persist flags if desired. See nsIWebBrowserPersist page for more PERSIST_FLAGS.
+					// with persist flags if desired. See nsIWebBrowserPersist
+					// page for more PERSIST_FLAGS.
 					const nsIWBP = Ci.nsIWebBrowserPersist;
 					const flags = nsIWBP.PERSIST_FLAGS_REPLACE_EXISTING_FILES;
 					persist.persistFlags = flags | nsIWBP.PERSIST_FLAGS_FROM_CACHE;
@@ -265,7 +270,14 @@ transfer.prototype = {
 					eventq.push({ type: 'download', file: files[x], nsIFile: nsIFile, persist: persist });
 				}
 			} else {
-				if (files[x].isDirectory()) {                        // if the directory doesn't exist we create it
+				if (files[x].isDirectory()) {                        // if
+																		// the
+																		// directory
+																		// doesn't
+																		// exist
+																		// we
+																		// create
+																		// it
 				    var self = this;
 					var nextAction = function() {
 						var lf = files[x];

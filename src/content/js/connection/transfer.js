@@ -373,7 +373,7 @@ transfer.prototype = {
                             uploaded.name = o.name;
                             // Make sure the folder URI ends with a slash.
                             var destUri = o.dest.slice(-1) === '/' ? o.dest : o.dest + '/';
-                            uploaded.uri = destUri + o.name.replace(/ /g, "+");
+                            uploaded.uri = destUri + encodeURI(o.name.replace(/ /g, "+"));
                             uploaded.folder = o.rParent;
                             gss.update(uploaded, { modificationDate: o.mtime });
 						};

@@ -433,6 +433,9 @@ gss.fetchFile = function (file, nextAction, nextActionArg) {
 gss.parseFile = function (req, file, nextAction, nextActionArg) {
     var headers = gss.parseHeaders(req);
     var fileobj = JSON.parse(headers['X-GSS-Metadata']);
+    //The name is encoded in the X-GSS-Metadata header
+    fileobj.name = fileobj.name.replace('+', ' ');
+    fileobj.name = decodeURIComponent(fileobj.name);
 	gss.updateCache(file, fileobj);
     file.isWritable = gss.isWritable;
 	if (nextAction)

@@ -238,6 +238,8 @@ var remoteFile = {
             changes.versioned = params.isVersioned;
 
         gss.update(file, changes, function () {
+            if (changes.name)
+                file.uri = file.uri.substring(0, file.uri.lastIndexOf('/') + 1) + encodeURI(changes.name);
             gss.fetchFile(file, function() {
                 remoteTree.refresh(false, true);
             });

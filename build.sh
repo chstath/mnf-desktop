@@ -9,10 +9,10 @@
 NAME=firegss
 XPI=$NAME.xpi
 BUILD_DIR=build
-XULRUNNER_URL=http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/1.9.2.9/runtimes
-XULRUNNER_FILE_LIN=xulrunner-1.9.2.9.en-US.linux-i686.tar.bz2
-XULRUNNER_FILE_MAC=xulrunner-1.9.2.9.en-US.mac-pkg.dmg
-XULRUNNER_FILE_WIN=xulrunner-1.9.2.9.en-US.win32.zip
+XULRUNNER_URL=http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/1.9.2.10/runtimes
+XULRUNNER_FILE_LIN=xulrunner-1.9.2.10.en-US.linux-i686.tar.bz2
+XULRUNNER_FILE_MAC=xulrunner-1.9.2.10.en-US.mac-pkg.dmg
+XULRUNNER_FILE_WIN=xulrunner-1.9.2.10.en-US.win32.zip
 
 # Build extension.
 mkdir -p $BUILD_DIR

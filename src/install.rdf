@@ -5,7 +5,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="mnf-desktop@ebs.gr"
                    em:name="My Network Folders"
-                   em:version="0.16"
+                   em:version="0.17"
                    em:creator="EBS Ltd"
                    em:description="A desktop client for mynetworkfolders.com"
                    em:homepageURL="http://mynetworkfolders.com"

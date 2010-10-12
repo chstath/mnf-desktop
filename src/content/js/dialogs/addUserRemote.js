@@ -95,4 +95,3 @@ function doAccept(){
     window.arguments[0].returnValue = returnValue;
     return true;
 }
-

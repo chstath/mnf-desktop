@@ -68,4 +68,3 @@ function doAccept(){
     
     return true;
 }
-

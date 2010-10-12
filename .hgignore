@@ -15,3 +15,7 @@ syntax: regexp
 \.rej$
 \.conflict\~$
 ^nbproject/project.xml$
+
+^bin/.*
+
+^.*\.classpath

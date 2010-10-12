@@ -9,25 +9,6 @@
                    em:updateLink="http://mynetworkfolders.com/desktop/mynetworkfolders-0.16.xpi"
                    em:updateHash="sha1:e932802ba7944c107bc73f20d4ab86227a27b527"
                    em:updateInfoURL="http://mynetworkfolders.com/desktop/updateinfo0.16.xhtml" />
-  <RDF:Description RDF:about="rdf:#$uxuJC11"
-                   em:version="0.16">
-    <em:targetApplication RDF:resource="rdf:#$xxuJC11"/>
-  </RDF:Description>
-  <RDF:Description RDF:about="rdf:#$xxuJC9"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="3.5"
-                   em:maxVersion="3.6b4"
-                   em:updateLink="http://mynetworkfolders.com/desktop/mynetworkfolders-0.14.xpi"
-                   em:updateHash="sha1:e03e86725dbcbfd33122b0f3ca865b8567271c84"
-                   em:updateInfoURL="http://mynetworkfolders.com/desktop/updateinfo0.14.xhtml" />
-  <RDF:Description RDF:about="rdf:#$uxuJC9"
-                   em:version="0.14">
-    <em:targetApplication RDF:resource="rdf:#$xxuJC9"/>
-  </RDF:Description>
-  <RDF:Description RDF:about="rdf:#$uxuJC10"
-                   em:version="0.15">
-    <em:targetApplication RDF:resource="rdf:#$xxuJC10"/>
-  </RDF:Description>
   <RDF:Description RDF:about="rdf:#$xxuJC10"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="3.5"
@@ -36,12 +17,43 @@
                    em:updateHash="sha1:940f2c5f2ab67c87c15aab5712206f31b9064fb1"
                    em:updateInfoURL="http://mynetworkfolders.com/desktop/updateinfo0.15.xhtml" />
   <RDF:Description RDF:about="urn:mozilla:extension:mnf-desktop@ebs.gr"
-                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBALJGpDmjsWUdKi6PKaV21exaSaVap6tWebXD502W32fwCQZfUwuPhTNvq7Ml4OQccIng+VlK26sZ2gh3s++AGIM73VqgOQ+NeE2qSZJjo6zmh4OBDkUbMt4VRpMgguHg5TALshAgoJZiOP1b57tyRwPDpOwMJh3ncCT8gjW8WzjZ">
+                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAJ83D6lg53UD92mMZttU3rl4qycfqiTxZRcVuiiV81AFCKoC7EoCa60QXVUMrS2iodybvMij9B5GegBwlqrEE/JsZ4102RPcKumRbwZF7Ls1bGBSGNEgW03z3+1Z6iorf/l1y04yqEcLcqaB8Abiy3lsu0Mp8FURHuaYdTdn9uiv">
     <em:updates RDF:resource="rdf:#$txuJC1"/>
   </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$uxuJC10"
+                   em:version="0.15">
+    <em:targetApplication RDF:resource="rdf:#$xxuJC10"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$uxuJC12"
+                   em:version="0.17">
+    <em:targetApplication RDF:resource="rdf:#$xxuJC12"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$uxuJC9"
+                   em:version="0.14">
+    <em:targetApplication RDF:resource="rdf:#$xxuJC9"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$xxuJC9"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="3.5"
+                   em:maxVersion="3.6b4"
+                   em:updateLink="http://mynetworkfolders.com/desktop/mynetworkfolders-0.14.xpi"
+                   em:updateHash="sha1:e03e86725dbcbfd33122b0f3ca865b8567271c84"
+                   em:updateInfoURL="http://mynetworkfolders.com/desktop/updateinfo0.14.xhtml" />
   <RDF:Seq RDF:about="rdf:#$txuJC1">
     <RDF:li RDF:resource="rdf:#$uxuJC9"/>
     <RDF:li RDF:resource="rdf:#$uxuJC10"/>
     <RDF:li RDF:resource="rdf:#$uxuJC11"/>
+    <RDF:li RDF:resource="rdf:#$uxuJC12"/>
   </RDF:Seq>
+  <RDF:Description RDF:about="rdf:#$xxuJC12"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="3.5"
+                   em:maxVersion="3.6.*"
+                   em:updateLink="http://mynetworkfolders.com/desktop/mynetworkfolders-0.17.xpi"
+                   em:updateHash="sha1:3a1ebc8e083e3306a5a2316b0d9cc6d875013f5b"
+                   em:updateInfoURL="http://mynetworkfolders.com/desktop/updateinfo0.17.xhtml" />
+  <RDF:Description RDF:about="rdf:#$uxuJC11"
+                   em:version="0.16">
+    <em:targetApplication RDF:resource="rdf:#$xxuJC11"/>
+  </RDF:Description>
 </RDF:RDF>

@@ -131,9 +131,9 @@ gss.sendRequest = function(arg) {
 						arg.handler(req, arg.handlerArg, arg.nextAction, arg.nextActionArg);
 					break;
 				case 403:
-				    appendLog("<b>HTTP response 403:</b> " + arg.method + " " +
-                            resource + "<br/>user: " + gss.username +
-                            "<br/>timestamp: " + now);
+    				appendLog("<b>HTTP response 403:</b> " + arg.method + " " +
+    				        resource + "<br/>user: " + gss.username +
+    				        "<br/>timestamp: " + now);
 				    if (confirm("Your session has expired. You have to reauthenticate."))
     				    doDesktopLogin();
 				    break;
@@ -433,6 +433,9 @@ gss.fetchFile = function (file, nextAction, nextActionArg) {
 gss.parseFile = function (req, file, nextAction, nextActionArg) {
     var headers = gss.parseHeaders(req);
     var fileobj = JSON.parse(headers['X-GSS-Metadata']);
+    //The name is encoded in the X-GSS-Metadata header
+    fileobj.name = fileobj.name.replace('+', ' ');
+    fileobj.name = decodeURIComponent(fileobj.name);
 	gss.updateCache(file, fileobj);
     file.isWritable = gss.isWritable;
 	if (nextAction)

@@ -1041,8 +1041,10 @@ var remoteTree = {
         remoteTree.rowCount = remoteTree.data.length;
         remoteTree.treebox.rowCountChanged(0, remoteTree.rowCount);
         remoteTree.mouseOver(null);
-        if (folderUnchanged)
+        if (folderUnchanged) {
             remoteTree.selection.select(previousSelection);
+            remoteTree.treebox.ensureRowIsVisible(previousSelection);
+        }
     },
 
     dblClick : function(event) {

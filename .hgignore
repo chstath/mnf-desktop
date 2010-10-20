@@ -19,3 +19,4 @@ syntax: regexp
 ^bin/.*
 
 ^.*\.classpath
+FireGSS.komodoproject

@@ -19,16 +19,16 @@ function readPreferences(startup) {
     gSyncSchedule = gPrefs.getIntPref("schedule");
     gSyncFolder = gPrefs.getCharPref("syncfolder");
     gHiddenMode = gPrefs.getBoolPref("hiddenmode");
-    
+
     gss.SERVER = gPrefs.getCharPref("service.server");
-    gss.SERVICE_URL = 'https://' + gss.SERVER + gPrefs.getCharPref("service.servicepath");
-    gss.LOGIN_URL = 'https://' + gss.SERVER + gPrefs.getCharPref("service.loginpath");
-    gss.LOGOUT_URL = 'https://' + gss.SERVER + gPrefs.getCharPref("service.logoutpath");
-    gss.TOKEN_URL = 'https://' + gss.SERVER + gPrefs.getCharPref("service.servicepath") + 'token';
+    gss.SERVICE_URL = 'http://' + gss.SERVER + gPrefs.getCharPref("service.servicepath");
+    gss.LOGIN_URL = 'http://' + gss.SERVER + gPrefs.getCharPref("service.loginpath");
+    gss.LOGOUT_URL = 'http://' + gss.SERVER + gPrefs.getCharPref("service.logoutpath");
+    gss.TOKEN_URL = 'http://' + gss.SERVER + gPrefs.getCharPref("service.servicepath") + 'token';
     gss.API_URL = gss.SERVICE_URL + 'rest';
     gss.SEARCH_URL = gss.API_URL + '/search/';
     gss.NONCE_URL = gss.SERVICE_URL + 'nonce';
-    
+
     if (gPrefs.getComplexValue("folder", Components.interfaces.nsISupportsString).data == "") {
       var file = Components.classes["@mozilla.org/file/directory_service;1"].createInstance(Components.interfaces.nsIProperties)
                            .get("Home", Components.interfaces.nsILocalFile);

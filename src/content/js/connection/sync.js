@@ -70,8 +70,7 @@ sync.ensureCachedRemoteSync = function () {
             if (!found)
                 sync.upload(localRoot, remoteRoot);
             else
-                sync.compareFolders(localRoot, remoteRoot);
-            sync.stopSpin();
+                sync.syncFolders(localRoot, remoteRoot);
         };
     }();
     gss.fetchFolderWithChildren(remoteRoot, start);
@@ -209,4 +208,106 @@ sync.download = function (local, remote) {
         gss.fetchFile(remote, startDownload, [local, remote]);
     else
         startDownload([local, remote]);
+}
+
+sync.folderQueue = [];
+sync.syncFolders = function (localFolder, remoteFolder) {
+    //Check files
+    var localChildren = localFolder.directoryEntries;
+    while (localChildren.hasMoreElements()) {
+        var lf = localChildren.getNext().QueryInterface(Ci.nsILocalFile);
+        if (lf.isDirectory()) {
+            // Check remote folders.
+            var found = false;
+            var remoteFound;
+            if (remoteFolder.folders)
+                remoteFolder.folders.forEach(function (f) {
+                    if (f.name === lf.leafName) {
+                        found = true;
+                        remoteFound = f;
+                    }
+                });
+            if (!found)
+                sync.folderQueue.push({localFolder: lf});
+            else {
+                sync.folderQueue.push({localFolder: lf, remoteFolder: remoteFound});
+            }
+        } else if (lf.isFile() || lf.isSymlink()) {
+            // Check remote files.
+            found = false;
+            var remoteFile;
+            if (remoteFolder.files)
+                remoteFolder.files.forEach(function (f) {
+                        if (f.name === lf.leafName) {
+                            found = true;
+                            remoteFile = f;
+                        }
+                });
+            if (!found)
+                sync.upload(lf, remoteFolder);
+            else {
+                sync.syncFiles(lf, remoteFile);
+            }
+        }
+    }
+    if (remoteFolder.folders)
+        for (var i=0; i<remoteFolder.folders.length; i++) {
+            var f = remoteFolder.folders[i];
+            // Find the relevant local folder.
+            var localFolders = localFolder.directoryEntries;
+            var found = false;
+            while (localFolders.hasMoreElements()) {
+                var lf = localFolders.getNext().QueryInterface(Ci.nsILocalFile);
+                if (lf.leafName === f.name && lf.isDirectory()) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                // TODO: download new remote folders only if not deleted locally
+                sync.folderQueue.push({remoteFolder: f})
+            }
+        }
+    if (remoteFolder.files)
+        for (i=0; i<remoteFolder.files.length; i++) {
+            var f = remoteFolder.files[i];
+            // Find the relevant local file.
+            var localFiles = localFolder.directoryEntries;
+            var found = false;
+            while (localFiles.hasMoreElements()) {
+                var lf = localFiles.getNext().QueryInterface(Ci.nsILocalFile);
+                if (lf.leafName === f.name && !lf.isDirectory()) {
+                    found = true;
+                    sync.compareFiles(lf, f);
+                    break;
+                }
+            }
+            if (!found) {
+                // TODO: download new remote files only if not deleted locally
+                newFile = localFile.init(local.path);
+                newFile.append(f.name);
+                sync.download(newFile, f);
+            }
+        }
+    var obj = sync.folderQueue.pop();
+    if (obj) {
+        if (obj.localFolder && obj.remoteFolder)
+            sync.syncFolders(obj.localFolder, obj.remoteFolder);
+        else if (obj.localFolder && !obj.remoteFolder) {
+            //TODO: Recursively upload subtree
+        }
+        else {
+            //TODO: Recursively download subtree
+        }
+    }
+    else
+        sync.stopSpin();
+}
+
+sync.syncFiles = function (localFile, remoteFile) {
+    var diff = localFile.lastModifiedTime - remoteFile.modificationDate;
+    if (diff > 0)
+        sync.upload(localFile, remoteFile.folder);
+    else if (diff < 0)
+        sync.download(localFile, remoteFile);
 }

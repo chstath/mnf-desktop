@@ -1,0 +1,22 @@
+syntax: regexp
+^build$
+.DS_Store$
+.swp$
+.swo$
+^app/chrome/.*\.jar$
+^app/defaults/preferences/firegss.js$
+^app/extensions.*
+^app/xulrunner.*
+^app/firegss$
+^app/firegss.exe$
+\.orig\..*$
+\.orig$
+\.chg\..*$
+\.rej$
+\.conflict\~$
+^nbproject/project.xml$
+
+^bin/.*
+
+^.*\.classpath
+FireGSS.komodoproject

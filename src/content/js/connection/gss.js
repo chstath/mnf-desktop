@@ -181,7 +181,7 @@ gss.sendRequest = function(arg) {
 
 	if (!arg.file)
 		req.send(params);
-	else 
+	else
 		req.send(stream);
 	showWorking();
 	return req;
@@ -210,7 +210,7 @@ gss.parseFiles = function (req, folder, nextAction, nextActionArg) {
     if (req.status == 204) {
 	    if (nextAction)
 		    nextAction(nextActionArg);
-        return;    
+        return;
     }
 
     try {
@@ -220,7 +220,7 @@ gss.parseFiles = function (req, folder, nextAction, nextActionArg) {
         if (folder && folder.uri)
             f = folder.uri;
         error(e + '\nFolder: [' + f + ']\nInput: [' + req.responseText + ']');
-        return;    
+        return;
     }
 	gss.updateCache(folder, filesobj);
 	var folders = folder.folders;
@@ -303,7 +303,7 @@ gss.updateCache = function(res, newRes) {
                         }
                     });
                 }
-            } else 
+            } else
                 res[attr] = newRes[attr];
     }
 };
@@ -327,33 +327,6 @@ gss.fetchRootFolder = function(nextAction) {
         gss.fetchUser(gss.fetchRootFolder, nextAction);
     }
 };
-
-// Fetch the specified folder and make separate calls to fetch its children as well.
-gss.fetchFolderWithChildren = function (folder, nextAction, nextActionArg, uri) {
-    gss.fetchFolder(folder, function (nextActionArg) {
-        var fetchFiles = function (callback) {
-            if (folder.files)
-                folder.files.forEach(function (f) {
-                    // TODO: optimize the loop so that we fetch each file once.
-                    if (!f.folder)
-                        gss.fetchFile(f, fetchFiles);
-                });
-            if (callback)
-                callback();
-        }
-        var fetchFolders = function (callback, arg) {
-            if (folder.folders)
-                folder.folders.forEach(function (f) {
-                    // TODO: optimize the loop so that we fetch each folder once.
-                    if (!f.parent)
-                        gss.fetchFolder(f, fetchFolders, nextActionArg);
-                });
-            if (callback)
-                callback(arg);
-        }
-        fetchFiles(fetchFolders(nextAction, nextActionArg));
-    }, '', uri);
-}
 
 gss.getFile = function(file) {
 	gss.sendRequest({handler: gss.processFile,
@@ -397,7 +370,7 @@ gss.parseNewFolder = function(req, newf, nextAction, error) {
         nextAction();
         return;
     }
-    
+
     var newFolder = {
         name: newf.name,
         isFolder: true,
@@ -428,7 +401,7 @@ gss.fetchFile = function (file, nextAction, nextActionArg) {
 					method: 'HEAD',
 					resource: file.uri+"?"+Math.random()});
 };
- 
+
 // Parses the response for a file request.
 gss.parseFile = function (req, file, nextAction, nextActionArg) {
     var headers = gss.parseHeaders(req);
@@ -441,7 +414,7 @@ gss.parseFile = function (req, file, nextAction, nextActionArg) {
 	if (nextAction)
 		nextAction(nextActionArg);
 };
- 
+
 // A helper function that parses the HTTP headers from the specified XHR and returns them in a map.
 gss.parseHeaders = function (req) {
     var allHeaders = req.getAllResponseHeaders();
@@ -459,7 +432,7 @@ gss.parseHeaders = function (req) {
     }
     return headers;
 };
-    
+
 // A helper function that checks whether the current user has write permission
 // on the file or folder object the function is attached to.
 gss.isWritable = function () {
@@ -486,7 +459,7 @@ gss.hasAuthenticated = function () {
 
 // Update the specified resource (file or folder) properties, using the new
 // values in the changes parameter.
-gss.update = function (resource, changes, nextAction) {    
+gss.update = function (resource, changes, nextAction) {
     var newProperties = {};
     if (changes.name)
         newProperties.name = changes.name;
@@ -539,7 +512,7 @@ gss.parseGroups = function (req, arg, nextAction, nextActionArg) {
 	// Properly decode the group name.
 	groups.forEach(function (g) {
 	    try {
-    	    g.name = decodeURIComponent(g.name.replace(/\+/g, "%20"));	    
+    	    g.name = decodeURIComponent(g.name.replace(/\+/g, "%20"));
 	    } catch (e) { /* do nothing */ }
 	});
 	if (nextAction)
@@ -657,4 +630,3 @@ gss.parseOthers = function (req, others, nextAction) {
 	if (nextAction)
 		nextAction(others);
 };
-

@@ -4,7 +4,7 @@ if (!sync) sync = {};
 sync.init = function () {
     if (gSyncFolder === "")
         showPreferences({ tab: 2, next: sync.checkPreconditions });
-    else
+    else 
         sync.checkPreconditions();
 }
 
@@ -39,7 +39,7 @@ sync.checkPreconditions = function () {
             }
         };
         gss.createFolder(gss.rootFolder, gRemoteSyncFolder, callback);
-    } else
+    } else 
         sync.ensureCachedRemoteSync();
 }
 
@@ -69,7 +69,7 @@ sync.ensureCachedRemoteSync = function () {
             });
             if (!found)
                 sync.upload(localRoot, remoteRoot);
-            else
+            else 
                 sync.compareFolders(localRoot, remoteRoot);
             sync.stopSpin();
         };
@@ -171,7 +171,7 @@ sync.compareChildren = function (local, remote, isLocalNewer, isRemoteNewer) {
 sync.compareFiles = function (local, remote) {
     var diff = local.lastModifiedTime - remote.modificationDate;
     if (diff > 0)
-        sync.upload(local, remote.folder);
+        sync.upload(local, remote.folder);                    
     else if (diff < 0)
         sync.download(local, remote);
 }
@@ -189,7 +189,7 @@ sync.upload = function (local, remoteParent) {
         gss.fetchFolderWithChildren(remoteParent, startUpload, [local, remoteParent]);
     else if (!remoteParent.isFolder && !remoteParent.folder)
         gss.fetchFile(remoteParent, startUpload, [local, remoteParent]);
-    else
+    else 
         startUpload([local, remoteParent]);
 }
 
@@ -207,6 +207,6 @@ sync.download = function (local, remote) {
         gss.fetchFolderWithChildren(remote, startDownload, [local, remote]);
     else if (!remote.isFolder && !remote.folder)
         gss.fetchFile(remote, startDownload, [local, remote]);
-    else
+    else 
         startDownload([local, remote]);
 }

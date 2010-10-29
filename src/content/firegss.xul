@@ -184,8 +184,8 @@
               enablehistory="true"
               autocompletesearch="form-history"
               autocompletesearchparam="firegss-username"
-
-
+              
+              
               />
       <button id="loginout" label="Login" oncommand="loginout()"
                     image="chrome://firegss/skin/icons/login.png"

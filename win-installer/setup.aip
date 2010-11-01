@@ -9,10 +9,10 @@
     <ROW Property="BannerBitmap" MultiBuildValue="DefaultBuild:banner_image.jpg" Type="1"/>
     <ROW Property="DialogBitmap" MultiBuildValue="DefaultBuild:dialog_image.jpg" Type="1"/>
     <ROW Property="Manufacturer" Value="EBS" ValueLocId="*"/>
-    <ROW Property="ProductCode" Value="1033:{FF1631E1-E421-46CC-A6D4-FAAD3E51CB2B} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{9B70BFCC-622C-486F-A781-A759DFA8A5ED} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="FireGSS" ValueLocId="*"/>
-    <ROW Property="ProductVersion" Value="0.17"/>
+    <ROW Property="ProductVersion" Value="0.18"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{B75E331F-5419-49CE-9FB3-8B4FF4E0CB96}"/>
   </COMPONENT>
@@ -145,22 +145,21 @@
     <ROW File="XULRunner.xpt" Component_="components.list" FileName="XULRun~1.xpt|XULRunner.xpt" Attributes="0" SourcePath="firegss-win\xulrunner\components\XULRunner.xpt" SelfReg="false" Sequence="51"/>
     <ROW File="all.js" Component_="all.js" FileName="all.js" Attributes="0" SourcePath="firegss-win\xulrunner\greprefs\all.js" SelfReg="false" Sequence="68"/>
     <ROW File="application.ini" Component_="application.ini" FileName="applic~1.ini|application.ini" Attributes="0" SourcePath="firegss-win\application.ini" SelfReg="false" Sequence="186"/>
-    <ROW File="application.ini.orig" Component_="application.ini" FileName="applic~1.ori|application.ini.orig" Attributes="0" SourcePath="firegss-win\application.ini.orig" SelfReg="false" Sequence="187"/>
     <ROW File="arrow.gif" Component_="arrow.gif" FileName="arrow.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\arrow.gif" SelfReg="false" Sequence="117"/>
     <ROW File="arrowd.gif" Component_="arrow.gif" FileName="arrowd.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\arrowd.gif" SelfReg="false" Sequence="118"/>
-    <ROW File="brand.dtd" Component_="brand.dtd" FileName="brand.dtd" Attributes="0" SourcePath="firegss-win\chrome\locale\branding\brand.dtd" SelfReg="false" Sequence="195"/>
-    <ROW File="brand.properties" Component_="brand.dtd" FileName="brand~1.pro|brand.properties" Attributes="0" SourcePath="firegss-win\chrome\locale\branding\brand.properties" SelfReg="false" Sequence="196"/>
+    <ROW File="brand.dtd" Component_="brand.dtd" FileName="brand.dtd" Attributes="0" SourcePath="firegss-win\chrome\locale\branding\brand.dtd" SelfReg="false" Sequence="194"/>
+    <ROW File="brand.properties" Component_="brand.dtd" FileName="brand~1.pro|brand.properties" Attributes="0" SourcePath="firegss-win\chrome\locale\branding\brand.properties" SelfReg="false" Sequence="195"/>
     <ROW File="broken_image.png" Component_="arrow.gif" FileName="broken~1.png|broken-image.png" Attributes="0" SourcePath="firegss-win\xulrunner\res\broken-image.png" SelfReg="false" Sequence="119"/>
-    <ROW File="cert_override.txt" Component_="cert_override.txt" FileName="cert_o~1.txt|cert_override.txt" Attributes="0" SourcePath="firegss-win\defaults\profile\cert_override.txt" SelfReg="false" Sequence="201"/>
+    <ROW File="cert_override.txt" Component_="cert_override.txt" FileName="cert_o~1.txt|cert_override.txt" Attributes="0" SourcePath="firegss-win\defaults\profile\cert_override.txt" SelfReg="false" Sequence="200"/>
     <ROW File="charsetData.properties" Component_="arrow.gif" FileName="charse~2.pro|charsetData.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\charsetData.properties" SelfReg="false" Sequence="121"/>
     <ROW File="charsetalias.properties" Component_="arrow.gif" FileName="charse~1.pro|charsetalias.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\charsetalias.properties" SelfReg="false" Sequence="120"/>
-    <ROW File="chrome.manifest" Component_="chrome.manifest" FileName="chrome~1.man|chrome.manifest" Attributes="0" SourcePath="firegss-win\chrome\chrome.manifest" SelfReg="false" Sequence="189"/>
+    <ROW File="chrome.manifest" Component_="chrome.manifest" FileName="chrome~1.man|chrome.manifest" Attributes="0" SourcePath="firegss-win\chrome\chrome.manifest" SelfReg="false" Sequence="188"/>
     <ROW File="classic.jar" Component_="classic.jar" FileName="classic.jar" Attributes="0" SourcePath="firegss-win\xulrunner\chrome\classic.jar" SelfReg="false" Sequence="2"/>
     <ROW File="classic.manifest" Component_="classic.jar" FileName="classi~1.man|classic.manifest" Attributes="0" SourcePath="firegss-win\xulrunner\chrome\classic.manifest" SelfReg="false" Sequence="3"/>
     <ROW File="comm.jar" Component_="classic.jar" FileName="comm.jar" Attributes="0" SourcePath="firegss-win\xulrunner\chrome\comm.jar" SelfReg="false" Sequence="4"/>
     <ROW File="comm.manifest" Component_="classic.jar" FileName="comm~1.man|comm.manifest" Attributes="0" SourcePath="firegss-win\xulrunner\chrome\comm.manifest" SelfReg="false" Sequence="5"/>
     <ROW File="components.list" Component_="components.list" FileName="compon~1.lis|components.list" Attributes="0" SourcePath="firegss-win\xulrunner\components\components.list" SelfReg="false" Sequence="12"/>
-    <ROW File="content.jar" Component_="chrome.manifest" FileName="content.jar" Attributes="0" SourcePath="firegss-win\chrome\content.jar" SelfReg="false" Sequence="190"/>
+    <ROW File="content.jar" Component_="chrome.manifest" FileName="content.jar" Attributes="0" SourcePath="firegss-win\chrome\content.jar" SelfReg="false" Sequence="189"/>
     <ROW File="contenteditable.css" Component_="arrow.gif" FileName="conten~1.css|contenteditable.css" Attributes="0" SourcePath="firegss-win\xulrunner\res\contenteditable.css" SelfReg="false" Sequence="122"/>
     <ROW File="crashreporter.exe" Component_="crashreporter.exe" FileName="crashr~1.exe|crashreporter.exe" Attributes="0" SourcePath="firegss-win\xulrunner\crashreporter.exe" SelfReg="false" Sequence="52"/>
     <ROW File="crashreporter.ini" Component_="crashreporter.ini" FileName="crashr~1.ini|crashreporter.ini" Attributes="0" SourcePath="firegss-win\xulrunner\crashreporter.ini" SelfReg="false" Sequence="53"/>
@@ -172,8 +171,8 @@
     <ROW File="en_US.dic" Component_="en_US.aff" FileName="en-US.dic" Attributes="0" SourcePath="firegss-win\xulrunner\dictionaries\en-US.dic" SelfReg="false" Sequence="65"/>
     <ROW File="en_US.jar" Component_="classic.jar" FileName="en-US.jar" Attributes="0" SourcePath="firegss-win\xulrunner\chrome\en-US.jar" SelfReg="false" Sequence="6"/>
     <ROW File="en_US.manifest" Component_="classic.jar" FileName="en-US~1.man|en-US.manifest" Attributes="0" SourcePath="firegss-win\xulrunner\chrome\en-US.manifest" SelfReg="false" Sequence="7"/>
-    <ROW File="firegss.exe" Component_="firegss.exe" FileName="firegss.exe" Attributes="0" SourcePath="firegss-win\firegss.exe" SelfReg="false" Sequence="188"/>
-    <ROW File="firegss.js" Component_="firegss.js" FileName="firegss.js" Attributes="0" SourcePath="firegss-win\defaults\preferences\firegss.js" SelfReg="false" Sequence="199"/>
+    <ROW File="firegss.exe" Component_="firegss.exe" FileName="firegss.exe" Attributes="0" SourcePath="firegss-win\firegss.exe" SelfReg="false" Sequence="187"/>
+    <ROW File="firegss.js" Component_="firegss.js" FileName="firegss.js" Attributes="0" SourcePath="firegss-win\defaults\preferences\firegss.js" SelfReg="false" Sequence="198"/>
     <ROW File="folder.png" Component_="folder.png" FileName="folder.png" Attributes="0" SourcePath="firegss-win\xulrunner\res\html\folder.png" SelfReg="false" Sequence="142"/>
     <ROW File="forms.css" Component_="arrow.gif" FileName="forms.css" Attributes="0" SourcePath="firegss-win\xulrunner\res\forms.css" SelfReg="false" Sequence="139"/>
     <ROW File="freebl3.chk" Component_="crashreporter.ini" FileName="freebl3.chk" Attributes="0" SourcePath="firegss-win\xulrunner\freebl3.chk" SelfReg="false" Sequence="66"/>
@@ -193,13 +192,13 @@
     <ROW File="langGroups.properties" Component_="arrow.gif" FileName="langGr~1.pro|langGroups.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\langGroups.properties" SelfReg="false" Sequence="144"/>
     <ROW File="language.properties" Component_="arrow.gif" FileName="langua~1.pro|language.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\language.properties" SelfReg="false" Sequence="145"/>
     <ROW File="loading_image.png" Component_="arrow.gif" FileName="loadin~1.png|loading-image.png" Attributes="0" SourcePath="firegss-win\xulrunner\res\loading-image.png" SelfReg="false" Sequence="146"/>
-    <ROW File="locale.jar" Component_="chrome.manifest" FileName="locale.jar" Attributes="0" SourcePath="firegss-win\chrome\locale.jar" SelfReg="false" Sequence="197"/>
+    <ROW File="locale.jar" Component_="chrome.manifest" FileName="locale.jar" Attributes="0" SourcePath="firegss-win\chrome\locale.jar" SelfReg="false" Sequence="196"/>
     <ROW File="localstore.rdf" Component_="localstore.rdf" FileName="locals~1.rdf|localstore.rdf" Attributes="0" SourcePath="firegss-win\xulrunner\defaults\profile\localstore.rdf" SelfReg="false" Sequence="59"/>
     <ROW File="localstore.rdf_1" Component_="localstore.rdf_1" FileName="locals~1.rdf|localstore.rdf" Attributes="0" SourcePath="firegss-win\xulrunner\defaults\profile\US\localstore.rdf" SelfReg="false" Sequence="62"/>
-    <ROW File="logo.icns" Component_="logo.icns" FileName="logo~1.icn|logo.icns" Attributes="0" SourcePath="firegss-win\chrome\icons\default\logo.icns" SelfReg="false" Sequence="191"/>
-    <ROW File="logo.ico" Component_="logo.icns" FileName="logo.ico" Attributes="0" SourcePath="firegss-win\chrome\icons\default\logo.ico" SelfReg="false" Sequence="192"/>
-    <ROW File="logo.png" Component_="logo.icns" FileName="logo.png" Attributes="0" SourcePath="firegss-win\chrome\icons\default\logo.png" SelfReg="false" Sequence="193"/>
-    <ROW File="logo.xpm" Component_="logo.icns" FileName="logo.xpm" Attributes="0" SourcePath="firegss-win\chrome\icons\default\logo.xpm" SelfReg="false" Sequence="194"/>
+    <ROW File="logo.icns" Component_="logo.icns" FileName="logo~1.icn|logo.icns" Attributes="0" SourcePath="firegss-win\chrome\icons\default\logo.icns" SelfReg="false" Sequence="190"/>
+    <ROW File="logo.ico" Component_="logo.icns" FileName="logo.ico" Attributes="0" SourcePath="firegss-win\chrome\icons\default\logo.ico" SelfReg="false" Sequence="191"/>
+    <ROW File="logo.png" Component_="logo.icns" FileName="logo.png" Attributes="0" SourcePath="firegss-win\chrome\icons\default\logo.png" SelfReg="false" Sequence="192"/>
+    <ROW File="logo.xpm" Component_="logo.icns" FileName="logo.xpm" Attributes="0" SourcePath="firegss-win\chrome\icons\default\logo.xpm" SelfReg="false" Sequence="193"/>
     <ROW File="mathfont.properties" Component_="mathfont.properties" FileName="mathfo~1.pro|mathfont.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\fonts\mathfont.properties" SelfReg="false" Sequence="133"/>
     <ROW File="mathfontSTIXNonUnicode.properties" Component_="mathfont.properties" FileName="mathfo~3.pro|mathfontSTIXNonUnicode.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\fonts\mathfontSTIXNonUnicode.properties" SelfReg="false" Sequence="135"/>
     <ROW File="mathfontSTIXSize1.properties" Component_="mathfont.properties" FileName="mathfo~4.pro|mathfontSTIXSize1.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\fonts\mathfontSTIXSize1.properties" SelfReg="false" Sequence="136"/>
@@ -263,11 +262,11 @@
     <ROW File="pluginGlue.js" Component_="components.list" FileName="plugin~1.js|pluginGlue.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\pluginGlue.js" SelfReg="false" Sequence="47"/>
     <ROW File="plugin_container.exe" Component_="plugin_container.exe" FileName="plugin~1.exe|plugin-container.exe" Attributes="0" SourcePath="firegss-win\xulrunner\plugin-container.exe" SelfReg="false" Sequence="113"/>
     <ROW File="prefcalls.js" Component_="platform.js" FileName="prefca~1.js|prefcalls.js" Attributes="0" SourcePath="firegss-win\xulrunner\defaults\autoconfig\prefcalls.js" SelfReg="false" Sequence="55"/>
-    <ROW File="prefs.js" Component_="firegss.js" FileName="prefs.js" Attributes="0" SourcePath="firegss-win\defaults\preferences\prefs.js" SelfReg="false" Sequence="200"/>
+    <ROW File="prefs.js" Component_="firegss.js" FileName="prefs.js" Attributes="0" SourcePath="firegss-win\defaults\preferences\prefs.js" SelfReg="false" Sequence="199"/>
     <ROW File="quirk.css" Component_="arrow.gif" FileName="quirk.css" Attributes="0" SourcePath="firegss-win\xulrunner\res\quirk.css" SelfReg="false" Sequence="148"/>
     <ROW File="redit.exe" Component_="redit.exe" FileName="redit.exe" Attributes="0" SourcePath="firegss-win\xulrunner\redit.exe" SelfReg="false" Sequence="116"/>
     <ROW File="security_prefs.js" Component_="all.js" FileName="securi~1.js|security-prefs.js" Attributes="0" SourcePath="firegss-win\xulrunner\greprefs\security-prefs.js" SelfReg="false" Sequence="69"/>
-    <ROW File="skin.jar" Component_="chrome.manifest" FileName="skin.jar" Attributes="0" SourcePath="firegss-win\chrome\skin.jar" SelfReg="false" Sequence="198"/>
+    <ROW File="skin.jar" Component_="chrome.manifest" FileName="skin.jar" Attributes="0" SourcePath="firegss-win\chrome\skin.jar" SelfReg="false" Sequence="197"/>
     <ROW File="smime3.dll" Component_="smime3.dll" FileName="smime3.dll" Attributes="0" SourcePath="firegss-win\xulrunner\smime3.dll" SelfReg="false" Sequence="171"/>
     <ROW File="softokn3.chk" Component_="crashreporter.ini" FileName="softokn3.chk" Attributes="0" SourcePath="firegss-win\xulrunner\softokn3.chk" SelfReg="false" Sequence="172"/>
     <ROW File="softokn3.dll" Component_="softokn3.dll" FileName="softokn3.dll" Attributes="0" SourcePath="firegss-win\xulrunner\softokn3.dll" SelfReg="false" Sequence="173"/>

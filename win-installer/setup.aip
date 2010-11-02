@@ -10,10 +10,10 @@
     <ROW Property="BannerBitmap" MultiBuildValue="DefaultBuild:banner_image.jpg" Type="1"/>
     <ROW Property="DialogBitmap" MultiBuildValue="DefaultBuild:dialog_image.jpg" Type="1"/>
     <ROW Property="Manufacturer" Value="EBS Ltd." ValueLocId="*"/>
-    <ROW Property="ProductCode" Value="1033:{95CAA569-3413-499A-9A60-32E6591FE7EA} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{80CAF8E2-E9EA-4707-8D1F-66C7D207CEB7} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="My Network Folders" ValueLocId="*"/>
-    <ROW Property="ProductVersion" Value="0.17"/>
+    <ROW Property="ProductVersion" Value="0.18"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{AA2895E7-B1CF-4D52-ADBE-3105B266337E}"/>
   </COMPONENT>

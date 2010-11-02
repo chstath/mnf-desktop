@@ -6,6 +6,7 @@ function transfer() {
 	this.didRefreshLaterSet = false;
 	this.remoteRefresh      = '';
 	this.localRefresh       = '';
+    this.folderQueue = [];
 }
 
 transfer.prototype = {
@@ -117,7 +118,7 @@ transfer.prototype = {
 			resume = false;
 
 			if (file.exists() && this.prompt) {
-				
+
                 if (!download) {
                     var url = remoteFolder.uri.slice(gss.root.fileroot.length);
                     if (url.slice(url.length-1) !== '/')
@@ -258,7 +259,7 @@ transfer.prototype = {
                                 var diff = this.transferObject.mtime - nsIFile.lastModifiedTime;
                                 if (diff !== 0)
                                     nsIFile.lastModifiedTime = this.transferObject.mtime + diff;
-                                
+
 								localTree.refresh();
 								hideWorking();
 								if (callback)
@@ -283,16 +284,17 @@ transfer.prototype = {
 						var lf = files[x];
 						return function(folder) {
 							var contents = lf.directoryEntries;
-							var folderQueue = [];
 							while (contents.hasMoreElements()) {
 								var child = contents.getNext().QueryInterface(Components.interfaces.nsILocalFile);
 								if (!child.isDirectory())
     								self.start(false, child, lf, folder);
     							else
-    							    folderQueue.push(child);
+    							    self.folderQueue.push({localParent:lf, remoteParent: folder, child: child});
 							}
-							for (var ff=0; ff<folderQueue.length; ff++)
-							    self.start(false, folderQueue[ff], lf, folder);
+                            var newFolderObj = self.folderQueue.pop();
+                            if (newFolderObj) {
+							    self.start(false, newFolderObj.child, newFolderObj.localParent, newFolderObj.remoteParent);
+                            }
 						};
 					}();
 					if (!file.exists()) {

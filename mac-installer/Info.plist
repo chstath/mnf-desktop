@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>mynetworkfolders</string>
 	<key>CFBundleGetInfoString</key>
-	<string>My Network Folders 0.17, © 2010 EBS Ltd.</string>
+	<string>My Network Folders 0.18, © 2010 EBS Ltd.</string>
 	<key>CFBundleIconFile</key>
 	<string>mynetworkfolders</string>
 	<key>CFBundleIdentifier</key>
@@ -19,11 +19,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.17</string>
+	<string>0.18</string>
 	<key>CFBundleSignature</key>
 	<string>MNFD</string>
 	<key>CFBundleVersion</key>
-	<string>0.17</string>
+	<string>0.18</string>
 	<key>NSAppleScriptEnabled</key>
 	<true/>
 </dict>

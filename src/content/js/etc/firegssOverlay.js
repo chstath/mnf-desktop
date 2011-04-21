@@ -16,7 +16,7 @@ function loadFireGSS() {
 
   if (loadInTab) {
     var theTab          = gBrowser.addTab('chrome://firegss/content/');
-    theTab.label        = "FireGSS";
+    theTab.label        = "My Network Folders";
     theTab.setAttribute('firegss', "xyz");
     gBrowser.selectedTab = theTab;
     var func = function () { gBrowser.setIcon(theTab, "chrome://firegss/skin/icons/logo.png"); };

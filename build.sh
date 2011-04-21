@@ -6,7 +6,7 @@
 # binaries, the public key must be imported first, like this:
 # gpg --fetch-keys http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/1.9.1.7/KEY
 #
-NAME=firegss
+NAME=mynetworkfolders
 XPI=$NAME.xpi
 BUILD_DIR=build
 XULRUNNER_URL=http://releases.mozilla.org/pub/mozilla.org/xulrunner/releases/1.9.2.10/runtimes
@@ -32,7 +32,7 @@ zip -qDr ../app/chrome/skin.jar skin
 # Package FireGSS bits with XULRunner.
 cd ../app
 # Package for Linux.
-rm -r xulrunner firegss firegss.exe >/dev/null 2>&1
+rm -r xulrunner $NAME $NAME.exe >/dev/null 2>&1
 if [ ! -f ../build/$XULRUNNER_FILE_LIN ]
 then
     # Fetch xulrunner.
@@ -41,10 +41,10 @@ then
     gpg --verify ../build/$XULRUNNER_FILE_LIN.asc ../build/$XULRUNNER_FILE_LIN
 fi
 tar jxf ../build/$XULRUNNER_FILE_LIN
-cp xulrunner/xulrunner-stub firegss
+cp xulrunner/xulrunner-stub $NAME
 tar jcf ../$BUILD_DIR/$NAME-linux.tar.bz2 .
 # Package for Windows.
-rm -r xulrunner firegss firegss.exe >/dev/null 2>&1
+rm -r xulrunner $NAME $NAME.exe >/dev/null 2>&1
 if [ ! -f ../build/$XULRUNNER_FILE_WIN ]
 then
     # Fetch xulrunner.
@@ -53,10 +53,10 @@ then
     gpg --verify ../build/$XULRUNNER_FILE_WIN.asc ../build/$XULRUNNER_FILE_WIN
 fi
 unzip -q ../build/$XULRUNNER_FILE_WIN
-cp xulrunner/xulrunner-stub.exe firegss.exe
+cp xulrunner/xulrunner-stub.exe $NAME.exe
 zip -qr ../$BUILD_DIR/$NAME-win.zip .
 # Package for Mac.
-rm -r xulrunner firegss firegss.exe >/dev/null 2>&1
+rm -r xulrunner $NAME $NAME.exe >/dev/null 2>&1
 if [ ! -f ../build/$XULRUNNER_FILE_MAC ]
 then
     # Fetch xulrunner.
@@ -65,7 +65,7 @@ then
     gpg --verify ../build/$XULRUNNER_FILE_MAC.asc ../build/$XULRUNNER_FILE_MAC
 fi
 unzip -q ../build/$XULRUNNER_FILE_MAC
-cp xulrunner/xulrunner-stub.exe firegss.exe
+cp xulrunner/xulrunner-stub.exe $NAME.exe
 zip -qr ../$BUILD_DIR/$NAME-mac.zip .
 cd ..
 

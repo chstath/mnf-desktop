@@ -17,7 +17,7 @@
 <!ENTITY bytesmode.label       "Display number of bytes for file sizes">
 
 <!ENTITY interface.label       "Interface">
-<!ENTITY startup.label         "Start FireGSS:">
+<!ENTITY startup.label         "Start My Network Folders:">
 <!ENTITY windowopen.label      "in a new window">
 <!ENTITY tabopen.label         "in a new tab">
 

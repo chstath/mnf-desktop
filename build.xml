@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<project name="firegss" default="package" basedir=".">
+<project name="mynetworkfolders" default="package" basedir=".">
 	<description>The FireGSS project build file</description>
 
 	<property name="src.dir" value="${basedir}/src"/>

@@ -3,18 +3,19 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
     <ROW Property="ALLUSERS" Value="2"/>
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
-    <ROW Property="ARPHELPLINK" Value="http://code.google.com/p/firegss/issues/list"/>
+    <ROW Property="ARPHELPLINK" Value="http://home.mynetworkfolders.com/support/"/>
     <ROW Property="ARPPRODUCTICON" Value="logo_1.exe" Type="8"/>
-    <ROW Property="ARPURLINFOABOUT" Value="http://code.google.com/p/firegss"/>
+    <ROW Property="ARPURLINFOABOUT" Value="http://home.mynetworkfolders.com"/>
+    <ROW Property="ARPURLUPDATEINFO" Value="http://home.mynetworkfolders.com/support/downloads/"/>
     <ROW Property="BannerBitmap" MultiBuildValue="DefaultBuild:banner_image.jpg" Type="1"/>
     <ROW Property="DialogBitmap" MultiBuildValue="DefaultBuild:dialog_image.jpg" Type="1"/>
-    <ROW Property="Manufacturer" Value="EBS" ValueLocId="*"/>
-    <ROW Property="ProductCode" Value="1033:{9B70BFCC-622C-486F-A781-A759DFA8A5ED} " Type="16"/>
+    <ROW Property="Manufacturer" Value="EBS Ltd." ValueLocId="*"/>
+    <ROW Property="ProductCode" Value="1033:{80CAF8E2-E9EA-4707-8D1F-66C7D207CEB7} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
-    <ROW Property="ProductName" Value="FireGSS" ValueLocId="*"/>
+    <ROW Property="ProductName" Value="My Network Folders" ValueLocId="*"/>
     <ROW Property="ProductVersion" Value="0.18"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
-    <ROW Property="UpgradeCode" Value="{B75E331F-5419-49CE-9FB3-8B4FF4E0CB96}"/>
+    <ROW Property="UpgradeCode" Value="{AA2895E7-B1CF-4D52-ADBE-3105B266337E}"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
@@ -22,305 +23,302 @@
     <ROW Directory="SHORTCUTDIR" Directory_Parent="TARGETDIR" DefaultDir="SHORTC~1|SHORTCUTDIR" IsPseudoRoot="1"/>
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
     <ROW Directory="US_DIR" Directory_Parent="profile_DIR" DefaultDir="US"/>
-    <ROW Directory="autoconfig_DIR" Directory_Parent="defaults_DIR" DefaultDir="autoco~1|autoconfig"/>
+    <ROW Directory="autoconfig_DIR" Directory_Parent="defaults_1_DIR" DefaultDir="autoco~1|autoconfig"/>
     <ROW Directory="branding_DIR" Directory_Parent="locale_DIR" DefaultDir="branding"/>
-    <ROW Directory="chrome_1_DIR" Directory_Parent="profile_DIR" DefaultDir="chrome"/>
-    <ROW Directory="chrome_2_DIR" Directory_Parent="US_DIR" DefaultDir="chrome"/>
-    <ROW Directory="chrome_3_DIR" Directory_Parent="APPDIR" DefaultDir="chrome"/>
-    <ROW Directory="chrome_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="chrome"/>
+    <ROW Directory="chrome_1_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="chrome"/>
+    <ROW Directory="chrome_2_DIR" Directory_Parent="profile_DIR" DefaultDir="chrome"/>
+    <ROW Directory="chrome_3_DIR" Directory_Parent="US_DIR" DefaultDir="chrome"/>
+    <ROW Directory="chrome_DIR" Directory_Parent="APPDIR" DefaultDir="chrome"/>
     <ROW Directory="components_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="compon~1|components"/>
     <ROW Directory="default_DIR" Directory_Parent="icons_DIR" DefaultDir="default"/>
-    <ROW Directory="defaults_1_DIR" Directory_Parent="APPDIR" DefaultDir="defaults"/>
-    <ROW Directory="defaults_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="defaults"/>
+    <ROW Directory="defaults_1_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="defaults"/>
+    <ROW Directory="defaults_DIR" Directory_Parent="APPDIR" DefaultDir="defaults"/>
     <ROW Directory="dictionaries_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="dictio~1|dictionaries"/>
     <ROW Directory="dtd_DIR" Directory_Parent="res_DIR" DefaultDir="dtd"/>
     <ROW Directory="entityTables_DIR" Directory_Parent="res_DIR" DefaultDir="entity~1|entityTables"/>
     <ROW Directory="fonts_DIR" Directory_Parent="res_DIR" DefaultDir="fonts"/>
     <ROW Directory="greprefs_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="greprefs"/>
     <ROW Directory="html_DIR" Directory_Parent="res_DIR" DefaultDir="html"/>
-    <ROW Directory="icons_DIR" Directory_Parent="chrome_3_DIR" DefaultDir="icons"/>
-    <ROW Directory="locale_DIR" Directory_Parent="chrome_3_DIR" DefaultDir="locale"/>
+    <ROW Directory="icons_DIR" Directory_Parent="chrome_DIR" DefaultDir="icons"/>
+    <ROW Directory="locale_DIR" Directory_Parent="chrome_DIR" DefaultDir="locale"/>
     <ROW Directory="modules_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="modules"/>
     <ROW Directory="plugins_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="plugins"/>
-    <ROW Directory="pref_DIR" Directory_Parent="defaults_DIR" DefaultDir="pref"/>
-    <ROW Directory="preferences_DIR" Directory_Parent="defaults_1_DIR" DefaultDir="prefer~1|preferences"/>
-    <ROW Directory="profile_1_DIR" Directory_Parent="defaults_1_DIR" DefaultDir="profile"/>
-    <ROW Directory="profile_DIR" Directory_Parent="defaults_DIR" DefaultDir="profile"/>
+    <ROW Directory="pref_DIR" Directory_Parent="defaults_1_DIR" DefaultDir="pref"/>
+    <ROW Directory="preferences_DIR" Directory_Parent="defaults_DIR" DefaultDir="prefer~1|preferences"/>
+    <ROW Directory="profile_DIR" Directory_Parent="defaults_1_DIR" DefaultDir="profile"/>
     <ROW Directory="res_DIR" Directory_Parent="xulrunner_DIR" DefaultDir="res"/>
     <ROW Directory="xulrunner_DIR" Directory_Parent="APPDIR" DefaultDir="xulrun~1|xulrunner"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
-    <ROW Component="AccessibleMarshal.dll" ComponentId="{22CD1424-B143-4D45-B8AB-F4D37CFF215F}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="AccessibleMarshal.dll"/>
-    <ROW Component="CertUtils.jsm" ComponentId="{7BD64410-78C2-4B51-9CB1-D15727871160}" Directory_="modules_DIR" Attributes="0" KeyPath="CertUtils.jsm" Type="0"/>
-    <ROW Component="IA2Marshal.dll" ComponentId="{5B75C00C-B224-4B84-882B-E7D9123B5AF5}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="IA2Marshal.dll"/>
-    <ROW Component="SHORTCUTDIR" ComponentId="{2B37CBB9-2A62-468A-ABB1-43D4A89B876F}" Directory_="SHORTCUTDIR" Attributes="0"/>
-    <ROW Component="all.js" ComponentId="{EAB46167-BC14-4164-B3D1-5DA561404034}" Directory_="greprefs_DIR" Attributes="0" KeyPath="all.js" Type="0"/>
-    <ROW Component="application.ini" ComponentId="{D7709447-7BA0-4433-8CFD-164D791A81C6}" Directory_="APPDIR" Attributes="0" KeyPath="application.ini" Type="0"/>
-    <ROW Component="arrow.gif" ComponentId="{F71DB77A-E94C-415A-AF02-97DED9E3DA5B}" Directory_="res_DIR" Attributes="0" KeyPath="arrow.gif" Type="0"/>
-    <ROW Component="brand.dtd" ComponentId="{48318A4D-1A6C-41E6-9AF5-42B42853FD5F}" Directory_="branding_DIR" Attributes="0" KeyPath="brand.dtd" Type="0"/>
-    <ROW Component="cert_override.txt" ComponentId="{0BE6BEE9-8701-473B-AD58-33FFDDCDC902}" Directory_="profile_1_DIR" Attributes="0" KeyPath="cert_override.txt" Type="0"/>
-    <ROW Component="chrome.manifest" ComponentId="{CA8D1E4E-4571-4601-8CC1-67929E0C3449}" Directory_="chrome_3_DIR" Attributes="0" KeyPath="chrome.manifest" Type="0"/>
-    <ROW Component="classic.jar" ComponentId="{67597456-E0DA-404D-9680-995B940AEDA1}" Directory_="chrome_DIR" Attributes="0" KeyPath="classic.jar" Type="0"/>
-    <ROW Component="components.list" ComponentId="{4DC3A444-8E9C-462D-9091-D64265345794}" Directory_="components_DIR" Attributes="0" KeyPath="components.list" Type="0"/>
-    <ROW Component="crashreporter.exe" ComponentId="{3FBA4FA4-33E9-468A-863C-FD8D6CD55352}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="crashreporter.exe"/>
-    <ROW Component="crashreporter.ini" ComponentId="{2ACB32AA-35FD-46CD-8510-90F3123D50C0}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="crashreporter.ini" Type="0"/>
-    <ROW Component="en_US.aff" ComponentId="{E3B445E4-DD94-477C-8FF6-1640E2BA16E9}" Directory_="dictionaries_DIR" Attributes="0" KeyPath="en_US.aff" Type="0"/>
-    <ROW Component="firegss.exe" ComponentId="{E7C03A92-B692-43B5-BA1A-9494FA05D1A4}" Directory_="APPDIR" Attributes="0" KeyPath="firegss.exe"/>
-    <ROW Component="firegss.js" ComponentId="{DEEADE17-5B9F-405B-8C9A-F49A7E2ED1D9}" Directory_="preferences_DIR" Attributes="0" KeyPath="firegss.js" Type="0"/>
-    <ROW Component="folder.png" ComponentId="{D560DA00-F105-49AE-80D8-BD7E2AAA1B26}" Directory_="html_DIR" Attributes="0" KeyPath="folder.png" Type="0"/>
-    <ROW Component="freebl3.dll" ComponentId="{1AFFF0F1-80EF-4644-8CC6-6F71C92167CE}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="freebl3.dll"/>
-    <ROW Component="html40Latin1.properties" ComponentId="{05CE144F-6C37-4724-A02B-1B5C193E6B65}" Directory_="entityTables_DIR" Attributes="0" KeyPath="html40Latin1.properties" Type="0"/>
-    <ROW Component="javaxpcomglue.dll" ComponentId="{85504C15-D2B6-4218-B4E8-02E40201ACE9}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="javaxpcomglue.dll"/>
-    <ROW Component="js.exe" ComponentId="{E3DAA68C-9586-46F4-82BC-70159C0045F8}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="js.exe"/>
-    <ROW Component="js3250.dll" ComponentId="{4ACC2F3F-BDAD-40D9-AE54-22B0E82C8899}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="js3250.dll"/>
-    <ROW Component="localstore.rdf" ComponentId="{A6B79DE7-B3A5-4E85-84C1-C5A6B28B7642}" Directory_="profile_DIR" Attributes="0" KeyPath="localstore.rdf" Type="0"/>
-    <ROW Component="localstore.rdf_1" ComponentId="{5009C750-C3CB-4565-A4A9-F247AC43CADD}" Directory_="US_DIR" Attributes="0" KeyPath="localstore.rdf_1" Type="0"/>
-    <ROW Component="logo.icns" ComponentId="{A0EE0855-A47E-4176-8329-6C2A030FAB70}" Directory_="default_DIR" Attributes="0" KeyPath="logo.icns" Type="0"/>
-    <ROW Component="mathfont.properties" ComponentId="{B89B5806-3F26-43FA-84FF-7574DA65D5CC}" Directory_="fonts_DIR" Attributes="0" KeyPath="mathfont.properties" Type="0"/>
-    <ROW Component="mathml.dtd" ComponentId="{924D3E0D-9D1E-4856-961B-541FA8D3D7E8}" Directory_="dtd_DIR" Attributes="0" KeyPath="mathml.dtd" Type="0"/>
-    <ROW Component="mozcpp19.dll" ComponentId="{89AB311D-0A9A-4E58-9135-C2B8D3097224}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="mozcpp19.dll"/>
-    <ROW Component="mozcrt19.dll" ComponentId="{F5D5EF22-0CFF-489B-ABC5-B5EE3DB3247E}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="mozcrt19.dll"/>
-    <ROW Component="mozctl.dll" ComponentId="{38592EC3-8298-4648-8999-40BC6A49FDD9}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="mozctl.dll"/>
-    <ROW Component="mozctlx.dll" ComponentId="{BBA5086B-78A3-4499-93E6-94C5249B2B46}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="mozctlx.dll"/>
-    <ROW Component="msvcm80.dll" ComponentId="{44B37AEC-8913-4753-895A-91D99E7D2EA8}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="msvcm80.dll"/>
-    <ROW Component="msvcp80.dll" ComponentId="{459B4532-CAEB-40AE-B5CE-95AAC57B6943}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="msvcp80.dll"/>
-    <ROW Component="msvcr80.dll" ComponentId="{868D9900-A7EA-42A2-B95A-BE6B31664A48}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="msvcr80.dll"/>
-    <ROW Component="npnul32.dll" ComponentId="{04FD4EE8-3C00-4EC1-9DAC-5A541C78817B}" Directory_="plugins_DIR" Attributes="0" KeyPath="npnul32.dll"/>
-    <ROW Component="nspr4.dll" ComponentId="{53EE56C0-9578-4F46-9907-9B655B49245C}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="nspr4.dll"/>
-    <ROW Component="nss3.dll" ComponentId="{F3A64197-F2AB-45AE-A2BC-8D704C2EE41F}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="nss3.dll"/>
-    <ROW Component="nssckbi.dll" ComponentId="{6C7A9896-D7F9-4245-92CE-894CA0B43747}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="nssckbi.dll"/>
-    <ROW Component="nssdbm3.dll" ComponentId="{2FEC842F-85CD-4E5B-9DB2-6CC6430F9708}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="nssdbm3.dll"/>
-    <ROW Component="nssutil3.dll" ComponentId="{2B7C9926-AD51-4071-8B89-78EA44D9D849}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="nssutil3.dll"/>
-    <ROW Component="platform.js" ComponentId="{E9CEA743-B56B-4F80-B1DD-171B1617C6C4}" Directory_="autoconfig_DIR" Attributes="0" KeyPath="platform.js" Type="0"/>
-    <ROW Component="plc4.dll" ComponentId="{B5BC3936-F101-4819-AB6E-C1A00C1F8BC5}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="plc4.dll"/>
-    <ROW Component="plds4.dll" ComponentId="{7BC9C5BB-B20F-4298-A9F1-2AC22330564C}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="plds4.dll"/>
-    <ROW Component="plugin_container.exe" ComponentId="{36A88AFC-070B-4E88-B567-C7D188871C7F}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="plugin_container.exe"/>
-    <ROW Component="redit.exe" ComponentId="{04ED9DB7-E3BF-4747-8F62-C2D27B8BA08F}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="redit.exe"/>
-    <ROW Component="smime3.dll" ComponentId="{CC938455-AC6B-46C8-980D-8A50156B83AD}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="smime3.dll"/>
-    <ROW Component="softokn3.dll" ComponentId="{8632875C-0F49-46BF-841F-09BF2E6A4050}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="softokn3.dll"/>
-    <ROW Component="sqlite3.dll" ComponentId="{C6217EE7-F322-4810-9D4A-766DEDB07F17}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="sqlite3.dll"/>
-    <ROW Component="ssl3.dll" ComponentId="{6CD6E1F3-6EAC-412C-8AF8-9F1D808DE15C}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="ssl3.dll"/>
-    <ROW Component="updater.exe" ComponentId="{B6DE761A-17A5-4975-B2E6-F7457781E14D}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="updater.exe"/>
-    <ROW Component="userChrome_example.css" ComponentId="{EA141ADE-320A-4E8E-A458-C9F3F3F40E1A}" Directory_="chrome_1_DIR" Attributes="0" KeyPath="userChrome_example.css" Type="0"/>
-    <ROW Component="userChrome_example.css_1" ComponentId="{026125BA-ECE0-4CB9-A6EA-E0877B1A5054}" Directory_="chrome_2_DIR" Attributes="0" KeyPath="userChrome_example.css_1" Type="0"/>
-    <ROW Component="xpcom.dll" ComponentId="{885C577F-9A28-42C8-8723-C22BBD0C5E49}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xpcom.dll"/>
-    <ROW Component="xpcshell.exe" ComponentId="{08EB9ECE-84B0-4343-8F75-514994FF90E7}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xpcshell.exe"/>
-    <ROW Component="xpidl.exe" ComponentId="{4B7D0F75-FF29-4360-8F12-24B65E691A05}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xpidl.exe"/>
-    <ROW Component="xpt_dump.exe" ComponentId="{5C9662CD-F73B-4AB4-979B-5D354EFAF411}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xpt_dump.exe"/>
-    <ROW Component="xpt_link.exe" ComponentId="{90CCFA7D-6E62-4E36-8E1D-5BDC3C4F59F7}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xpt_link.exe"/>
-    <ROW Component="xul.dll" ComponentId="{D9C86C98-614A-49C2-B3AE-3FEE7113F1D4}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xul.dll"/>
-    <ROW Component="xulrunner.exe" ComponentId="{B9D2F553-D12A-4C99-9DE4-A6622EE97D91}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xulrunner.exe"/>
-    <ROW Component="xulrunner.js" ComponentId="{86BC1636-387D-409D-B5C6-F97B2BEA6FFB}" Directory_="pref_DIR" Attributes="0" KeyPath="xulrunner.js" Type="0"/>
-    <ROW Component="xulrunner_stub.exe" ComponentId="{83BB37E7-C67D-436D-882D-7CF1F2E37D03}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xulrunner_stub.exe"/>
+    <ROW Component="AccessibleMarshal.dll" ComponentId="{FF70BF5B-C88A-42E9-952D-B0D07515727F}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="AccessibleMarshal.dll"/>
+    <ROW Component="CertUtils.jsm" ComponentId="{BF451315-A074-458D-84DE-B89D5064AC2A}" Directory_="modules_DIR" Attributes="0" KeyPath="CertUtils.jsm" Type="0"/>
+    <ROW Component="IA2Marshal.dll" ComponentId="{3744E16A-8F36-4B59-B29D-985F9DD6D068}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="IA2Marshal.dll"/>
+    <ROW Component="SHORTCUTDIR" ComponentId="{7BAD8B01-B6CE-408F-A9BF-E33DD0E76E81}" Directory_="SHORTCUTDIR" Attributes="0"/>
+    <ROW Component="all.js" ComponentId="{E22CE528-2287-4E08-A9E2-34DD64BB0848}" Directory_="greprefs_DIR" Attributes="0" KeyPath="all.js" Type="0"/>
+    <ROW Component="application.ini" ComponentId="{CDF5A4A6-F050-4741-B0C6-562CD15EEC32}" Directory_="APPDIR" Attributes="0" KeyPath="application.ini" Type="0"/>
+    <ROW Component="arrow.gif" ComponentId="{A52D0ED9-A91F-40D4-A01D-FA3060A7083B}" Directory_="res_DIR" Attributes="0" KeyPath="arrow.gif" Type="0"/>
+    <ROW Component="brand.dtd" ComponentId="{D2A0868B-56A8-4413-A0D9-2B77225287DE}" Directory_="branding_DIR" Attributes="0" KeyPath="brand.dtd" Type="0"/>
+    <ROW Component="chrome.manifest" ComponentId="{C66062F1-85DA-44B1-8732-93EF0553BDCB}" Directory_="chrome_DIR" Attributes="0" KeyPath="chrome.manifest" Type="0"/>
+    <ROW Component="classic.jar" ComponentId="{69D41EB3-8002-498C-9A43-13DD7EBBDD29}" Directory_="chrome_1_DIR" Attributes="0" KeyPath="classic.jar" Type="0"/>
+    <ROW Component="components.list" ComponentId="{C3E52BB5-0A38-4332-83B8-C4999BFF9713}" Directory_="components_DIR" Attributes="0" KeyPath="components.list" Type="0"/>
+    <ROW Component="crashreporter.exe" ComponentId="{35A34CA3-FBFD-4AA0-BA8C-C767A6537F84}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="crashreporter.exe"/>
+    <ROW Component="crashreporter.ini" ComponentId="{231D48ED-593A-46F4-82A2-F8FD26931646}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="crashreporter.ini" Type="0"/>
+    <ROW Component="en_US.aff" ComponentId="{A3493FC5-5604-4396-92D6-5036EF5136E3}" Directory_="dictionaries_DIR" Attributes="0" KeyPath="en_US.aff" Type="0"/>
+    <ROW Component="firegss.js" ComponentId="{51175157-2F75-4C4C-AFDF-6EE9453B98F4}" Directory_="preferences_DIR" Attributes="0" KeyPath="firegss.js" Type="0"/>
+    <ROW Component="folder.png" ComponentId="{55EE3DCB-D74D-41FA-8B0E-8514AA9F02D9}" Directory_="html_DIR" Attributes="0" KeyPath="folder.png" Type="0"/>
+    <ROW Component="freebl3.dll" ComponentId="{37E106F9-B1D0-4DAE-81AD-D29A2F4B2859}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="freebl3.dll"/>
+    <ROW Component="html40Latin1.properties" ComponentId="{27C26494-43BD-4AA6-B592-951E7F76DB0D}" Directory_="entityTables_DIR" Attributes="0" KeyPath="html40Latin1.properties" Type="0"/>
+    <ROW Component="javaxpcomglue.dll" ComponentId="{4EFD66C1-4C04-49BD-810F-0B910B2E97BA}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="javaxpcomglue.dll"/>
+    <ROW Component="js.exe" ComponentId="{3D5D6562-9842-4D9E-8E23-CFFEFD312010}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="js.exe"/>
+    <ROW Component="js3250.dll" ComponentId="{2C3D6819-E2E1-4FCC-A266-1E7049370D5C}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="js3250.dll"/>
+    <ROW Component="localstore.rdf" ComponentId="{4D3F8096-A28F-40B0-BF84-EA4A2912C5D4}" Directory_="profile_DIR" Attributes="0" KeyPath="localstore.rdf" Type="0"/>
+    <ROW Component="localstore.rdf_1" ComponentId="{187E75F9-C95B-470D-BA9F-EF501D0D80A7}" Directory_="US_DIR" Attributes="0" KeyPath="localstore.rdf_1" Type="0"/>
+    <ROW Component="logo.icns" ComponentId="{587AB038-9BBC-47FC-827B-77BD1F85FA68}" Directory_="default_DIR" Attributes="0" KeyPath="logo.icns" Type="0"/>
+    <ROW Component="mathfont.properties" ComponentId="{E2AAC3F7-0A70-46C0-AD7F-E7F46EB1B426}" Directory_="fonts_DIR" Attributes="0" KeyPath="mathfont.properties" Type="0"/>
+    <ROW Component="mathml.dtd" ComponentId="{96D0089D-39D9-4A6C-BFBA-B69204AD1D32}" Directory_="dtd_DIR" Attributes="0" KeyPath="mathml.dtd" Type="0"/>
+    <ROW Component="mozcpp19.dll" ComponentId="{E9352850-8FA3-4248-B8D3-CD1692A9C3F3}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="mozcpp19.dll"/>
+    <ROW Component="mozcrt19.dll" ComponentId="{4A5A4810-010B-4679-A473-B96AC2013F90}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="mozcrt19.dll"/>
+    <ROW Component="mozctl.dll" ComponentId="{0253606F-EB35-44E9-90B2-135A9EA38181}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="mozctl.dll"/>
+    <ROW Component="mozctlx.dll" ComponentId="{476876E4-BD91-4F08-A2FB-32AAD106B7FD}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="mozctlx.dll"/>
+    <ROW Component="msvcm80.dll" ComponentId="{8AF1C0C8-0DF7-4BA1-BB3C-55F94D9C1B7E}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="msvcm80.dll"/>
+    <ROW Component="msvcp80.dll" ComponentId="{07F1617C-8FA9-43D2-B296-2D94A442A88D}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="msvcp80.dll"/>
+    <ROW Component="msvcr80.dll" ComponentId="{6B3043F6-4C4B-4B72-8DDF-80F99734F75C}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="msvcr80.dll"/>
+    <ROW Component="mynetworkfolders.exe" ComponentId="{F48589B1-09C6-4778-8B3F-6E0BF50DC6C8}" Directory_="APPDIR" Attributes="0" KeyPath="mynetworkfolders.exe"/>
+    <ROW Component="npnul32.dll" ComponentId="{25E79412-B0B6-4AD7-96D4-FE408013BAD7}" Directory_="plugins_DIR" Attributes="0" KeyPath="npnul32.dll"/>
+    <ROW Component="nspr4.dll" ComponentId="{461CFFA0-2E5E-4BE2-B2D8-4B629F5B1055}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="nspr4.dll"/>
+    <ROW Component="nss3.dll" ComponentId="{A0C4EC1B-2E44-48BA-867D-FB5E9F92C876}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="nss3.dll"/>
+    <ROW Component="nssckbi.dll" ComponentId="{B01CCBA9-FCFF-48A9-97FD-D62521329F0B}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="nssckbi.dll"/>
+    <ROW Component="nssdbm3.dll" ComponentId="{21A02C00-BC27-4083-AC44-C10ABD909CE7}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="nssdbm3.dll"/>
+    <ROW Component="nssutil3.dll" ComponentId="{AFDDE885-913B-497F-B7C0-776401E4AA5B}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="nssutil3.dll"/>
+    <ROW Component="platform.js" ComponentId="{2FFC6EF9-E89E-4F94-A673-A76E4D2ABA34}" Directory_="autoconfig_DIR" Attributes="0" KeyPath="platform.js" Type="0"/>
+    <ROW Component="plc4.dll" ComponentId="{35EECE8F-FC68-48D3-B643-D525991E88C8}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="plc4.dll"/>
+    <ROW Component="plds4.dll" ComponentId="{BF1C880C-1586-4B1D-A8E9-9E8C6B8ECB38}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="plds4.dll"/>
+    <ROW Component="plugin_container.exe" ComponentId="{0592C00D-284C-4F38-80BE-21658D2BA7BC}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="plugin_container.exe"/>
+    <ROW Component="redit.exe" ComponentId="{49786169-A3DD-4C52-985C-F3835758C7B8}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="redit.exe"/>
+    <ROW Component="smime3.dll" ComponentId="{7F199080-3273-4ABE-91D1-78AF02A4DBA4}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="smime3.dll"/>
+    <ROW Component="softokn3.dll" ComponentId="{7F364AB5-6EA4-4632-94FB-C1557F5C432A}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="softokn3.dll"/>
+    <ROW Component="sqlite3.dll" ComponentId="{2D668CBD-617D-4CAA-BD75-EAC5191D41EA}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="sqlite3.dll"/>
+    <ROW Component="ssl3.dll" ComponentId="{F8FF17FB-A8DA-4946-94FF-A4FDF4A69BD9}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="ssl3.dll"/>
+    <ROW Component="updater.exe" ComponentId="{59175BC6-604D-4547-9C52-8AC15FDE001E}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="updater.exe"/>
+    <ROW Component="userChrome_example.css" ComponentId="{B6697779-9D87-4485-B870-7CA90DAB036E}" Directory_="chrome_2_DIR" Attributes="0" KeyPath="userChrome_example.css" Type="0"/>
+    <ROW Component="userChrome_example.css_1" ComponentId="{2B276F63-75DD-45C6-BEE2-5CBED7A689AD}" Directory_="chrome_3_DIR" Attributes="0" KeyPath="userChrome_example.css_1" Type="0"/>
+    <ROW Component="xpcom.dll" ComponentId="{0B547D74-0E16-43B0-BC19-0A92E20EC6A7}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xpcom.dll"/>
+    <ROW Component="xpcshell.exe" ComponentId="{126377BC-0D6C-4F8F-815C-64BA408616C6}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xpcshell.exe"/>
+    <ROW Component="xpidl.exe" ComponentId="{AD97A66A-5390-4891-806D-00893FAA0476}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xpidl.exe"/>
+    <ROW Component="xpt_dump.exe" ComponentId="{54DF6089-A005-4315-B884-C5E027EFED46}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xpt_dump.exe"/>
+    <ROW Component="xpt_link.exe" ComponentId="{CA4D5FF6-500C-4B0A-85BD-52B9506DBB2D}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xpt_link.exe"/>
+    <ROW Component="xul.dll" ComponentId="{D1792DF5-F1ED-4342-970B-C324A6515459}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xul.dll"/>
+    <ROW Component="xulrunner.exe" ComponentId="{0CB7D90D-2BAB-4057-A451-FD7153B5B8E5}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xulrunner.exe"/>
+    <ROW Component="xulrunner.js" ComponentId="{14F051B6-BECC-418E-ABE0-F47F8278C2AE}" Directory_="pref_DIR" Attributes="0" KeyPath="xulrunner.js" Type="0"/>
+    <ROW Component="xulrunner_stub.exe" ComponentId="{24AA2AEC-1C68-4473-858B-9B833F9CC805}" Directory_="xulrunner_DIR" Attributes="0" KeyPath="xulrunner_stub.exe"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
-    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="AccessibleMarshal.dll classic.jar components.list crashreporter.exe crashreporter.ini platform.js xulrunner.js userChrome_example.css localstore.rdf userChrome_example.css_1 localstore.rdf_1 en_US.aff freebl3.dll all.js IA2Marshal.dll javaxpcomglue.dll js.exe js3250.dll CertUtils.jsm mozcpp19.dll mozcrt19.dll mozctl.dll mozctlx.dll msvcm80.dll msvcp80.dll msvcr80.dll nspr4.dll nss3.dll nssckbi.dll nssdbm3.dll nssutil3.dll plc4.dll plds4.dll plugin_container.exe npnul32.dll redit.exe arrow.gif mathml.dtd html40Latin1.properties mathfont.properties folder.png smime3.dll softokn3.dll sqlite3.dll ssl3.dll updater.exe xpcom.dll xpcshell.exe xpidl.exe xpt_dump.exe xpt_link.exe xul.dll xulrunner_stub.exe xulrunner.exe application.ini firegss.exe chrome.manifest logo.icns brand.dtd firegss.js cert_override.txt SHORTCUTDIR"/>
+    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="application.ini mynetworkfolders.exe chrome.manifest logo.icns brand.dtd firegss.js AccessibleMarshal.dll classic.jar components.list crashreporter.exe crashreporter.ini platform.js xulrunner.js userChrome_example.css localstore.rdf userChrome_example.css_1 localstore.rdf_1 en_US.aff freebl3.dll all.js IA2Marshal.dll javaxpcomglue.dll js.exe js3250.dll CertUtils.jsm mozcpp19.dll mozcrt19.dll mozctl.dll mozctlx.dll msvcm80.dll msvcp80.dll msvcr80.dll nspr4.dll nss3.dll nssckbi.dll nssdbm3.dll nssutil3.dll plc4.dll plds4.dll plugin_container.exe npnul32.dll redit.exe arrow.gif mathml.dtd html40Latin1.properties mathfont.properties folder.png smime3.dll softokn3.dll sqlite3.dll ssl3.dll updater.exe xpcom.dll xpcshell.exe xpidl.exe xpt_dump.exe xpt_link.exe xul.dll xulrunner_stub.exe xulrunner.exe SHORTCUTDIR"/>
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
-    <ROW File="AccessibleMarshal.dll" Component_="AccessibleMarshal.dll" FileName="Access~1.dll|AccessibleMarshal.dll" Attributes="0" SourcePath="firegss-win\xulrunner\AccessibleMarshal.dll" SelfReg="false" Sequence="1"/>
-    <ROW File="CertUtils.jsm" Component_="CertUtils.jsm" FileName="CertUt~1.jsm|CertUtils.jsm" Attributes="0" SourcePath="firegss-win\xulrunner\modules\CertUtils.jsm" SelfReg="false" Sequence="78"/>
-    <ROW File="CrashSubmit.jsm" Component_="CertUtils.jsm" FileName="CrashS~1.jsm|CrashSubmit.jsm" Attributes="0" SourcePath="firegss-win\xulrunner\modules\CrashSubmit.jsm" SelfReg="false" Sequence="79"/>
-    <ROW File="DownloadLastDir.jsm" Component_="CertUtils.jsm" FileName="Downlo~1.jsm|DownloadLastDir.jsm" Attributes="0" SourcePath="firegss-win\xulrunner\modules\DownloadLastDir.jsm" SelfReg="false" Sequence="82"/>
-    <ROW File="DownloadUtils.jsm" Component_="CertUtils.jsm" FileName="Downlo~2.jsm|DownloadUtils.jsm" Attributes="0" SourcePath="firegss-win\xulrunner\modules\DownloadUtils.jsm" SelfReg="false" Sequence="83"/>
-    <ROW File="EditorOverride.css" Component_="arrow.gif" FileName="Editor~1.css|EditorOverride.css" Attributes="0" SourcePath="firegss-win\xulrunner\res\EditorOverride.css" SelfReg="false" Sequence="126"/>
-    <ROW File="FeedProcessor.js" Component_="components.list" FileName="FeedPr~1.js|FeedProcessor.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\FeedProcessor.js" SelfReg="false" Sequence="13"/>
-    <ROW File="FileUtils.jsm" Component_="CertUtils.jsm" FileName="FileUt~1.jsm|FileUtils.jsm" Attributes="0" SourcePath="firegss-win\xulrunner\modules\FileUtils.jsm" SelfReg="false" Sequence="84"/>
-    <ROW File="GPSDGeolocationProvider.js" Component_="components.list" FileName="GPSDGe~1.js|GPSDGeolocationProvider.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\GPSDGeolocationProvider.js" SelfReg="false" Sequence="14"/>
-    <ROW File="IA2Marshal.dll" Component_="IA2Marshal.dll" FileName="IA2Mar~1.dll|IA2Marshal.dll" Attributes="0" SourcePath="firegss-win\xulrunner\IA2Marshal.dll" SelfReg="false" Sequence="71"/>
-    <ROW File="ISO8601DateUtils.jsm" Component_="CertUtils.jsm" FileName="ISO860~1.jsm|ISO8601DateUtils.jsm" Attributes="0" SourcePath="firegss-win\xulrunner\modules\ISO8601DateUtils.jsm" SelfReg="false" Sequence="85"/>
-    <ROW File="LICENSE" Component_="crashreporter.ini" FileName="LICENSE" Attributes="0" SourcePath="firegss-win\xulrunner\LICENSE" SelfReg="false" Sequence="76"/>
-    <ROW File="LightweightThemeConsumer.jsm" Component_="CertUtils.jsm" FileName="Lightw~1.jsm|LightweightThemeConsumer.jsm" Attributes="0" SourcePath="firegss-win\xulrunner\modules\LightweightThemeConsumer.jsm" SelfReg="false" Sequence="86"/>
-    <ROW File="LightweightThemeManager.jsm" Component_="CertUtils.jsm" FileName="Lightw~2.jsm|LightweightThemeManager.jsm" Attributes="0" SourcePath="firegss-win\xulrunner\modules\LightweightThemeManager.jsm" SelfReg="false" Sequence="87"/>
-    <ROW File="Microformats.js" Component_="CertUtils.jsm" FileName="Microf~1.js|Microformats.js" Attributes="0" SourcePath="firegss-win\xulrunner\modules\Microformats.js" SelfReg="false" Sequence="88"/>
-    <ROW File="Microsoft.VC80.CRT.manifest" Component_="crashreporter.ini" FileName="Micros~1.man|Microsoft.VC80.CRT.manifest" Attributes="0" SourcePath="firegss-win\xulrunner\Microsoft.VC80.CRT.manifest" SelfReg="false" Sequence="77"/>
-    <ROW File="NetUtil.jsm" Component_="CertUtils.jsm" FileName="NetUtil.jsm" Attributes="0" SourcePath="firegss-win\xulrunner\modules\NetUtil.jsm" SelfReg="false" Sequence="89"/>
-    <ROW File="NetworkGeolocationProvider.js" Component_="components.list" FileName="Networ~1.js|NetworkGeolocationProvider.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\NetworkGeolocationProvider.js" SelfReg="false" Sequence="16"/>
-    <ROW File="PlacesDBUtils.jsm" Component_="CertUtils.jsm" FileName="Places~1.jsm|PlacesDBUtils.jsm" Attributes="0" SourcePath="firegss-win\xulrunner\modules\PlacesDBUtils.jsm" SelfReg="false" Sequence="90"/>
-    <ROW File="PluralForm.jsm" Component_="CertUtils.jsm" FileName="Plural~1.jsm|PluralForm.jsm" Attributes="0" SourcePath="firegss-win\xulrunner\modules\PluralForm.jsm" SelfReg="false" Sequence="91"/>
-    <ROW File="README.txt" Component_="crashreporter.ini" FileName="README.txt" Attributes="0" SourcePath="firegss-win\xulrunner\README.txt" SelfReg="false" Sequence="115"/>
-    <ROW File="SpatialNavigation.js" Component_="CertUtils.jsm" FileName="Spatia~1.js|SpatialNavigation.js" Attributes="0" SourcePath="firegss-win\xulrunner\modules\SpatialNavigation.js" SelfReg="false" Sequence="92"/>
-    <ROW File="WindowDraggingUtils.jsm" Component_="CertUtils.jsm" FileName="Window~1.jsm|WindowDraggingUtils.jsm" Attributes="0" SourcePath="firegss-win\xulrunner\modules\WindowDraggingUtils.jsm" SelfReg="false" Sequence="94"/>
-    <ROW File="XPCOMUtils.jsm" Component_="CertUtils.jsm" FileName="XPCOMU~1.jsm|XPCOMUtils.jsm" Attributes="0" SourcePath="firegss-win\xulrunner\modules\XPCOMUtils.jsm" SelfReg="false" Sequence="95"/>
-    <ROW File="XULRunner.xpt" Component_="components.list" FileName="XULRun~1.xpt|XULRunner.xpt" Attributes="0" SourcePath="firegss-win\xulrunner\components\XULRunner.xpt" SelfReg="false" Sequence="51"/>
-    <ROW File="all.js" Component_="all.js" FileName="all.js" Attributes="0" SourcePath="firegss-win\xulrunner\greprefs\all.js" SelfReg="false" Sequence="68"/>
-    <ROW File="application.ini" Component_="application.ini" FileName="applic~1.ini|application.ini" Attributes="0" SourcePath="firegss-win\application.ini" SelfReg="false" Sequence="186"/>
-    <ROW File="arrow.gif" Component_="arrow.gif" FileName="arrow.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\arrow.gif" SelfReg="false" Sequence="117"/>
-    <ROW File="arrowd.gif" Component_="arrow.gif" FileName="arrowd.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\arrowd.gif" SelfReg="false" Sequence="118"/>
-    <ROW File="brand.dtd" Component_="brand.dtd" FileName="brand.dtd" Attributes="0" SourcePath="firegss-win\chrome\locale\branding\brand.dtd" SelfReg="false" Sequence="194"/>
-    <ROW File="brand.properties" Component_="brand.dtd" FileName="brand~1.pro|brand.properties" Attributes="0" SourcePath="firegss-win\chrome\locale\branding\brand.properties" SelfReg="false" Sequence="195"/>
-    <ROW File="broken_image.png" Component_="arrow.gif" FileName="broken~1.png|broken-image.png" Attributes="0" SourcePath="firegss-win\xulrunner\res\broken-image.png" SelfReg="false" Sequence="119"/>
-    <ROW File="cert_override.txt" Component_="cert_override.txt" FileName="cert_o~1.txt|cert_override.txt" Attributes="0" SourcePath="firegss-win\defaults\profile\cert_override.txt" SelfReg="false" Sequence="200"/>
-    <ROW File="charsetData.properties" Component_="arrow.gif" FileName="charse~2.pro|charsetData.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\charsetData.properties" SelfReg="false" Sequence="121"/>
-    <ROW File="charsetalias.properties" Component_="arrow.gif" FileName="charse~1.pro|charsetalias.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\charsetalias.properties" SelfReg="false" Sequence="120"/>
-    <ROW File="chrome.manifest" Component_="chrome.manifest" FileName="chrome~1.man|chrome.manifest" Attributes="0" SourcePath="firegss-win\chrome\chrome.manifest" SelfReg="false" Sequence="188"/>
-    <ROW File="classic.jar" Component_="classic.jar" FileName="classic.jar" Attributes="0" SourcePath="firegss-win\xulrunner\chrome\classic.jar" SelfReg="false" Sequence="2"/>
-    <ROW File="classic.manifest" Component_="classic.jar" FileName="classi~1.man|classic.manifest" Attributes="0" SourcePath="firegss-win\xulrunner\chrome\classic.manifest" SelfReg="false" Sequence="3"/>
-    <ROW File="comm.jar" Component_="classic.jar" FileName="comm.jar" Attributes="0" SourcePath="firegss-win\xulrunner\chrome\comm.jar" SelfReg="false" Sequence="4"/>
-    <ROW File="comm.manifest" Component_="classic.jar" FileName="comm~1.man|comm.manifest" Attributes="0" SourcePath="firegss-win\xulrunner\chrome\comm.manifest" SelfReg="false" Sequence="5"/>
-    <ROW File="components.list" Component_="components.list" FileName="compon~1.lis|components.list" Attributes="0" SourcePath="firegss-win\xulrunner\components\components.list" SelfReg="false" Sequence="12"/>
-    <ROW File="content.jar" Component_="chrome.manifest" FileName="content.jar" Attributes="0" SourcePath="firegss-win\chrome\content.jar" SelfReg="false" Sequence="189"/>
-    <ROW File="contenteditable.css" Component_="arrow.gif" FileName="conten~1.css|contenteditable.css" Attributes="0" SourcePath="firegss-win\xulrunner\res\contenteditable.css" SelfReg="false" Sequence="122"/>
-    <ROW File="crashreporter.exe" Component_="crashreporter.exe" FileName="crashr~1.exe|crashreporter.exe" Attributes="0" SourcePath="firegss-win\xulrunner\crashreporter.exe" SelfReg="false" Sequence="52"/>
-    <ROW File="crashreporter.ini" Component_="crashreporter.ini" FileName="crashr~1.ini|crashreporter.ini" Attributes="0" SourcePath="firegss-win\xulrunner\crashreporter.ini" SelfReg="false" Sequence="53"/>
-    <ROW File="ctypes.jsm" Component_="CertUtils.jsm" FileName="ctypes.jsm" Attributes="0" SourcePath="firegss-win\xulrunner\modules\ctypes.jsm" SelfReg="false" Sequence="80"/>
-    <ROW File="debug.js" Component_="CertUtils.jsm" FileName="debug.js" Attributes="0" SourcePath="firegss-win\xulrunner\modules\debug.js" SelfReg="false" Sequence="81"/>
-    <ROW File="dependentlibs.list" Component_="crashreporter.ini" FileName="depend~1.lis|dependentlibs.list" Attributes="0" SourcePath="firegss-win\xulrunner\dependentlibs.list" SelfReg="false" Sequence="63"/>
-    <ROW File="designmode.css" Component_="arrow.gif" FileName="design~1.css|designmode.css" Attributes="0" SourcePath="firegss-win\xulrunner\res\designmode.css" SelfReg="false" Sequence="123"/>
-    <ROW File="en_US.aff" Component_="en_US.aff" FileName="en-US.aff" Attributes="0" SourcePath="firegss-win\xulrunner\dictionaries\en-US.aff" SelfReg="false" Sequence="64"/>
-    <ROW File="en_US.dic" Component_="en_US.aff" FileName="en-US.dic" Attributes="0" SourcePath="firegss-win\xulrunner\dictionaries\en-US.dic" SelfReg="false" Sequence="65"/>
-    <ROW File="en_US.jar" Component_="classic.jar" FileName="en-US.jar" Attributes="0" SourcePath="firegss-win\xulrunner\chrome\en-US.jar" SelfReg="false" Sequence="6"/>
-    <ROW File="en_US.manifest" Component_="classic.jar" FileName="en-US~1.man|en-US.manifest" Attributes="0" SourcePath="firegss-win\xulrunner\chrome\en-US.manifest" SelfReg="false" Sequence="7"/>
-    <ROW File="firegss.exe" Component_="firegss.exe" FileName="firegss.exe" Attributes="0" SourcePath="firegss-win\firegss.exe" SelfReg="false" Sequence="187"/>
-    <ROW File="firegss.js" Component_="firegss.js" FileName="firegss.js" Attributes="0" SourcePath="firegss-win\defaults\preferences\firegss.js" SelfReg="false" Sequence="198"/>
-    <ROW File="folder.png" Component_="folder.png" FileName="folder.png" Attributes="0" SourcePath="firegss-win\xulrunner\res\html\folder.png" SelfReg="false" Sequence="142"/>
-    <ROW File="forms.css" Component_="arrow.gif" FileName="forms.css" Attributes="0" SourcePath="firegss-win\xulrunner\res\forms.css" SelfReg="false" Sequence="139"/>
-    <ROW File="freebl3.chk" Component_="crashreporter.ini" FileName="freebl3.chk" Attributes="0" SourcePath="firegss-win\xulrunner\freebl3.chk" SelfReg="false" Sequence="66"/>
-    <ROW File="freebl3.dll" Component_="freebl3.dll" FileName="freebl3.dll" Attributes="0" SourcePath="firegss-win\xulrunner\freebl3.dll" SelfReg="false" Sequence="67"/>
-    <ROW File="grabber.gif" Component_="arrow.gif" FileName="grabber.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\grabber.gif" SelfReg="false" Sequence="140"/>
-    <ROW File="hiddenWindow.html" Component_="arrow.gif" FileName="hidden~1.htm|hiddenWindow.html" Attributes="0" SourcePath="firegss-win\xulrunner\res\hiddenWindow.html" SelfReg="false" Sequence="141"/>
-    <ROW File="html.css" Component_="arrow.gif" FileName="html.css" Attributes="0" SourcePath="firegss-win\xulrunner\res\html.css" SelfReg="false" Sequence="143"/>
-    <ROW File="html40Latin1.properties" Component_="html40Latin1.properties" FileName="html40~1.pro|html40Latin1.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\entityTables\html40Latin1.properties" SelfReg="false" Sequence="127"/>
-    <ROW File="html40Special.properties" Component_="html40Latin1.properties" FileName="html40~2.pro|html40Special.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\entityTables\html40Special.properties" SelfReg="false" Sequence="128"/>
-    <ROW File="html40Symbols.properties" Component_="html40Latin1.properties" FileName="html40~3.pro|html40Symbols.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\entityTables\html40Symbols.properties" SelfReg="false" Sequence="129"/>
-    <ROW File="htmlEntityVersions.properties" Component_="html40Latin1.properties" FileName="htmlEn~1.pro|htmlEntityVersions.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\entityTables\htmlEntityVersions.properties" SelfReg="false" Sequence="130"/>
-    <ROW File="javaxpcom.jar" Component_="crashreporter.ini" FileName="javaxp~1.jar|javaxpcom.jar" Attributes="0" SourcePath="firegss-win\xulrunner\javaxpcom.jar" SelfReg="false" Sequence="72"/>
-    <ROW File="javaxpcomglue.dll" Component_="javaxpcomglue.dll" FileName="javaxp~1.dll|javaxpcomglue.dll" Attributes="0" SourcePath="firegss-win\xulrunner\javaxpcomglue.dll" SelfReg="false" Sequence="73"/>
-    <ROW File="js.exe" Component_="js.exe" FileName="js.exe" Attributes="0" SourcePath="firegss-win\xulrunner\js.exe" SelfReg="false" Sequence="74"/>
-    <ROW File="js3250.dll" Component_="js3250.dll" FileName="js3250.dll" Attributes="0" SourcePath="firegss-win\xulrunner\js3250.dll" SelfReg="false" Sequence="75"/>
-    <ROW File="jsconsole_clhandler.js" Component_="components.list" FileName="jscons~1.js|jsconsole-clhandler.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\jsconsole-clhandler.js" SelfReg="false" Sequence="15"/>
-    <ROW File="langGroups.properties" Component_="arrow.gif" FileName="langGr~1.pro|langGroups.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\langGroups.properties" SelfReg="false" Sequence="144"/>
-    <ROW File="language.properties" Component_="arrow.gif" FileName="langua~1.pro|language.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\language.properties" SelfReg="false" Sequence="145"/>
-    <ROW File="loading_image.png" Component_="arrow.gif" FileName="loadin~1.png|loading-image.png" Attributes="0" SourcePath="firegss-win\xulrunner\res\loading-image.png" SelfReg="false" Sequence="146"/>
-    <ROW File="locale.jar" Component_="chrome.manifest" FileName="locale.jar" Attributes="0" SourcePath="firegss-win\chrome\locale.jar" SelfReg="false" Sequence="196"/>
-    <ROW File="localstore.rdf" Component_="localstore.rdf" FileName="locals~1.rdf|localstore.rdf" Attributes="0" SourcePath="firegss-win\xulrunner\defaults\profile\localstore.rdf" SelfReg="false" Sequence="59"/>
-    <ROW File="localstore.rdf_1" Component_="localstore.rdf_1" FileName="locals~1.rdf|localstore.rdf" Attributes="0" SourcePath="firegss-win\xulrunner\defaults\profile\US\localstore.rdf" SelfReg="false" Sequence="62"/>
-    <ROW File="logo.icns" Component_="logo.icns" FileName="logo~1.icn|logo.icns" Attributes="0" SourcePath="firegss-win\chrome\icons\default\logo.icns" SelfReg="false" Sequence="190"/>
-    <ROW File="logo.ico" Component_="logo.icns" FileName="logo.ico" Attributes="0" SourcePath="firegss-win\chrome\icons\default\logo.ico" SelfReg="false" Sequence="191"/>
-    <ROW File="logo.png" Component_="logo.icns" FileName="logo.png" Attributes="0" SourcePath="firegss-win\chrome\icons\default\logo.png" SelfReg="false" Sequence="192"/>
-    <ROW File="logo.xpm" Component_="logo.icns" FileName="logo.xpm" Attributes="0" SourcePath="firegss-win\chrome\icons\default\logo.xpm" SelfReg="false" Sequence="193"/>
-    <ROW File="mathfont.properties" Component_="mathfont.properties" FileName="mathfo~1.pro|mathfont.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\fonts\mathfont.properties" SelfReg="false" Sequence="133"/>
-    <ROW File="mathfontSTIXNonUnicode.properties" Component_="mathfont.properties" FileName="mathfo~3.pro|mathfontSTIXNonUnicode.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\fonts\mathfontSTIXNonUnicode.properties" SelfReg="false" Sequence="135"/>
-    <ROW File="mathfontSTIXSize1.properties" Component_="mathfont.properties" FileName="mathfo~4.pro|mathfontSTIXSize1.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\fonts\mathfontSTIXSize1.properties" SelfReg="false" Sequence="136"/>
-    <ROW File="mathfontStandardSymbolsL.properties" Component_="mathfont.properties" FileName="mathfo~2.pro|mathfontStandardSymbolsL.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\fonts\mathfontStandardSymbolsL.properties" SelfReg="false" Sequence="134"/>
-    <ROW File="mathfontSymbol.properties" Component_="mathfont.properties" FileName="mathfo~5.pro|mathfontSymbol.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\fonts\mathfontSymbol.properties" SelfReg="false" Sequence="137"/>
-    <ROW File="mathfontUnicode.properties" Component_="mathfont.properties" FileName="mathfo~6.pro|mathfontUnicode.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\fonts\mathfontUnicode.properties" SelfReg="false" Sequence="138"/>
-    <ROW File="mathml.css" Component_="arrow.gif" FileName="mathml.css" Attributes="0" SourcePath="firegss-win\xulrunner\res\mathml.css" SelfReg="false" Sequence="147"/>
-    <ROW File="mathml.dtd" Component_="mathml.dtd" FileName="mathml.dtd" Attributes="0" SourcePath="firegss-win\xulrunner\res\dtd\mathml.dtd" SelfReg="false" Sequence="124"/>
-    <ROW File="mathml20.properties" Component_="html40Latin1.properties" FileName="mathml~1.pro|mathml20.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\entityTables\mathml20.properties" SelfReg="false" Sequence="131"/>
-    <ROW File="mozcpp19.dll" Component_="mozcpp19.dll" FileName="mozcpp19.dll" Attributes="0" SourcePath="firegss-win\xulrunner\mozcpp19.dll" SelfReg="false" Sequence="96"/>
-    <ROW File="mozcrt19.dll" Component_="mozcrt19.dll" FileName="mozcrt19.dll" Attributes="0" SourcePath="firegss-win\xulrunner\mozcrt19.dll" SelfReg="false" Sequence="97"/>
-    <ROW File="mozctl.dll" Component_="mozctl.dll" FileName="mozctl.dll" Attributes="0" SourcePath="firegss-win\xulrunner\mozctl.dll" SelfReg="false" Sequence="98"/>
-    <ROW File="mozctlx.dll" Component_="mozctlx.dll" FileName="mozctlx.dll" Attributes="0" SourcePath="firegss-win\xulrunner\mozctlx.dll" SelfReg="false" Sequence="99"/>
-    <ROW File="msvcm80.dll" Component_="msvcm80.dll" FileName="msvcm80.dll" Attributes="0" SourcePath="firegss-win\xulrunner\msvcm80.dll" SelfReg="false" Sequence="100"/>
-    <ROW File="msvcp80.dll" Component_="msvcp80.dll" FileName="msvcp80.dll" Attributes="0" SourcePath="firegss-win\xulrunner\msvcp80.dll" SelfReg="false" Sequence="101"/>
-    <ROW File="msvcr80.dll" Component_="msvcr80.dll" FileName="msvcr80.dll" Attributes="0" SourcePath="firegss-win\xulrunner\msvcr80.dll" SelfReg="false" Sequence="102"/>
-    <ROW File="npnul32.dll" Component_="npnul32.dll" FileName="npnul32.dll" Attributes="0" SourcePath="firegss-win\xulrunner\plugins\npnul32.dll" SelfReg="false" Sequence="114"/>
-    <ROW File="nsAddonRepository.js" Component_="components.list" FileName="nsAddo~1.js|nsAddonRepository.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsAddonRepository.js" SelfReg="false" Sequence="17"/>
-    <ROW File="nsBadCertHandler.js" Component_="components.list" FileName="nsBadC~1.js|nsBadCertHandler.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsBadCertHandler.js" SelfReg="false" Sequence="18"/>
-    <ROW File="nsBlocklistService.js" Component_="components.list" FileName="nsBloc~1.js|nsBlocklistService.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsBlocklistService.js" SelfReg="false" Sequence="19"/>
-    <ROW File="nsContentDispatchChooser.js" Component_="components.list" FileName="nsCont~1.js|nsContentDispatchChooser.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsContentDispatchChooser.js" SelfReg="false" Sequence="20"/>
-    <ROW File="nsContentPrefService.js" Component_="components.list" FileName="nsCont~2.js|nsContentPrefService.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsContentPrefService.js" SelfReg="false" Sequence="21"/>
-    <ROW File="nsDefaultCLH.js" Component_="components.list" FileName="nsDefa~1.js|nsDefaultCLH.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsDefaultCLH.js" SelfReg="false" Sequence="22"/>
-    <ROW File="nsDownloadManagerUI.js" Component_="components.list" FileName="nsDown~1.js|nsDownloadManagerUI.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsDownloadManagerUI.js" SelfReg="false" Sequence="23"/>
-    <ROW File="nsExtensionManager.js" Component_="components.list" FileName="nsExte~1.js|nsExtensionManager.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsExtensionManager.js" SelfReg="false" Sequence="24"/>
-    <ROW File="nsFormAutoComplete.js" Component_="components.list" FileName="nsForm~1.js|nsFormAutoComplete.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsFormAutoComplete.js" SelfReg="false" Sequence="25"/>
-    <ROW File="nsHandlerService.js" Component_="components.list" FileName="nsHand~1.js|nsHandlerService.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsHandlerService.js" SelfReg="false" Sequence="26"/>
-    <ROW File="nsHelperAppDlg.js" Component_="components.list" FileName="nsHelp~1.js|nsHelperAppDlg.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsHelperAppDlg.js" SelfReg="false" Sequence="27"/>
-    <ROW File="nsINIProcessor.js" Component_="components.list" FileName="nsINIP~1.js|nsINIProcessor.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsINIProcessor.js" SelfReg="false" Sequence="28"/>
-    <ROW File="nsLivemarkService.js" Component_="components.list" FileName="nsLive~1.js|nsLivemarkService.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsLivemarkService.js" SelfReg="false" Sequence="29"/>
-    <ROW File="nsLoginInfo.js" Component_="components.list" FileName="nsLogi~1.js|nsLoginInfo.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsLoginInfo.js" SelfReg="false" Sequence="30"/>
-    <ROW File="nsLoginManager.js" Component_="components.list" FileName="nsLogi~2.js|nsLoginManager.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsLoginManager.js" SelfReg="false" Sequence="31"/>
-    <ROW File="nsLoginManagerPrompter.js" Component_="components.list" FileName="nsLogi~3.js|nsLoginManagerPrompter.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsLoginManagerPrompter.js" SelfReg="false" Sequence="32"/>
-    <ROW File="nsPlacesAutoComplete.js" Component_="components.list" FileName="nsPlac~1.js|nsPlacesAutoComplete.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsPlacesAutoComplete.js" SelfReg="false" Sequence="33"/>
-    <ROW File="nsPlacesDBFlush.js" Component_="components.list" FileName="nsPlac~2.js|nsPlacesDBFlush.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsPlacesDBFlush.js" SelfReg="false" Sequence="34"/>
-    <ROW File="nsProgressDialog.js" Component_="components.list" FileName="nsProg~1.js|nsProgressDialog.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsProgressDialog.js" SelfReg="false" Sequence="35"/>
-    <ROW File="nsProxyAutoConfig.js" Component_="components.list" FileName="nsProx~1.js|nsProxyAutoConfig.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsProxyAutoConfig.js" SelfReg="false" Sequence="36"/>
-    <ROW File="nsSearchService.js" Component_="components.list" FileName="nsSear~1.js|nsSearchService.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsSearchService.js" SelfReg="false" Sequence="37"/>
-    <ROW File="nsSearchSuggestions.js" Component_="components.list" FileName="nsSear~2.js|nsSearchSuggestions.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsSearchSuggestions.js" SelfReg="false" Sequence="38"/>
-    <ROW File="nsTaggingService.js" Component_="components.list" FileName="nsTagg~1.js|nsTaggingService.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsTaggingService.js" SelfReg="false" Sequence="39"/>
-    <ROW File="nsTryToClose.js" Component_="components.list" FileName="nsTryT~1.js|nsTryToClose.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsTryToClose.js" SelfReg="false" Sequence="40"/>
-    <ROW File="nsURLFormatter.js" Component_="components.list" FileName="nsURLF~1.js|nsURLFormatter.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsURLFormatter.js" SelfReg="false" Sequence="44"/>
-    <ROW File="nsUpdateService.js" Component_="components.list" FileName="nsUpda~1.js|nsUpdateService.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsUpdateService.js" SelfReg="false" Sequence="41"/>
-    <ROW File="nsUpdateServiceStub.js" Component_="components.list" FileName="nsUpda~2.js|nsUpdateServiceStub.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsUpdateServiceStub.js" SelfReg="false" Sequence="42"/>
-    <ROW File="nsUpdateTimerManager.js" Component_="components.list" FileName="nsUpda~3.js|nsUpdateTimerManager.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsUpdateTimerManager.js" SelfReg="false" Sequence="43"/>
-    <ROW File="nsWebHandlerApp.js" Component_="components.list" FileName="nsWebH~1.js|nsWebHandlerApp.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsWebHandlerApp.js" SelfReg="false" Sequence="45"/>
-    <ROW File="nsXULAppInstall.js" Component_="components.list" FileName="nsXULA~1.js|nsXULAppInstall.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\nsXULAppInstall.js" SelfReg="false" Sequence="46"/>
-    <ROW File="nspr4.dll" Component_="nspr4.dll" FileName="nspr4.dll" Attributes="0" SourcePath="firegss-win\xulrunner\nspr4.dll" SelfReg="false" Sequence="104"/>
-    <ROW File="nspr_config" Component_="crashreporter.ini" FileName="nspr-c~1|nspr-config" Attributes="0" SourcePath="firegss-win\xulrunner\nspr-config" SelfReg="false" Sequence="103"/>
-    <ROW File="nss3.dll" Component_="nss3.dll" FileName="nss3.dll" Attributes="0" SourcePath="firegss-win\xulrunner\nss3.dll" SelfReg="false" Sequence="105"/>
-    <ROW File="nssckbi.dll" Component_="nssckbi.dll" FileName="nssckbi.dll" Attributes="0" SourcePath="firegss-win\xulrunner\nssckbi.dll" SelfReg="false" Sequence="106"/>
-    <ROW File="nssdbm3.chk" Component_="crashreporter.ini" FileName="nssdbm3.chk" Attributes="0" SourcePath="firegss-win\xulrunner\nssdbm3.chk" SelfReg="false" Sequence="107"/>
-    <ROW File="nssdbm3.dll" Component_="nssdbm3.dll" FileName="nssdbm3.dll" Attributes="0" SourcePath="firegss-win\xulrunner\nssdbm3.dll" SelfReg="false" Sequence="108"/>
-    <ROW File="nssutil3.dll" Component_="nssutil3.dll" FileName="nssutil3.dll" Attributes="0" SourcePath="firegss-win\xulrunner\nssutil3.dll" SelfReg="false" Sequence="109"/>
-    <ROW File="pippki.jar" Component_="classic.jar" FileName="pippki.jar" Attributes="0" SourcePath="firegss-win\xulrunner\chrome\pippki.jar" SelfReg="false" Sequence="8"/>
-    <ROW File="pippki.manifest" Component_="classic.jar" FileName="pippki~1.man|pippki.manifest" Attributes="0" SourcePath="firegss-win\xulrunner\chrome\pippki.manifest" SelfReg="false" Sequence="9"/>
-    <ROW File="platform.ini" Component_="crashreporter.ini" FileName="platform.ini" Attributes="0" SourcePath="firegss-win\xulrunner\platform.ini" SelfReg="false" Sequence="110"/>
-    <ROW File="platform.js" Component_="platform.js" FileName="platform.js" Attributes="0" SourcePath="firegss-win\xulrunner\defaults\autoconfig\platform.js" SelfReg="false" Sequence="54"/>
-    <ROW File="plc4.dll" Component_="plc4.dll" FileName="plc4.dll" Attributes="0" SourcePath="firegss-win\xulrunner\plc4.dll" SelfReg="false" Sequence="111"/>
-    <ROW File="plds4.dll" Component_="plds4.dll" FileName="plds4.dll" Attributes="0" SourcePath="firegss-win\xulrunner\plds4.dll" SelfReg="false" Sequence="112"/>
-    <ROW File="pluginGlue.js" Component_="components.list" FileName="plugin~1.js|pluginGlue.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\pluginGlue.js" SelfReg="false" Sequence="47"/>
-    <ROW File="plugin_container.exe" Component_="plugin_container.exe" FileName="plugin~1.exe|plugin-container.exe" Attributes="0" SourcePath="firegss-win\xulrunner\plugin-container.exe" SelfReg="false" Sequence="113"/>
-    <ROW File="prefcalls.js" Component_="platform.js" FileName="prefca~1.js|prefcalls.js" Attributes="0" SourcePath="firegss-win\xulrunner\defaults\autoconfig\prefcalls.js" SelfReg="false" Sequence="55"/>
-    <ROW File="prefs.js" Component_="firegss.js" FileName="prefs.js" Attributes="0" SourcePath="firegss-win\defaults\preferences\prefs.js" SelfReg="false" Sequence="199"/>
-    <ROW File="quirk.css" Component_="arrow.gif" FileName="quirk.css" Attributes="0" SourcePath="firegss-win\xulrunner\res\quirk.css" SelfReg="false" Sequence="148"/>
-    <ROW File="redit.exe" Component_="redit.exe" FileName="redit.exe" Attributes="0" SourcePath="firegss-win\xulrunner\redit.exe" SelfReg="false" Sequence="116"/>
-    <ROW File="security_prefs.js" Component_="all.js" FileName="securi~1.js|security-prefs.js" Attributes="0" SourcePath="firegss-win\xulrunner\greprefs\security-prefs.js" SelfReg="false" Sequence="69"/>
-    <ROW File="skin.jar" Component_="chrome.manifest" FileName="skin.jar" Attributes="0" SourcePath="firegss-win\chrome\skin.jar" SelfReg="false" Sequence="197"/>
-    <ROW File="smime3.dll" Component_="smime3.dll" FileName="smime3.dll" Attributes="0" SourcePath="firegss-win\xulrunner\smime3.dll" SelfReg="false" Sequence="171"/>
-    <ROW File="softokn3.chk" Component_="crashreporter.ini" FileName="softokn3.chk" Attributes="0" SourcePath="firegss-win\xulrunner\softokn3.chk" SelfReg="false" Sequence="172"/>
-    <ROW File="softokn3.dll" Component_="softokn3.dll" FileName="softokn3.dll" Attributes="0" SourcePath="firegss-win\xulrunner\softokn3.dll" SelfReg="false" Sequence="173"/>
-    <ROW File="sqlite3.dll" Component_="sqlite3.dll" FileName="sqlite3.dll" Attributes="0" SourcePath="firegss-win\xulrunner\sqlite3.dll" SelfReg="false" Sequence="174"/>
-    <ROW File="ssl3.dll" Component_="ssl3.dll" FileName="ssl3.dll" Attributes="0" SourcePath="firegss-win\xulrunner\ssl3.dll" SelfReg="false" Sequence="175"/>
-    <ROW File="storage_Legacy.js" Component_="components.list" FileName="storag~1.js|storage-Legacy.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\storage-Legacy.js" SelfReg="false" Sequence="48"/>
-    <ROW File="storage_mozStorage.js" Component_="components.list" FileName="storag~2.js|storage-mozStorage.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\storage-mozStorage.js" SelfReg="false" Sequence="49"/>
-    <ROW File="svg.css" Component_="arrow.gif" FileName="svg.css" Attributes="0" SourcePath="firegss-win\xulrunner\res\svg.css" SelfReg="false" Sequence="149"/>
-    <ROW File="table_add_column_after.gif" Component_="arrow.gif" FileName="table-~3.gif|table-add-column-after.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-add-column-after.gif" SelfReg="false" Sequence="152"/>
-    <ROW File="table_add_column_after_active.gif" Component_="arrow.gif" FileName="table-~1.gif|table-add-column-after-active.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-add-column-after-active.gif" SelfReg="false" Sequence="150"/>
-    <ROW File="table_add_column_after_hover.gif" Component_="arrow.gif" FileName="table-~2.gif|table-add-column-after-hover.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-add-column-after-hover.gif" SelfReg="false" Sequence="151"/>
-    <ROW File="table_add_column_before.gif" Component_="arrow.gif" FileName="table-~6.gif|table-add-column-before.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-add-column-before.gif" SelfReg="false" Sequence="155"/>
-    <ROW File="table_add_column_before_active.gif" Component_="arrow.gif" FileName="table-~4.gif|table-add-column-before-active.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-add-column-before-active.gif" SelfReg="false" Sequence="153"/>
-    <ROW File="table_add_column_before_hover.gif" Component_="arrow.gif" FileName="table-~5.gif|table-add-column-before-hover.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-add-column-before-hover.gif" SelfReg="false" Sequence="154"/>
-    <ROW File="table_add_row_after.gif" Component_="arrow.gif" FileName="table-~9.gif|table-add-row-after.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-add-row-after.gif" SelfReg="false" Sequence="158"/>
-    <ROW File="table_add_row_after_active.gif" Component_="arrow.gif" FileName="table-~7.gif|table-add-row-after-active.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-add-row-after-active.gif" SelfReg="false" Sequence="156"/>
-    <ROW File="table_add_row_after_hover.gif" Component_="arrow.gif" FileName="table-~8.gif|table-add-row-after-hover.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-add-row-after-hover.gif" SelfReg="false" Sequence="157"/>
-    <ROW File="table_add_row_before.gif" Component_="arrow.gif" FileName="table~12.gif|table-add-row-before.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-add-row-before.gif" SelfReg="false" Sequence="161"/>
-    <ROW File="table_add_row_before_active.gif" Component_="arrow.gif" FileName="table~10.gif|table-add-row-before-active.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-add-row-before-active.gif" SelfReg="false" Sequence="159"/>
-    <ROW File="table_add_row_before_hover.gif" Component_="arrow.gif" FileName="table~11.gif|table-add-row-before-hover.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-add-row-before-hover.gif" SelfReg="false" Sequence="160"/>
-    <ROW File="table_remove_column.gif" Component_="arrow.gif" FileName="table~15.gif|table-remove-column.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-remove-column.gif" SelfReg="false" Sequence="164"/>
-    <ROW File="table_remove_column_active.gif" Component_="arrow.gif" FileName="table~13.gif|table-remove-column-active.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-remove-column-active.gif" SelfReg="false" Sequence="162"/>
-    <ROW File="table_remove_column_hover.gif" Component_="arrow.gif" FileName="table~14.gif|table-remove-column-hover.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-remove-column-hover.gif" SelfReg="false" Sequence="163"/>
-    <ROW File="table_remove_row.gif" Component_="arrow.gif" FileName="table~18.gif|table-remove-row.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-remove-row.gif" SelfReg="false" Sequence="167"/>
-    <ROW File="table_remove_row_active.gif" Component_="arrow.gif" FileName="table~16.gif|table-remove-row-active.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-remove-row-active.gif" SelfReg="false" Sequence="165"/>
-    <ROW File="table_remove_row_hover.gif" Component_="arrow.gif" FileName="table~17.gif|table-remove-row-hover.gif" Attributes="0" SourcePath="firegss-win\xulrunner\res\table-remove-row-hover.gif" SelfReg="false" Sequence="166"/>
-    <ROW File="toolkit.jar" Component_="classic.jar" FileName="toolkit.jar" Attributes="0" SourcePath="firegss-win\xulrunner\chrome\toolkit.jar" SelfReg="false" Sequence="10"/>
-    <ROW File="toolkit.manifest" Component_="classic.jar" FileName="toolki~1.man|toolkit.manifest" Attributes="0" SourcePath="firegss-win\xulrunner\chrome\toolkit.manifest" SelfReg="false" Sequence="11"/>
-    <ROW File="transliterate.properties" Component_="html40Latin1.properties" FileName="transl~1.pro|transliterate.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\entityTables\transliterate.properties" SelfReg="false" Sequence="132"/>
-    <ROW File="txEXSLTRegExFunctions.js" Component_="components.list" FileName="txEXSL~1.js|txEXSLTRegExFunctions.js" Attributes="0" SourcePath="firegss-win\xulrunner\components\txEXSLTRegExFunctions.js" SelfReg="false" Sequence="50"/>
-    <ROW File="ua.css" Component_="arrow.gif" FileName="ua.css" Attributes="0" SourcePath="firegss-win\xulrunner\res\ua.css" SelfReg="false" Sequence="168"/>
-    <ROW File="update.locale" Component_="crashreporter.ini" FileName="update~1.loc|update.locale" Attributes="0" SourcePath="firegss-win\xulrunner\update.locale" SelfReg="false" Sequence="176"/>
-    <ROW File="updater.exe" Component_="updater.exe" FileName="updater.exe" Attributes="0" SourcePath="firegss-win\xulrunner\updater.exe" SelfReg="false" Sequence="177"/>
-    <ROW File="userChrome_example.css" Component_="userChrome_example.css" FileName="userCh~1.css|userChrome-example.css" Attributes="0" SourcePath="firegss-win\xulrunner\defaults\profile\chrome\userChrome-example.css" SelfReg="false" Sequence="57"/>
-    <ROW File="userChrome_example.css_1" Component_="userChrome_example.css_1" FileName="userCh~1.css|userChrome-example.css" Attributes="0" SourcePath="firegss-win\xulrunner\defaults\profile\US\chrome\userChrome-example.css" SelfReg="false" Sequence="60"/>
-    <ROW File="userContent_example.css" Component_="userChrome_example.css" FileName="userCo~1.css|userContent-example.css" Attributes="0" SourcePath="firegss-win\xulrunner\defaults\profile\chrome\userContent-example.css" SelfReg="false" Sequence="58"/>
-    <ROW File="userContent_example.css_1" Component_="userChrome_example.css_1" FileName="userCo~1.css|userContent-example.css" Attributes="0" SourcePath="firegss-win\xulrunner\defaults\profile\US\chrome\userContent-example.css" SelfReg="false" Sequence="61"/>
-    <ROW File="utils.js" Component_="CertUtils.jsm" FileName="utils.js" Attributes="0" SourcePath="firegss-win\xulrunner\modules\utils.js" SelfReg="false" Sequence="93"/>
-    <ROW File="viewsource.css" Component_="arrow.gif" FileName="viewso~1.css|viewsource.css" Attributes="0" SourcePath="firegss-win\xulrunner\res\viewsource.css" SelfReg="false" Sequence="169"/>
-    <ROW File="wincharset.properties" Component_="arrow.gif" FileName="wincha~1.pro|wincharset.properties" Attributes="0" SourcePath="firegss-win\xulrunner\res\wincharset.properties" SelfReg="false" Sequence="170"/>
-    <ROW File="xhtml11.dtd" Component_="mathml.dtd" FileName="xhtml11.dtd" Attributes="0" SourcePath="firegss-win\xulrunner\res\dtd\xhtml11.dtd" SelfReg="false" Sequence="125"/>
-    <ROW File="xpcom.dll" Component_="xpcom.dll" FileName="xpcom.dll" Attributes="0" SourcePath="firegss-win\xulrunner\xpcom.dll" SelfReg="false" Sequence="178"/>
-    <ROW File="xpcshell.exe" Component_="xpcshell.exe" FileName="xpcshell.exe" Attributes="0" SourcePath="firegss-win\xulrunner\xpcshell.exe" SelfReg="false" Sequence="179"/>
-    <ROW File="xpidl.exe" Component_="xpidl.exe" FileName="xpidl.exe" Attributes="0" SourcePath="firegss-win\xulrunner\xpidl.exe" SelfReg="false" Sequence="180"/>
-    <ROW File="xpinstall.js" Component_="all.js" FileName="xpinst~1.js|xpinstall.js" Attributes="0" SourcePath="firegss-win\xulrunner\greprefs\xpinstall.js" SelfReg="false" Sequence="70"/>
-    <ROW File="xpt_dump.exe" Component_="xpt_dump.exe" FileName="xpt_dump.exe" Attributes="0" SourcePath="firegss-win\xulrunner\xpt_dump.exe" SelfReg="false" Sequence="181"/>
-    <ROW File="xpt_link.exe" Component_="xpt_link.exe" FileName="xpt_link.exe" Attributes="0" SourcePath="firegss-win\xulrunner\xpt_link.exe" SelfReg="false" Sequence="182"/>
-    <ROW File="xul.dll" Component_="xul.dll" FileName="xul.dll" Attributes="0" SourcePath="firegss-win\xulrunner\xul.dll" SelfReg="false" Sequence="183"/>
-    <ROW File="xulrunner.exe" Component_="xulrunner.exe" FileName="xulrun~2.exe|xulrunner.exe" Attributes="0" SourcePath="firegss-win\xulrunner\xulrunner.exe" SelfReg="false" Sequence="185"/>
-    <ROW File="xulrunner.js" Component_="xulrunner.js" FileName="xulrun~1.js|xulrunner.js" Attributes="0" SourcePath="firegss-win\xulrunner\defaults\pref\xulrunner.js" SelfReg="false" Sequence="56"/>
-    <ROW File="xulrunner_stub.exe" Component_="xulrunner_stub.exe" FileName="xulrun~1.exe|xulrunner-stub.exe" Attributes="0" SourcePath="firegss-win\xulrunner\xulrunner-stub.exe" SelfReg="false" Sequence="184"/>
+    <ROW File="AccessibleMarshal.dll" Component_="AccessibleMarshal.dll" FileName="Access~1.dll|AccessibleMarshal.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\AccessibleMarshal.dll" SelfReg="false" Sequence="15"/>
+    <ROW File="CertUtils.jsm" Component_="CertUtils.jsm" FileName="CertUt~1.jsm|CertUtils.jsm" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\CertUtils.jsm" SelfReg="false" Sequence="92"/>
+    <ROW File="CrashSubmit.jsm" Component_="CertUtils.jsm" FileName="CrashS~1.jsm|CrashSubmit.jsm" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\CrashSubmit.jsm" SelfReg="false" Sequence="93"/>
+    <ROW File="DownloadLastDir.jsm" Component_="CertUtils.jsm" FileName="Downlo~1.jsm|DownloadLastDir.jsm" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\DownloadLastDir.jsm" SelfReg="false" Sequence="96"/>
+    <ROW File="DownloadUtils.jsm" Component_="CertUtils.jsm" FileName="Downlo~2.jsm|DownloadUtils.jsm" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\DownloadUtils.jsm" SelfReg="false" Sequence="97"/>
+    <ROW File="EditorOverride.css" Component_="arrow.gif" FileName="Editor~1.css|EditorOverride.css" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\EditorOverride.css" SelfReg="false" Sequence="140"/>
+    <ROW File="FeedProcessor.js" Component_="components.list" FileName="FeedPr~1.js|FeedProcessor.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\FeedProcessor.js" SelfReg="false" Sequence="27"/>
+    <ROW File="FileUtils.jsm" Component_="CertUtils.jsm" FileName="FileUt~1.jsm|FileUtils.jsm" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\FileUtils.jsm" SelfReg="false" Sequence="98"/>
+    <ROW File="GPSDGeolocationProvider.js" Component_="components.list" FileName="GPSDGe~1.js|GPSDGeolocationProvider.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\GPSDGeolocationProvider.js" SelfReg="false" Sequence="28"/>
+    <ROW File="IA2Marshal.dll" Component_="IA2Marshal.dll" FileName="IA2Mar~1.dll|IA2Marshal.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\IA2Marshal.dll" SelfReg="false" Sequence="85"/>
+    <ROW File="ISO8601DateUtils.jsm" Component_="CertUtils.jsm" FileName="ISO860~1.jsm|ISO8601DateUtils.jsm" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\ISO8601DateUtils.jsm" SelfReg="false" Sequence="99"/>
+    <ROW File="LICENSE" Component_="crashreporter.ini" FileName="LICENSE" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\LICENSE" SelfReg="false" Sequence="90"/>
+    <ROW File="LightweightThemeConsumer.jsm" Component_="CertUtils.jsm" FileName="Lightw~1.jsm|LightweightThemeConsumer.jsm" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\LightweightThemeConsumer.jsm" SelfReg="false" Sequence="100"/>
+    <ROW File="LightweightThemeManager.jsm" Component_="CertUtils.jsm" FileName="Lightw~2.jsm|LightweightThemeManager.jsm" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\LightweightThemeManager.jsm" SelfReg="false" Sequence="101"/>
+    <ROW File="Microformats.js" Component_="CertUtils.jsm" FileName="Microf~1.js|Microformats.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\Microformats.js" SelfReg="false" Sequence="102"/>
+    <ROW File="Microsoft.VC80.CRT.manifest" Component_="crashreporter.ini" FileName="Micros~1.man|Microsoft.VC80.CRT.manifest" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\Microsoft.VC80.CRT.manifest" SelfReg="false" Sequence="91"/>
+    <ROW File="NetUtil.jsm" Component_="CertUtils.jsm" FileName="NetUtil.jsm" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\NetUtil.jsm" SelfReg="false" Sequence="103"/>
+    <ROW File="NetworkGeolocationProvider.js" Component_="components.list" FileName="Networ~1.js|NetworkGeolocationProvider.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\NetworkGeolocationProvider.js" SelfReg="false" Sequence="30"/>
+    <ROW File="PlacesDBUtils.jsm" Component_="CertUtils.jsm" FileName="Places~1.jsm|PlacesDBUtils.jsm" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\PlacesDBUtils.jsm" SelfReg="false" Sequence="104"/>
+    <ROW File="PluralForm.jsm" Component_="CertUtils.jsm" FileName="Plural~1.jsm|PluralForm.jsm" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\PluralForm.jsm" SelfReg="false" Sequence="105"/>
+    <ROW File="README.txt" Component_="crashreporter.ini" FileName="README.txt" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\README.txt" SelfReg="false" Sequence="129"/>
+    <ROW File="SpatialNavigation.js" Component_="CertUtils.jsm" FileName="Spatia~1.js|SpatialNavigation.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\SpatialNavigation.js" SelfReg="false" Sequence="106"/>
+    <ROW File="WindowDraggingUtils.jsm" Component_="CertUtils.jsm" FileName="Window~1.jsm|WindowDraggingUtils.jsm" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\WindowDraggingUtils.jsm" SelfReg="false" Sequence="108"/>
+    <ROW File="XPCOMUtils.jsm" Component_="CertUtils.jsm" FileName="XPCOMU~1.jsm|XPCOMUtils.jsm" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\XPCOMUtils.jsm" SelfReg="false" Sequence="109"/>
+    <ROW File="XULRunner.xpt" Component_="components.list" FileName="XULRun~1.xpt|XULRunner.xpt" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\XULRunner.xpt" SelfReg="false" Sequence="65"/>
+    <ROW File="all.js" Component_="all.js" FileName="all.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\greprefs\all.js" SelfReg="false" Sequence="82"/>
+    <ROW File="application.ini" Component_="application.ini" FileName="applic~1.ini|application.ini" Attributes="0" SourcePath="mynetworkfolders-win\application.ini" SelfReg="false" Sequence="1"/>
+    <ROW File="arrow.gif" Component_="arrow.gif" FileName="arrow.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\arrow.gif" SelfReg="false" Sequence="131"/>
+    <ROW File="arrowd.gif" Component_="arrow.gif" FileName="arrowd.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\arrowd.gif" SelfReg="false" Sequence="132"/>
+    <ROW File="brand.dtd" Component_="brand.dtd" FileName="brand.dtd" Attributes="0" SourcePath="mynetworkfolders-win\chrome\locale\branding\brand.dtd" SelfReg="false" Sequence="9"/>
+    <ROW File="brand.properties" Component_="brand.dtd" FileName="brand~1.pro|brand.properties" Attributes="0" SourcePath="mynetworkfolders-win\chrome\locale\branding\brand.properties" SelfReg="false" Sequence="10"/>
+    <ROW File="broken_image.png" Component_="arrow.gif" FileName="broken~1.png|broken-image.png" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\broken-image.png" SelfReg="false" Sequence="133"/>
+    <ROW File="charsetData.properties" Component_="arrow.gif" FileName="charse~2.pro|charsetData.properties" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\charsetData.properties" SelfReg="false" Sequence="135"/>
+    <ROW File="charsetalias.properties" Component_="arrow.gif" FileName="charse~1.pro|charsetalias.properties" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\charsetalias.properties" SelfReg="false" Sequence="134"/>
+    <ROW File="chrome.manifest" Component_="chrome.manifest" FileName="chrome~1.man|chrome.manifest" Attributes="0" SourcePath="mynetworkfolders-win\chrome\chrome.manifest" SelfReg="false" Sequence="3"/>
+    <ROW File="classic.jar" Component_="classic.jar" FileName="classic.jar" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\chrome\classic.jar" SelfReg="false" Sequence="16"/>
+    <ROW File="classic.manifest" Component_="classic.jar" FileName="classi~1.man|classic.manifest" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\chrome\classic.manifest" SelfReg="false" Sequence="17"/>
+    <ROW File="comm.jar" Component_="classic.jar" FileName="comm.jar" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\chrome\comm.jar" SelfReg="false" Sequence="18"/>
+    <ROW File="comm.manifest" Component_="classic.jar" FileName="comm~1.man|comm.manifest" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\chrome\comm.manifest" SelfReg="false" Sequence="19"/>
+    <ROW File="components.list" Component_="components.list" FileName="compon~1.lis|components.list" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\components.list" SelfReg="false" Sequence="26"/>
+    <ROW File="content.jar" Component_="chrome.manifest" FileName="content.jar" Attributes="0" SourcePath="mynetworkfolders-win\chrome\content.jar" SelfReg="false" Sequence="4"/>
+    <ROW File="contenteditable.css" Component_="arrow.gif" FileName="conten~1.css|contenteditable.css" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\contenteditable.css" SelfReg="false" Sequence="136"/>
+    <ROW File="crashreporter.exe" Component_="crashreporter.exe" FileName="crashr~1.exe|crashreporter.exe" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\crashreporter.exe" SelfReg="false" Sequence="66"/>
+    <ROW File="crashreporter.ini" Component_="crashreporter.ini" FileName="crashr~1.ini|crashreporter.ini" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\crashreporter.ini" SelfReg="false" Sequence="67"/>
+    <ROW File="ctypes.jsm" Component_="CertUtils.jsm" FileName="ctypes.jsm" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\ctypes.jsm" SelfReg="false" Sequence="94"/>
+    <ROW File="debug.js" Component_="CertUtils.jsm" FileName="debug.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\debug.js" SelfReg="false" Sequence="95"/>
+    <ROW File="dependentlibs.list" Component_="crashreporter.ini" FileName="depend~1.lis|dependentlibs.list" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\dependentlibs.list" SelfReg="false" Sequence="77"/>
+    <ROW File="designmode.css" Component_="arrow.gif" FileName="design~1.css|designmode.css" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\designmode.css" SelfReg="false" Sequence="137"/>
+    <ROW File="en_US.aff" Component_="en_US.aff" FileName="en-US.aff" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\dictionaries\en-US.aff" SelfReg="false" Sequence="78"/>
+    <ROW File="en_US.dic" Component_="en_US.aff" FileName="en-US.dic" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\dictionaries\en-US.dic" SelfReg="false" Sequence="79"/>
+    <ROW File="en_US.jar" Component_="classic.jar" FileName="en-US.jar" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\chrome\en-US.jar" SelfReg="false" Sequence="20"/>
+    <ROW File="en_US.manifest" Component_="classic.jar" FileName="en-US~1.man|en-US.manifest" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\chrome\en-US.manifest" SelfReg="false" Sequence="21"/>
+    <ROW File="firegss.js" Component_="firegss.js" FileName="firegss.js" Attributes="0" SourcePath="mynetworkfolders-win\defaults\preferences\firegss.js" SelfReg="false" Sequence="13"/>
+    <ROW File="folder.png" Component_="folder.png" FileName="folder.png" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\html\folder.png" SelfReg="false" Sequence="156"/>
+    <ROW File="forms.css" Component_="arrow.gif" FileName="forms.css" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\forms.css" SelfReg="false" Sequence="153"/>
+    <ROW File="freebl3.chk" Component_="crashreporter.ini" FileName="freebl3.chk" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\freebl3.chk" SelfReg="false" Sequence="80"/>
+    <ROW File="freebl3.dll" Component_="freebl3.dll" FileName="freebl3.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\freebl3.dll" SelfReg="false" Sequence="81"/>
+    <ROW File="grabber.gif" Component_="arrow.gif" FileName="grabber.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\grabber.gif" SelfReg="false" Sequence="154"/>
+    <ROW File="hiddenWindow.html" Component_="arrow.gif" FileName="hidden~1.htm|hiddenWindow.html" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\hiddenWindow.html" SelfReg="false" Sequence="155"/>
+    <ROW File="html.css" Component_="arrow.gif" FileName="html.css" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\html.css" SelfReg="false" Sequence="157"/>
+    <ROW File="html40Latin1.properties" Component_="html40Latin1.properties" FileName="html40~1.pro|html40Latin1.properties" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\entityTables\html40Latin1.properties" SelfReg="false" Sequence="141"/>
+    <ROW File="html40Special.properties" Component_="html40Latin1.properties" FileName="html40~2.pro|html40Special.properties" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\entityTables\html40Special.properties" SelfReg="false" Sequence="142"/>
+    <ROW File="html40Symbols.properties" Component_="html40Latin1.properties" FileName="html40~3.pro|html40Symbols.properties" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\entityTables\html40Symbols.properties" SelfReg="false" Sequence="143"/>
+    <ROW File="htmlEntityVersions.properties" Component_="html40Latin1.properties" FileName="htmlEn~1.pro|htmlEntityVersions.properties" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\entityTables\htmlEntityVersions.properties" SelfReg="false" Sequence="144"/>
+    <ROW File="javaxpcom.jar" Component_="crashreporter.ini" FileName="javaxp~1.jar|javaxpcom.jar" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\javaxpcom.jar" SelfReg="false" Sequence="86"/>
+    <ROW File="javaxpcomglue.dll" Component_="javaxpcomglue.dll" FileName="javaxp~1.dll|javaxpcomglue.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\javaxpcomglue.dll" SelfReg="false" Sequence="87"/>
+    <ROW File="js.exe" Component_="js.exe" FileName="js.exe" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\js.exe" SelfReg="false" Sequence="88"/>
+    <ROW File="js3250.dll" Component_="js3250.dll" FileName="js3250.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\js3250.dll" SelfReg="false" Sequence="89"/>
+    <ROW File="jsconsole_clhandler.js" Component_="components.list" FileName="jscons~1.js|jsconsole-clhandler.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\jsconsole-clhandler.js" SelfReg="false" Sequence="29"/>
+    <ROW File="langGroups.properties" Component_="arrow.gif" FileName="langGr~1.pro|langGroups.properties" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\langGroups.properties" SelfReg="false" Sequence="158"/>
+    <ROW File="language.properties" Component_="arrow.gif" FileName="langua~1.pro|language.properties" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\language.properties" SelfReg="false" Sequence="159"/>
+    <ROW File="loading_image.png" Component_="arrow.gif" FileName="loadin~1.png|loading-image.png" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\loading-image.png" SelfReg="false" Sequence="160"/>
+    <ROW File="locale.jar" Component_="chrome.manifest" FileName="locale.jar" Attributes="0" SourcePath="mynetworkfolders-win\chrome\locale.jar" SelfReg="false" Sequence="11"/>
+    <ROW File="localstore.rdf" Component_="localstore.rdf" FileName="locals~1.rdf|localstore.rdf" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\defaults\profile\localstore.rdf" SelfReg="false" Sequence="73"/>
+    <ROW File="localstore.rdf_1" Component_="localstore.rdf_1" FileName="locals~1.rdf|localstore.rdf" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\defaults\profile\US\localstore.rdf" SelfReg="false" Sequence="76"/>
+    <ROW File="logo.icns" Component_="logo.icns" FileName="logo~1.icn|logo.icns" Attributes="0" SourcePath="mynetworkfolders-win\chrome\icons\default\logo.icns" SelfReg="false" Sequence="5"/>
+    <ROW File="logo.ico" Component_="logo.icns" FileName="logo.ico" Attributes="0" SourcePath="mynetworkfolders-win\chrome\icons\default\logo.ico" SelfReg="false" Sequence="6"/>
+    <ROW File="logo.png" Component_="logo.icns" FileName="logo.png" Attributes="0" SourcePath="mynetworkfolders-win\chrome\icons\default\logo.png" SelfReg="false" Sequence="7"/>
+    <ROW File="logo.xpm" Component_="logo.icns" FileName="logo.xpm" Attributes="0" SourcePath="mynetworkfolders-win\chrome\icons\default\logo.xpm" SelfReg="false" Sequence="8"/>
+    <ROW File="mathfont.properties" Component_="mathfont.properties" FileName="mathfo~1.pro|mathfont.properties" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\fonts\mathfont.properties" SelfReg="false" Sequence="147"/>
+    <ROW File="mathfontSTIXNonUnicode.properties" Component_="mathfont.properties" FileName="mathfo~3.pro|mathfontSTIXNonUnicode.properties" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\fonts\mathfontSTIXNonUnicode.properties" SelfReg="false" Sequence="149"/>
+    <ROW File="mathfontSTIXSize1.properties" Component_="mathfont.properties" FileName="mathfo~4.pro|mathfontSTIXSize1.properties" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\fonts\mathfontSTIXSize1.properties" SelfReg="false" Sequence="150"/>
+    <ROW File="mathfontStandardSymbolsL.properties" Component_="mathfont.properties" FileName="mathfo~2.pro|mathfontStandardSymbolsL.properties" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\fonts\mathfontStandardSymbolsL.properties" SelfReg="false" Sequence="148"/>
+    <ROW File="mathfontSymbol.properties" Component_="mathfont.properties" FileName="mathfo~5.pro|mathfontSymbol.properties" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\fonts\mathfontSymbol.properties" SelfReg="false" Sequence="151"/>
+    <ROW File="mathfontUnicode.properties" Component_="mathfont.properties" FileName="mathfo~6.pro|mathfontUnicode.properties" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\fonts\mathfontUnicode.properties" SelfReg="false" Sequence="152"/>
+    <ROW File="mathml.css" Component_="arrow.gif" FileName="mathml.css" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\mathml.css" SelfReg="false" Sequence="161"/>
+    <ROW File="mathml.dtd" Component_="mathml.dtd" FileName="mathml.dtd" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\dtd\mathml.dtd" SelfReg="false" Sequence="138"/>
+    <ROW File="mathml20.properties" Component_="html40Latin1.properties" FileName="mathml~1.pro|mathml20.properties" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\entityTables\mathml20.properties" SelfReg="false" Sequence="145"/>
+    <ROW File="mozcpp19.dll" Component_="mozcpp19.dll" FileName="mozcpp19.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\mozcpp19.dll" SelfReg="false" Sequence="110"/>
+    <ROW File="mozcrt19.dll" Component_="mozcrt19.dll" FileName="mozcrt19.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\mozcrt19.dll" SelfReg="false" Sequence="111"/>
+    <ROW File="mozctl.dll" Component_="mozctl.dll" FileName="mozctl.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\mozctl.dll" SelfReg="false" Sequence="112"/>
+    <ROW File="mozctlx.dll" Component_="mozctlx.dll" FileName="mozctlx.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\mozctlx.dll" SelfReg="false" Sequence="113"/>
+    <ROW File="msvcm80.dll" Component_="msvcm80.dll" FileName="msvcm80.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\msvcm80.dll" SelfReg="false" Sequence="114"/>
+    <ROW File="msvcp80.dll" Component_="msvcp80.dll" FileName="msvcp80.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\msvcp80.dll" SelfReg="false" Sequence="115"/>
+    <ROW File="msvcr80.dll" Component_="msvcr80.dll" FileName="msvcr80.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\msvcr80.dll" SelfReg="false" Sequence="116"/>
+    <ROW File="mynetworkfolders.exe" Component_="mynetworkfolders.exe" FileName="mynetw~1.exe|mynetworkfolders.exe" Attributes="0" SourcePath="mynetworkfolders-win\mynetworkfolders.exe" SelfReg="false" Sequence="2"/>
+    <ROW File="npnul32.dll" Component_="npnul32.dll" FileName="npnul32.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\plugins\npnul32.dll" SelfReg="false" Sequence="128"/>
+    <ROW File="nsAddonRepository.js" Component_="components.list" FileName="nsAddo~1.js|nsAddonRepository.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsAddonRepository.js" SelfReg="false" Sequence="31"/>
+    <ROW File="nsBadCertHandler.js" Component_="components.list" FileName="nsBadC~1.js|nsBadCertHandler.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsBadCertHandler.js" SelfReg="false" Sequence="32"/>
+    <ROW File="nsBlocklistService.js" Component_="components.list" FileName="nsBloc~1.js|nsBlocklistService.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsBlocklistService.js" SelfReg="false" Sequence="33"/>
+    <ROW File="nsContentDispatchChooser.js" Component_="components.list" FileName="nsCont~1.js|nsContentDispatchChooser.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsContentDispatchChooser.js" SelfReg="false" Sequence="34"/>
+    <ROW File="nsContentPrefService.js" Component_="components.list" FileName="nsCont~2.js|nsContentPrefService.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsContentPrefService.js" SelfReg="false" Sequence="35"/>
+    <ROW File="nsDefaultCLH.js" Component_="components.list" FileName="nsDefa~1.js|nsDefaultCLH.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsDefaultCLH.js" SelfReg="false" Sequence="36"/>
+    <ROW File="nsDownloadManagerUI.js" Component_="components.list" FileName="nsDown~1.js|nsDownloadManagerUI.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsDownloadManagerUI.js" SelfReg="false" Sequence="37"/>
+    <ROW File="nsExtensionManager.js" Component_="components.list" FileName="nsExte~1.js|nsExtensionManager.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsExtensionManager.js" SelfReg="false" Sequence="38"/>
+    <ROW File="nsFormAutoComplete.js" Component_="components.list" FileName="nsForm~1.js|nsFormAutoComplete.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsFormAutoComplete.js" SelfReg="false" Sequence="39"/>
+    <ROW File="nsHandlerService.js" Component_="components.list" FileName="nsHand~1.js|nsHandlerService.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsHandlerService.js" SelfReg="false" Sequence="40"/>
+    <ROW File="nsHelperAppDlg.js" Component_="components.list" FileName="nsHelp~1.js|nsHelperAppDlg.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsHelperAppDlg.js" SelfReg="false" Sequence="41"/>
+    <ROW File="nsINIProcessor.js" Component_="components.list" FileName="nsINIP~1.js|nsINIProcessor.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsINIProcessor.js" SelfReg="false" Sequence="42"/>
+    <ROW File="nsLivemarkService.js" Component_="components.list" FileName="nsLive~1.js|nsLivemarkService.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsLivemarkService.js" SelfReg="false" Sequence="43"/>
+    <ROW File="nsLoginInfo.js" Component_="components.list" FileName="nsLogi~1.js|nsLoginInfo.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsLoginInfo.js" SelfReg="false" Sequence="44"/>
+    <ROW File="nsLoginManager.js" Component_="components.list" FileName="nsLogi~2.js|nsLoginManager.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsLoginManager.js" SelfReg="false" Sequence="45"/>
+    <ROW File="nsLoginManagerPrompter.js" Component_="components.list" FileName="nsLogi~3.js|nsLoginManagerPrompter.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsLoginManagerPrompter.js" SelfReg="false" Sequence="46"/>
+    <ROW File="nsPlacesAutoComplete.js" Component_="components.list" FileName="nsPlac~1.js|nsPlacesAutoComplete.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsPlacesAutoComplete.js" SelfReg="false" Sequence="47"/>
+    <ROW File="nsPlacesDBFlush.js" Component_="components.list" FileName="nsPlac~2.js|nsPlacesDBFlush.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsPlacesDBFlush.js" SelfReg="false" Sequence="48"/>
+    <ROW File="nsProgressDialog.js" Component_="components.list" FileName="nsProg~1.js|nsProgressDialog.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsProgressDialog.js" SelfReg="false" Sequence="49"/>
+    <ROW File="nsProxyAutoConfig.js" Component_="components.list" FileName="nsProx~1.js|nsProxyAutoConfig.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsProxyAutoConfig.js" SelfReg="false" Sequence="50"/>
+    <ROW File="nsSearchService.js" Component_="components.list" FileName="nsSear~1.js|nsSearchService.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsSearchService.js" SelfReg="false" Sequence="51"/>
+    <ROW File="nsSearchSuggestions.js" Component_="components.list" FileName="nsSear~2.js|nsSearchSuggestions.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsSearchSuggestions.js" SelfReg="false" Sequence="52"/>
+    <ROW File="nsTaggingService.js" Component_="components.list" FileName="nsTagg~1.js|nsTaggingService.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsTaggingService.js" SelfReg="false" Sequence="53"/>
+    <ROW File="nsTryToClose.js" Component_="components.list" FileName="nsTryT~1.js|nsTryToClose.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsTryToClose.js" SelfReg="false" Sequence="54"/>
+    <ROW File="nsURLFormatter.js" Component_="components.list" FileName="nsURLF~1.js|nsURLFormatter.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsURLFormatter.js" SelfReg="false" Sequence="58"/>
+    <ROW File="nsUpdateService.js" Component_="components.list" FileName="nsUpda~1.js|nsUpdateService.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsUpdateService.js" SelfReg="false" Sequence="55"/>
+    <ROW File="nsUpdateServiceStub.js" Component_="components.list" FileName="nsUpda~2.js|nsUpdateServiceStub.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsUpdateServiceStub.js" SelfReg="false" Sequence="56"/>
+    <ROW File="nsUpdateTimerManager.js" Component_="components.list" FileName="nsUpda~3.js|nsUpdateTimerManager.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsUpdateTimerManager.js" SelfReg="false" Sequence="57"/>
+    <ROW File="nsWebHandlerApp.js" Component_="components.list" FileName="nsWebH~1.js|nsWebHandlerApp.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsWebHandlerApp.js" SelfReg="false" Sequence="59"/>
+    <ROW File="nsXULAppInstall.js" Component_="components.list" FileName="nsXULA~1.js|nsXULAppInstall.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\nsXULAppInstall.js" SelfReg="false" Sequence="60"/>
+    <ROW File="nspr4.dll" Component_="nspr4.dll" FileName="nspr4.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\nspr4.dll" SelfReg="false" Sequence="118"/>
+    <ROW File="nspr_config" Component_="crashreporter.ini" FileName="nspr-c~1|nspr-config" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\nspr-config" SelfReg="false" Sequence="117"/>
+    <ROW File="nss3.dll" Component_="nss3.dll" FileName="nss3.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\nss3.dll" SelfReg="false" Sequence="119"/>
+    <ROW File="nssckbi.dll" Component_="nssckbi.dll" FileName="nssckbi.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\nssckbi.dll" SelfReg="false" Sequence="120"/>
+    <ROW File="nssdbm3.chk" Component_="crashreporter.ini" FileName="nssdbm3.chk" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\nssdbm3.chk" SelfReg="false" Sequence="121"/>
+    <ROW File="nssdbm3.dll" Component_="nssdbm3.dll" FileName="nssdbm3.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\nssdbm3.dll" SelfReg="false" Sequence="122"/>
+    <ROW File="nssutil3.dll" Component_="nssutil3.dll" FileName="nssutil3.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\nssutil3.dll" SelfReg="false" Sequence="123"/>
+    <ROW File="pippki.jar" Component_="classic.jar" FileName="pippki.jar" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\chrome\pippki.jar" SelfReg="false" Sequence="22"/>
+    <ROW File="pippki.manifest" Component_="classic.jar" FileName="pippki~1.man|pippki.manifest" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\chrome\pippki.manifest" SelfReg="false" Sequence="23"/>
+    <ROW File="platform.ini" Component_="crashreporter.ini" FileName="platform.ini" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\platform.ini" SelfReg="false" Sequence="124"/>
+    <ROW File="platform.js" Component_="platform.js" FileName="platform.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\defaults\autoconfig\platform.js" SelfReg="false" Sequence="68"/>
+    <ROW File="plc4.dll" Component_="plc4.dll" FileName="plc4.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\plc4.dll" SelfReg="false" Sequence="125"/>
+    <ROW File="plds4.dll" Component_="plds4.dll" FileName="plds4.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\plds4.dll" SelfReg="false" Sequence="126"/>
+    <ROW File="pluginGlue.js" Component_="components.list" FileName="plugin~1.js|pluginGlue.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\pluginGlue.js" SelfReg="false" Sequence="61"/>
+    <ROW File="plugin_container.exe" Component_="plugin_container.exe" FileName="plugin~1.exe|plugin-container.exe" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\plugin-container.exe" SelfReg="false" Sequence="127"/>
+    <ROW File="prefcalls.js" Component_="platform.js" FileName="prefca~1.js|prefcalls.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\defaults\autoconfig\prefcalls.js" SelfReg="false" Sequence="69"/>
+    <ROW File="prefs.js" Component_="firegss.js" FileName="prefs.js" Attributes="0" SourcePath="mynetworkfolders-win\defaults\preferences\prefs.js" SelfReg="false" Sequence="14"/>
+    <ROW File="quirk.css" Component_="arrow.gif" FileName="quirk.css" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\quirk.css" SelfReg="false" Sequence="162"/>
+    <ROW File="redit.exe" Component_="redit.exe" FileName="redit.exe" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\redit.exe" SelfReg="false" Sequence="130"/>
+    <ROW File="security_prefs.js" Component_="all.js" FileName="securi~1.js|security-prefs.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\greprefs\security-prefs.js" SelfReg="false" Sequence="83"/>
+    <ROW File="skin.jar" Component_="chrome.manifest" FileName="skin.jar" Attributes="0" SourcePath="mynetworkfolders-win\chrome\skin.jar" SelfReg="false" Sequence="12"/>
+    <ROW File="smime3.dll" Component_="smime3.dll" FileName="smime3.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\smime3.dll" SelfReg="false" Sequence="185"/>
+    <ROW File="softokn3.chk" Component_="crashreporter.ini" FileName="softokn3.chk" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\softokn3.chk" SelfReg="false" Sequence="186"/>
+    <ROW File="softokn3.dll" Component_="softokn3.dll" FileName="softokn3.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\softokn3.dll" SelfReg="false" Sequence="187"/>
+    <ROW File="sqlite3.dll" Component_="sqlite3.dll" FileName="sqlite3.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\sqlite3.dll" SelfReg="false" Sequence="188"/>
+    <ROW File="ssl3.dll" Component_="ssl3.dll" FileName="ssl3.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\ssl3.dll" SelfReg="false" Sequence="189"/>
+    <ROW File="storage_Legacy.js" Component_="components.list" FileName="storag~1.js|storage-Legacy.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\storage-Legacy.js" SelfReg="false" Sequence="62"/>
+    <ROW File="storage_mozStorage.js" Component_="components.list" FileName="storag~2.js|storage-mozStorage.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\storage-mozStorage.js" SelfReg="false" Sequence="63"/>
+    <ROW File="svg.css" Component_="arrow.gif" FileName="svg.css" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\svg.css" SelfReg="false" Sequence="163"/>
+    <ROW File="table_add_column_after.gif" Component_="arrow.gif" FileName="table-~3.gif|table-add-column-after.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-add-column-after.gif" SelfReg="false" Sequence="166"/>
+    <ROW File="table_add_column_after_active.gif" Component_="arrow.gif" FileName="table-~1.gif|table-add-column-after-active.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-add-column-after-active.gif" SelfReg="false" Sequence="164"/>
+    <ROW File="table_add_column_after_hover.gif" Component_="arrow.gif" FileName="table-~2.gif|table-add-column-after-hover.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-add-column-after-hover.gif" SelfReg="false" Sequence="165"/>
+    <ROW File="table_add_column_before.gif" Component_="arrow.gif" FileName="table-~6.gif|table-add-column-before.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-add-column-before.gif" SelfReg="false" Sequence="169"/>
+    <ROW File="table_add_column_before_active.gif" Component_="arrow.gif" FileName="table-~4.gif|table-add-column-before-active.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-add-column-before-active.gif" SelfReg="false" Sequence="167"/>
+    <ROW File="table_add_column_before_hover.gif" Component_="arrow.gif" FileName="table-~5.gif|table-add-column-before-hover.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-add-column-before-hover.gif" SelfReg="false" Sequence="168"/>
+    <ROW File="table_add_row_after.gif" Component_="arrow.gif" FileName="table-~9.gif|table-add-row-after.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-add-row-after.gif" SelfReg="false" Sequence="172"/>
+    <ROW File="table_add_row_after_active.gif" Component_="arrow.gif" FileName="table-~7.gif|table-add-row-after-active.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-add-row-after-active.gif" SelfReg="false" Sequence="170"/>
+    <ROW File="table_add_row_after_hover.gif" Component_="arrow.gif" FileName="table-~8.gif|table-add-row-after-hover.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-add-row-after-hover.gif" SelfReg="false" Sequence="171"/>
+    <ROW File="table_add_row_before.gif" Component_="arrow.gif" FileName="table~12.gif|table-add-row-before.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-add-row-before.gif" SelfReg="false" Sequence="175"/>
+    <ROW File="table_add_row_before_active.gif" Component_="arrow.gif" FileName="table~10.gif|table-add-row-before-active.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-add-row-before-active.gif" SelfReg="false" Sequence="173"/>
+    <ROW File="table_add_row_before_hover.gif" Component_="arrow.gif" FileName="table~11.gif|table-add-row-before-hover.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-add-row-before-hover.gif" SelfReg="false" Sequence="174"/>
+    <ROW File="table_remove_column.gif" Component_="arrow.gif" FileName="table~15.gif|table-remove-column.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-remove-column.gif" SelfReg="false" Sequence="178"/>
+    <ROW File="table_remove_column_active.gif" Component_="arrow.gif" FileName="table~13.gif|table-remove-column-active.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-remove-column-active.gif" SelfReg="false" Sequence="176"/>
+    <ROW File="table_remove_column_hover.gif" Component_="arrow.gif" FileName="table~14.gif|table-remove-column-hover.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-remove-column-hover.gif" SelfReg="false" Sequence="177"/>
+    <ROW File="table_remove_row.gif" Component_="arrow.gif" FileName="table~18.gif|table-remove-row.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-remove-row.gif" SelfReg="false" Sequence="181"/>
+    <ROW File="table_remove_row_active.gif" Component_="arrow.gif" FileName="table~16.gif|table-remove-row-active.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-remove-row-active.gif" SelfReg="false" Sequence="179"/>
+    <ROW File="table_remove_row_hover.gif" Component_="arrow.gif" FileName="table~17.gif|table-remove-row-hover.gif" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\table-remove-row-hover.gif" SelfReg="false" Sequence="180"/>
+    <ROW File="toolkit.jar" Component_="classic.jar" FileName="toolkit.jar" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\chrome\toolkit.jar" SelfReg="false" Sequence="24"/>
+    <ROW File="toolkit.manifest" Component_="classic.jar" FileName="toolki~1.man|toolkit.manifest" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\chrome\toolkit.manifest" SelfReg="false" Sequence="25"/>
+    <ROW File="transliterate.properties" Component_="html40Latin1.properties" FileName="transl~1.pro|transliterate.properties" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\entityTables\transliterate.properties" SelfReg="false" Sequence="146"/>
+    <ROW File="txEXSLTRegExFunctions.js" Component_="components.list" FileName="txEXSL~1.js|txEXSLTRegExFunctions.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\components\txEXSLTRegExFunctions.js" SelfReg="false" Sequence="64"/>
+    <ROW File="ua.css" Component_="arrow.gif" FileName="ua.css" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\ua.css" SelfReg="false" Sequence="182"/>
+    <ROW File="update.locale" Component_="crashreporter.ini" FileName="update~1.loc|update.locale" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\update.locale" SelfReg="false" Sequence="190"/>
+    <ROW File="updater.exe" Component_="updater.exe" FileName="updater.exe" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\updater.exe" SelfReg="false" Sequence="191"/>
+    <ROW File="userChrome_example.css" Component_="userChrome_example.css" FileName="userCh~1.css|userChrome-example.css" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\defaults\profile\chrome\userChrome-example.css" SelfReg="false" Sequence="71"/>
+    <ROW File="userChrome_example.css_1" Component_="userChrome_example.css_1" FileName="userCh~1.css|userChrome-example.css" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\defaults\profile\US\chrome\userChrome-example.css" SelfReg="false" Sequence="74"/>
+    <ROW File="userContent_example.css" Component_="userChrome_example.css" FileName="userCo~1.css|userContent-example.css" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\defaults\profile\chrome\userContent-example.css" SelfReg="false" Sequence="72"/>
+    <ROW File="userContent_example.css_1" Component_="userChrome_example.css_1" FileName="userCo~1.css|userContent-example.css" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\defaults\profile\US\chrome\userContent-example.css" SelfReg="false" Sequence="75"/>
+    <ROW File="utils.js" Component_="CertUtils.jsm" FileName="utils.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\modules\utils.js" SelfReg="false" Sequence="107"/>
+    <ROW File="viewsource.css" Component_="arrow.gif" FileName="viewso~1.css|viewsource.css" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\viewsource.css" SelfReg="false" Sequence="183"/>
+    <ROW File="wincharset.properties" Component_="arrow.gif" FileName="wincha~1.pro|wincharset.properties" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\wincharset.properties" SelfReg="false" Sequence="184"/>
+    <ROW File="xhtml11.dtd" Component_="mathml.dtd" FileName="xhtml11.dtd" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\res\dtd\xhtml11.dtd" SelfReg="false" Sequence="139"/>
+    <ROW File="xpcom.dll" Component_="xpcom.dll" FileName="xpcom.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\xpcom.dll" SelfReg="false" Sequence="192"/>
+    <ROW File="xpcshell.exe" Component_="xpcshell.exe" FileName="xpcshell.exe" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\xpcshell.exe" SelfReg="false" Sequence="193"/>
+    <ROW File="xpidl.exe" Component_="xpidl.exe" FileName="xpidl.exe" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\xpidl.exe" SelfReg="false" Sequence="194"/>
+    <ROW File="xpinstall.js" Component_="all.js" FileName="xpinst~1.js|xpinstall.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\greprefs\xpinstall.js" SelfReg="false" Sequence="84"/>
+    <ROW File="xpt_dump.exe" Component_="xpt_dump.exe" FileName="xpt_dump.exe" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\xpt_dump.exe" SelfReg="false" Sequence="195"/>
+    <ROW File="xpt_link.exe" Component_="xpt_link.exe" FileName="xpt_link.exe" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\xpt_link.exe" SelfReg="false" Sequence="196"/>
+    <ROW File="xul.dll" Component_="xul.dll" FileName="xul.dll" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\xul.dll" SelfReg="false" Sequence="197"/>
+    <ROW File="xulrunner.exe" Component_="xulrunner.exe" FileName="xulrun~2.exe|xulrunner.exe" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\xulrunner.exe" SelfReg="false" Sequence="199"/>
+    <ROW File="xulrunner.js" Component_="xulrunner.js" FileName="xulrun~1.js|xulrunner.js" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\defaults\pref\xulrunner.js" SelfReg="false" Sequence="70"/>
+    <ROW File="xulrunner_stub.exe" Component_="xulrunner_stub.exe" FileName="xulrun~1.exe|xulrunner-stub.exe" Attributes="0" SourcePath="mynetworkfolders-win\xulrunner\xulrunner-stub.exe" SelfReg="false" Sequence="198"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="Setup Files" PackageFileName="FireGSS" Languages="en" InstallationType="4"/>
+    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="Setup Files" PackageFileName="mynetworkfolders" Languages="en" InstallationType="4"/>
     <ATTRIBUTE name="CurrentBuild" value="DefaultBuild"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
@@ -368,10 +366,10 @@
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
-    <ROW Name="logo_1.exe" SourcePath="firegss-win\chrome\icons\default\logo.ico" Index="0"/>
+    <ROW Name="logo_1.exe" SourcePath="mynetworkfolders-win\chrome\icons\default\logo.ico" Index="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
-    <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="201"/>
+    <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
     <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
     <ROW Action="AI_STORE_LOCATION" Condition="Not Installed" Sequence="1501"/>
     <ROW Action="AI_PREPARE_UPGRADE" Condition="AI_UPGRADE=&quot;No&quot; AND (Not Installed)" Sequence="1399"/>
@@ -382,8 +380,8 @@
     <ROW Action="AI_ResolveKnownFolders" Sequence="51"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
-    <ROW Shortcut="firegss.exe" Directory_="SHORTCUTDIR" Name="firegss.exe" Component_="firegss.exe" Target="[#firegss.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
-    <ROW Shortcut="firegss.exe_1" Directory_="DesktopFolder" Name="firegss.exe" Component_="firegss.exe" Target="[#firegss.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="Shortcut_to_mynetworkfolders.exe" Directory_="DesktopFolder" Name="mynetw~1.exe|mynetworkfolders.exe" Component_="mynetworkfolders.exe" Target="[#mynetworkfolders.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="mynetworkfolders.exe" Directory_="SHORTCUTDIR" Name="mynetw~1.exe|mynetworkfolders.exe" Component_="mynetworkfolders.exe" Target="[#mynetworkfolders.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="classic"/>

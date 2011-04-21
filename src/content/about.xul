@@ -4,8 +4,6 @@
 <dialog id="aboutDialog" title="&about; FireGSS" orient="vertical" autostretch="always" onload="init()"
     buttons="accept" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 <script type="application/x-javascript" src="chrome://firegss/content/js/dialogs/about.js"/>
-<script type="application/x-javascript" src="chrome://firegss/content/js/etc/common.js"/>
-<script type="application/x-javascript" src="chrome://firegss/content/js/etc/globals.js"/>
 <groupbox align="center" orient="horizontal">
 <vbox>
   <text value="&description;"/>

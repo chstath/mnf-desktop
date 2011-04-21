@@ -66,10 +66,21 @@ function startup() {
   readPreferences(true);
   localDirTree.changeDir(gLocalPath.value);
 
-  appendLog("<span id='opening' style='line-height:16px'><span style='cursor:pointer;text-decoration:underline;color:blue;' onclick=\"window.open('http://code.google.com/p/gss','FireGSS');\">"
-      + "FireGSS</span> <span>" + gVersion
-      + "</span>"
-      + "</span><br style='font-size:5pt'/><br style='font-size:5pt'/>", 'blue', "info");
+  Components.utils.import("resource://gre/modules/AddonManager.jsm");
+  AddonManager.getAddonByID("firegss@ebs.gr", function (addon) {
+        if (addon)
+            gVersion = addon.version
+        else {
+            var info = Components.classes["@mozilla.org/xre/app-info;1"]
+                        .getService(Components.interfaces.nsIXULAppInfo);
+            gVersion = info.version;
+		}
+		appendLog("<span id='opening' style='line-height:16px'><span style='cursor:pointer;text-decoration:underline;color:blue;' onclick=\"window.open('http://code.google.com/p/gss','FireGSS');\">"
+			+ "FireGSS</span> <span>" + gVersion
+			+ "</span>"
+			+ "</span><br style='font-size:5pt'/><br style='font-size:5pt'/>", 'blue', "info");
+	  });
+
   gCmdlogBody.scrollTop = 0;
 
   if (gUsernameMode) {
@@ -152,7 +163,7 @@ function loginout() {
   var isLogin = $("loginout").label === "Login";
   if (isLogin)
     login();
-  else 
+  else
     logout();
 }
 
@@ -202,4 +213,3 @@ function logout() {
         hideWorking();
     }, true);
 }
-

@@ -87,7 +87,7 @@
   <!-- :::::::::::::::::::::::::::::: context menus :::::::::::::::::::::::::::::: -->
 
   <popupset>
-    <popup id="localmenu" onpopupshowing="localTree.createContextMenu()">
+    <menupopup id="localmenu" onpopupshowing="localTree.createContextMenu()">
       <menuitem oncommand="localTree.openContainingFolder();"   label="&openContaining.label;"                                      id="localOpenCont"/>
       <menuseparator                                                                                                                id="localOpenContSep"/>
       <menuitem oncommand="new transfer().start(false);"        label="&upload.label;"              key="key_transfer"              id="localUpload"/>
@@ -106,8 +106,8 @@
       <menuseparator/>
       <menuitem oncommand="localTree.showProperties(false)"     label="&properties.label;"          key="key_properties"/>
       <menuitem oncommand="localTree.showProperties(true)"      label="&rproperties.label;"                                         id="localRecursiveProperties"/>
-    </popup>
-    <popup id="remotemenu" onpopupshowing="remoteTree.createContextMenu()">
+    </menupopup>
+    <menupopup id="remotemenu" onpopupshowing="remoteTree.createContextMenu()">
       <menuitem oncommand="new transfer().start(true)"          label="&download.label;"            key="key_transfer"              id="remoteDownload"/>
       <menuitem oncommand="remoteTree.launch()"                 label="&open.label;"                key="key_open"                  id="remoteOpen"/>
       <menuitem oncommand="remoteTree.copyUrl()"                label="&copyUrl.label;"                                             id="remoteWeb"/>
@@ -122,29 +122,29 @@
       <menuitem oncommand="remoteTree.rename()"                 label="&rename.label;"              key="key_rename"                id="remoteRename"/>
       <menuseparator id="rsep3"/>
       <menuitem oncommand="remoteTree.showProperties(false)"    label="&properties.label;"          key="key_properties"            id="remoteProperties"/>
-    </popup>
-    <popup id="queuemenu" onpopupshowing="queueTree.createContextMenu()">
+    </menupopup>
+    <menupopup id="queuemenu" onpopupshowing="queueTree.createContextMenu()">
       <menuitem oncommand="queueTree.retry();"                  label="&retry.label;"                                               id="queueRetry"/>
       <menuitem oncommand="queueTree.cancel();"                 label="&cancel.label;"              key="key_remove"                id="queueCancel"/>
       <menuseparator/>
       <menuitem oncommand="cancelAll()"                         label="&cancelAll.label;"                                           id="queueCancelAll"/>
-    </popup>
-    <popup id="advancedpopup" position="after_start">
+    </menupopup>
+    <menupopup id="advancedpopup" position="after_start">
       <menuitem oncommand="showLog()" type="checkbox" label="&logtab.label;" persist="checked" accesskey="&logbutton.access;" id="logbutton"/>
       <menuitem oncommand="showSearch(true)" label="&search.label;" accesskey="&search.access;" id="searchMenuItem" key="key_search"/>
       <menuitem oncommand="showPreferences()" label="&preferencestab.label;" accesskey="&prefbutton.access;" id="prefbutton"/>
-    </popup>
-    <popup id="helppopup" position="after_start" >
+    </menupopup>
+    <menupopup id="helppopup" position="after_start" >
       <menuitem oncommand="showHelp()" label="&help.label;" accesskey="&helpbutton.access;" id="helpItem"/>
       <menuitem oncommand="showBugs()" label="&helpbug.label;" accesskey="&helpbug.access;" id="bugItem"/>
       <menuitem oncommand="showAbout()" label="&helpabout.label;" accesskey="&helpabout.access;" id="aboutItem"/>
-    </popup>
-    <popup id="searchpopup"       position="before_start">
+    </menupopup>
+    <menupopup id="searchpopup"       position="before_start">
       <menuitem oncommand="showSearchDates()" type="checkbox"   label="&searchDates.label;"         accesskey="&searchDates.access;"  id="searchDates"      persist="checked"/>
       <menuitem type="checkbox"                                 label="&searchRegexp.label;"        accesskey="&searchRegexp.access;" id="searchRegExp"     persist="checked"/>
       <menuitem type="checkbox"                                 label="&searchMatch.label;"         accesskey="&searchMatch.access;"  id="searchMatchCase"  persist="checked"/>
       <menuitem type="checkbox"                                 label="&searchSubdir.label;"        accesskey="&searchSubdir.access;" id="searchSubdir"     persist="checked"/>
-    </popup>
+    </menupopup>
 
     <panel id="identity-popup" position="after_start" noautofocus="true">
       <hbox id="identity-popup-container" align="top">
@@ -184,8 +184,8 @@
               enablehistory="true"
               autocompletesearch="form-history"
               autocompletesearchparam="firegss-username"
-              
-              
+
+
               />
       <button id="loginout" label="Login" oncommand="loginout()"
                     image="chrome://firegss/skin/icons/login.png"

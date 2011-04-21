@@ -9,5 +9,5 @@ function showBugs() {
 }
 
 function showAbout() {
-    openDialog("chrome://firegss/content/about.xul", "about", "chrome,resizable=yes,centerscreen=yes");
+    openDialog("chrome://firegss/content/about.xul", "about", "chrome,resizable=yes,centerscreen=yes", gVersion);
 }

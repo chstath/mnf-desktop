@@ -1,0 +1,1 @@
+mnf-desktop is the desktop client for the MyNetworkFolders cloud desktop service. It is implemented as either a Firefox extension or a native application for Windows, Mac OS X and Linux, providing extra functionality compared to the web client.
